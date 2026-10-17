@@ -3,30 +3,27 @@
 <style>@font-face{font-family:"Poppins";font-weight:600;font-display:block;src:url("assets/fonts/poppins-latin-600-normal.woff2") format("woff2");}@font-face{font-family:"Poppins";font-weight:700;font-display:block;src:url("assets/fonts/poppins-latin-700-normal.woff2") format("woff2");}@font-face{font-family:"Poppins";font-weight:800;font-display:block;src:url("assets/fonts/poppins-latin-800-normal.woff2") format("woff2");}@font-face{font-family:"Poppins";font-weight:900;font-display:block;src:url("assets/fonts/poppins-latin-900-normal.woff2") format("woff2");}@font-face{font-family:"Inter";font-weight:600;font-display:block;src:url("assets/fonts/inter-latin-600-normal.woff2") format("woff2");}@font-face{font-family:"Inter";font-weight:700;font-display:block;src:url("assets/fonts/inter-latin-700-normal.woff2") format("woff2");}@font-face{font-family:"Poppins";font-weight:700;font-display:block;src:url("assets/fonts/poppins-devanagari-700-normal.woff2") format("woff2");unicode-range:U+0900-097F,U+20B9;}@font-face{font-family:"Poppins";font-weight:800;font-display:block;src:url("assets/fonts/poppins-devanagari-800-normal.woff2") format("woff2");unicode-range:U+0900-097F,U+20B9;}@font-face{font-family:"Poppins";font-weight:900;font-display:block;src:url("assets/fonts/poppins-devanagari-900-normal.woff2") format("woff2");unicode-range:U+0900-097F,U+20B9;}
 #r2 { position:absolute; inset:0; overflow:hidden; color:#f8fafc; font-family:"Poppins",sans-serif; }
 #r2 .bg { position:absolute; inset:0; background:
-  radial-gradient(900px 900px at 50% 36%, rgba(251,191,36,0.16), transparent 62%),
-  radial-gradient(700px 600px at 85% 90%, rgba(45,212,191,0.10), transparent 60%), #0b1220; }
-#r2 .grid { position:absolute; inset:0; opacity:.5; background:
-  repeating-linear-gradient(0deg, rgba(148,163,184,.05) 0 1px, transparent 1px 90px),
-  repeating-linear-gradient(90deg, rgba(148,163,184,.05) 0 1px, transparent 1px 90px); }
-#r2 .tag { position:absolute; left:60px; top:236px; font:700 30px "Inter"; letter-spacing:.2em; color:#2dd4bf; }
-#r2 .brand { position:absolute; right:200px; top:1276px; font:700 26px "Inter"; letter-spacing:.16em; color:#94a3b8; }
+  radial-gradient(1100px 1100px at 50% 48%, rgba(251,191,36,0.20), transparent 60%),
+  radial-gradient(900px 700px at 80% 92%, rgba(45,212,191,0.10), transparent 60%), #0b1220; }
+#r2 .photo { position:absolute; inset:-4%; background-size:cover; background-position:center; }
+#r2 .shade { position:absolute; inset:0; }
+#r2 .brand { position:absolute; right:60px; top:150px; font:700 26px "Inter"; letter-spacing:.18em; color:rgba(248,250,252,.55); }
+#r2 .credit { position:absolute; left:60px; top:1478px; font:600 20px "Inter"; color:rgba(248,250,252,.62); white-space:nowrap; }
 #r2 .abs { position:absolute; }
-#r2 .c { left:40px; width:880px; text-align:center; }
-#r2 .coin { position:absolute; border-radius:50%; background:
-  radial-gradient(circle at 35% 30%, #fff3c4 0%, #fbbf24 22%, #e8b84a 48%, #9a6b12 78%, #5b3d06 100%);
-  box-shadow: 0 50px 120px rgba(0,0,0,.6), inset 0 0 0 14px rgba(255,236,170,.35), inset 0 0 0 28px rgba(120,80,10,.35); }
-#r2 .coin .ring { position:absolute; inset:8%; border-radius:50%; border:6px dotted rgba(91,61,6,.55); }
-#r2 .coin .ins { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  color:#5b3d06; font-weight:900; text-shadow:0 2px 0 rgba(255,240,190,.5); }
+#r2 .c { left:60px; width:840px; text-align:center; }
+#r2 .stage { position:absolute; perspective:1600px; }
+#r2 .coin { position:absolute; inset:0; background-size:contain; background-repeat:no-repeat; background-position:center;
+  filter: drop-shadow(0 60px 70px rgba(0,0,0,.65)) drop-shadow(0 0 40px rgba(251,191,36,.35)); }
 #r2 .stamp { position:absolute; white-space:nowrap; padding:6px 40px 0; border:12px solid #fbbf24; border-radius:22px; color:#fbbf24;
-  font-weight:900; line-height:1.1; letter-spacing:.04em; background:rgba(11,18,32,.6); }
-#r2 .k { font:700 30px "Inter"; letter-spacing:.22em; color:#94a3b8; }
-#r2 .t { color:#2dd4bf; } #r2 .a { color:#fbbf24; } #r2 .co { color:#ff6b6b; } #r2 .m { color:#94a3b8; }
+  font-weight:900; line-height:1.1; letter-spacing:.04em; background:rgba(11,18,32,.62); }
+#r2 .k { font:700 30px "Inter"; letter-spacing:.22em; color:#cbd5e1; }
+#r2 .t { color:#2dd4bf; } #r2 .a { color:#fbbf24; } #r2 .co { color:#ff6b6b; } #r2 .m { color:#cbd5e1; }
+#r2 .big { text-shadow: 0 10px 40px rgba(0,0,0,.6); }
 </style>
 <div id="r2" data-composition-id="02-two-sides" data-width="1080" data-height="1920" data-duration="4.89">
-<div class="bg"></div><div class="grid"></div>
-<div class="abs c k" style="top:300px">SIKKE KE DO PEHLU</div><div class="coin" style="left:300px;top:380px;width:480px;height:480px;box-shadow:0 0 120px rgba(45,212,191,.55),0 40px 100px rgba(0,0,0,.6)"><div class="ring"></div><div class="ins"><div style="font-size:36px;letter-spacing:.2em">PEHLA PEHLU</div><div style="font-size:96px;line-height:1">SHAAN</div><div style="font-size:29px;letter-spacing:.18em"></div></div></div><div class="coin" style="left:300px;top:960px;width:220px;height:220px;filter:saturate(.4) brightness(.7);box-shadow:0 0 90px rgba(255,107,107,.5)"><div class="ring"></div><div class="ins"><div style="font-size:16px;letter-spacing:.2em">DOOSRA</div><div style="font-size:44px;line-height:1">DAAG</div><div style="font-size:13px;letter-spacing:.18em"></div></div></div><svg class="abs" style="left:300px;top:960px" width="220" height="220"><path d="M110 0 L95 66 L128 103 L88 154 L117 220" stroke="#ff6b6b" stroke-width="10" fill="none"/></svg><div class="abs c" style="top:880px;font:800 50px Poppins"><span class="t">achhe kaam</span></div><div class="abs" style="left:640px;top:1030px;font:800 50px Poppins"><span class="co">zulm</span></div>
-<div class="tag">JKSSB  •  ITIHAAS</div><div class="brand">JIGEASA</div>
+<div class="bg"></div>
+<div class="stage" style="left:140px;top:250px;width:640px;height:640px"><div class="coin" style="background-image:url(assets/img/coin_obv.png);transform:rotateY(-22deg) rotateX(6deg) rotateZ(-6deg);filter:drop-shadow(0 50px 60px rgba(0,0,0,.6)) drop-shadow(0 0 60px rgba(45,212,191,.7))"></div></div><div class="stage" style="left:320px;top:850px;width:600px;height:600px"><div class="coin" style="background-image:url(assets/img/coin_rev.png);transform:rotateY(20deg) rotateX(-6deg) rotateZ(5deg);filter:saturate(.45) brightness(.62) drop-shadow(0 0 60px rgba(255,107,107,.65))"></div></div><svg class="abs" style="left:320px;top:850px" width="600" height="600"><path d="M330 30 L290 190 L360 280 L270 420 L320 570" stroke="#ff6b6b" stroke-width="12" fill="none"/></svg><div class="abs big" style="left:60px;top:900px;font:900 76px Poppins"><span class="t">SHAAN</span></div><div class="abs big" style="left:60px;top:1330px;font:900 76px Poppins"><span class="co">DAAG</span></div><div class="abs c big" style="top:1460px;font:800 52px Poppins">Sikke ke do pehlu</div>
+<div class="brand">JIGEASA</div>
 </div>
 <script>
 const tl = gsap.timeline({ paused: true });

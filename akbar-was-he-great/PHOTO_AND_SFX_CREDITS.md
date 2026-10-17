@@ -120,3 +120,15 @@ GODL-India = Government Open Data License India: commercial use OK, credit the s
 | rupee/bg_kochi_port.jpg | File:International Container Transshipment Terminal, Kochi.jpg | BgbwikiV4 | CC BY 4.0 |
 | rupee/bg_infosys_campus.jpg | File:Infosys Mysore Campus.jpg | L'Astorina | CC BY 4.0 |
 | rupee/bg_north_block.jpg | File:North & South Block, New Delhi (29473956940).jpg | Ankur Panchbudhe from Pune, India | CC BY 2.0 |
+
+### Photos added 2026-10-17 (Akbar Short) — Wikimedia Commons, no ShareAlike/NC
+| file | source | author | licence | link |
+|---|---|---|---|---|
+| akbar/coin_obverse_pd.jpg | File:Mohur of Akbar (r. 1556-1605) LACMA M.77.55.11 (1 of 2).jpg | unknown | Public domain |  |
+| akbar/coin_reverse_pd.jpg | File:Mohur of Akbar (r. 1556-1605) LACMA M.77.55.11 (2 of 2).jpg | unknown | Public domain |  |
+| akbar/chittorgarh_ccby3.jpg | File:Chittorgarh Fort - panoramio (2).jpg | Blue cab | CC BY 3.0 | https://creativecommons.org/licenses/by/3.0 |
+| akbar/buland_darwaza_ccby3.jpg | File:Buland Darwaza, Up Close.jpg | Dey.sandip | CC BY 3.0 | https://creativecommons.org/licenses/by/3.0 |
+| akbar/hari_parbat_ccby2.jpg | File:Hari Parbat from Badamwari Garden (14362911437).jpg | Mike Prince from Bangalore, India | CC BY 2.0 | https://creativecommons.org/licenses/by/2.0 |
+| akbar/akbarnama_chitor_jaimal_pd.jpg | File:Akbar shoots Jaimal at the siege of Chitor.jpg | Abul Fazl V&amp;A Museum | Public domain |  |
+| akbar/akbarnama_jesuits_ibadat_khana_pd.jpg | File:Jesuits at Akbar's court.jpg | unknown | Public domain |  |
+| akbar/vijay_stambh_cc0.jpg | File:Vijay stambh 2024.jpg | Pikachu3704 | CC0 | http://creativecommons.org/publicdomain/zero/1.0/deed.en |

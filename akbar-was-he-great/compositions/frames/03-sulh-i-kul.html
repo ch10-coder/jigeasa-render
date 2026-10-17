@@ -3,30 +3,27 @@
 <style>@font-face{font-family:"Poppins";font-weight:600;font-display:block;src:url("assets/fonts/poppins-latin-600-normal.woff2") format("woff2");}@font-face{font-family:"Poppins";font-weight:700;font-display:block;src:url("assets/fonts/poppins-latin-700-normal.woff2") format("woff2");}@font-face{font-family:"Poppins";font-weight:800;font-display:block;src:url("assets/fonts/poppins-latin-800-normal.woff2") format("woff2");}@font-face{font-family:"Poppins";font-weight:900;font-display:block;src:url("assets/fonts/poppins-latin-900-normal.woff2") format("woff2");}@font-face{font-family:"Inter";font-weight:600;font-display:block;src:url("assets/fonts/inter-latin-600-normal.woff2") format("woff2");}@font-face{font-family:"Inter";font-weight:700;font-display:block;src:url("assets/fonts/inter-latin-700-normal.woff2") format("woff2");}@font-face{font-family:"Poppins";font-weight:700;font-display:block;src:url("assets/fonts/poppins-devanagari-700-normal.woff2") format("woff2");unicode-range:U+0900-097F,U+20B9;}@font-face{font-family:"Poppins";font-weight:800;font-display:block;src:url("assets/fonts/poppins-devanagari-800-normal.woff2") format("woff2");unicode-range:U+0900-097F,U+20B9;}@font-face{font-family:"Poppins";font-weight:900;font-display:block;src:url("assets/fonts/poppins-devanagari-900-normal.woff2") format("woff2");unicode-range:U+0900-097F,U+20B9;}
 #r3 { position:absolute; inset:0; overflow:hidden; color:#f8fafc; font-family:"Poppins",sans-serif; }
 #r3 .bg { position:absolute; inset:0; background:
-  radial-gradient(900px 900px at 50% 36%, rgba(251,191,36,0.16), transparent 62%),
-  radial-gradient(700px 600px at 85% 90%, rgba(45,212,191,0.10), transparent 60%), #0b1220; }
-#r3 .grid { position:absolute; inset:0; opacity:.5; background:
-  repeating-linear-gradient(0deg, rgba(148,163,184,.05) 0 1px, transparent 1px 90px),
-  repeating-linear-gradient(90deg, rgba(148,163,184,.05) 0 1px, transparent 1px 90px); }
-#r3 .tag { position:absolute; left:60px; top:236px; font:700 30px "Inter"; letter-spacing:.2em; color:#2dd4bf; }
-#r3 .brand { position:absolute; right:200px; top:1276px; font:700 26px "Inter"; letter-spacing:.16em; color:#94a3b8; }
+  radial-gradient(1100px 1100px at 50% 48%, rgba(251,191,36,0.20), transparent 60%),
+  radial-gradient(900px 700px at 80% 92%, rgba(45,212,191,0.10), transparent 60%), #0b1220; }
+#r3 .photo { position:absolute; inset:-4%; background-size:cover; background-position:center; }
+#r3 .shade { position:absolute; inset:0; }
+#r3 .brand { position:absolute; right:60px; top:150px; font:700 26px "Inter"; letter-spacing:.18em; color:rgba(248,250,252,.55); }
+#r3 .credit { position:absolute; left:60px; top:1478px; font:600 20px "Inter"; color:rgba(248,250,252,.62); white-space:nowrap; }
 #r3 .abs { position:absolute; }
-#r3 .c { left:40px; width:880px; text-align:center; }
-#r3 .coin { position:absolute; border-radius:50%; background:
-  radial-gradient(circle at 35% 30%, #fff3c4 0%, #fbbf24 22%, #e8b84a 48%, #9a6b12 78%, #5b3d06 100%);
-  box-shadow: 0 50px 120px rgba(0,0,0,.6), inset 0 0 0 14px rgba(255,236,170,.35), inset 0 0 0 28px rgba(120,80,10,.35); }
-#r3 .coin .ring { position:absolute; inset:8%; border-radius:50%; border:6px dotted rgba(91,61,6,.55); }
-#r3 .coin .ins { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  color:#5b3d06; font-weight:900; text-shadow:0 2px 0 rgba(255,240,190,.5); }
+#r3 .c { left:60px; width:840px; text-align:center; }
+#r3 .stage { position:absolute; perspective:1600px; }
+#r3 .coin { position:absolute; inset:0; background-size:contain; background-repeat:no-repeat; background-position:center;
+  filter: drop-shadow(0 60px 70px rgba(0,0,0,.65)) drop-shadow(0 0 40px rgba(251,191,36,.35)); }
 #r3 .stamp { position:absolute; white-space:nowrap; padding:6px 40px 0; border:12px solid #fbbf24; border-radius:22px; color:#fbbf24;
-  font-weight:900; line-height:1.1; letter-spacing:.04em; background:rgba(11,18,32,.6); }
-#r3 .k { font:700 30px "Inter"; letter-spacing:.22em; color:#94a3b8; }
-#r3 .t { color:#2dd4bf; } #r3 .a { color:#fbbf24; } #r3 .co { color:#ff6b6b; } #r3 .m { color:#94a3b8; }
+  font-weight:900; line-height:1.1; letter-spacing:.04em; background:rgba(11,18,32,.62); }
+#r3 .k { font:700 30px "Inter"; letter-spacing:.22em; color:#cbd5e1; }
+#r3 .t { color:#2dd4bf; } #r3 .a { color:#fbbf24; } #r3 .co { color:#ff6b6b; } #r3 .m { color:#cbd5e1; }
+#r3 .big { text-shadow: 0 10px 40px rgba(0,0,0,.6); }
 </style>
 <div id="r3" data-composition-id="03-sulh-i-kul" data-width="1080" data-height="1920" data-duration="10.65">
-<div class="bg"></div><div class="grid"></div>
-<div class="abs" style="left:80px;top:300px;display:flex;align-items:center;gap:34px"><div style="font:900 96px Poppins" class="a">1563</div><div><div style="font:800 46px Poppins">Teerth yatra kar</div><div style="font:700 28px Inter;letter-spacing:.2em" class="t">KHATAM</div></div></div><div class="abs" style="left:80px;top:470px;display:flex;align-items:center;gap:34px"><div style="font:900 96px Poppins" class="a">1564</div><div><div style="font:800 46px Poppins">Jizya</div><div style="font:700 28px Inter;letter-spacing:.2em" class="t">KHATAM</div></div></div><div class="abs" style="left:80px;top:640px;display:flex;align-items:center;gap:34px"><div style="font:900 96px Poppins" class="a">1575</div><div><div style="font:800 46px Poppins">Ibadat Khana</div><div style="font:700 28px Inter;letter-spacing:.2em" class="t">BEHAS</div></div></div><div class="abs c" style="top:860px;font-size:118px;font-weight:900" class="t"><span class="t">SULH-I-KUL</span></div><svg class="abs" style="left:40px;top:820px" width="880" height="230"><ellipse cx="440" cy="112" rx="420" ry="98" stroke="#fbbf24" stroke-width="8" fill="none" transform="rotate(-3 440 112)"/></svg><div class="abs c" style="top:1080px;font:700 44px Inter" class="m"><span class="m">sabke saath shanti</span></div>
-<div class="tag">JKSSB  •  ITIHAAS</div><div class="brand">JIGEASA</div>
+<div class="bg"></div>
+<div class="photo" style="background-image:url(assets/img/bg_ibadat.jpg)"></div><div class="shade" style="background:linear-gradient(180deg, rgba(11,18,32,.88) 0%, rgba(11,18,32,.25) 32%, rgba(11,18,32,.2) 58%, rgba(11,18,32,.9) 84%, rgba(11,18,32,.96) 100%)"></div><div class="abs big" style="left:70px;top:230px;display:flex;align-items:center;gap:30px"><div style="font:900 104px Poppins" class="a">1563</div><div><div style="font:800 50px Poppins">Teerth yatra kar</div><div style="font:700 28px Inter;letter-spacing:.2em" class="t">KHATAM</div></div></div><div class="abs big" style="left:70px;top:380px;display:flex;align-items:center;gap:30px"><div style="font:900 104px Poppins" class="a">1564</div><div><div style="font:800 50px Poppins">Jizya</div><div style="font:700 28px Inter;letter-spacing:.2em" class="t">KHATAM</div></div></div><div class="abs big" style="left:70px;top:530px;display:flex;align-items:center;gap:30px"><div style="font:900 104px Poppins" class="a">1575</div><div><div style="font:800 50px Poppins">Ibadat Khana</div><div style="font:700 28px Inter;letter-spacing:.2em" class="t">BEHAS</div></div></div><div class="abs c big" style="top:1200px;font-size:130px;font-weight:900"><span class="t">SULH-I-KUL</span></div><svg class="abs" style="left:30px;top:1150px" width="900" height="270"><ellipse cx="450" cy="132" rx="430" ry="112" stroke="#fbbf24" stroke-width="9" fill="none" transform="rotate(-3 450 132)"/></svg><div class="abs c big" style="top:1410px;font:700 46px Inter"><span class="m">sabke saath shanti</span></div>
+<div class="credit">Painting: Jesuits at Akbar's court, Akbarnama (public domain)</div><div class="brand">JIGEASA</div>
 </div>
 <script>
 const tl = gsap.timeline({ paused: true });

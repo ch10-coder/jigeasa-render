@@ -3,30 +3,27 @@
 <style>@font-face{font-family:"Poppins";font-weight:600;font-display:block;src:url("assets/fonts/poppins-latin-600-normal.woff2") format("woff2");}@font-face{font-family:"Poppins";font-weight:700;font-display:block;src:url("assets/fonts/poppins-latin-700-normal.woff2") format("woff2");}@font-face{font-family:"Poppins";font-weight:800;font-display:block;src:url("assets/fonts/poppins-latin-800-normal.woff2") format("woff2");}@font-face{font-family:"Poppins";font-weight:900;font-display:block;src:url("assets/fonts/poppins-latin-900-normal.woff2") format("woff2");}@font-face{font-family:"Inter";font-weight:600;font-display:block;src:url("assets/fonts/inter-latin-600-normal.woff2") format("woff2");}@font-face{font-family:"Inter";font-weight:700;font-display:block;src:url("assets/fonts/inter-latin-700-normal.woff2") format("woff2");}@font-face{font-family:"Poppins";font-weight:700;font-display:block;src:url("assets/fonts/poppins-devanagari-700-normal.woff2") format("woff2");unicode-range:U+0900-097F,U+20B9;}@font-face{font-family:"Poppins";font-weight:800;font-display:block;src:url("assets/fonts/poppins-devanagari-800-normal.woff2") format("woff2");unicode-range:U+0900-097F,U+20B9;}@font-face{font-family:"Poppins";font-weight:900;font-display:block;src:url("assets/fonts/poppins-devanagari-900-normal.woff2") format("woff2");unicode-range:U+0900-097F,U+20B9;}
 #r1 { position:absolute; inset:0; overflow:hidden; color:#f8fafc; font-family:"Poppins",sans-serif; }
 #r1 .bg { position:absolute; inset:0; background:
-  radial-gradient(900px 900px at 50% 36%, rgba(251,191,36,0.16), transparent 62%),
-  radial-gradient(700px 600px at 85% 90%, rgba(45,212,191,0.10), transparent 60%), #0b1220; }
-#r1 .grid { position:absolute; inset:0; opacity:.5; background:
-  repeating-linear-gradient(0deg, rgba(148,163,184,.05) 0 1px, transparent 1px 90px),
-  repeating-linear-gradient(90deg, rgba(148,163,184,.05) 0 1px, transparent 1px 90px); }
-#r1 .tag { position:absolute; left:60px; top:236px; font:700 30px "Inter"; letter-spacing:.2em; color:#2dd4bf; }
-#r1 .brand { position:absolute; right:200px; top:1276px; font:700 26px "Inter"; letter-spacing:.16em; color:#94a3b8; }
+  radial-gradient(1100px 1100px at 50% 48%, rgba(251,191,36,0.20), transparent 60%),
+  radial-gradient(900px 700px at 80% 92%, rgba(45,212,191,0.10), transparent 60%), #0b1220; }
+#r1 .photo { position:absolute; inset:-4%; background-size:cover; background-position:center; }
+#r1 .shade { position:absolute; inset:0; }
+#r1 .brand { position:absolute; right:60px; top:150px; font:700 26px "Inter"; letter-spacing:.18em; color:rgba(248,250,252,.55); }
+#r1 .credit { position:absolute; left:60px; top:1478px; font:600 20px "Inter"; color:rgba(248,250,252,.62); white-space:nowrap; }
 #r1 .abs { position:absolute; }
-#r1 .c { left:40px; width:880px; text-align:center; }
-#r1 .coin { position:absolute; border-radius:50%; background:
-  radial-gradient(circle at 35% 30%, #fff3c4 0%, #fbbf24 22%, #e8b84a 48%, #9a6b12 78%, #5b3d06 100%);
-  box-shadow: 0 50px 120px rgba(0,0,0,.6), inset 0 0 0 14px rgba(255,236,170,.35), inset 0 0 0 28px rgba(120,80,10,.35); }
-#r1 .coin .ring { position:absolute; inset:8%; border-radius:50%; border:6px dotted rgba(91,61,6,.55); }
-#r1 .coin .ins { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  color:#5b3d06; font-weight:900; text-shadow:0 2px 0 rgba(255,240,190,.5); }
+#r1 .c { left:60px; width:840px; text-align:center; }
+#r1 .stage { position:absolute; perspective:1600px; }
+#r1 .coin { position:absolute; inset:0; background-size:contain; background-repeat:no-repeat; background-position:center;
+  filter: drop-shadow(0 60px 70px rgba(0,0,0,.65)) drop-shadow(0 0 40px rgba(251,191,36,.35)); }
 #r1 .stamp { position:absolute; white-space:nowrap; padding:6px 40px 0; border:12px solid #fbbf24; border-radius:22px; color:#fbbf24;
-  font-weight:900; line-height:1.1; letter-spacing:.04em; background:rgba(11,18,32,.6); }
-#r1 .k { font:700 30px "Inter"; letter-spacing:.22em; color:#94a3b8; }
-#r1 .t { color:#2dd4bf; } #r1 .a { color:#fbbf24; } #r1 .co { color:#ff6b6b; } #r1 .m { color:#94a3b8; }
+  font-weight:900; line-height:1.1; letter-spacing:.04em; background:rgba(11,18,32,.62); }
+#r1 .k { font:700 30px "Inter"; letter-spacing:.22em; color:#cbd5e1; }
+#r1 .t { color:#2dd4bf; } #r1 .a { color:#fbbf24; } #r1 .co { color:#ff6b6b; } #r1 .m { color:#cbd5e1; }
+#r1 .big { text-shadow: 0 10px 40px rgba(0,0,0,.6); }
 </style>
 <div id="r1" data-composition-id="01-coin-hook" data-width="1080" data-height="1920" data-duration="5.66">
-<div class="bg"></div><div class="grid"></div>
-<div class="coin" style="left:190px;top:330px;width:700px;height:700px;"><div class="ring"></div><div class="ins"><div style="font-size:52px;letter-spacing:.2em">JALALUDDIN</div><div style="font-size:140px;line-height:1">AKBAR</div><div style="font-size:42px;letter-spacing:.18em">1556 – 1605</div></div></div><div class="stamp" style="left:230px;top:820px;font-size:130px;transform:rotate(-8deg)">GREAT?</div><div class="abs c" style="top:1100px;font-size:64px;font-weight:800">Kya sach mein <span class="a">great</span> tha?</div>
-<div class="tag">JKSSB  •  ITIHAAS</div><div class="brand">JIGEASA</div>
+<div class="bg"></div>
+<div class="abs c k" style="top:250px">JALALUDDIN MUHAMMAD AKBAR</div><div class="stage" style="left:110px;top:360px;width:860px;height:860px"><div class="coin" style="background-image:url(assets/img/coin_obv.png);transform:rotateY(-18deg) rotateX(10deg) rotateZ(-4deg);"></div></div><div class="stamp" style="left:200px;top:1060px;font-size:150px;transform:rotate(-8deg)">GREAT?</div><div class="abs c big" style="top:1340px;font-size:70px;font-weight:800">Kya sach mein <span class="a">great</span> tha?</div>
+<div class="credit">Coin: Mohur of Akbar, LACMA (public domain)</div><div class="brand">JIGEASA</div>
 </div>
 <script>
 const tl = gsap.timeline({ paused: true });

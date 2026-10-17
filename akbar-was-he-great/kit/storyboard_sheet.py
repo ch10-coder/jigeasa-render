@@ -1,5 +1,4 @@
-"""9:16 storyboard contact sheet: frames sorted by time, timecode label, red YouTube-Shorts safe-zone box (x 40-920, y 220-1200)
-and caption band (y 1250). Usage: storyboard_sheet.py SHOTS_DIR OUT.jpg"""
+"""9:16 storyboard contact sheet: frames sorted by time, timecode label, text safe zone (y 200-1520) + the like/comment column (x 910+, y 1000+); visuals may fill the whole frame. Usage: storyboard_sheet.py SHOTS_DIR OUT.jpg"""
 import glob, re, sys
 from PIL import Image, ImageDraw
 fs = glob.glob(sys.argv[1] + "/*.png")
@@ -12,6 +11,6 @@ sh = Image.new("RGB", (COLS * W + (COLS + 1) * 8, rows * (H + LAB + 8) + 8), (14
 for n, f in enumerate(fs):
     im = Image.open(f).convert("RGB").resize((W, H)); x = 8 + (n % COLS) * (W + 8); y = 8 + (n // COLS) * (H + LAB + 8)
     sh.paste(im, (x, y + LAB)); d.text((x + 4, y + 6), f"{t_of(f):.2f}s", fill=(251, 191, 36))
-    d.rectangle((x + 40 * k, y + LAB + 220 * k, x + 920 * k, y + LAB + 1200 * k), outline=(255, 50, 50), width=1)
-    d.line((x, y + LAB + 1250 * k, x + W, y + LAB + 1250 * k), fill=(255, 120, 120), width=1)
+    d.rectangle((x + 40 * k, y + LAB + 200 * k, x + 1040 * k, y + LAB + 1520 * k), outline=(255, 70, 70), width=1)   # text zone (2026-10-17)
+    d.rectangle((x + 910 * k, y + LAB + 1000 * k, x + 1040 * k, y + LAB + 1520 * k), outline=(255, 160, 60), width=1)   # like/comment column
 sh.save(sys.argv[2], quality=86); print(sys.argv[2], sh.size, len(fs), "frames")
