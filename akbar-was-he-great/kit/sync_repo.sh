@@ -24,7 +24,7 @@ python3 - "$P" "$D" <<'PY'
 import json, shutil, sys
 from pathlib import Path
 P, D = Path(sys.argv[1]), Path(sys.argv[2])
-SKIP = shutil.ignore_patterns("kit", "audio", "node_modules", "renders", "snapshots", "capture", "tools", "boards", ".hyperframes", "__pycache__", "*.md", ".media")
+SKIP = shutil.ignore_patterns("kit", "audio", "voice", "node_modules", "renders", "snapshots", "capture", "tools", "boards", ".hyperframes", "__pycache__", "*.md", ".media")
 for u in json.load(open(P / "units.json")):
     s, d = P / u["dir"], D / u["dir"]
     if (s / "compositions").is_dir():   # a HyperFrames workflow project (index + sub-compositions): copy the whole tree
