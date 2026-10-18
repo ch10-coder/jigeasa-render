@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.min.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+    <style>
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.ttf") format("truetype"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #04070f; }
+      #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+      .scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,0) 55%); }
+      .block { position: absolute; left: 96px; top: 150px; width: 1000px; }
+      .kicker { display: flex; align-items: center; gap: 16px; font: 700 28px Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase; }
+      .kicker i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
+      .mask { overflow: hidden; }
+      .h { font: 400 170px/1.04 Anton; color: #f8fafc; text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .h.k { color: #ff6b6b; }
+      .lab { position: absolute; left: 0; top: 0; font: 700 26px Inter; letter-spacing: 5px; color: #f8fafc; white-space: nowrap;
+             text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
+      .credit { position: absolute; left: 0; right: 0; bottom: 30px; text-align: center; font: 500 20px Inter; color: #cbd5e1; letter-spacing: 1px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1920" data-height="1080">
+      <canvas id="earth"></canvas>
+      <div class="scrim"></div>
+      <div class="block">
+        <div class="kicker"><i id="rule"></i><span id="kick">Engine test · Karakoram</span></div>
+        <div class="mask"><div class="h" id="h1">China ko</div></div>
+        <div class="mask"><div class="h k" id="h2">de diya.</div></div>
+      </div>
+      <div class="lab" id="lab-k2">K2  8,611 M</div>
+      <div class="credit">NASA Blue Marble · Sentinel-2 cloudless 2016 by EOX (CC BY 4.0) · Terrarium DEM · DataMeet · Natural Earth</div>
+    </div>
+    <script type="module">
+      import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
+      const DUR = 12;
+      const CAM = [
+        { t: 0, lat: 28, lon: 66, alt: 18000, tilt: 0, heading: 0 },
+        { t: 5, lat: 34.6, lon: 76.4, alt: 900, tilt: 10, heading: 0 },
+        { t: 9, lat: 35.95, lon: 76.55, alt: 30, tilt: 62, heading: -6, ease: "out" },
+        { t: 12, lat: 36.02, lon: 76.55, alt: 26, tilt: 63, heading: -4, ease: "linear" },
+      ];
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
+      let done;
+      window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
+      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["karakoram"] });
+      const lab = document.getElementById("lab-k2");
+      const tl = gsap.timeline({ paused: true });
+      driveWithTimeline(tl, DUR, (t) => {
+        earth.render(camAt(CAM, t));
+        const p = earth.project(35.881, 76.513, 8611);
+        lab.style.transform = `translate(${p.x + 18}px, ${p.y - 16}px)`;
+        lab.style.opacity = p.visible && t > 8.5 ? 1 : 0;
+      });
+      tl.fromTo("#rule", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, 0.3);
+      tl.fromTo("#kick", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, 0.45);
+      tl.fromTo("#h1", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, 0.6);
+      tl.fromTo("#h2", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, 0.72);
+      window.__timelines["main"] = tl;
+      done();
+    </script>
+  </body>
+</html>
