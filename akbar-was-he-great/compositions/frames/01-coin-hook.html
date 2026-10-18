@@ -20,14 +20,15 @@
 #r1 .t { color:#2dd4bf; } #r1 .a { color:#fbbf24; } #r1 .co { color:#ff6b6b; } #r1 .m { color:#cbd5e1; }
 #r1 .big { text-shadow: 0 10px 40px rgba(0,0,0,.6); }
 </style>
-<div id="r1" data-composition-id="01-coin-hook" data-width="1080" data-height="1920" data-duration="5.66">
+<div id="r1" data-composition-id="01-coin-hook" data-width="1080" data-height="1920" data-duration="5.42">
 <div class="bg"></div>
-<div class="abs c k" style="top:250px">JALALUDDIN MUHAMMAD AKBAR</div><div class="stage" style="left:110px;top:360px;width:860px;height:860px"><div class="coin" style="background-image:url(assets/img/coin_obv.png);transform:rotateY(-18deg) rotateX(10deg) rotateZ(-4deg);"></div></div><div class="stamp" style="left:200px;top:1060px;font-size:150px;transform:rotate(-8deg)">GREAT?</div><div class="abs c big" style="top:1330px;font-size:60px;font-weight:800;white-space:nowrap">Kya sach mein <span class="a">great</span> tha?</div>
+<div class="abs c k" style="top:250px">JALALUDDIN MUHAMMAD AKBAR</div><canvas id="c1coin" style="position:absolute;left:40px;top:300px;width:1000px;height:1000px"></canvas><div class="stamp" style="left:120px;top:1110px;font-size:118px;transform:rotate(-6deg)">MAHAAN YA…?</div><div class="abs c big" style="top:1290px;font-size:60px;font-weight:800;white-space:nowrap">Kya sach mein <span class="a">great</span> tha?</div>
 <div class="credit">Coin: Mohur of Akbar, LACMA (public domain)</div><div class="brand">JIGEASA</div>
 </div>
 <script>
 const tl = gsap.timeline({ paused: true });
-tl.set({}, {}, 5.66);
+const coin = JigCoin.make(document.getElementById("c1coin"), {px: 1000}); window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady["coin-01"] = coin.ready; const S = JigCoin.state({rotY: -0.42, rotX: 0.18, rotZ: -0.06, glow: 0.4, glowColor: "#fbbf24"}); coin.render(S);
+tl.set({}, {}, 5.42);
 window.__timelines["01-coin-hook"] = tl;
 </script>
 </template></body></html>

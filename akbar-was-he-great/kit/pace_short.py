@@ -8,10 +8,10 @@ import json, subprocess, wave
 from pathlib import Path
 import numpy as np
 ROOT = Path(__file__).resolve().parent.parent; A = ROOT / "audio"; SR = 44100
-TARGET = 50.5          # Akbar Short: paced VO length we aim for
+TARGET = 54.0          # Akbar Short: paced VO length we aim for
 MAX_TEMPO = 1.04
 GAP = {"lead": 0.06, "comma": 0.16, "sentence": 0.28, "beat": 0.42, "drama": 0.45}
-ANCHORS = [("f1", "अकबर"), ("f2", "जवाब"), ("f3", "1563"), ("f4", "राजा"), ("f5", "और"), ("f6", "अब"), ("f7", "तो")]
+ANCHORS = [("f1", "अकबर"), ("f2", "जवाब"), ("f3", "1563"), ("f4", "राजा"), ("f5", "और@2"), ("f6", "अब"), ("f7", "तो")]
 DRAMA_AFTER = {0}      # "Akbar." keeps a dramatic beat
 
 def load(p):
@@ -26,8 +26,11 @@ W = [[w["start"], w["end"], w["text"]] for w in json.load(open(A / "stt_raw.json
 # beat start word indices (sequential search)
 starts, k = [], 0
 for bid, tok in ANCHORS:
-    while W[k][2].strip("।.,?!") != tok: k += 1
-    starts.append((bid, k)); k += 1
+    tok, _, nth = tok.partition("@"); nth = int(nth or 1)     # "और@2" = the 2nd match after the previous anchor
+    for _ in range(nth):
+        while W[k][2].strip("।.,?!") != tok: k += 1
+        k += 1
+    starts.append((bid, k - 1))
 beat_first = {i for _, i in starts[1:]}
 
 # silence runs from 10 ms RMS
