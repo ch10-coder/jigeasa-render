@@ -2,79 +2,79 @@
  {
   "id": "s01",
   "dir": "units/s01",
-  "dur": 55.0,
+  "dur": 40.44,
   "pre": 0.0
  },
  {
   "id": "s02",
   "dir": "units/s02",
-  "dur": 36.4,
+  "dur": 29.23,
   "pre": 0.0
  },
  {
   "id": "s03",
   "dir": "units/s03",
-  "dur": 87.9,
+  "dur": 67.26,
   "pre": 0.0
  },
  {
   "id": "s04",
   "dir": "units/s04",
-  "dur": 120.3,
+  "dur": 92.6,
   "pre": 0.0
  },
  {
   "id": "s05",
   "dir": "units/s05",
-  "dur": 99.2,
+  "dur": 77.0,
   "pre": 0.0
  },
  {
   "id": "s06",
   "dir": "units/s06",
-  "dur": 52.6,
+  "dur": 42.54,
   "pre": 0.0
  },
  {
   "id": "s07",
   "dir": "units/s07",
-  "dur": 83.0,
+  "dur": 66.58,
   "pre": 0.0
  },
  {
   "id": "s08",
   "dir": "units/s08",
-  "dur": 68.8,
+  "dur": 52.62,
   "pre": 0.0
  },
  {
   "id": "s09",
   "dir": "units/s09",
-  "dur": 51.1,
+  "dur": 37.69,
   "pre": 0.0
  },
  {
   "id": "s10",
   "dir": "units/s10",
-  "dur": 106.1,
+  "dur": 81.43,
   "pre": 0.0
  },
  {
   "id": "s11",
   "dir": "units/s11",
-  "dur": 69.7,
+  "dur": 53.57,
   "pre": 0.0
  },
  {
   "id": "s12",
   "dir": "units/s12",
-  "dur": 32.9,
+  "dur": 27.82,
   "pre": 0.0
  },
  {
   "id": "s13",
   "dir": "units/s13",
-  "dur": 38.6,
+  "dur": 31.27,
   "pre": 0.0
  }
 ]
