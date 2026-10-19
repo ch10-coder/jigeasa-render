@@ -76,6 +76,7 @@ jobs:
     needs: plan
     if: needs.plan.outputs.mode == 'preview' || needs.plan.outputs.mode == 'render' || needs.plan.outputs.mode == 'audio'
     runs-on: ubuntu-24.04
+    permissions: { contents: write, actions: read }
     defaults: { run: { working-directory: "geopolitics" } }
     steps:
       - uses: actions/checkout@v4
@@ -97,13 +98,24 @@ jobs:
           python3 kit/audio_mix.py --voice audio/voice_paced.wav --cues $C --dur $DUR --out audio/master.m4a --stems audio/stems $(cat audio_mix.args 2>/dev/null)
           python3 -c "import json;r=json.load(open('audio/stems/audio_report.json'));print('### Audio\n'+'\n'.join(f'- {k}: {v}' for k,v in r.items() if k!='sfx_within_6db_of_vo'))" >> $GITHUB_STEP_SUMMARY
       - uses: actions/upload-artifact@v4
+        id: up
+        continue-on-error: true
         with:
           name: audio
           retention-days: 7
           path: |
             geopolitics/audio/master.m4a
             geopolitics/audio/stems/audio_report.json
+      - name: Fallback when the artifact quota is full - master audio as a release asset
+        if: steps.up.outcome == 'failure' && hashFiles('geopolitics/audio/master.m4a') != ''
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          T="audio-${GITHUB_REF_NAME//\//-}"
+          gh release delete "$T" -y --cleanup-tag -R "$GITHUB_REPOSITORY" 2>/dev/null || true
+          gh release create "$T" audio/master.m4a audio/stems/audio_report.json --prerelease --target "$GITHUB_SHA" -t "$T" -n "mixed audio for $GITHUB_REF_NAME" -R "$GITHUB_REPOSITORY"
+          echo "### Audio delivered as release $T (artifact quota full)" >> $GITHUB_STEP_SUMMARY
       - uses: actions/upload-artifact@v4
+        continue-on-error: true
         with: { name: stems, path: "geopolitics/audio/stems/", retention-days: 3 }
 
   preview:
