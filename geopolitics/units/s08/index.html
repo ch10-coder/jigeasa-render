@@ -228,7 +228,7 @@
       const onScreen = (p) => p.visible && p.x > -80 && p.x < 2000 && p.y > -80 && p.y < 1160;
 
       // ---------- earth (karakoram patch carries India's boundary in teal and the 1963 line in coral)
-      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["karakoram"], world: true, india: true });
+      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["north", "karakoram"], world: true, india: true });
       await document.fonts.ready;
 
       const shaks = { lat: 36.12, lon: 76.55, P: mkPulse(), L: mkLabel("Shaksgam", 64, -58), wins: [[C.c02 + 0.3, DUR - 1.1]] };

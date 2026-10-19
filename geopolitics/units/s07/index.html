@@ -233,7 +233,7 @@
       const onScreen = (p) => p.visible && p.x > -80 && p.x < 2000 && p.y > -80 && p.y < 1160;
 
       // ---------- earth
-      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["ladakh"], world: true, india: true });
+      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["north", "ladakh"], world: true, india: true });
       await document.fonts.ready;
 
       // overlay items: [lat, lon, h (m, undefined = terrain), tIn, tOut]

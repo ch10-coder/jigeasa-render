@@ -200,7 +200,7 @@
         pieces.push({ id: "cpec" + s, pts, color: "#fbbf24", width: 5, dashed: true, h: 7 });
       }
 
-      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["karakoram"], world: true, india: true, lines: pieces });
+      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["north", "karakoram"], world: true, india: true, lines: pieces });
       await document.fonts.ready;
 
       const T_DRAW = C.c03 + 0.2, D_DRAW = 6.0;

@@ -109,7 +109,7 @@
         { t: DUR, lat: 31.5, lon: 74.8, alt: 400, tilt: 0, heading: 0 },
       ];
 
-      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["punjab"] });
+      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["north", "punjab"] });
 
       // ---------- pure helpers (all a function of t) ----------
       const clamp01 = (x) => Math.max(0, Math.min(1, x));

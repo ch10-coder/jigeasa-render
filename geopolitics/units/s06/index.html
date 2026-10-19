@@ -131,7 +131,7 @@
       const INDUS = [[78.95,32.95],[78.3,33.6],[77.58,34.13],[76.9,34.33],[76.2,34.72],[75.63,35.3],[75.1,35.6],[74.62,35.68],
                      [74.1,35.42],[73.2,35.3],[72.88,34.93],[72.69,34.09],[72.24,33.89],[71.55,32.97],[71.45,32.6]];
 
-      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["kashmir"] });
+      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["north", "kashmir"] });
 
       // ---------- pure helpers (all a function of t) ----------
       const clamp01 = (x) => Math.max(0, Math.min(1, x));

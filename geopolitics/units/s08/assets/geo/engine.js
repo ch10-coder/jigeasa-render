@@ -231,7 +231,7 @@ export async function createEarth(opts) {
     g.setIndex(idx); g.computeVertexNormals();
     const m = mk(tex, { transparent: true, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
     m.uniforms.feather.value = 0.16; m.uniforms.isPatch.value = dem ? 1 : 0;
-    const mesh = new THREE.Mesh(g, m); mesh.renderOrder = 1; scene.add(mesh);
+    const mesh = new THREE.Mesh(g, m); mesh.renderOrder = id === "north" ? 1 : 2; scene.add(mesh);
     patches[id] = { mesh, mat: m, dem, meta };
   }));
 
