@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.min.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+    <style>
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.ttf") format("truetype"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
+      #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+      .full { position: absolute; inset: 0; pointer-events: none; }
+      .scrim { position: absolute; inset: 0; opacity: 0;
+               background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,.45) 42%, rgba(4,9,27,0) 55%); }
+      .block { position: absolute; left: 96px; top: 98px; width: 1100px; }
+      .kicker { display: flex; align-items: center; gap: 16px; font: 700 28px/1 Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase;
+                margin-bottom: 22px; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .kicker i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
+      .mask { overflow: hidden; padding-bottom: 4px; }
+      .h { font: 400 170px/1.0 Anton; color: #f8fafc; text-transform: uppercase; letter-spacing: 0.02em; white-space: nowrap;
+           text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .h.k { color: #ff6b6b; }
+      .h.t { color: #2dd4bf; }
+      .sub { font: 500 40px/1.25 Inter; color: rgba(226,232,240,.96); margin-top: 18px; white-space: nowrap;
+             text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .subs { position: relative; height: 70px; }
+      .subs .sub { position: absolute; left: 0; top: 0; }
+      .num { display: inline-block; min-width: 2.55em; font-variant-numeric: tabular-nums; }
+      .legend { display: flex; align-items: center; gap: 18px; margin-top: 26px; font: 700 26px/1 Inter; letter-spacing: 5px; text-transform: uppercase;
+                text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 6px 14px rgba(2,6,16,.5); }
+      .legend + .legend { margin-top: 18px; }
+      .legend b { display: block; width: 48px; height: 8px; border-radius: 4px; transform-origin: left center; }
+      .legend.teal { color: #2dd4bf; } .legend.teal b { background: #2dd4bf; }
+      .legend.coral { color: #ff6b6b; } .legend.coral b { background: #ff6b6b; }
+      /* MEA quote: SVG quote marks + Inter text, no box */
+      .qwrap { position: relative; margin-top: 8px; padding-left: 0; }
+      .qmark { display: block; width: 92px; height: 74px; margin-bottom: 14px; transform-origin: left bottom; }
+      .quote { font: 600 60px/1.18 Inter; color: #f8fafc; width: 980px; letter-spacing: -0.5px;
+               text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .quote .w { display: inline-block; }
+      .attr { font: 500 30px/1.2 Inter; color: rgba(226,232,240,.9); margin-top: 26px; text-shadow: 0 3px 2.5px rgba(2,6,16,.7); }
+      .tag { font: 700 28px/1 Inter; letter-spacing: 5px; color: #ff6b6b; text-transform: uppercase; margin-top: 30px;
+             text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 6px 14px rgba(2,6,16,.5); }
+      #ov { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+      .lab { position: absolute; left: 0; top: 0; font: 700 26px/1 Inter; letter-spacing: 5px; color: #f8fafc; white-space: nowrap; opacity: 0;
+             text-transform: uppercase; isolation: isolate; text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
+      .lab::before { content: ""; position: absolute; inset: -12px -18px; background: rgba(4,9,27,.42); filter: blur(12px); border-radius: 22px; z-index: -1; }
+      .credit { position: absolute; left: 0; right: 0; bottom: 26px; text-align: center; font: 600 20px/1 Inter; color: #cbd5e1; letter-spacing: 1px;
+                text-shadow: 0 2px 4px rgba(2,6,16,.8); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="68.8" data-width="1920" data-height="1080">
+      <canvas id="earth"></canvas>
+      <svg id="ov" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+        <defs><filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="7" /></filter></defs>
+        <polygon id="tract" points="" fill="#ff6b6b" opacity="0" filter="url(#soft)" />
+      </svg>
+      <div class="full" id="labs"></div>
+
+      <!-- S0: intro over K2 -->
+      <div class="full" id="b0"><div class="scrim"></div>
+        <div class="block">
+          <div class="kicker"><i></i><span>Chauthi aag · Karakoram</span></div>
+          <div class="mask"><div class="h l1">SHAKSGAM</div></div>
+          <div class="sub">K2 ke uttar mein</div>
+        </div>
+      </div>
+      <!-- S1: on India's map, part of J&K -->
+      <div class="full" id="b1"><div class="scrim"></div>
+        <div class="block">
+          <div class="kicker"><i></i><span>Bharat ka naqsha</span></div>
+          <div class="mask"><div class="h l1">BHARAT KA</div></div>
+          <div class="mask"><div class="h t l2">HISSA</div></div>
+          <div class="legend teal lg1"><b></b><span>Bharat ki seema</span></div>
+        </div>
+      </div>
+      <!-- S2: under Pakistan occupation (VO: since 1947; the year is not in the facts file, so not on screen) -->
+      <div class="full" id="b2"><div class="scrim"></div>
+        <div class="block">
+          <div class="kicker"><i></i><span>Bharat ka ilaaka, lekin</span></div>
+          <div class="mask"><div class="h l1">PAK KA</div></div>
+          <div class="mask"><div class="h k l2">KABZA</div></div>
+        </div>
+      </div>
+      <!-- S3: approved still (frame 7) -->
+      <div class="full" id="b3"><div class="scrim"></div>
+        <div class="block">
+          <div class="kicker"><i></i><span>1963 &nbsp;·&nbsp; Shaksgam valley</span></div>
+          <div class="mask"><div class="h l1">CHINA KO</div></div>
+          <div class="mask"><div class="h k l2">DE DIYA.</div></div>
+          <div class="subs">
+            <div class="sub s1">Pakistan ne lagbhag <span class="num" id="cnt">0</span> varg km China ko saunpa</div>
+            <div class="sub s2">Bharat ne ye samjhauta kabhi nahi maana</div>
+          </div>
+          <div class="legend teal lg1"><b></b><span>Bharat ki seema</span></div>
+          <div class="legend coral lg2"><b></b><span>China ka kabza (1963)</span></div>
+        </div>
+      </div>
+      <!-- S4: Boundary Joint Commission, Islamabad -->
+      <div class="full" id="b4"><div class="scrim"></div>
+        <div class="block">
+          <div class="kicker"><i></i><span>Sep 2026 · Islamabad</span></div>
+          <div class="mask"><div class="h l1">CHINA + PAK</div></div>
+          <div class="mask"><div class="h k l2">COMMISSION</div></div>
+          <div class="sub">Boundary Joint Commission</div>
+        </div>
+      </div>
+      <!-- S5: MEA quote -->
+      <div class="full" id="b5"><div class="scrim"></div>
+        <div class="block">
+          <div class="kicker"><i></i><span>Videsh Mantralaya · Sep 2026</span></div>
+          <div class="qwrap">
+            <svg class="qmark" viewBox="0 0 92 74" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 70 V40 C4 18 14 6 34 2 L38 12 C27 16 22 24 22 34 H38 V70 Z" fill="#fbbf24" />
+              <path d="M52 70 V40 C52 18 62 6 82 2 L86 12 C75 16 70 24 70 34 H86 V70 Z" fill="#fbbf24" />
+            </svg>
+            <div class="quote"><span class="w">Pakistan aur China ke beech</span> <span class="w">koi seema hai hi nahi.</span></div>
+            <div class="attr">— Randhir Jaiswal, MEA prawakta</div>
+            <div class="tag">Commission: bina qaanooni aadhaar</div>
+          </div>
+        </div>
+      </div>
+      <!-- S6: 1963 agreement illegal and invalid -->
+      <div class="full" id="b6"><div class="scrim"></div>
+        <div class="block">
+          <div class="kicker"><i></i><span>1963 ka samjhauta</span></div>
+          <div class="mask"><div class="h l1">AVAIDH,</div></div>
+          <div class="mask"><div class="h k l2">AMAANYA.</div></div>
+        </div>
+      </div>
+
+      <div class="credit" id="cr1">NASA Blue Marble &nbsp;·&nbsp; Sentinel-2 cloudless 2016 by EOX (CC BY 4.0) &nbsp;·&nbsp; DataMeet &nbsp;·&nbsp; Natural Earth</div>
+      <div class="credit" id="cr2" style="opacity:0">Sentinel-2 cloudless 2016 by EOX (CC BY 4.0) &nbsp;·&nbsp; Terrarium DEM (SRTM) &nbsp;·&nbsp; DataMeet</div>
+    </div>
+
+    <script type="module">
+      import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
+      /*CUES*/ const CUES = {"c01": 0.6, "c02": 5.51, "c03": 6.49, "c04": 12.38, "c05": 17.29, "c06": 23.67, "c07": 37.42, "c08": 40.85, "c09": 49.2, "c10": 53.13, "c11": 58.04, "c12": 62.45}; /*END CUES*/
+      const DUR = /*DUR*/ 68.8 /*END DUR*/;
+      const C = CUES;
+
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
+      let done;
+      window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
+      window.__timelines = window.__timelines || {};
+
+      // ---------- camera: START (35.2, 77.6, 600) -> dive onto K2 looking north at Shaksgam (3D) -> slow push north
+      //            -> pull up west to frame Islamabad + Shaksgam -> glide back over Shaksgam -> END (36.0, 76.6, 400)
+      const CAM = [
+        { t: 0, lat: 35.2, lon: 77.6, alt: 600, tilt: 0, heading: 0 },
+        { t: C.c01 + 0.9, lat: 35.3, lon: 77.4, alt: 520, tilt: 5, heading: -2, ease: "linear" },
+        { t: C.c02 + 0.6, lat: 36.0, lon: 76.4, alt: 40, tilt: 60, heading: -8, ease: "inOut3" },
+        { t: C.c06 - 0.5, lat: 36.05, lon: 76.4, alt: 36, tilt: 62, heading: -10, ease: "linear" },
+        { t: C.c08 - 0.6, lat: 36.1, lon: 76.42, alt: 33, tilt: 63, heading: -12, ease: "linear" },
+        { t: C.c08 + 5.0, lat: 34.5, lon: 72.5, alt: 1000, tilt: 35, heading: 0 },
+        { t: C.c09 + 0.4, lat: 34.6, lon: 72.7, alt: 950, tilt: 33, heading: 0, ease: "linear" },
+        { t: C.c12 - 0.6, lat: 35.85, lon: 75.6, alt: 560, tilt: 8, heading: 0 },
+        { t: DUR, lat: 36.0, lon: 76.6, alt: 400, tilt: 0, heading: 0 },
+      ];
+
+      // ---------- pure helpers (overlay motion is a function of t: seek-safe)
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const sm = (x) => x * x * (3 - 2 * x);
+      const ramp = (t, t0, d) => sm(clamp((t - t0) / d));
+      const win = (t, a, b, fi = 0.4, fo = 0.5) => ramp(t, a, fi) * (1 - ramp(t, b, fo));
+      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+      const SVGNS = "http://www.w3.org/2000/svg";
+      const ov = document.getElementById("ov"), labs = document.getElementById("labs");
+      const mk = (tag, attrs, parent = ov) => { const e = document.createElementNS(SVGNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+
+      function mkPulse() {
+        const g = mk("g", { opacity: 0 });
+        const rings = [0, 1, 2].map(() => mk("circle", { r: 11, fill: "none", stroke: "#ff6b6b", "stroke-width": 2.5 }, g));
+        mk("circle", { r: 11, fill: "#ff6b6b" }, g);
+        mk("circle", { r: 4.5, fill: "#f8fafc" }, g);
+        return { g, rings };
+      }
+      function drawPulse(P, x, y, vis, pop, t) {
+        P.g.setAttribute("opacity", vis.toFixed(3));
+        if (vis <= 0.001) return;
+        P.g.setAttribute("transform", `translate(${x.toFixed(1)},${y.toFixed(1)}) scale(${pop.toFixed(3)})`);
+        const A = [0.59, 0.35, 0.2];
+        P.rings.forEach((r, k) => {
+          const ph = ((t + k * 0.5333) % 1.6) / 1.6;
+          r.setAttribute("r", (11 + ph * 40).toFixed(2));
+          r.setAttribute("opacity", ((1 - ph) * A[k] * 1.6).toFixed(3));
+        });
+      }
+      function mkPin(color) {
+        const g = mk("g", { opacity: 0 });
+        mk("circle", { r: 9, fill: color, stroke: "rgba(4,9,27,.7)", "stroke-width": 2 }, g);
+        mk("circle", { r: 3.5, fill: "#04091b" }, g);
+        return { g };
+      }
+      function drawPin(P, x, y, vis, pop) {
+        P.g.setAttribute("opacity", vis.toFixed(3));
+        if (vis > 0.001) P.g.setAttribute("transform", `translate(${x.toFixed(1)},${y.toFixed(1)}) scale(${pop.toFixed(3)})`);
+      }
+      function mkLabel(text, dx, dy) {
+        const line = mk("line", { stroke: "rgba(248,250,252,.8)", "stroke-width": 2, "stroke-linecap": "round", opacity: 0 });
+        const end = mk("circle", { r: 5, fill: "#f8fafc", opacity: 0 });
+        const el = document.createElement("div"); el.className = "lab"; el.textContent = text; labs.appendChild(el);
+        return { line, end, el, dx, dy };
+      }
+      // leader from the pin to the end dot; a right-hand label swings smoothly to the left side when the pin nears the right edge
+      function drawLabel(L, x, y, vis, t0, t) {
+        const k = sm(clamp((t - t0 - 0.15) / 0.4));
+        const flip = L.dx > 0 ? sm(clamp((x - 1480) / 200)) : 0;
+        const dx = L.dx * (1 - 2 * flip);
+        const ex = x + dx * k, ey = y + L.dy * k;
+        L.line.setAttribute("x1", x.toFixed(1)); L.line.setAttribute("y1", y.toFixed(1));
+        L.line.setAttribute("x2", ex.toFixed(1)); L.line.setAttribute("y2", ey.toFixed(1));
+        L.line.setAttribute("opacity", (vis * (k > 0.01 ? 1 : 0)).toFixed(3));
+        L.end.setAttribute("cx", ex.toFixed(1)); L.end.setAttribute("cy", ey.toFixed(1));
+        L.end.setAttribute("opacity", (vis * k).toFixed(3));
+        L.el.style.opacity = (vis * ramp(t, t0 + 0.45, 0.35)).toFixed(3);
+        const side = L.dx > 0 ? flip : 1;
+        L.el.style.transform = `translate(${(ex + 14 * (1 - 2 * side)).toFixed(1)}px, ${(ey - 14).toFixed(1)}px) translateX(${(-100 * side).toFixed(2)}%)`;
+      }
+      const onScreen = (p) => p.visible && p.x > -80 && p.x < 2000 && p.y > -80 && p.y < 1160;
+
+      // ---------- earth (karakoram patch carries India's boundary in teal and the 1963 line in coral)
+      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["karakoram"], world: true, india: true });
+      await document.fonts.ready;
+
+      const shaks = { lat: 36.12, lon: 76.55, P: mkPulse(), L: mkLabel("Shaksgam", 64, -58), wins: [[C.c02 + 0.3, DUR - 1.1]] };
+      const k2 = { lat: 35.881, lon: 76.513, h: 8611, P: mkPin("#f8fafc"), L: mkLabel("K2", 54, -46), wins: [[C.c03 + 0.9, C.c08 + 0.4]] };
+      const isl = { lat: 33.68, lon: 73.05, h: 0, P: mkPin("#fbbf24"), L: mkLabel("Islamabad", 58, -54), wins: [[C.c08 + 4.2, C.c09 + 1.2]] };
+      const items = [shaks, k2, isl];
+
+      // Shaksgam tract (approx.): north edge = India's boundary (DataMeet), south edge = the 1963 line along the Karakoram crest via K2
+      const TRACT = [
+        [75.54, 36.78], [75.85, 36.69], [76.0, 36.5], [76.24, 36.32], [76.43, 36.24], [76.67, 36.19], [76.78, 36.04], [77.01, 35.82], [77.21, 35.71], [77.47, 35.65],
+        [77.47, 35.6], [77.1, 35.6], [76.8, 35.75], [76.513, 35.881], [76.3, 36.0], [76.05, 36.2], [75.75, 36.45], [75.5, 36.72],
+      ];
+      const tract = document.getElementById("tract");
+      const T_TINT = C.c06 + 9.5;
+
+      const cnt = document.getElementById("cnt");
+      const T_CNT = C.c06 + 6.6;
+      const fmt = (n) => { const s = String(n); return s.length > 3 ? s.slice(0, -3) + "," + s.slice(-3) : s; };
+      const cr1 = document.getElementById("cr1"), cr2 = document.getElementById("cr2");
+
+      const tl = gsap.timeline({ paused: true });
+      driveWithTimeline(tl, DUR, (t) => {
+        const cam = camAt(CAM, t);
+        earth.render(cam);
+        // tract tint (soft coral, breathing)
+        const tv = win(t, T_TINT, DUR - 1.2, 1.2, 0.8);
+        if (tv > 0.001) {
+          let ok = true;
+          const pts = TRACT.map(([lon, lat]) => { const p = earth.project(lat, lon); if (!p.visible) ok = false; return p.x.toFixed(1) + "," + p.y.toFixed(1); });
+          tract.setAttribute("points", ok ? pts.join(" ") : "");
+          tract.setAttribute("opacity", (ok ? tv * (0.26 + 0.06 * Math.sin(t * 2.4)) : 0).toFixed(3));
+        } else tract.setAttribute("opacity", "0");
+        for (const it of items) {
+          let vis = 0, t0 = 0;
+          for (const [a, b] of it.wins) { const v = win(t, a, b, 0.35, 0.5); if (v > vis) { vis = v; t0 = a; } }
+          const p = earth.project(it.lat, it.lon, it.h);
+          if (!onScreen(p)) vis = 0;
+          const pop = Math.max(0.001, backOut(clamp((t - t0) / 0.45)));
+          if (it.P.rings) drawPulse(it.P, p.x, p.y, vis, pop, t); else drawPin(it.P, p.x, p.y, vis, pop);
+          drawLabel(it.L, p.x, p.y, vis, t0, t);
+        }
+        // counter 0 -> 5,180 sq km (S1)
+        cnt.textContent = fmt(Math.round(5180 * (1 - Math.pow(1 - clamp((t - T_CNT) / 1.4), 3))));
+        const s2 = clamp((Math.log(700) - Math.log(cam.alt)) / (Math.log(700) - Math.log(300)));
+        cr2.style.opacity = s2.toFixed(3); cr1.style.opacity = (1 - s2).toFixed(3);
+      });
+
+      // ---------- text blocks (style A)
+      function block(id, tIn, tOut, parts) {
+        const root = document.getElementById(id);
+        const q = (s) => root.querySelector(s);
+        const scrim = q(".scrim"), rule = q(".kicker i"), kick = q(".kicker span");
+        tl.fromTo(scrim, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.out" }, tIn - 0.15);
+        tl.fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, tIn);
+        tl.fromTo(kick, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, tIn + 0.15);
+        const lines = [];
+        for (const [sel, t, kind, out] of parts) {
+          const el = q(sel);
+          if (kind === "line") {
+            tl.fromTo(el, { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, t);
+            lines.push(el);
+          } else if (kind === "legend") {
+            tl.fromTo(el.querySelector("b"), { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.out" }, t);
+            tl.fromTo(el.querySelector("span"), { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, t + 0.15);
+            tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
+          } else {
+            tl.fromTo(el, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t);
+            if (out !== undefined) tl.fromTo(el, { opacity: 1, y: 0 }, { opacity: 0, y: -12, duration: 0.35, ease: "power2.in", immediateRender: false }, out);
+            else tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
+          }
+        }
+        lines.forEach((el, i) => tl.fromTo(el, { yPercent: 0 }, { yPercent: -105, duration: 0.4, ease: "power2.in", immediateRender: false }, tOut + i * 0.06));
+        tl.fromTo(kick, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
+        tl.fromTo(rule, { scaleX: 1 }, { scaleX: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
+        tl.fromTo(scrim, { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power1.in", immediateRender: false }, tOut + 0.15);
+        return q;
+      }
+
+      block("b0", C.c01 + 0.3, C.c04 - 0.45, [[".l1", C.c02 + 0.2, "line"], [".sub", C.c03 + 2.6, "sub"]]);
+      block("b1", C.c04 + 0.2, C.c05 - 0.45, [[".l1", C.c04 + 0.4, "line"], [".l2", C.c04 + 0.55, "line"], [".lg1", C.c04 + 1.6, "legend"]]);
+      block("b2", C.c05 + 0.2, C.c06 - 0.5, [[".l1", C.c05 + 0.4, "line"], [".l2", C.c05 + 2.4, "line"]]);
+      block("b3", C.c06 + 0.25, C.c08 - 0.5, [[".l1", C.c06 + 0.45, "line"], [".l2", C.c06 + 0.6, "line"],
+                                              [".lg1", C.c06 + 0.9, "legend"], [".lg2", C.c06 + 2.0, "legend"],
+                                              [".s1", C.c06 + 4.2, "sub", C.c07 + 0.1], [".s2", C.c07 + 0.5, "sub"]]);
+      block("b4", C.c08 + 0.3, C.c09 - 0.4, [[".l1", C.c08 + 0.5, "line"], [".l2", C.c08 + 0.65, "line"], [".sub", C.c08 + 3.0, "sub"]]);
+      const q5 = block("b5", C.c09 + 0.3, C.c12 - 0.4, [[".attr", C.c10 + 2.4, "sub"], [".tag", C.c11 + 0.4, "sub"]]);
+      // quote: marks pop, then the two phrases rise in on the spoken words
+      tl.fromTo(q5(".qmark"), { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)" }, C.c10 - 0.25);
+      tl.fromTo(q5(".qmark"), { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, C.c12 - 0.4);
+      const qw = Array.from(document.querySelectorAll("#b5 .quote .w"));
+      tl.fromTo(qw[0], { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, C.c10 + 0.05);
+      tl.fromTo(qw[1], { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, C.c10 + 1.5);
+      tl.fromTo(qw, { opacity: 1, y: 0 }, { opacity: 0, y: -16, duration: 0.4, ease: "power2.in", stagger: 0.06, immediateRender: false }, C.c12 - 0.4);
+      block("b6", C.c12 + 0.2, DUR - 1.6, [[".l1", C.c12 + 0.6, "line"], [".l2", C.c12 + 2.2, "line"]]);
+
+      window.__timelines["main"] = tl;
+      done();
+    </script>
+  </body>
+</html>

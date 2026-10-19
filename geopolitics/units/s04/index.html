@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.min.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+    <style>
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.ttf") format("truetype"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+      @font-face { font-family: "Poppins"; src: url("assets/fonts/poppins-devanagari-700-normal.woff2") format("woff2"); font-weight: 700; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #04070f; }
+      #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+      #scrim { position: absolute; inset: 0; opacity: 0;
+               background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,.45) 42%, rgba(4,9,27,0) 58%); }
+      #ov { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+      #labs { position: absolute; inset: 0; }
+      .blk { position: absolute; inset: 0; }
+      .kicker { position: absolute; left: 96px; top: 150px; display: flex; align-items: center; gap: 16px; font: 700 28px Inter;
+                letter-spacing: 5px; color: #fbbf24; text-transform: uppercase; white-space: nowrap;
+                text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .kicker i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
+      .mask { position: absolute; left: 96px; overflow: hidden; }
+      .mask > * { display: block; white-space: nowrap; }
+      .h { font: 400 170px/1.04 Anton; color: #f8fafc; text-transform: uppercase;
+           text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .coral { color: #ff6b6b; } .amber { color: #fbbf24; } .teal { color: #2dd4bf; }
+      .num { font: 400 230px/1 Anton; color: #fbbf24; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4);
+             transform-origin: left bottom; }
+      .sub { position: absolute; left: 96px; font: 500 40px/1.2 Inter; color: #e2e8f0; white-space: nowrap;
+             text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .src { position: absolute; left: 96px; font: 500 22px Inter; color: #94a3b8; letter-spacing: .5px; white-space: nowrap;
+             text-shadow: 0 2px 2px rgba(2,6,16,.7); }
+      .track { position: absolute; height: 14px; border-radius: 7px; background: rgba(226,232,240,.18); overflow: hidden; }
+      .track b { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; border-radius: 7px; transform-origin: left center; transform: scaleX(0); }
+      .lab { position: absolute; left: 0; top: 0; font: 700 26px Inter; letter-spacing: 5px; color: #f8fafc; white-space: nowrap; opacity: 0;
+             text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
+      .country { position: absolute; left: 0; top: 0; font: 600 28px Inter; letter-spacing: 9px; color: rgba(226,232,240,.94); white-space: nowrap;
+                 opacity: 0; text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 14px rgba(2,6,16,.5); }
+      .num.coral { color: #ff6b6b; } .num.teal { color: #2dd4bf; }
+      .sc { display: inline-block; transform-origin: left bottom; }
+      .rs { font-family: "Poppins", Anton; font-weight: 700; font-size: .78em; vertical-align: .06em; margin-right: 6px; }
+      /* bars (PPAC) */
+      .bar { position: absolute; bottom: 180px; width: 230px; border-radius: 4px; transform-origin: center bottom; transform: scaleY(0); }
+      .bval { position: absolute; top: 0; width: 230px; text-align: center; font: 400 66px/1 Anton; color: #f8fafc;
+              text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .byear { position: absolute; top: 918px; width: 230px; text-align: center; font: 600 28px Inter; letter-spacing: 4px; color: #e2e8f0;
+               text-shadow: 0 2px 2px rgba(2,6,16,.7); }
+      .cdate { position: absolute; top: 902px; font: 700 22px Inter; letter-spacing: 4px; color: #cbd5e1; white-space: nowrap; width: 320px; margin-left: -160px; text-align: center; }
+      .credit { position: absolute; left: 0; right: 0; bottom: 26px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px;
+                text-shadow: 0 2px 2px rgba(2,6,16,.8); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="120.3" data-width="1920" data-height="1080">
+      <canvas id="earth"></canvas>
+      <div id="scrim"></div>
+      <svg id="ov" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="brentFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fbbf24" stop-opacity=".32" />
+            <stop offset="1" stop-color="#fbbf24" stop-opacity="0" />
+          </linearGradient>
+          <clipPath id="brentClip"><rect id="brentClipR" x="96" y="380" width="0" height="560" /></clipPath>
+        </defs>
+        <g id="routes"></g>
+        <g id="pins"></g>
+      </svg>
+      <div id="labs"></div>
+
+      <!-- B1: the question -->
+      <div class="blk" id="b1">
+        <div class="kicker"><i></i><span>Hormuz se Bharat tak</span></div>
+        <div class="mask" style="top:196px"><span class="h">Bharat par</span></div>
+        <div class="mask" style="top:373px; height:177px; width:1100px">
+          <span class="h coral" id="b1a" style="position:absolute;left:0;top:0">Asar?</span>
+          <span class="h coral" id="b1b" style="position:absolute;left:0;top:0">Bahut kuch.</span>
+        </div>
+      </div>
+
+      <!-- B2: 88.7 % import dependence -->
+      <div class="blk" id="b2">
+        <div class="kicker"><i></i><span>Kachcha tel · import</span></div>
+        <div class="mask" style="top:196px; height:240px"><span class="num" id="n887w"><span id="n887" class="sc">0.0%</span></span></div>
+        <div class="sub fo" style="top:452px">crude bahar se aata hai</div>
+        <div class="track fo" style="left:96px; top:532px; width:820px"><b id="f887" style="background:#fbbf24"></b></div>
+        <div class="src fo" id="b2src" style="top:574px">Source: PPAC Snapshot, Oct 2026 · 2025-26</div>
+      </div>
+
+      <!-- B3: ~50 % crude, ~90 % LPG via Hormuz -->
+      <div class="blk" id="b3">
+        <div class="kicker"><i></i><span>Jung se pehle · Hormuz se</span></div>
+        <div class="mask" style="top:196px; height:230px"><span class="num" id="n50w" style="font-size:220px"><span id="n50" class="sc">~0%</span></span></div>
+        <div class="sub fo" id="b3ua" style="top:440px">crude import</div>
+        <div class="track fo" id="b3ta" style="left:96px; top:512px; width:380px"><b id="f50" style="background:#fbbf24"></b></div>
+        <div class="mask" style="top:196px; left:560px; height:230px"><span class="num" id="n90w" style="font-size:220px"><span id="n90" class="sc">~0%</span></span></div>
+        <div class="sub fo" id="b3ub" style="top:440px; left:560px">LPG import</div>
+        <div class="track fo" id="b3tb" style="left:560px; top:512px; width:380px"><b id="f90" style="background:#fbbf24"></b></div>
+        <div class="src fo" id="b3src" style="top:556px">Kpler via ThePrint · S&amp;P Global</div>
+      </div>
+
+      <!-- B4: LPG output ~25 % -->
+      <div class="blk" id="b4">
+        <div class="kicker"><i></i><span>March 2026 · sarkaar</span></div>
+        <div class="mask" style="top:196px"><span class="h">Tez</span></div>
+        <div class="mask" style="top:373px"><span class="h amber">kadam.</span></div>
+        <div class="mask" style="top:572px; height:215px; width:900px">
+          <span id="b4row" style="display:flex; align-items:center; gap:22px">
+            <svg width="96" height="150" viewBox="0 0 96 150" aria-hidden="true">
+              <path d="M48 6 L90 66 L62 66 L62 144 L34 144 L34 66 L6 66 Z" fill="#2dd4bf" />
+            </svg>
+            <span class="num teal" id="n25" style="font-size:200px">~0%</span>
+          </span>
+        </div>
+        <div class="sub fo" id="b4u" style="top:796px">LPG utpaadan · mid-March tak</div>
+        <div class="src fo" id="b4src" style="top:862px">AIR (newsonair), 12 Mar 2026</div>
+      </div>
+
+      <!-- B5: re-routing ~70 % -->
+      <div class="blk" id="b5">
+        <div class="kicker"><i></i><span>11 March 2026 · Petroleum Ministry</span></div>
+        <div class="mask" style="top:196px"><span class="h">Raasta</span></div>
+        <div class="mask" style="top:373px"><span class="h amber">badla.</span></div>
+        <div class="mask" style="top:572px; height:215px"><span class="num teal" id="n70" style="font-size:200px">~0%</span></div>
+        <div class="sub fo" id="b5u" style="top:796px">crude ab Hormuz ke bahar se</div>
+        <div class="src fo" id="b5src" style="top:862px">Petroleum Ministry, 11 Mar 2026 (AIR)</div>
+      </div>
+
+      <!-- B6: Brent -->
+      <div class="blk" id="b6">
+        <div class="kicker"><i></i><span>Brent crude · $ prati barrel</span></div>
+        <div class="mask" style="top:196px"><span class="h">Mehenga <span class="coral">tel.</span></span></div>
+        <svg id="brent" style="position:absolute; left:0; top:0; overflow:visible" width="1920" height="1080" viewBox="0 0 1920 1080">
+          <g id="bgrid" stroke="#e2e8f0" stroke-opacity=".22" stroke-width="2" stroke-dasharray="6 10">
+            <line x1="120" y1="796" x2="900" y2="796" /><line x1="120" y1="692" x2="900" y2="692" /><line x1="120" y1="588" x2="900" y2="588" />
+          </g>
+          <g clip-path="url(#brentClip)">
+            <path d="M220 832.4 L520 554.7 L850 660.8 L850 880 L220 880 Z" fill="url(#brentFill)" />
+            <path d="M220 832.4 L520 554.7 L850 660.8" fill="none" stroke="#fbbf24" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
+          </g>
+          <circle id="bp1" cx="220" cy="832.4" r="9" fill="#fbbf24" />
+          <circle id="bp2" cx="520" cy="554.7" r="11" fill="#ff6b6b" />
+          <circle id="bp3" cx="850" cy="660.8" r="9" fill="#fbbf24" />
+          <circle id="btip" r="8" fill="#f8fafc" />
+        </svg>
+        <div class="bval" id="bl1" style="left:105px; width:230px; top:738px">~$73</div>
+        <div class="bval" id="bl2" style="left:405px; width:230px; color:#ff6b6b">$73</div>
+        <div class="bval" id="bl3" style="left:735px; width:230px">$126</div>
+        <div class="cdate fo" id="bd1" style="left:220px">JUNG SE PEHLE</div>
+        <div class="cdate fo" id="bd2" style="left:520px">30 APR</div>
+        <div class="cdate fo" id="bd3" style="left:850px">15 OCT</div>
+        <div class="src fo" id="b6src" style="top:952px">CNN, 30 Apr · Bloomberg, 15 Oct</div>
+      </div>
+
+      <!-- B7: PPAC import bill (approved still) -->
+      <div class="blk" id="b7">
+        <div class="kicker"><i></i><span>Crude import bill&nbsp;&nbsp;·&nbsp;&nbsp;Apr–Sep</span></div>
+        <div class="mask" style="top:196px"><span class="h">Tel ka bill</span></div>
+        <div class="fo" id="b7a">
+          <div class="bar" id="barA" style="left:96px; height:248px; background:#a3aec4"></div>
+          <div class="bval" id="vA" style="left:96px">$0.0 bn</div>
+          <div class="byear" style="left:96px">2025-26</div>
+        </div>
+        <div class="fo" id="b7b">
+          <div class="bar" id="barB" style="left:396px; height:362px; background:#fbbf24"></div>
+          <div class="bval" id="vB" style="left:396px">$0.0 bn</div>
+          <div class="byear" style="left:396px">2026-27</div>
+        </div>
+        <div class="mask" style="top:548px; left:736px; height:160px"><span class="num coral" id="n46w" style="font-size:150px"><span id="n46" class="sc">+0%</span></span></div>
+        <div class="sub fo" id="b7u" style="top:700px; left:736px">ek saal mein</div>
+        <div class="src fo" id="b7src" style="top:972px">Source: PPAC Snapshot, Oct 2026</div>
+      </div>
+
+      <!-- B8: rupee -->
+      <div class="blk" id="b8">
+        <div class="kicker"><i></i><span>20 May 2026 · record low</span></div>
+        <div class="mask" style="top:196px"><span class="h">Rupaya</span></div>
+        <div class="mask" style="top:373px"><span class="h coral">kamzor.</span></div>
+        <div class="mask" style="top:568px; height:225px; width:1000px"><span class="num" id="n9696" style="font-size:210px"><span class="rs">₹</span><span id="n9696v">0.00</span></span></div>
+        <div class="sub fo" id="b8u" style="top:796px">prati dollar</div>
+        <div class="src fo" id="b8src" style="top:862px">PTI / BW Businessworld</div>
+      </div>
+
+      <div class="credit" id="credit">NASA Blue Marble · Sentinel-2 cloudless 2016 by EOX (CC BY 4.0) · DataMeet · Natural Earth</div>
+    </div>
+
+    <script type="module">
+      import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
+      /*CUES*/ const CUES = {"c01": 0.6, "c02": 4.53, "c03": 5.51, "c04": 13.36, "c05": 19.25, "c06": 26.62, "c07": 34.96, "c08": 38.4, "c09": 47.73, "c10": 50.67, "c11": 61.47, "c12": 64.42, "c13": 67.85, "c14": 73.25, "c15": 79.15, "c16": 84.05, "c17": 85.04, "c18": 93.38, "c19": 98.78, "c20": 100.75, "c21": 104.67, "c22": 112.04}; /*END CUES*/
+      const DUR = /*DUR*/ 120.3 /*END DUR*/;
+      const C = CUES;
+
+      window.__timelines = window.__timelines || {};
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
+      let done;
+      window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
+
+      // One continuous camera: START = s03 END, END = s05 START.
+      const CAM = [
+        { t: 0, lat: 26.4, lon: 56.8, alt: 900, tilt: 0, heading: 0 },
+        { t: C.c03 + 2.5, lat: 26.2, lon: 54.4, alt: 1600, tilt: 0, heading: 0 },
+        { t: C.c05, lat: 25.8, lon: 53.8, alt: 2100, tilt: 0, heading: 0 },
+        { t: C.c07, lat: 25.3, lon: 54.4, alt: 2500, tilt: 0, heading: 0 },
+        { t: C.c09 - 0.5, lat: 22.5, lon: 63.0, alt: 3400, tilt: 0, heading: 0 },
+        { t: C.c10 + 4, lat: 17.0, lon: 64.0, alt: 5500, tilt: 0, heading: 0 },
+        { t: C.c12, lat: 17.6, lon: 64.4, alt: 5400, tilt: 0, heading: 0 },
+        { t: C.c16, lat: 20.0, lon: 66.0, alt: 4400, tilt: 0, heading: 0 },
+        { t: C.c20, lat: 22.2, lon: 65.8, alt: 3600, tilt: 0, heading: 0 },
+        { t: C.c22, lat: 22.4, lon: 65.3, alt: 3700, tilt: 0, heading: 0 },
+        { t: DUR, lat: 22.0, lon: 66.0, alt: 3500, tilt: 0, heading: 0 },
+      ];
+
+      // Hormuz lane, extended across the Arabian Sea to India's west coast
+      const LANE = [[54.0,25.9],[55.0,26.1],[55.6,26.3],[56.2,26.55],[56.55,26.52],[56.85,26.2],[57.3,25.7],[57.9,25.25],[59.5,24.6],
+                    [62.5,23.6],[66.0,22.6],[69.0,21.6],[70.5,20.2],[72.0,19.4],[72.8,18.95]];
+      // routes from outside Hormuz (schematic sea routes)
+      const ROUTE_W = [[43.6,12.4],[47.5,12.6],[51.0,13.0],[55.5,13.8],[60.0,15.0],[65.0,16.6],[69.5,17.9],[72.6,18.85]];
+      const ROUTE_S = [[57.0,-6.0],[61.0,1.0],[64.5,7.0],[68.0,12.0],[71.0,16.2],[72.7,18.75]];
+
+      const earth = await createEarth({
+        canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["hormuz"],
+        lines: [{ id: "lane", pts: LANE, color: "#fbbf24", width: 5, dashed: true }],
+      });
+
+      // ---------- pure helpers (seek-safe: everything below is a function of t) ----------
+      const clamp01 = (x) => Math.max(0, Math.min(1, x));
+      const sm = (x) => { x = clamp01(x); return x * x * (3 - 2 * x); };
+      const env = (t, a, b, f = 0.4) => Math.min(sm((t - a) / f), sm((b - t) / f));
+      const out3 = (x) => 1 - Math.pow(1 - clamp01(x), 3);
+      const inOut2 = (x) => { x = clamp01(x); return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+      const backOut = (x) => { x = clamp01(x); const c = 1.70158; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+      const prog = (t, a, d) => clamp01((t - a) / d);
+      const NS = "http://www.w3.org/2000/svg";
+      const pins = document.getElementById("pins"), routesG = document.getElementById("routes"), labs = document.getElementById("labs");
+      const mk = (tag, at, parent) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); parent.appendChild(e); return e; };
+      const $ = (id) => document.getElementById(id);
+
+      function makePulse() {
+        const g = mk("g", { opacity: 0 }, pins);
+        const rings = [0, 1, 2].map(() => mk("circle", { r: 11, fill: "none", stroke: "#ff6b6b", "stroke-width": 2.5 }, g));
+        mk("circle", { r: 11, fill: "#ff6b6b" }, g);
+        mk("circle", { r: 4.5, fill: "#f8fafc" }, g);
+        return { g, rings };
+      }
+      const RA = [150 / 255, 90 / 255, 50 / 255, 0];
+      function placePulse(P, p, a, t) {
+        if (!p.visible || a <= 0.002) { P.g.setAttribute("opacity", 0); return; }
+        const ph = (t % 1.6) / 1.6;
+        P.g.setAttribute("opacity", a.toFixed(3));
+        P.g.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) scale(${(0.6 + 0.4 * backOut(a)).toFixed(3)})`);
+        P.rings.forEach((r, i) => {
+          r.setAttribute("r", (16 + (i + ph) * 12).toFixed(2));
+          r.setAttribute("stroke-opacity", (RA[i] + (RA[i + 1] - RA[i]) * ph).toFixed(3));
+        });
+      }
+      function makeLabel(text, dx, dy) {
+        const line = mk("line", { stroke: "#f8fafc", "stroke-opacity": 0, "stroke-width": 2 }, pins);
+        const dot = mk("circle", { r: 0, fill: "#f8fafc" }, pins);
+        const el = document.createElement("div"); el.className = "lab"; el.textContent = text; labs.appendChild(el);
+        return { line, dot, el, dx, dy };
+      }
+      function placeLabel(L, p, t, a0, a1) {
+        const a = p.visible ? env(t, a0, a1, 0.35) : 0;
+        const k = out3((t - a0) / 0.45);
+        const x2 = p.x + L.dx * k, y2 = p.y + L.dy * k;
+        L.line.setAttribute("x1", p.x.toFixed(1)); L.line.setAttribute("y1", p.y.toFixed(1));
+        L.line.setAttribute("x2", x2.toFixed(1)); L.line.setAttribute("y2", y2.toFixed(1));
+        L.line.setAttribute("stroke-opacity", (0.8 * a).toFixed(3));
+        L.dot.setAttribute("cx", x2.toFixed(1)); L.dot.setAttribute("cy", y2.toFixed(1));
+        L.dot.setAttribute("r", (5 * backOut((t - a0 - 0.2) / 0.35) * (a > 0 ? 1 : 0)).toFixed(2));
+        L.dot.setAttribute("opacity", a.toFixed(3));
+        const right = L.dx >= 0;
+        L.el.style.opacity = (a * prog(t, a0 + 0.25, 0.3)).toFixed(3);
+        L.el.style.transform = `translate(${(x2 + (right ? 14 : -14)).toFixed(1)}px, ${y2.toFixed(1)}px) translate(${right ? 0 : -100}%, -50%)`;
+      }
+      function makeTag(text) { const el = document.createElement("div"); el.className = "country"; el.textContent = text; labs.appendChild(el); return el; }
+      function placeTag(el, p, a) {
+        el.style.opacity = (p.visible ? a : 0).toFixed(3);
+        el.style.transform = `translate(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px) translate(-50%, -50%)`;
+      }
+      function densify(pts, step = 0.25) {
+        const o = [pts[0]];
+        for (let i = 1; i < pts.length; i++) {
+          const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
+          const n = Math.max(1, Math.ceil(Math.hypot(x1 - x0, y1 - y0) / step));
+          for (let j = 1; j <= n; j++) o.push([x0 + (x1 - x0) * j / n, y0 + (y1 - y0) * j / n]);
+        }
+        return o;
+      }
+      function makeRoute(pts, color) {
+        const path = mk("path", { fill: "none", stroke: color, "stroke-width": 5, "stroke-linecap": "round", "stroke-linejoin": "round", opacity: 0 }, routesG);
+        const head = mk("path", { d: "M-4,-12 L20,0 L-4,12 Z", fill: color, opacity: 0 }, routesG);
+        return { pts: densify(pts), path, head };
+      }
+      function placeRoute(R, k, a) {
+        if (a <= 0.002 || k <= 0.001) { R.path.setAttribute("opacity", 0); R.head.setAttribute("opacity", 0); return; }
+        const n = R.pts.length - 1, f = k * n, i = Math.min(n - 1, Math.floor(f)), fr = f - i;
+        const P = [];
+        for (let j = 0; j <= i; j++) P.push(earth.project(R.pts[j][1], R.pts[j][0], 0));
+        const A = R.pts[i], B = R.pts[i + 1];
+        P.push(earth.project(A[1] + (B[1] - A[1]) * fr, A[0] + (B[0] - A[0]) * fr, 0));
+        R.path.setAttribute("d", "M" + P.map((q) => q.x.toFixed(1) + "," + q.y.toFixed(1)).join(" L"));
+        R.path.setAttribute("opacity", a.toFixed(3));
+        const q1 = P[P.length - 1], q0 = P[Math.max(0, P.length - 3)];
+        const ang = Math.atan2(q1.y - q0.y, q1.x - q0.x) * 180 / Math.PI;
+        R.head.setAttribute("transform", `translate(${q1.x.toFixed(1)},${q1.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
+        R.head.setAttribute("opacity", (a * clamp01((k - 0.08) / 0.1)).toFixed(3));
+      }
+      const fmt = (v, d) => v.toFixed(d);
+      const countAt = (t, a, d, v0, v1, ease = out3) => v0 + (v1 - v0) * ease(prog(t, a, d));
+
+      // ---------- map furniture ----------
+      const HZ = { lat: 26.6, lon: 56.3 }, MUM = { lat: 18.95, lon: 72.83 };
+      const pHz = makePulse();
+      const lHz = makeLabel("Strait of Hormuz", 110, -72);
+      const tIran = makeTag("Iran"), tOman = makeTag("Oman"), tBharat = makeTag("Bharat"), tSea = makeTag("Arabian Sea");
+      const rW = makeRoute(ROUTE_W, "#fbbf24"), rS = makeRoute(ROUTE_S, "#fbbf24");
+      const oil = mk("circle", { r: 9, fill: "#fbbf24", opacity: 0 }, pins);
+      const oilRing = mk("circle", { r: 10, fill: "none", stroke: "#fbbf24", "stroke-width": 3, opacity: 0 }, pins);
+      const laneD = densify(LANE, 0.2);
+
+      // block windows [in, out] (out = start of the 0.4 s exit)
+      const W = {
+        b1: [C.c01 + 0.4, C.c03 - 0.45], b2: [C.c03 + 0.1, C.c05 - 0.45], b3: [C.c05 + 0.1, C.c07 - 0.45],
+        b4: [C.c07 + 0.1, C.c09 - 0.45], b5: [C.c09 + 0.1, C.c12 - 0.45], b6: [C.c12 + 0.1, C.c16 - 0.45],
+        b7: [C.c16 + 0.1, C.c20 - 0.45], b8: [C.c20 + 0.1, DUR - 1.3],
+      };
+
+      const scrim = $("scrim"), credit = $("credit");
+      const n887 = $("n887"), f887 = $("f887"), n50 = $("n50"), f50 = $("f50"), n90 = $("n90"), f90 = $("f90");
+      const n25 = $("n25"), n70 = $("n70"), n46 = $("n46"), n9696v = $("n9696v");
+      const barA = $("barA"), barB = $("barB"), vA = $("vA"), vB = $("vB");
+      const clipR = $("brentClipR"), btip = $("btip"), bl2 = $("bl2"), bl3 = $("bl3");
+      const BP = [[220, 832.4], [520, 554.7], [850, 660.8]];
+
+      const tl = gsap.timeline({ paused: true });
+      driveWithTimeline(tl, DUR, (t) => {
+        // lane: full, dims while the new routes take over, returns for the payoff
+        const laneA = 1 - 0.7 * sm((t - C.c09 - 0.3) / 1.2) + 0.5 * sm((t - C.c12) / 1.5) + 0.2 * sm((t - C.c22) / 0.8);
+        earth.setLineOpacity("lane", Math.min(1, laneA));
+        earth.render(camAt(CAM, t));
+
+        // camera drift keeps the scrim + credit honest
+        scrim.style.opacity = env(t, 0.6, DUR - 0.9, 0.6).toFixed(3);
+        credit.style.opacity = env(t, 0.4, DUR - 0.4, 0.4).toFixed(3);
+
+        // Hormuz pin + label + neighbours (first half)
+        const ph = earth.project(HZ.lat, HZ.lon, 0);
+        placePulse(pHz, ph, env(t, 0.3, C.c07 + 1.0, 0.6), t);
+        placeLabel(lHz, ph, t, C.c05 + 0.4, C.c07 + 0.6);
+        placeTag(tIran, earth.project(28.6, 56.8, 0), env(t, 1.2, C.c07 + 1.5, 0.5));
+        placeTag(tOman, earth.project(23.8, 57.4, 0), env(t, 8.0, C.c07 + 1.5, 0.5));
+        placeTag(tBharat, earth.project(21.5, 76.5, 0), env(t, C.c08 + 1.0, DUR - 0.9, 0.6));
+        placeTag(tSea, earth.project(17.0, 65.5, 0), env(t, C.c08 + 2.0, DUR - 0.9, 0.6));
+
+        // new routes from outside Hormuz
+        const rEnd = C.c22 - 0.5;
+        placeRoute(rW, inOut2(prog(t, C.c10 + 0.6, 3.6)), env(t, C.c10 + 0.6, rEnd, 0.3) * (1 - 0.55 * sm((t - C.c12) / 1.5)));
+        placeRoute(rS, inOut2(prog(t, C.c11 + 0.2, 3.0)), env(t, C.c11 + 0.2, rEnd, 0.3) * (1 - 0.55 * sm((t - C.c12) / 1.5)));
+
+        // payoff: one tanker of oil runs the lane into India
+        const ko = prog(t, C.c22 + 0.3, 5.0);
+        if (ko > 0 && ko < 1) {
+          const f = inOut2(ko) * (laneD.length - 1), i = Math.min(laneD.length - 2, Math.floor(f)), fr = f - i;
+          const A = laneD[i], B = laneD[i + 1];
+          const q = earth.project(A[1] + (B[1] - A[1]) * fr, A[0] + (B[0] - A[0]) * fr, 0);
+          oil.setAttribute("cx", q.x.toFixed(1)); oil.setAttribute("cy", q.y.toFixed(1));
+          oil.setAttribute("opacity", (sm(ko / 0.08) * sm((1 - ko) / 0.04)).toFixed(3));
+        } else oil.setAttribute("opacity", 0);
+        const kr = prog(t, C.c22 + 5.2, 1.6), qm = earth.project(MUM.lat, MUM.lon, 0);
+        oilRing.setAttribute("cx", qm.x.toFixed(1)); oilRing.setAttribute("cy", qm.y.toFixed(1));
+        oilRing.setAttribute("r", (10 + 60 * out3(kr)).toFixed(1));
+        oilRing.setAttribute("opacity", (kr > 0 ? (1 - kr) * env(t, 0, DUR - 0.6, 0.3) : 0).toFixed(3));
+
+        // B2 counter + fill land as one beat (count-up with scale growth)
+        const k887 = out3(prog(t, C.c03 + 0.7, 2.2));
+        n887.textContent = fmt(88.7 * k887, 1) + "%";
+        n887.style.transform = `scale(${(0.86 + 0.14 * k887).toFixed(4)})`;
+        f887.style.transform = `scaleX(${(0.887 * k887).toFixed(4)})`;
+        // B3
+        const k50 = out3(prog(t, C.c05 + 0.8, 1.8)), k90 = out3(prog(t, C.c06 + 0.5, 1.8));
+        n50.textContent = "~" + Math.round(50 * k50) + "%"; n50.style.transform = `scale(${(0.86 + 0.14 * k50).toFixed(4)})`;
+        f50.style.transform = `scaleX(${(0.5 * k50).toFixed(4)})`;
+        n90.textContent = "~" + Math.round(90 * k90) + "%"; n90.style.transform = `scale(${(0.86 + 0.14 * k90).toFixed(4)})`;
+        f90.style.transform = `scaleX(${(0.9 * k90).toFixed(4)})`;
+        // B4, B5
+        n25.textContent = "~" + Math.round(countAt(t, C.c08 + 0.5, 1.6, 0, 25)) + "%";
+        n70.textContent = "~" + Math.round(countAt(t, C.c10 + 0.4, 1.8, 0, 70)) + "%";
+
+        // B6: Brent line draws through its three real points
+        const k1 = inOut2(prog(t, C.c14 + 0.2, 2.0)), k2 = inOut2(prog(t, C.c15 + 0.2, 1.8));
+        let hx, hy;
+        if (k2 <= 0) { hx = BP[0][0] + (BP[1][0] - BP[0][0]) * k1; hy = BP[0][1] + (BP[1][1] - BP[0][1]) * k1; }
+        else { hx = BP[1][0] + (BP[2][0] - BP[1][0]) * k2; hy = BP[1][1] + (BP[2][1] - BP[1][1]) * k2; }
+        clipR.setAttribute("width", Math.max(0, hx - 96 + 4).toFixed(1));
+        const moving = (k1 > 0 && k1 < 1) || (k2 > 0 && k2 < 1);
+        btip.setAttribute("cx", hx.toFixed(1)); btip.setAttribute("cy", hy.toFixed(1));
+        btip.setAttribute("opacity", moving ? 1 : 0);
+        $("bp1").setAttribute("r", (9 * backOut(prog(t, C.c13 + 0.3, 0.4))).toFixed(2));
+        $("bp2").setAttribute("r", (11 * backOut(prog(t, C.c14 + 2.15, 0.4))).toFixed(2));
+        $("bp3").setAttribute("r", (9 * backOut(prog(t, C.c15 + 1.95, 0.4))).toFixed(2));
+        // tip labels ride the head and settle on their point
+        bl2.style.opacity = ((k1 > 0 ? 1 : 0) * env(t, 0, W.b6[1] + 0.35, 0.35)).toFixed(3);
+        bl2.style.transform = `translate(${(BP[0][0] + (BP[1][0] - BP[0][0]) * k1 - 520).toFixed(1)}px, ${(BP[0][1] + (BP[1][1] - BP[0][1]) * k1 - 92).toFixed(1)}px)`;
+        bl2.textContent = k1 >= 1 ? "$126.41" : "$" + (73 + (126.41 - 73) * k1).toFixed(0);
+        bl3.style.opacity = (clamp01(k2 / 0.15) * env(t, 0, W.b6[1] + 0.35, 0.35)).toFixed(3);
+        bl3.style.transform = `translate(${(BP[1][0] + (BP[2][0] - BP[1][0]) * k2 - 850).toFixed(1)}px, ${(BP[1][1] + (BP[2][1] - BP[1][1]) * k2 - 92).toFixed(1)}px)`;
+        bl3.textContent = k2 >= 1 ? "~$106" : "$" + (126.41 + (106 - 126.41) * k2).toFixed(0);
+
+        // B7: PPAC bars grow with their counters (90.6 first, then 61.9, then +46 %)
+        const kB = out3(prog(t, C.c17 + 0.4, 2.0)), kA = out3(prog(t, C.c18 + 0.3, 1.8));
+        barB.style.transform = `scaleY(${kB.toFixed(4)})`; barA.style.transform = `scaleY(${kA.toFixed(4)})`;
+        vB.textContent = "$" + fmt(90.6 * kB, 1) + " bn"; vA.textContent = "$" + fmt(61.9 * kA, 1) + " bn";
+        vB.style.transform = `translateY(${(900 - 362 * kB - 82).toFixed(1)}px)`; vA.style.transform = `translateY(${(900 - 248 * kA - 82).toFixed(1)}px)`;
+        vB.style.opacity = kB > 0 ? 1 : 0; vA.style.opacity = kA > 0 ? 1 : 0;
+        const k46 = out3(prog(t, C.c19 + 0.2, 1.2));
+        n46.textContent = "+" + Math.round(46 * k46) + "%"; n46.style.transform = `scale(${(0.86 + 0.14 * k46).toFixed(4)})`;
+
+        // B8: rupee stamp
+        n9696v.textContent = fmt(countAt(t, C.c21 + 0.5, 1.4, 90, 96.96), 2);
+      });
+
+      // ---------- text blocks (one paused timeline) ----------
+      const ruleIn = (el, at) => tl.fromTo(el, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, at);
+      const fadeIn = (el, at, d = 0.4) => tl.fromTo(el, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: d, ease: "power2.out" }, at);
+      const riseIn = (el, at) => tl.fromTo(el, { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, at);
+      const riseOut = (el, at) => tl.fromTo(el, { yPercent: 0 }, { yPercent: -105, duration: 0.4, ease: "power2.in", immediateRender: false }, at);
+      const fadeOut = (el, at) => tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, at);
+      const popIn = (el, at) => tl.fromTo(el, { scale: 1.25, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" }, at);
+      function kickIn(id, at) { const b = $(id); ruleIn(b.querySelector(".kicker i"), at); fadeIn(b.querySelector(".kicker span"), at + 0.15); }
+      function blockOut(id) {
+        const b = $(id), at = W[id][1];
+        b.querySelectorAll(".mask > *:not(.gone)").forEach((e) => riseOut(e, at));
+        b.querySelectorAll(".fo").forEach((e) => fadeOut(e, at));
+        fadeOut(b.querySelector(".kicker"), at);
+      }
+      const H = (id, i) => $(id).querySelectorAll(".mask > *")[i];
+
+      // B1
+      kickIn("b1", W.b1[0]);
+      riseIn(H("b1", 0), W.b1[0] + 0.3);
+      riseIn($("b1a"), W.b1[0] + 0.45);
+      $("b1a").classList.add("gone");
+      riseOut($("b1a"), C.c02 - 0.1);
+      riseIn($("b1b"), C.c02 + 0.15);
+      blockOut("b1");
+
+      // B2 (88.7 %)
+      kickIn("b2", W.b2[0]);
+      riseIn($("n887w"), W.b2[0] + 0.3);
+      fadeIn($("b2").querySelector(".sub"), C.c03 + 1.4);
+      fadeIn($("b2").querySelector(".track"), C.c03 + 0.6);
+      fadeIn($("b2src"), C.c04 + 0.2);
+      blockOut("b2");
+
+      // B3 (~50 %, ~90 %)
+      kickIn("b3", W.b3[0]);
+      riseIn($("n50w"), C.c05 + 0.5);
+      fadeIn($("b3ua"), C.c05 + 1.2); fadeIn($("b3ta"), C.c05 + 0.7);
+      riseIn($("n90w"), C.c06 + 0.25);
+      fadeIn($("b3ub"), C.c06 + 0.9); fadeIn($("b3tb"), C.c06 + 0.4);
+      fadeIn($("b3src"), C.c06 + 2.0);
+      blockOut("b3");
+
+      // B4 (LPG ~25 %)
+      kickIn("b4", W.b4[0]);
+      riseIn(H("b4", 0), W.b4[0] + 0.3); riseIn(H("b4", 1), W.b4[0] + 0.42);
+      riseIn($("b4row"), C.c08 + 0.3);
+      fadeIn($("b4u"), C.c08 + 1.2); fadeIn($("b4src"), C.c08 + 2.4);
+      blockOut("b4");
+
+      // B5 (~70 % outside Hormuz)
+      kickIn("b5", W.b5[0]);
+      riseIn(H("b5", 0), W.b5[0] + 0.3); riseIn(H("b5", 1), W.b5[0] + 0.42);
+      riseIn(n70, C.c10 + 0.2);
+      fadeIn($("b5u"), C.c10 + 1.2); fadeIn($("b5src"), C.c10 + 2.6);
+      blockOut("b5");
+
+      // B6 (Brent)
+      kickIn("b6", W.b6[0]);
+      riseIn(H("b6", 0), W.b6[0] + 0.3);
+      tl.fromTo("#brent", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, C.c13 - 0.2);
+      tl.fromTo("#brent", { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, W.b6[1]);
+      popIn($("bl1"), C.c13 + 0.45);
+      fadeOut($("bl1"), W.b6[1]);
+      fadeIn($("bd1"), C.c13 + 0.6); fadeIn($("bd2"), C.c14 + 1.6); fadeIn($("bd3"), C.c15 + 1.4);
+      fadeIn($("b6src"), C.c15 + 2.4);
+      blockOut("b6");
+
+      // B7 (PPAC bars, the approved still)
+      kickIn("b7", W.b7[0]);
+      riseIn(H("b7", 0), W.b7[0] + 0.3);
+      fadeIn($("b7b"), C.c17 + 0.2); fadeIn($("b7a"), C.c18 + 0.1);
+      riseIn($("n46w"), C.c19 + 0.05);
+      fadeIn($("b7u"), C.c19 + 0.7); fadeIn($("b7src"), C.c19 + 1.2);
+      blockOut("b7");
+
+      // B8 (rupee)
+      kickIn("b8", W.b8[0]);
+      riseIn(H("b8", 0), W.b8[0] + 0.3); riseIn(H("b8", 1), W.b8[0] + 0.42);
+      riseIn($("n9696"), C.c21 + 0.3);
+      fadeIn($("b8u"), C.c21 + 1.4); fadeIn($("b8src"), C.c21 + 2.4);
+      blockOut("b8");
+
+      window.__timelines["main"] = tl;
+      done();
+    </script>
+  </body>
+</html>

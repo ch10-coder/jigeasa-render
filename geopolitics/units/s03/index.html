@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.min.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+    <style>
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.ttf") format("truetype"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
+      #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+      #s03-fx { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: visible; }
+      .scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,0) 55%); }
+      .scrim-b { position: absolute; left: 0; right: 0; bottom: 0; height: 300px; background: linear-gradient(0deg, rgba(4,9,27,.78) 0%, rgba(4,9,27,.6) 45%, rgba(4,9,27,0) 100%); }
+      .block { position: absolute; left: 96px; top: 150px; width: 1000px; }
+      .kicker { display: flex; align-items: center; gap: 16px; font: 700 28px Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase;
+                text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); white-space: nowrap; }
+      .kicker i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
+      .mask { overflow: hidden; }
+      .gap { height: 22px; }
+      .h { font: 400 180px/1.04 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
+           text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .h.k { color: #ff6b6b; }
+      .sub { margin-top: 20px; font: 500 40px Inter; color: rgba(226,232,240,.94); white-space: nowrap;
+             text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .sub2 { margin-top: 8px; }
+      .geo { position: absolute; left: 0; top: 0; white-space: nowrap; opacity: 0; font: 600 28px Inter; letter-spacing: 9px; color: rgba(226,232,240,.94);
+             text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 14px rgba(2,6,16,.55); }
+      .geo.sea { font-size: 22px; letter-spacing: 7px; color: rgba(186,230,253,.86); }
+      .geo.src { font: 700 22px Inter; letter-spacing: 5px; color: #f8fafc; }
+      #s03-tl { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+      .tl-base { position: absolute; left: 150px; top: 929px; width: 1600px; height: 2px; background: rgba(226,232,240,.35); transform-origin: left center; }
+      .tl-fill { position: absolute; left: 150px; top: 928px; width: 1600px; height: 4px; background: #fbbf24; transform-origin: left center; }
+      .node { position: absolute; top: 868px; width: 300px; text-align: center; }
+      .node .d { font: 700 26px/1 Inter; letter-spacing: 4px; color: #fbbf24; text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.75); }
+      .node .dot { width: 14px; height: 14px; border-radius: 50%; background: #fbbf24; margin: 27px auto 0; box-shadow: 0 0 0 4px rgba(251,191,36,.18); }
+      .node .x { margin-top: 18px; font: 500 26px/1 Inter; color: rgba(226,232,240,.94); text-shadow: 0 3px 2.5px rgba(2,6,16,.75); white-space: nowrap; }
+      .credit { position: absolute; left: 0; right: 0; top: 1028px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px;
+                text-shadow: 0 2px 2px rgba(2,6,16,.7); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="87.9" data-width="1920" data-height="1080">
+      <canvas id="earth"></canvas>
+      <div class="scrim" id="s03-scrim"></div>
+      <div class="scrim-b" id="s03-scrim-b"></div>
+      <svg id="s03-fx" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+        <g id="s03-arrows"></g>
+        <g id="s03-flow"></g>
+        <g id="s03-pulses"></g>
+      </svg>
+      <div id="s03-labels"></div>
+
+      <!-- block 1: the strait -->
+      <div class="block" id="s03-b1">
+        <div class="kicker"><i id="s03-rule1"></i><span id="s03-kick1">Strait of Hormuz</span></div>
+        <div class="gap"></div>
+        <div class="mask"><div class="h" id="s03-h1">Hormuz</div></div>
+        <div class="mask"><div class="h k" id="s03-h2">Band.</div></div>
+        <div class="mask"><div class="sub" id="s03-sub1">Iran aur Oman ke beech samundar ka tang raasta</div></div>
+      </div>
+      <!-- block 2: October attacks (UKMTO) -->
+      <div class="block" id="s03-b2">
+        <div class="kicker"><i id="s03-rule2"></i><span id="s03-kick2">October 2026</span></div>
+        <div class="gap"></div>
+        <div class="mask"><div class="h" id="s03-h3"><span id="s03-count">0</span></div></div>
+        <div class="mask"><div class="h k" id="s03-h4">Hamle.</div></div>
+        <div class="mask"><div class="sub" id="s03-sub2">6–14 Oct &nbsp;·&nbsp; UKMTO</div></div>
+        <div class="mask"><div class="sub sub2" id="s03-sub3">11 aakhri 4 dinon mein</div></div>
+      </div>
+
+      <!-- timeline strip FEB -> OCT -->
+      <div id="s03-tl">
+        <div class="tl-base" id="s03-tl-base"></div>
+        <div class="tl-fill" id="s03-tl-fill"></div>
+      </div>
+
+      <div class="credit" id="s03-cr-a">NASA Blue Marble &nbsp;·&nbsp; Borders: DataMeet, Natural Earth (India view)</div>
+      <div class="credit" id="s03-cr-b">NASA Blue Marble &nbsp;·&nbsp; Sentinel-2 cloudless 2016 by EOX (CC BY 4.0) &nbsp;·&nbsp; DataMeet &nbsp;·&nbsp; Natural Earth (India view)</div>
+    </div>
+    <script type="module">
+      import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
+      /*CUES*/ const CUES = {"c01": 0.6, "c02": 2.07, "c03": 7.96, "c04": 12.38, "c05": 21.22, "c06": 24.65, "c07": 33.98, "c08": 39.87, "c09": 50.67, "c10": 55.58, "c11": 58.53, "c12": 65.89, "c13": 68.84, "c14": 72.76, "c15": 83.07}; /*END CUES*/
+      const DUR = /*DUR*/ 87.9 /*END DUR*/;
+      const C = CUES;
+
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
+      window.__timelines = window.__timelines || {};
+      let done;
+      window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
+
+      // ---------- camera: START (27,58,14000) -> dive into the strait -> tilt for the lane -> pull back west over the Gulf states
+      //            -> dive back for "band" -> slow drift under the timeline -> push for the October attacks -> END (26.4,56.8,900)
+      const CAM = [
+        { t: 0, lat: 27, lon: 58, alt: 14000, tilt: 0, heading: 0 },
+        { t: C.c02 + 2.6, lat: 26.3, lon: 56.4, alt: 1100, tilt: 0, heading: 0, ease: "inOut3" },     // dive (from space into the Gulf)
+        { t: C.c03 + 1.8, lat: 26.45, lon: 56.5, alt: 950, tilt: 18, heading: 0 },                     // tilt along the lane
+        { t: C.c04 + 2.8, lat: 27.0, lon: 52.6, alt: 2600, tilt: 0, heading: 0 },                      // pull back west: Gulf states
+        { t: C.c05 - 0.4, lat: 27.1, lon: 52.3, alt: 2450, tilt: 0, heading: 0, ease: "linear" },
+        { t: C.c05 + 2.8, lat: 26.25, lon: 56.45, alt: 1000, tilt: 0, heading: 0 },                    // back to the strait: "band"
+        { t: C.c09, lat: 26.2, lon: 56.6, alt: 940, tilt: 0, heading: 0, ease: "linear" },
+        { t: C.c13, lat: 26.35, lon: 56.85, alt: 1050, tilt: 0, heading: 0, ease: "linear" },
+        { t: C.c14 + 4.4, lat: 26.3, lon: 56.9, alt: 880, tilt: 0, heading: 0 },                       // push in on the attacks
+        { t: DUR, lat: 26.4, lon: 56.8, alt: 900, tilt: 0, heading: 0, ease: "linear" },               // hand-off
+      ];
+
+      const clamp01 = (x) => Math.max(0, Math.min(1, x));
+      const ramp = (t, a, d) => clamp01((t - a) / d);
+      const smooth = (x) => x * x * (3 - 2 * x);
+      const win = (t, a, b, fi = 0.45, fo = 0.45) => Math.min(smooth(ramp(t, a, fi)), 1 - smooth(ramp(t, b, fo)));
+      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+      const NS = "http://www.w3.org/2000/svg";
+      const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+
+      function makePulse(layer, maxR = 42) {
+        const g = el("g", { opacity: 0 }, layer);
+        const rings = [150, 90, 50].map((a) => ({ a: a / 255, c: el("circle", { r: 11, fill: "none", stroke: "#ff6b6b", "stroke-width": 2.5 }, g) }));
+        const dot = el("circle", { r: 11, fill: "#ff6b6b" }, g);
+        el("circle", { r: 4.5, fill: "#f8fafc" }, g);
+        return { g, rings, dot, maxR };
+      }
+      function drawPulse(P, p, t, tOn, alpha) {
+        const a = alpha * (t >= tOn ? 1 : 0) * (p.visible ? 1 : 0);
+        if (a <= 0.002) { P.g.setAttribute("opacity", 0); return; }
+        const k = clamp01((t - tOn) / 0.45);
+        const s = k >= 1 ? 1 : Math.max(0, backOut(k));
+        P.g.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) scale(${s.toFixed(3)})`);
+        P.g.setAttribute("opacity", a.toFixed(3));
+        P.dot.setAttribute("r", (11 * (1 + 0.07 * Math.sin((t - tOn) * Math.PI * 2 / 1.6))).toFixed(2));
+        for (let i = 0; i < 3; i++) {
+          const ph = ((((t - tOn) / 1.6 + i / 3) % 1) + 1) % 1;
+          P.rings[i].c.setAttribute("r", (11 + (P.maxR - 11) * ph).toFixed(1));
+          P.rings[i].c.setAttribute("stroke-opacity", (Math.min(1, P.rings[i].a * 1.6) * (1 - ph) * 0.8).toFixed(3));
+        }
+      }
+
+      // ---------- shipping lane (lon, lat) + a point at fraction u along it (returns [lat, lon])
+      const LANE = [[54.0,25.9],[55.0,26.1],[55.6,26.3],[56.2,26.55],[56.55,26.52],[56.85,26.2],[57.3,25.7],[57.9,25.25],[59.5,24.6]];
+      const segL = []; let laneLen = 0;
+      for (let i = 1; i < LANE.length; i++) { const d = Math.hypot(LANE[i][0] - LANE[i - 1][0], LANE[i][1] - LANE[i - 1][1]); segL.push(d); laneLen += d; }
+      function laneAt(u, off = 0) {
+        let s = clamp01(u) * laneLen;
+        for (let i = 0; i < segL.length; i++) {
+          if (s <= segL[i] || i === segL.length - 1) {
+            const f = Math.min(1, s / segL[i]), a = LANE[i], b = LANE[i + 1];
+            const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy);
+            return [a[1] + dy * f + (dx / L) * off, a[0] + dx * f - (dy / L) * off];
+          }
+          s -= segL[i];
+        }
+      }
+
+      const fx = { arrows: document.getElementById("s03-arrows"), flow: document.getElementById("s03-flow"), pulses: document.getElementById("s03-pulses") };
+
+      // Hormuz hotspot carried over from the ranking; it hands over to the lane as the camera dives
+      const hotspot = makePulse(fx.pulses, 42);
+
+      // ---------- Gulf producers -> the lane ("Saudi Arabia, Iraq, Kuwait, Qatar aur UAE")
+      const ARROW_END = C.c05 - 0.7;
+      const SRC = [
+        { name: "Saudi Arabia", ll: [26.65, 50.15], to: [26.02, 54.7], on: C.c04 + 1.1, dy: 34 },
+        { name: "Iraq", ll: [30.05, 48.4], to: [26.08, 54.85], on: C.c04 + 1.9, dy: -34 },
+        { name: "Kuwait", ll: [29.2, 48.0], to: [26.05, 54.8], on: C.c04 + 2.6, dy: 34 },
+        { name: "Qatar", ll: [25.75, 51.5], to: [25.98, 54.6], on: C.c04 + 3.3, dy: 34 },
+        { name: "UAE", ll: [24.45, 54.4], to: [25.98, 54.95], on: C.c04 + 4.0, dy: 34 },
+      ];
+      const AN = 36;
+      for (const [i, s] of SRC.entries()) {
+        const [la0, lo0] = s.ll, [la1, lo1] = s.to;
+        const dx = lo1 - lo0, dy = la1 - la0, len = Math.hypot(dx, dy), bow = 0.16 * len * (i % 2 ? -1 : 1);
+        s.pts = [];
+        for (let j = 0; j <= AN; j++) { const u = j / AN, b = Math.sin(Math.PI * u) * bow; s.pts.push([la0 + dy * u - (dx / len) * b, lo0 + dx * u + (dy / len) * b]); }
+        s.path = el("path", { fill: "none", stroke: "#fbbf24", "stroke-width": 3.5, "stroke-linecap": "round", opacity: 0 }, fx.arrows);
+        s.head = el("polygon", { points: "0,0 -16,-8 -16,8", fill: "#fbbf24", opacity: 0 }, fx.arrows);
+        s.dot = el("circle", { r: 6, fill: "#fbbf24", stroke: "#04091b", "stroke-width": 2, opacity: 0 }, fx.arrows);
+      }
+      // oil moving out through the strait (stops on "band")
+      const FLOW = Array.from({ length: 10 }, () => el("circle", { r: 5.5, fill: "#fde68a", stroke: "#b45309", "stroke-width": 1.5, opacity: 0 }, fx.flow));
+      const FLOW_ON = C.c04 + 4.2, FLOW_STOP = C.c05 + 0.3;
+
+      // ---------- attacks on the lane: July (3) and October (15, UKMTO 6–14 Oct; the last 11 in the final four days)
+      const JULY = [0.40, 0.52, 0.60].map((u, k) => ({ ll: laneAt(u, k % 2 ? 0.05 : -0.05), on: C.c11 + 0.8 + k * 0.3, p: makePulse(fx.pulses, 36) }));
+      const OCT_U = [0.30, 0.62, 0.41, 0.55, 0.35, 0.68, 0.47, 0.33, 0.58, 0.44, 0.64, 0.38, 0.52, 0.70, 0.49];
+      const COUNT_ON = C.c14 + 4.8, COUNT_STEP = 0.24;
+      const OCT = OCT_U.map((u, k) => ({ ll: laneAt(u, (k % 3 - 1) * 0.06), on: COUNT_ON + k * COUNT_STEP, p: makePulse(fx.pulses, 30) }));
+
+      // ---------- map labels (pure functions of t; leave when the camera moves on)
+      const LBL = document.getElementById("s03-labels");
+      const mkLabel = (txt, cls) => { const d = document.createElement("div"); d.className = "geo " + cls; d.textContent = txt; LBL.appendChild(d); return d; };
+      const HOLD_A = C.c05 + 2.6, HOLD_B = DUR - 1.1;
+      const LABELS = [
+        { el: mkLabel("Iran", ""), ll: [27.45, 57.7], vis: (t) => Math.max(win(t, C.c02 + 0.6, C.c04 + 0.4), win(t, HOLD_A, HOLD_B, 0.6, 0.5)) },
+        { el: mkLabel("Oman", ""), ll: [25.25, 56.1], vis: (t) => Math.max(win(t, C.c02 + 1.2, C.c04 + 0.4), win(t, HOLD_A + 0.2, HOLD_B, 0.6, 0.5)) },
+        { el: mkLabel("Persian Gulf", "sea"), ll: [26.75, 54.55], vis: (t) => win(t, C.c03 + 0.3, C.c04 + 0.6) },
+        { el: mkLabel("Gulf of Oman", "sea"), ll: [25.15, 58.35], vis: (t) => win(t, C.c03 + 1.8, C.c04 + 0.6) },
+        ...SRC.map((s) => ({ el: mkLabel(s.name, "src"), ll: s.ll, dy: s.dy, vis: (t) => win(t, s.on, ARROW_END, 0.35, 0.5) })),
+      ];
+
+      // ---------- timeline strip: 7 milestones, each lands on its voice cue
+      const TL = [
+        { d: "28 Feb", x: "Jung shuru", at: C.c06 + 1.2 },
+        { d: "March", x: "Raasta band", at: C.c07 + 1.2 },
+        { d: "13 Apr", x: "US blockade", at: C.c08 + 3.0 },
+        { d: "June", x: "Samjhauta", at: C.c09 + 0.3 },
+        { d: "July", x: "Toot gaya", at: C.c11 + 0.6 },
+        { d: "August", x: "Blockade wapas", at: C.c12 + 0.3 },
+        { d: "6–14 Oct", x: "15 hamle", at: C.c14 + 4.6 },
+      ];
+      const tlEl = document.getElementById("s03-tl");
+      TL.forEach((n, i) => {
+        const x = 150 + i * (1600 / 6);
+        const d = document.createElement("div");
+        d.className = "node"; d.style.left = (x - 150) + "px";
+        d.innerHTML = `<div class="d" id="s03-n${i}d">${n.d}</div><div class="dot" id="s03-n${i}o"></div><div class="x" id="s03-n${i}x">${n.x}</div>`;
+        tlEl.appendChild(d);
+      });
+
+      const earth = await createEarth({
+        canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["hormuz"],
+        lines: [{ id: "lane", pts: LANE, color: "#fbbf24", width: 5, dashed: true }],
+      });
+      const tl = gsap.timeline({ paused: true });
+      const crA = document.getElementById("s03-cr-a"), crB = document.getElementById("s03-cr-b");
+      const countEl = document.getElementById("s03-count");
+
+      const drawCurve = (pts, k) => {
+        const N = pts.length - 1, last = k * N, jn = Math.floor(last);
+        let d = "", pen = false, tip = null, prev = null;
+        for (let j = 0; j <= Math.min(N, jn + 1); j++) {
+          let q = pts[j];
+          if (j > last) { const p0 = pts[j - 1], fr = last - (j - 1); q = [p0[0] + (q[0] - p0[0]) * fr, p0[1] + (q[1] - p0[1]) * fr]; }
+          const p = earth.project(q[0], q[1], 0);
+          if (!p.visible) { pen = false; continue; }
+          d += (pen ? "L" : "M") + p.x.toFixed(1) + " " + p.y.toFixed(1);
+          pen = true; prev = tip; tip = p;
+        }
+        return { d, tip, prev };
+      };
+
+      driveWithTimeline(tl, DUR, (t) => {
+        earth.render(camAt(CAM, t));
+        // the lane: bright while oil flows, dims on "band", hope on "khul jaayega", dims again in July
+        let lane = 1 - 0.55 * smooth(ramp(t, C.c05 + 0.5, 0.8));
+        lane += 0.45 * smooth(ramp(t, C.c10 + 0.3, 0.8)) - 0.5 * smooth(ramp(t, C.c11 + 0.5, 0.8));
+        earth.setLineOpacity("lane", Math.max(0.35, Math.min(1, lane)) * smooth(ramp(t, C.c01, 1.6)));
+        // credits follow the imagery on screen
+        const kb = smooth(ramp(t, C.c02, 1.2));
+        crA.style.opacity = (1 - kb).toFixed(3); crB.style.opacity = kb.toFixed(3);
+
+        drawPulse(hotspot, earth.project(26.6, 56.3, 0), t, -1, 1 - smooth(ramp(t, C.c01 + 0.4, 2.4)));
+
+        // producer arrows draw on, arrowhead rides the tip
+        for (const s of SRC) {
+          const a = win(t, s.on, ARROW_END, 0.25, 0.5);
+          const k = smooth(ramp(t, s.on, 1.3));
+          const o = earth.project(s.ll[0], s.ll[1], 0);
+          s.dot.setAttribute("cx", o.x.toFixed(1)); s.dot.setAttribute("cy", o.y.toFixed(1));
+          s.dot.setAttribute("opacity", (a * (o.visible ? 1 : 0)).toFixed(3));
+          if (a <= 0.002 || k <= 0.01) { s.path.setAttribute("opacity", 0); s.head.setAttribute("opacity", 0); continue; }
+          const c = drawCurve(s.pts, k);
+          s.path.setAttribute("d", c.d); s.path.setAttribute("opacity", (0.95 * a).toFixed(3));
+          if (c.tip && c.prev) {
+            const ang = Math.atan2(c.tip.y - c.prev.y, c.tip.x - c.prev.x) * 180 / Math.PI;
+            s.head.setAttribute("transform", `translate(${c.tip.x.toFixed(1)},${c.tip.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
+            s.head.setAttribute("opacity", (0.95 * a).toFixed(3));
+          } else s.head.setAttribute("opacity", 0);
+        }
+        // oil flowing out of the Gulf along the lane, freezes and fades on "band"
+        const ft = Math.min(t, FLOW_STOP) - FLOW_ON;
+        const fa = win(t, FLOW_ON, FLOW_STOP + 0.2, 0.5, 0.9);
+        FLOW.forEach((c, i) => {
+          if (fa <= 0.002) { c.setAttribute("opacity", 0); return; }
+          const u = ((ft * 0.075 + i / FLOW.length) % 1 + 1) % 1;
+          const ll = laneAt(u), p = earth.project(ll[0], ll[1], 0);
+          c.setAttribute("cx", p.x.toFixed(1)); c.setAttribute("cy", p.y.toFixed(1));
+          c.setAttribute("opacity", (fa * (p.visible ? 1 : 0) * Math.min(1, u * 8, (1 - u) * 8)).toFixed(3));
+        });
+
+        // July attacks: pop on "phir se jahaazon par hamle", fade as August/October take over
+        for (const j of JULY) drawPulse(j.p, earth.project(j.ll[0], j.ll[1], 0), t, j.on, (1 - 0.6 * smooth(ramp(t, C.c12 + 0.5, 1))) * (1 - smooth(ramp(t, COUNT_ON - 0.6, 0.8))));
+        // October: 15 pulses multiply in step with the counter; the first 4 dim when "11 in the last four days" is said
+        let popped = 0;
+        OCT.forEach((o, k) => {
+          if (t >= o.on) popped++;
+          const dim = k < 4 ? 1 - 0.65 * smooth(ramp(t, C.c15 + 0.4, 0.6)) : 1;
+          drawPulse(o.p, earth.project(o.ll[0], o.ll[1], 0), t, o.on, dim * (1 - smooth(ramp(t, DUR - 1.0, 0.8))));
+        });
+        countEl.textContent = String(Math.max(1, popped));
+
+        for (const L of LABELS) {
+          const a = L.vis(t);
+          if (a <= 0.002) { L.el.style.opacity = 0; continue; }
+          const p = earth.project(L.ll[0], L.ll[1], 0);
+          L.el.style.opacity = (p.visible ? a : 0).toFixed(3);
+          L.el.style.transform = `translate(${p.x.toFixed(1)}px, ${(p.y + (L.dy || 0)).toFixed(1)}px) translate(-50%, -50%)`;
+        }
+      });
+
+      // ---------- block 1: "HORMUZ / BAND." lands on "lagbhag band hai"
+      const B1 = C.c05 + 0.4;
+      tl.fromTo("#s03-scrim", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, B1 - 0.2);
+      tl.fromTo("#s03-rule1", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, B1);
+      tl.fromTo("#s03-kick1", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, B1 + 0.15);
+      tl.fromTo("#s03-h1", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, B1 + 0.3);
+      tl.fromTo("#s03-h2", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, B1 + 0.42);
+      tl.fromTo("#s03-sub1", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, B1 + 0.9);
+      tl.fromTo("#s03-b1", { scale: 1 }, { scale: 1.025, duration: C.c13 - B1, ease: "none", transformOrigin: "0% 50%" }, B1);
+      const X1 = C.c13 + 0.2;
+      tl.to(["#s03-h1", "#s03-h2"], { yPercent: -100, duration: 0.4, ease: "power2.in", stagger: 0.08 }, X1);
+      tl.to("#s03-sub1", { opacity: 0, y: -16, duration: 0.35, ease: "power2.in" }, X1);
+      tl.to(["#s03-kick1", "#s03-rule1"], { opacity: 0, duration: 0.35, ease: "power2.in" }, X1 + 0.1);
+
+      // ---------- block 2: UKMTO counter (scrim stays up between the two blocks)
+      tl.fromTo("#s03-rule2", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, C.c14 + 0.8);
+      tl.fromTo("#s03-kick2", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, C.c14 + 0.95);
+      tl.fromTo("#s03-h3", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, COUNT_ON - 0.15);
+      tl.fromTo("#s03-h4", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, COUNT_ON - 0.03);
+      tl.fromTo("#s03-sub2", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, COUNT_ON + 14 * COUNT_STEP + 0.3);
+      tl.fromTo("#s03-sub3", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, C.c15 + 0.4);
+      tl.fromTo("#s03-b2", { scale: 1 }, { scale: 1.02, duration: DUR - 1.6 - C.c14, ease: "none", transformOrigin: "0% 50%" }, C.c14);
+      const X2 = DUR - 1.6;
+      tl.to(["#s03-h3", "#s03-h4"], { yPercent: -100, duration: 0.4, ease: "power2.in", stagger: 0.08 }, X2);
+      tl.to(["#s03-sub2", "#s03-sub3"], { opacity: 0, y: -16, duration: 0.35, ease: "power2.in" }, X2);
+      tl.to(["#s03-kick2", "#s03-rule2"], { opacity: 0, duration: 0.35, ease: "power2.in" }, X2 + 0.1);
+      tl.to("#s03-scrim", { opacity: 0, duration: 0.7, ease: "power1.inOut" }, X2 + 0.2);
+
+      // ---------- timeline strip: base line draws, the amber fill advances node to node
+      const T0 = C.c06 + 0.4;
+      tl.fromTo("#s03-scrim-b", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, T0 - 0.3);
+      tl.fromTo("#s03-tl-base", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power2.inOut" }, T0);
+      tl.fromTo("#s03-tl-fill", { scaleX: 0 }, { scaleX: 0, duration: 0.01 }, T0);
+      TL.forEach((n, i) => {
+        if (i > 0) tl.to("#s03-tl-fill", { scaleX: i / 6, duration: 0.7, ease: "power2.inOut" }, n.at - 0.5);
+        tl.fromTo(`#s03-n${i}o`, { scale: 0 }, { scale: 1, duration: 0.45, ease: "back.out(2.4)" }, n.at);
+        tl.fromTo(`#s03-n${i}d`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, n.at + 0.08);
+        tl.fromTo(`#s03-n${i}x`, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, n.at + 0.2);
+      });
+      tl.to("#s03-tl", { opacity: 0, duration: 0.5, ease: "power1.in" }, DUR - 1.5);
+      tl.to("#s03-scrim-b", { opacity: 0, duration: 0.7, ease: "power1.inOut" }, DUR - 1.4);
+
+      window.__timelines["main"] = tl;
+      done();
+    </script>
+  </body>
+</html>

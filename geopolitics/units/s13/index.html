@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.min.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+    <style>
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.ttf") format("truetype"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #04070f; }
+      #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+      #s13-fx { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+      #s13-glow { position: absolute; left: 0; top: 0; width: 440px; height: 440px; margin: -220px 0 0 -220px; border-radius: 50%;
+                  background: radial-gradient(closest-side, rgba(45,212,191,.42), rgba(45,212,191,.16) 45%, rgba(45,212,191,0) 100%);
+                  mix-blend-mode: screen; opacity: 0; }
+      .s13-card { position: absolute; inset: 0; }
+      .s13-dim { position: absolute; inset: 0; background: rgba(4,7,15,.34); }
+      .s13-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,0) 55%); }
+      .s13-block { position: absolute; left: 96px; top: 308px; width: 1200px; }
+      .s13-mask { overflow: hidden; }
+      .s13-h { font: 400 110px/1.09 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
+               text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .s13-h.s13-k { color: #fbbf24; }
+      .s13-sub { position: absolute; left: 96px; top: 594px; font: 500 36px Inter; color: rgba(226,232,240,.94); white-space: nowrap;
+                 text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .s13-wm { position: absolute; left: 96px; top: 744px; }
+      .s13-wm div { font: 400 86px/1.0 Anton; letter-spacing: 4px; color: #f8fafc; text-transform: uppercase;
+                    text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .s13-credit { position: absolute; bottom: 30px; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px; white-space: nowrap;
+                    text-shadow: 0 2px 3px rgba(2,6,16,.8); }
+      #s13-credc { left: 0; right: 0; text-align: center; }
+      #s13-credl { left: 96px; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="38.6" data-width="1920" data-height="1080">
+      <canvas id="earth"></canvas>
+      <div id="s13-glow"></div>
+      <svg id="s13-fx" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"><g id="s13-pulses"></g></svg>
+      <div class="s13-dim" id="s13-dim"></div>
+      <div class="s13-scrim" id="s13-scrim"></div>
+      <div class="s13-card" id="s13-card">
+        <div class="s13-block" id="s13-head">
+          <div class="s13-mask"><div class="s13-h" id="s13-h1">Duniya ka naqsha</div></div>
+          <div class="s13-mask"><div class="s13-h s13-k" id="s13-h2">Har din badal raha hai.</div></div>
+        </div>
+        <div class="s13-sub" id="s13-sub">Ye thi aaj ki duniya, Bharat ki nazar se.</div>
+        <div class="s13-wm s13-mask"><div id="s13-wmt">JIGEASA</div></div>
+      </div>
+      <div class="s13-credit" id="s13-credc">NASA Blue Marble · Borders: DataMeet, Natural Earth (India view)</div>
+      <div class="s13-credit" id="s13-credl">NASA Blue Marble · Borders: DataMeet, Natural Earth (India view)</div>
+    </div>
+    <script type="module">
+      import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
+      /*CUES*/ const CUES = {"c01": 0.6, "c02": 4.53, "c03": 12.38, "c04": 16.8}; /*END CUES*/
+      const DUR = /*DUR*/ 38.6 /*END DUR*/;
+
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
+      window.__timelines = window.__timelines || {};
+      let done;
+      window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
+
+      // One slow drift from the s12 hand-off to the end-card globe; it settles on the last frame.
+      const CAM = [
+        { t: 0, lat: 27, lon: 70, alt: 16000, tilt: 0, heading: 0 },
+        { t: DUR, lat: 20, lon: 85, alt: 18000, tilt: 0, heading: 0, ease: "inOut" },
+      ];
+
+      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: [] });
+
+      const clamp01 = (x) => Math.max(0, Math.min(1, x));
+      const ramp = (t, a, d) => clamp01((t - a) / d);
+      const eOut = (x) => 1 - Math.pow(1 - x, 3);
+      const eInOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+      const NS = "http://www.w3.org/2000/svg";
+      const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+      const CORAL = "#ff6b6b";
+      const HUB = { lat: 22.6, lon: 79.4 }; // same India point the s12 lines landed on
+
+      // the six fires carry over lit from s12, then go out one by one; India's teal glow stays
+      const FADE0 = CUES.c01 + 1.0, FADE_STEP = (CUES.c02 + 4.0 - FADE0) / 5;
+      const FIRES = [
+        { id: "ukraine",   lat: 49.0,  lon: 31.5 },
+        { id: "taiwan",    lat: 23.7,  lon: 121.0 },
+        { id: "hormuz",    lat: 26.6,  lon: 56.3 },
+        { id: "ferozepur", lat: 30.92, lon: 74.61 },
+        { id: "shaksgam",  lat: 36.12, lon: 76.55 },
+        { id: "lac",       lat: 34.76, lon: 78.22 },
+      ].map((f, i) => ({ ...f, out: FADE0 + i * FADE_STEP }));
+      const gPul = document.getElementById("s13-pulses");
+      for (const f of FIRES) {
+        const pg = mk("g", {}, gPul);
+        f.pg = pg;
+        f.rings = [0, 1, 2].map(() => mk("circle", { r: 14, fill: "none", stroke: CORAL, "stroke-width": 3 }, pg));
+        mk("circle", { r: 11, fill: CORAL }, pg);
+        mk("circle", { r: 4.5, fill: "#f8fafc" }, pg);
+      }
+      const glow = document.getElementById("s13-glow");
+      const GLOW_UP0 = FADE0, GLOW_UP = CUES.c02 + 5.2 - FADE0;
+
+      const tl = gsap.timeline({ paused: true });
+      driveWithTimeline(tl, DUR, (t) => {
+        earth.render(camAt(CAM, t));
+        const ph = (t % 1.6) / 1.6;
+        const breathe = 1 + 0.06 * Math.sin(ph * Math.PI * 2);
+        for (const f of FIRES) {
+          const p = earth.project(f.lat, f.lon, 0);
+          const k = 1 - eInOut(ramp(t, f.out, 1.2));            // fade + shrink out
+          const s = (0.55 + 0.45 * k) * breathe;
+          f.pg.setAttribute("transform", `translate(${p.x.toFixed(2)},${p.y.toFixed(2)}) scale(${s.toFixed(4)})`);
+          f.pg.setAttribute("opacity", p.visible ? k.toFixed(3) : 0);
+          f.rings.forEach((c, j) => {
+            const q = (ph + j / 3) % 1;
+            c.setAttribute("r", (13 + q * 34).toFixed(2));
+            c.setAttribute("stroke-opacity", ((1 - q) * [0.59, 0.35, 0.2][j] * 1.3).toFixed(3));
+          });
+        }
+        // one steady teal glow over India: grows as the fires go out, then a slow 4 s breath
+        const hub = earth.project(HUB.lat, HUB.lon, 0);
+        const up = eInOut(ramp(t, GLOW_UP0, GLOW_UP));
+        const g = (0.6 + 0.4 * up) * (1 + 0.08 * Math.sin((t / 4) * Math.PI * 2));
+        glow.style.transform = `translate(${hub.x.toFixed(1)}px, ${hub.y.toFixed(1)}px) scale(${(1 + 0.22 * up).toFixed(4)})`;
+        glow.style.opacity = hub.visible ? g.toFixed(3) : 0;
+      });
+
+      // ---------- closing line (style A, amber keyword) ----------
+      tl.fromTo("#s13-scrim", { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power1.out" }, CUES.c01 - 0.2);
+      tl.fromTo("#s13-h1", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, CUES.c01);
+      tl.fromTo("#s13-h2", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, CUES.c01 + 1.3);
+      tl.fromTo("#s13-sub", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, CUES.c03 + 0.1);
+      tl.fromTo("#s13-wmt", { yPercent: 100 }, { yPercent: 0, duration: 0.7, ease: "power3.out" }, CUES.c04 + 0.4);
+
+      // ---------- end screen: last 15 s keep the right ~60 % clear ----------
+      // the headline compacts into the left 40 %, the globe softens behind, the credit moves left
+      const END_AT = DUR - 15.6;
+      tl.fromTo("#s13-head", { scale: 1, y: 0 }, { scale: 0.65, y: 80, duration: 1.1, ease: "power3.inOut", transformOrigin: "0% 0%", immediateRender: false }, END_AT);
+      tl.fromTo("#s13-dim", { opacity: 0 }, { opacity: 1, duration: 1.4, ease: "power1.inOut" }, END_AT - 0.2);
+      tl.fromTo("#s13-credc", { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power1.in", immediateRender: false }, END_AT);
+      tl.fromTo("#s13-credl", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.out" }, END_AT + 0.5);
+      // the held card: one barely-perceptible push across the hold, then it settles
+      tl.fromTo("#s13-card", { scale: 1 }, { scale: 1.012, duration: DUR - END_AT - 1.1, ease: "sine.out", transformOrigin: "96px 540px" }, END_AT + 1.1);
+
+      window.__timelines["main"] = tl;
+      done();
+    </script>
+  </body>
+</html>

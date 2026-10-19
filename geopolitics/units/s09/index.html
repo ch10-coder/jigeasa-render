@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.min.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+    <style>
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.ttf") format("truetype"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
+      #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+      .full { position: absolute; inset: 0; pointer-events: none; }
+      .scrim { position: absolute; inset: 0; opacity: 0;
+               background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,.45) 42%, rgba(4,9,27,0) 55%); }
+      .block { position: absolute; left: 96px; top: 138px; width: 1100px; }
+      .kicker { display: flex; align-items: center; gap: 16px; font: 700 28px/1 Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase;
+                margin-bottom: 22px; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .kicker i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
+      .mask { overflow: hidden; padding-bottom: 4px; }
+      .h { font: 400 170px/1.0 Anton; color: #f8fafc; text-transform: uppercase; letter-spacing: 0.02em; white-space: nowrap;
+           text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .h.xl { font-size: 186px; }
+      .h.k { color: #ff6b6b; }
+      .sub { font: 500 40px/1.25 Inter; color: rgba(226,232,240,.96); margin-top: 18px; white-space: nowrap;
+             text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .subs { position: relative; height: 70px; }
+      .subs .sub { position: absolute; left: 0; top: 0; }
+      #ov { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+      .lab { position: absolute; left: 0; top: 0; font: 700 26px/1 Inter; letter-spacing: 5px; color: #f8fafc; white-space: nowrap; opacity: 0;
+             text-transform: uppercase; isolation: isolate; text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
+      .lab::before { content: ""; position: absolute; inset: -12px -18px; background: rgba(4,9,27,.42); filter: blur(12px); border-radius: 22px; z-index: -1; }
+      .country { position: absolute; left: 0; top: 0; font: 600 28px/1 Inter; letter-spacing: 9px; color: #ff6b6b; text-transform: uppercase; white-space: nowrap; opacity: 0;
+                 text-shadow: 0 3px 2.5px rgba(2,6,16,.8), 0 6px 14px rgba(2,6,16,.55); }
+      .credit { position: absolute; left: 0; right: 0; bottom: 26px; text-align: center; font: 600 20px/1 Inter; color: #cbd5e1; letter-spacing: 1px;
+                text-shadow: 0 2px 4px rgba(2,6,16,.8); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="51.1" data-width="1920" data-height="1080">
+      <canvas id="earth"></canvas>
+      <!-- T0: not just one valley -->
+      <div class="full" id="b0"><div class="scrim"></div>
+        <div class="block">
+          <div class="kicker"><i></i><span>Shaksgam ke aage</span></div>
+          <div class="mask"><div class="h l1">SIRF GHAATI</div></div>
+          <div class="mask"><div class="h k l2">NAHI.</div></div>
+        </div>
+      </div>
+      <!-- T1: CPEC -->
+      <div class="full" id="b1"><div class="scrim"></div>
+        <div class="block">
+          <div class="kicker"><i></i><span>China Pakistan Economic Corridor</span></div>
+          <div class="mask"><div class="h xl l1">CPEC</div></div>
+          <div class="mask"><div class="h k l2">POK SE HOKAR</div></div>
+          <div class="subs">
+            <div class="sub s1">Kashgar · Gilgit-Baltistan · Gwadar</div>
+            <div class="sub s2">Bharat ka virodh</div>
+          </div>
+        </div>
+      </div>
+      <!-- T2: approved still (frame 8) -->
+      <div class="full" id="b2"><div class="scrim"></div>
+        <div class="block">
+          <div class="kicker"><i></i><span>China &nbsp;+&nbsp; Pakistan</span></div>
+          <div class="mask"><div class="h xl l1">DO</div></div>
+          <div class="mask"><div class="h xl k l2">MORCHE.</div></div>
+          <div class="subs">
+            <div class="sub s1">CPEC: Kashgar se Gwadar tak</div>
+            <div class="sub s2">Ladakh + Kashmir: ek hi tasveer</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- map overlay sits above the text scrims so pins and arrows stay bright over the dark left side -->
+      <svg id="ov" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="ash" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#020610" flood-opacity="0.7" /></filter>
+          <radialGradient id="headglow"><stop offset="0" stop-color="#fbbf24" stop-opacity="0.85" /><stop offset="1" stop-color="#fbbf24" stop-opacity="0" /></radialGradient>
+        </defs>
+        <g id="cpechead" opacity="0"><circle r="26" fill="url(#headglow)" /><circle r="7" fill="#fbbf24" /><circle r="3" fill="#f8fafc" /></g>
+        <g id="arrows" filter="url(#ash)">
+          <path id="arC" d="" fill="none" stroke="#ff6b6b" stroke-width="7" stroke-linecap="round" opacity="0" />
+          <polygon id="hdC" points="0,-15 30,0 0,15" fill="#ff6b6b" opacity="0" />
+          <path id="arP" d="" fill="none" stroke="#ff6b6b" stroke-width="7" stroke-linecap="round" opacity="0" />
+          <polygon id="hdP" points="0,-15 30,0 0,15" fill="#ff6b6b" opacity="0" />
+        </g>
+      </svg>
+      <div class="full" id="labs">
+        <div class="country" id="cnC">China</div>
+        <div class="country" id="cnP">Pakistan</div>
+      </div>
+
+      <div class="credit" id="cr1">NASA Blue Marble &nbsp;·&nbsp; Borders: DataMeet, Natural Earth (India view)</div>
+      <div class="credit" id="cr2" style="opacity:0">Sentinel-2 cloudless 2016 by EOX (CC BY 4.0) &nbsp;·&nbsp; Terrarium DEM (SRTM) &nbsp;·&nbsp; DataMeet</div>
+    </div>
+
+    <script type="module">
+      import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
+      /*CUES*/ const CUES = {"c01": 0.6, "c02": 4.53, "c03": 12.38, "c04": 18.76, "c05": 28.58, "c06": 39.87, "c07": 42.82}; /*END CUES*/
+      const DUR = /*DUR*/ 51.1 /*END DUR*/;
+      const C = CUES;
+
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
+      let done;
+      window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
+      window.__timelines = window.__timelines || {};
+
+      // ---------- camera: START (36.0, 76.6, 400) -> long pull-back framing the whole CPEC (4,400 km) -> push to the two-front view -> END (31, 70, 6000)
+      const CAM = [
+        { t: 0, lat: 36.0, lon: 76.6, alt: 400, tilt: 0, heading: 0 },
+        { t: C.c03 + 2.6, lat: 32.2, lon: 71.2, alt: 4400, tilt: 0, heading: 0, ease: "inOut" },
+        { t: C.c05 - 0.4, lat: 32.0, lon: 71.4, alt: 4300, tilt: 0, heading: 0, ease: "linear" },
+        { t: C.c05 + 4.5, lat: 31.8, lon: 73.6, alt: 2900, tilt: 0, heading: 0 },
+        { t: DUR - 4.6, lat: 31.6, lon: 73.3, alt: 2750, tilt: 0, heading: 0, ease: "linear" },
+        { t: DUR, lat: 31.0, lon: 70.0, alt: 6000, tilt: 0, heading: 0 },
+      ];
+
+      // ---------- pure helpers (overlay motion is a function of t: seek-safe)
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const sm = (x) => x * x * (3 - 2 * x);
+      const ramp = (t, t0, d) => sm(clamp((t - t0) / d));
+      const win = (t, a, b, fi = 0.4, fo = 0.5) => ramp(t, a, fi) * (1 - ramp(t, b, fo));
+      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+      const SVGNS = "http://www.w3.org/2000/svg";
+      const ov = document.getElementById("ov"), labs = document.getElementById("labs");
+      const mk = (tag, attrs, parent = ov) => { const e = document.createElementNS(SVGNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+
+      function mkPulse() {
+        const g = mk("g", { opacity: 0 });
+        const rings = [0, 1, 2].map(() => mk("circle", { r: 11, fill: "none", stroke: "#ff6b6b", "stroke-width": 2.5 }, g));
+        mk("circle", { r: 11, fill: "#ff6b6b" }, g);
+        mk("circle", { r: 4.5, fill: "#f8fafc" }, g);
+        return { g, rings };
+      }
+      function drawPulse(P, x, y, vis, pop, t) {
+        P.g.setAttribute("opacity", vis.toFixed(3));
+        if (vis <= 0.001) return;
+        P.g.setAttribute("transform", `translate(${x.toFixed(1)},${y.toFixed(1)}) scale(${pop.toFixed(3)})`);
+        const A = [0.59, 0.35, 0.2];
+        P.rings.forEach((r, k) => {
+          const ph = ((t + k * 0.5333) % 1.6) / 1.6;
+          r.setAttribute("r", (11 + ph * 40).toFixed(2));
+          r.setAttribute("opacity", ((1 - ph) * A[k] * 1.6).toFixed(3));
+        });
+      }
+      function mkPin(color) {
+        const g = mk("g", { opacity: 0 });
+        mk("circle", { r: 9, fill: color, stroke: "rgba(4,9,27,.7)", "stroke-width": 2 }, g);
+        mk("circle", { r: 3.5, fill: "#04091b" }, g);
+        return { g };
+      }
+      function drawPin(P, x, y, vis, pop) {
+        P.g.setAttribute("opacity", vis.toFixed(3));
+        if (vis > 0.001) P.g.setAttribute("transform", `translate(${x.toFixed(1)},${y.toFixed(1)}) scale(${pop.toFixed(3)})`);
+      }
+      function mkLabel(text, dx, dy) {
+        const line = mk("line", { stroke: "rgba(248,250,252,.8)", "stroke-width": 2, "stroke-linecap": "round", opacity: 0 });
+        const end = mk("circle", { r: 5, fill: "#f8fafc", opacity: 0 });
+        const el = document.createElement("div"); el.className = "lab"; el.textContent = text; labs.appendChild(el);
+        return { line, end, el, dx, dy };
+      }
+      function drawLabel(L, x, y, vis, t0, t) {
+        const k = sm(clamp((t - t0 - 0.15) / 0.4));
+        const ex = x + L.dx * k, ey = y + L.dy * k;
+        L.line.setAttribute("x1", x.toFixed(1)); L.line.setAttribute("y1", y.toFixed(1));
+        L.line.setAttribute("x2", ex.toFixed(1)); L.line.setAttribute("y2", ey.toFixed(1));
+        L.line.setAttribute("opacity", (vis * (k > 0.01 ? 1 : 0)).toFixed(3));
+        L.end.setAttribute("cx", ex.toFixed(1)); L.end.setAttribute("cy", ey.toFixed(1));
+        L.end.setAttribute("opacity", (vis * k).toFixed(3));
+        L.el.style.opacity = (vis * ramp(t, t0 + 0.45, 0.35)).toFixed(3);
+        L.el.style.transform = L.dx >= 0 ? `translate(${(ex + 14).toFixed(1)}px, ${(ey - 14).toFixed(1)}px)`
+                                         : `translate(${(ex - 14).toFixed(1)}px, ${(ey - 14).toFixed(1)}px) translateX(-100%)`;
+      }
+      const onScreen = (p) => p.visible && p.x > -80 && p.x < 2000 && p.y > -80 && p.y < 1160;
+
+      // ---------- CPEC: engine lines (amber, dashed), split into equal pieces so the route draws Kashgar -> Gwadar
+      const CPEC = [[75.99, 39.47], [75.42, 36.85], [74.31, 35.92], [73.2, 34.2], [73.05, 33.68], [71.5, 30.2], [67.0, 27.5], [64.0, 25.6], [62.32, 25.13]];
+      const NSEG = 18;
+      const segLen = (a, b) => { const dx = (b[0] - a[0]) * Math.cos(((a[1] + b[1]) / 2) * Math.PI / 180), dy = b[1] - a[1]; return Math.hypot(dx, dy); };
+      const cum = [0]; for (let i = 1; i < CPEC.length; i++) cum.push(cum[i - 1] + segLen(CPEC[i - 1], CPEC[i]));
+      const TOTAL = cum[cum.length - 1];
+      const along = (f) => { // [lon, lat] at fraction f of the route length
+        const d = clamp(f) * TOTAL;
+        let i = 1; while (i < cum.length - 1 && cum[i] < d) i++;
+        const k = (d - cum[i - 1]) / Math.max(1e-9, cum[i] - cum[i - 1]);
+        return [CPEC[i - 1][0] + (CPEC[i][0] - CPEC[i - 1][0]) * k, CPEC[i - 1][1] + (CPEC[i][1] - CPEC[i - 1][1]) * k];
+      };
+      const pieces = [];
+      for (let s = 0; s < NSEG; s++) {
+        const f0 = s / NSEG, f1 = (s + 1) / NSEG, pts = [along(f0)];
+        for (let i = 1; i < CPEC.length - 1; i++) { const f = cum[i] / TOTAL; if (f > f0 && f < f1) pts.push(CPEC[i]); }
+        pts.push(along(f1));
+        pieces.push({ id: "cpec" + s, pts, color: "#fbbf24", width: 5, dashed: true, h: 7 });
+      }
+
+      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["karakoram"], world: true, india: true, lines: pieces });
+      await document.fonts.ready;
+
+      const T_DRAW = C.c03 + 0.2, D_DRAW = 6.0;
+      const drawP = (t) => { const x = clamp((t - T_DRAW) / D_DRAW); return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+      const head = document.getElementById("cpechead");
+
+      const items = [
+        { lat: 36.12, lon: 76.55, P: mkPulse(), L: mkLabel("Shaksgam", 60, -56), wins: [[0.4, C.c03 - 0.6]] },
+        { lat: 39.47, lon: 75.99, h: 0, P: mkPin("#fbbf24"), L: mkLabel("Kashgar", 56, 30), wins: [[C.c03 + 0.4, C.c05 + 0.1]] },
+        { lat: 35.92, lon: 74.31, h: 0, P: mkPin("#f8fafc"), L: mkLabel("Gilgit-Baltistan", 70, -30), wins: [[C.c03 + 2.2, DUR - 1.4]] },
+        { lat: 25.13, lon: 62.32, h: 0, P: mkPin("#fbbf24"), L: mkLabel("Gwadar", 58, -50), wins: [[C.c03 + 4.8, C.c05 + 0.1]] },
+        { lat: 34.15, lon: 77.58, h: 0, P: mkPin("#2dd4bf"), L: mkLabel("Ladakh", 66, 92), wins: [[C.c07 + 0.8, DUR - 1.4]] },
+        { lat: 34.08, lon: 74.8, h: 0, P: mkPin("#2dd4bf"), L: mkLabel("Kashmir", -58, 50), wins: [[C.c07 + 1.6, DUR - 1.4]] },
+      ];
+
+      // two pressure arrows (quadratic curves through projected anchors), drawn on their cues
+      const ARROWS = [
+        { path: document.getElementById("arC"), hd: document.getElementById("hdC"), lab: document.getElementById("cnC"),
+          a: [36.6, 84.4], b: [35.6, 80.8], c: [33.9, 79.3], t0: C.c06 + 0.2, labOff: [36, 30] },
+        { path: document.getElementById("arP"), hd: document.getElementById("hdP"), lab: document.getElementById("cnP"),
+          a: [29.6, 69.6], b: [30.7, 71.8], c: [31.0, 73.9], t0: C.c06 + 1.7, labOff: [-60, 36] },
+      ];
+      const T_ARR_OUT = DUR - 1.3;
+      function drawArrow(A, t) {
+        const p = sm(clamp((t - A.t0) / 1.1));
+        const vis = (p > 0.001 ? 1 : 0) * (1 - ramp(t, T_ARR_OUT, 0.6));
+        if (vis <= 0.001) { A.path.setAttribute("opacity", "0"); A.hd.setAttribute("opacity", "0"); A.lab.style.opacity = "0"; return; }
+        const P0 = earth.project(A.a[0], A.a[1], 0), P1 = earth.project(A.b[0], A.b[1], 0), P2 = earth.project(A.c[0], A.c[1], 0);
+        // de Casteljau: the drawn part of the curve is [0, p]
+        const q0x = P0.x + (P1.x - P0.x) * p, q0y = P0.y + (P1.y - P0.y) * p;
+        const q1x = P1.x + (P2.x - P1.x) * p, q1y = P1.y + (P2.y - P1.y) * p;
+        const bx = q0x + (q1x - q0x) * p, by = q0y + (q1y - q0y) * p;
+        const ang = Math.atan2(q1y - q0y, q1x - q0x);
+        // stop the shaft short of the tip so the head sits on the end
+        const sx = bx - Math.cos(ang) * 20, sy = by - Math.sin(ang) * 20;
+        A.path.setAttribute("d", `M${P0.x.toFixed(1)},${P0.y.toFixed(1)} Q${q0x.toFixed(1)},${q0y.toFixed(1)} ${sx.toFixed(1)},${sy.toFixed(1)}`);
+        A.path.setAttribute("opacity", vis.toFixed(3));
+        A.hd.setAttribute("transform", `translate(${(bx - Math.cos(ang) * 22).toFixed(1)},${(by - Math.sin(ang) * 22).toFixed(1)}) rotate(${(ang * 180 / Math.PI).toFixed(2)})`);
+        A.hd.setAttribute("opacity", (vis * clamp(p * 6)).toFixed(3));
+        A.lab.style.opacity = (vis * ramp(t, A.t0 + 0.3, 0.4)).toFixed(3);
+        // country name sits beside the middle of the full curve
+        const mx = 0.25 * P0.x + 0.5 * P1.x + 0.25 * P2.x, my = 0.25 * P0.y + 0.5 * P1.y + 0.25 * P2.y;
+        A.lab.style.transform = `translate(${(mx + A.labOff[0]).toFixed(1)}px, ${(my + A.labOff[1]).toFixed(1)}px)`;
+      }
+
+      const cr1 = document.getElementById("cr1"), cr2 = document.getElementById("cr2");
+      const T_GLOW = C.c07 + 0.4;
+
+      const tl = gsap.timeline({ paused: true });
+      driveWithTimeline(tl, DUR, (t) => {
+        const cam = camAt(CAM, t);
+        // CPEC pieces fade in as the draw passes them; the whole route fades with the final pull-out
+        const p = drawP(t), out = 1 - ramp(t, DUR - 1.2, 0.9);
+        for (let s = 0; s < NSEG; s++) earth.setLineOpacity("cpec" + s, clamp(p * NSEG - s) * out);
+        // India's boundary breathes when the two fronts close in (teal = India's boundary)
+        const g = win(t, T_GLOW, DUR - 1.0, 0.8, 0.8) * (0.5 + 0.5 * Math.sin((t - T_GLOW) * 3.2));
+        earth.setLineOpacity("india_glow", 1 + 2.2 * g);
+        earth.render(cam);
+        // travelling head of the route
+        const hv = (p > 0.001 && p < 0.999 ? 1 : 0) * (1 - ramp(t, T_DRAW + D_DRAW - 0.2, 0.3));
+        if (hv > 0) {
+          const [lon, lat] = along(p), hp = earth.project(lat, lon, 0);
+          head.setAttribute("transform", `translate(${hp.x.toFixed(1)},${hp.y.toFixed(1)})`);
+        }
+        head.setAttribute("opacity", hv.toFixed(3));
+        for (const it of items) {
+          let vis = 0, t0 = 0;
+          for (const [a, b] of it.wins) { const v = win(t, a, b, 0.35, 0.5); if (v > vis) { vis = v; t0 = a; } }
+          const pr = earth.project(it.lat, it.lon, it.h);
+          if (!onScreen(pr)) vis = 0;
+          const pop = Math.max(0.001, backOut(clamp((t - t0) / 0.45)));
+          if (it.P.rings) drawPulse(it.P, pr.x, pr.y, vis, pop, t); else drawPin(it.P, pr.x, pr.y, vis, pop);
+          drawLabel(it.L, pr.x, pr.y, vis, t0, t);
+        }
+        for (const A of ARROWS) drawArrow(A, t);
+        const s2 = clamp((Math.log(700) - Math.log(cam.alt)) / (Math.log(700) - Math.log(300)));
+        cr2.style.opacity = s2.toFixed(3); cr1.style.opacity = (1 - s2).toFixed(3);
+      });
+
+      // ---------- text blocks (style A)
+      function block(id, tIn, tOut, parts) {
+        const root = document.getElementById(id);
+        const q = (s) => root.querySelector(s);
+        const scrim = q(".scrim"), rule = q(".kicker i"), kick = q(".kicker span");
+        tl.fromTo(scrim, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.out" }, tIn - 0.15);
+        tl.fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, tIn);
+        tl.fromTo(kick, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, tIn + 0.15);
+        const lines = [];
+        for (const [sel, t, kind, out] of parts) {
+          const el = q(sel);
+          if (kind === "line") {
+            tl.fromTo(el, { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, t);
+            lines.push(el);
+          } else {
+            tl.fromTo(el, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t);
+            if (out !== undefined) tl.fromTo(el, { opacity: 1, y: 0 }, { opacity: 0, y: -12, duration: 0.35, ease: "power2.in", immediateRender: false }, out);
+            else tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
+          }
+        }
+        lines.forEach((el, i) => tl.fromTo(el, { yPercent: 0 }, { yPercent: -105, duration: 0.4, ease: "power2.in", immediateRender: false }, tOut + i * 0.06));
+        tl.fromTo(kick, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
+        tl.fromTo(rule, { scaleX: 1 }, { scaleX: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
+        tl.fromTo(scrim, { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power1.in", immediateRender: false }, tOut + 0.15);
+      }
+
+      block("b0", C.c01 + 0.3, C.c02 - 0.4, [[".l1", C.c01 + 0.5, "line"], [".l2", C.c01 + 1.9, "line"]]);
+      block("b1", C.c02 + 2.0, C.c05 - 0.5, [[".l1", C.c02 + 5.6, "line"], [".s1", C.c03 + 0.5, "sub", C.c04 + 0.2],
+                                              [".s2", C.c04 + 0.6, "sub"], [".l2", C.c04 + 3.6, "line"]]);
+      block("b2", C.c05 + 0.3, DUR - 1.6, [[".l1", C.c05 + 0.5, "line"], [".l2", C.c05 + 0.65, "line"],
+                                           [".s1", C.c05 + 1.2, "sub", C.c07 + 0.2], [".s2", C.c07 + 0.6, "sub"]]);
+
+      window.__timelines["main"] = tl;
+      done();
+    </script>
+  </body>
+</html>
