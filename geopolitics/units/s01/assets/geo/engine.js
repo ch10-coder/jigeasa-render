@@ -98,6 +98,12 @@ const surfaceFrag = /* glsl */ `
     float fog = fogKm > 0.0 ? pow(1.0 - exp(-dkm / fogKm), 1.2) : 0.0;
     c = mix(c, haze, fog);
     float a = opacity;
+    // patches: let the Blue Marble ocean show through their (flat, repainted) sea so no box edge appears
+    if (isPatch > -0.5 && feather > 0.0) {
+      vec3 raw = texture2D(map, vUv).rgb;
+      float blu = raw.b / max(max(raw.r, raw.g), 0.02);
+      a *= 1.0 - smoothstep(1.35, 1.9, blu) * (1.0 - smoothstep(0.25, 0.45, max(raw.r, max(raw.g, raw.b))));
+    }
     if (feather > 0.0) {
       float e = min(min(vUv.x, 1.0 - vUv.x), min(vUv.y, 1.0 - vUv.y));
       a *= smoothstep(0.0, feather, e);
@@ -224,7 +230,7 @@ export async function createEarth(opts) {
     g.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
     g.setIndex(idx); g.computeVertexNormals();
     const m = mk(tex, { transparent: true, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
-    m.uniforms.feather.value = 0.06; m.uniforms.isPatch.value = dem ? 1 : 0;
+    m.uniforms.feather.value = 0.16; m.uniforms.isPatch.value = dem ? 1 : 0;
     const mesh = new THREE.Mesh(g, m); mesh.renderOrder = 1; scene.add(mesh);
     patches[id] = { mesh, mat: m, dem, meta };
   }));
