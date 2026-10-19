@@ -5,7 +5,7 @@ units.json: [{id, dur, pre, xfade?}] in order; dur INCLUDES the unit's pre-roll 
   length = sum(dur) - sum(pre) = the audio master length. Transition per unit: units[k]["xfade"] (ffmpeg xfade
   name: fade, fadeblack, smoothleft, circleopen, zoomin, ...), default "fade". Re-encodes once (x264 CRF 15).
 Usage: python3 concat.py units.json PARTS_DIR OUT.mp4"""
-import json, subprocess, sys
+import json, os, subprocess, sys
 from pathlib import Path
 
 def plan(units):
@@ -33,6 +33,9 @@ def main(uj, parts, out):
     subprocess.run(cmd, check=True)
     got = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", out]))
     print(f"joined {len(files)} units -> {out}: {got:.3f} s (expected {L:.3f})")
+    if os.environ.get("JIG_ALIGN") and not any(u.get("pre", 0.0) for u in units[1:]):
+        L = round(sum(float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", f])) for f in files), 4)
+        print(f"JIG_ALIGN: expected = sum of rendered units {L:.3f} s (fit_audio.py pads the audio to match)")
     if abs(got - L) > 0.05: sys.exit(f"length mismatch {got:.3f} vs {L:.3f}: audio would drift")
 
 if __name__ == "__main__":

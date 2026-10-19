@@ -231,8 +231,9 @@ jobs:
         run: |
           mkdir -p out
           python3 -c "import json;json.dump([u for u in json.load(open('$P/units.json')) if u.get('kind')!='still'],open('vunits.json','w'))"
-          python3 $P/kit/concat.py vunits.json parts video.mp4
-          ffmpeg -y -v error -i video.mp4 -i aud/master.m4a -map 0:v -map 1:a -c copy -shortest -movflags +faststart "out/${P}.mp4"
+          JIG_ALIGN=1 python3 $P/kit/concat.py vunits.json parts video.mp4
+          python3 $P/kit/fit_audio.py vunits.json parts aud/master.m4a aud/fitted.m4a
+          ffmpeg -y -v error -i video.mp4 -i aud/fitted.m4a -map 0:v -map 1:a -c copy -shortest -movflags +faststart "out/${P}.mp4"
           cp parts/*.png out/ 2>/dev/null || true
           ffprobe -v error -show_entries format=duration,bit_rate:stream=codec_name,width,height -of compact "out/${P}.mp4" | tee -a $GITHUB_STEP_SUMMARY
       - uses: actions/upload-artifact@v4
