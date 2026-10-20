@@ -160,7 +160,8 @@ function sampleDem(dem, u, v) {
 
 /**
  * opts: { canvas, width=1920, height=1080, assetBase, regions: [ids], exag=1.0,
- *         world=true, india=true, lines: [{id, pts:[[lon,lat],...], color:"#fbbf24", width:5, dashed:false, h:0}] }
+ *         world=true, india=true, indiaFadeKm=250 (0 = India line stays at every altitude; use it over flat patches),
+ *         lines: [{id, pts:[[lon,lat],...], color:"#fbbf24", width:5, dashed:false, h:0}] }
  */
 export async function createEarth(opts) {
   const W = opts.width || 1920, H = opts.height || 1080, base = opts.assetBase || "../../assets/geo/";
@@ -237,23 +238,27 @@ export async function createEarth(opts) {
 
   // lines (screen-space width)
   const lineObjs = {};
-  const addLine = (id, rings, color, width, opacity = 1, dashed = false, hKm = 0) => {
+  const addLine = (id, rings, color, width, opacity = 1, dashed = false, hKm = 0, dash = null) => {
     const group = new THREE.Group();
+    // dash = [dash_km, gap_km] (default ~25 km / 16 km: right for 1,000+ km views; use ~[0.6, 0.4] near the ground)
     const mat = new LineMaterial({ color: new THREE.Color(color), linewidth: width * dpr, transparent: true, opacity,
-      dashed, dashSize: 0.004, gapSize: 0.0025, worldUnits: false, depthTest: true, depthWrite: false });
+      dashed, dashSize: dash ? dash[0] / R_KM : 0.004, gapSize: dash ? dash[1] / R_KM : 0.0025, worldUnits: false, depthTest: true, depthWrite: false });
     mat.resolution.set(W * dpr, H * dpr);
     for (const ring of rings) {
       if (ring.length < 2) continue;
       const arr = [];
-      for (const [lon, lat] of ring) { const p = xyz(lat, lon, 1 + hKm / R_KM + 0.0004); arr.push(p.x, p.y, p.z); }
+      for (const [lon, lat] of ring) { const p = xyz(lat, lon, 1 + hKm / R_KM); arr.push(p.x, p.y, p.z); }
       const geo = new LineGeometry(); geo.setPositions(arr);
       const ln = new Line2(geo, mat); if (dashed) ln.computeLineDistances(); ln.renderOrder = 2; group.add(ln);
     }
     scene.add(group); lineObjs[id] = { group, mat, base: opacity };
   };
   if (opts.world !== false) addLine("world", LINES.world, "#ffffff", 1.2, 0.32);
-  if (opts.india !== false) { addLine("india_glow", LINES.india, "#2dd4bf", 9, 0.22); addLine("india", LINES.india, "#2dd4bf", 3, 1); }
-  for (const l of opts.lines || []) addLine(l.id, [l.pts], l.color || "#fbbf24", l.width || 4, l.opacity ?? 1, !!l.dashed, l.h || 0);
+  if (opts.india !== false) { addLine("india_glow", LINES.india, "#2dd4bf", 5, 0.14); addLine("india", LINES.india, "#2dd4bf", 2, 1); }
+  const indiaFadeKm = opts.indiaFadeKm ?? 250;
+  for (const l of opts.lines || []) addLine(l.id, l.rings || [l.pts], l.color || "#fbbf24", l.width || 4, l.opacity ?? 1, !!l.dashed, l.h || 0, l.dash || null);
+  // optional copy of India's boundary as its own line (e.g. a dashed border near the ground): opts.indiaLine = {id, color, width, dashed, dash}
+  if (opts.indiaLine) { const q = opts.indiaLine; addLine(q.id || "india_b", LINES.india, q.color || "#2dd4bf", q.width || 3, q.opacity ?? 1, !!q.dashed, 0, q.dash || null); }
 
   let cur = null;
   function place(c) {
@@ -291,12 +296,16 @@ export async function createEarth(opts) {
     for (const m of [earthMat, ...Object.values(patches).map((p) => p.mat)]) {
       m.uniforms.fogKm.value = fogKm; m.uniforms.fresScale.value = fresScale;
     }
-    const lineFade = Math.min(1, Math.max(0, (Math.log(c.alt) - Math.log(250)) / (Math.log(900) - Math.log(250))));
+    const fadeAt = (km) => km <= 0 ? 1 : Math.min(1, Math.max(0, (Math.log(c.alt) - Math.log(km)) / (Math.log(km * 3.6) - Math.log(km))));
+    const worldFade = fadeAt(250), indiaFade = fadeAt(indiaFadeKm);
+    // lines ride a hair above the ground, lifted with altitude (fixed 2.5 km lift slid against the ground at low altitude)
+    const lift = 1 + Math.min(3, Math.max(0.03, c.alt * 0.0008)) / R_KM;
     for (const id in lineObjs) {
       const o = lineObjs[id];
-      const keep = !(id === "world" || id === "india" || id === "india_glow");
-      o.mat.opacity = o.base * (keep ? 1 : lineFade) * (o.user ?? 1);
+      const f = id === "world" ? worldFade : (id === "india" || id === "india_glow") ? indiaFade : 1;
+      o.mat.opacity = o.base * f * (o.user ?? 1);
       o.group.visible = o.mat.opacity > 0.003;
+      o.group.scale.setScalar(lift);
     }
     renderer.clear();
     renderer.render(skyScene, skyCam);

@@ -17,8 +17,12 @@
       html, body { width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
       #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #04070f; }
       #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-      #scrim { position: absolute; inset: 0; opacity: 0;
-               background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,.45) 42%, rgba(4,9,27,0) 58%); }
+      #scrim, #scrim2, #scrimH { position: absolute; inset: 0; opacity: 0; }
+      #scrim { background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,.45) 42%, rgba(4,9,27,0) 58%); }
+      /* chart scrim: darker and wider, only while a chart is up */
+      #scrim2 { background: linear-gradient(90deg, rgba(4,9,27,.9) 0%, rgba(4,9,27,.86) 50%, rgba(4,9,27,.5) 62%, rgba(4,9,27,0) 74%); }
+      /* closing line sits bottom-left */
+      #scrimH { background: radial-gradient(ellipse 1350px 620px at 0% 100%, rgba(4,9,27,.84) 0%, rgba(4,9,27,.55) 48%, rgba(4,9,27,0) 100%); }
       #ov { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
       #labs { position: absolute; inset: 0; }
       .blk { position: absolute; inset: 0; }
@@ -33,26 +37,48 @@
       .coral { color: #ff6b6b; } .amber { color: #fbbf24; } .teal { color: #2dd4bf; }
       .num { font: 400 230px/1 Anton; color: #fbbf24; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4);
              transform-origin: left bottom; }
+      .num.coral { color: #ff6b6b; } .num.teal { color: #2dd4bf; }
+      .sc { display: inline-block; transform-origin: left bottom; }
       .sub { position: absolute; left: 96px; font: 500 40px/1.2 Inter; color: #e2e8f0; white-space: nowrap;
              text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
       .src { position: absolute; left: 96px; font: 500 22px Inter; color: #94a3b8; letter-spacing: .5px; white-space: nowrap;
              text-shadow: 0 2px 2px rgba(2,6,16,.7); }
       .track { position: absolute; height: 14px; border-radius: 7px; background: rgba(226,232,240,.18); overflow: hidden; }
       .track b { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; border-radius: 7px; transform-origin: left center; transform: scaleX(0); }
+      .slab { position: absolute; font: 700 30px Inter; letter-spacing: 5px; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
+              text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .srcrow { position: absolute; left: 96px; display: flex; align-items: center; gap: 12px; font: 700 26px Inter; letter-spacing: 4px;
+                color: #cbd5e1; text-transform: uppercase; white-space: nowrap; text-shadow: 0 2px 2px rgba(2,6,16,.75); }
+      .leg { position: absolute; display: flex; align-items: center; gap: 14px; font: 700 28px Inter; letter-spacing: 4px; text-transform: uppercase;
+             white-space: nowrap; text-shadow: 0 2px 2px rgba(2,6,16,.75), 0 6px 14px rgba(2,6,16,.45); }
+      .leg i { display: block; width: 18px; height: 18px; border-radius: 4px; }
+      .chip { position: absolute; display: flex; align-items: center; gap: 12px; padding: 8px 24px; border: 2px solid rgba(251,191,36,.9);
+              border-radius: 999px; font: 700 30px Inter; letter-spacing: 4px; color: #fbbf24; text-transform: uppercase; white-space: nowrap;
+              background: rgba(4,9,27,.55); transform-origin: left center; text-shadow: 0 2px 2px rgba(2,6,16,.7); }
+      .dnum { position: absolute; font: 400 100px/1 Anton; color: #2dd4bf; text-align: center;
+              text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .ylab { position: absolute; left: 96px; width: 116px; text-align: right; font: 600 24px Inter; color: #cbd5e1;
+              text-shadow: 0 2px 2px rgba(2,6,16,.75); }
+      .cdate { position: absolute; top: 930px; width: 300px; text-align: center; font: 700 22px Inter; letter-spacing: 3px; color: #cbd5e1;
+               text-transform: uppercase; white-space: nowrap; text-shadow: 0 2px 2px rgba(2,6,16,.75); }
+      .bval { position: absolute; left: 0; top: 0; font: 400 64px/1 Anton; color: #fbbf24; white-space: nowrap;
+              text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .bvw { position: absolute; top: 0; width: 240px; display: flex; justify-content: center; align-items: baseline; gap: 8px; white-space: nowrap;
+             text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .bvw .bv { font: 400 64px/1 Anton; color: #f8fafc; }
+      .bvw .bu { font: 600 26px Inter; color: #e2e8f0; }
+      .yr { position: absolute; top: 904px; font: 600 28px Inter; letter-spacing: 3px; color: #e2e8f0; white-space: nowrap;
+            text-shadow: 0 2px 2px rgba(2,6,16,.75); }
+      .yr small { display: block; font: 500 20px Inter; letter-spacing: 3px; color: #94a3b8; margin-top: 6px; }
+      .dline { position: absolute; left: 96px; font: 700 30px Inter; letter-spacing: 4px; color: #fbbf24; text-transform: uppercase; white-space: nowrap;
+               text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .hl { position: absolute; left: 96px; font: 400 130px/1.04 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
+            text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
       .lab { position: absolute; left: 0; top: 0; font: 700 26px Inter; letter-spacing: 5px; color: #f8fafc; white-space: nowrap; opacity: 0;
              text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
       .country { position: absolute; left: 0; top: 0; font: 600 28px Inter; letter-spacing: 9px; color: rgba(226,232,240,.94); white-space: nowrap;
                  opacity: 0; text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 14px rgba(2,6,16,.5); }
-      .num.coral { color: #ff6b6b; } .num.teal { color: #2dd4bf; }
-      .sc { display: inline-block; transform-origin: left bottom; }
       .rs { font-family: "Poppins", Anton; font-weight: 700; font-size: .78em; vertical-align: .06em; margin-right: 6px; }
-      /* bars (PPAC) */
-      .bar { position: absolute; bottom: 180px; width: 230px; border-radius: 4px; transform-origin: center bottom; transform: scaleY(0); }
-      .bval { position: absolute; top: 0; width: 230px; text-align: center; font: 400 66px/1 Anton; color: #f8fafc;
-              text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .byear { position: absolute; top: 918px; width: 230px; text-align: center; font: 600 28px Inter; letter-spacing: 4px; color: #e2e8f0;
-               text-shadow: 0 2px 2px rgba(2,6,16,.7); }
-      .cdate { position: absolute; top: 902px; font: 700 22px Inter; letter-spacing: 4px; color: #cbd5e1; white-space: nowrap; width: 320px; margin-left: -160px; text-align: center; }
       .credit { position: absolute; left: 0; right: 0; bottom: 26px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px;
                 text-shadow: 0 2px 2px rgba(2,6,16,.8); }
     </style>
@@ -61,130 +87,171 @@
     <div id="root" data-composition-id="main" data-start="0" data-duration="92.6" data-width="1920" data-height="1080">
       <canvas id="earth"></canvas>
       <div id="scrim"></div>
+      <div id="scrim2"></div>
+      <div id="scrimH"></div>
       <svg id="ov" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="brentFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#fbbf24" stop-opacity=".32" />
-            <stop offset="1" stop-color="#fbbf24" stop-opacity="0" />
-          </linearGradient>
-          <clipPath id="brentClip"><rect id="brentClipR" x="96" y="380" width="0" height="560" /></clipPath>
-        </defs>
         <g id="routes"></g>
         <g id="pins"></g>
+        <g id="cardsG"></g>
       </svg>
       <div id="labs"></div>
 
-      <!-- B1: the question -->
+      <!-- B1: the question (kicker typed, line 2 swaps ASAR? -> BAHUT KUCH.) -->
       <div class="blk" id="b1">
-        <div class="kicker"><i></i><span>Hormuz se Bharat tak</span></div>
+        <div class="kicker"><i></i><span id="k1"></span></div>
         <div class="mask" style="top:196px"><span class="h">Bharat par</span></div>
-        <div class="mask" style="top:373px; height:177px; width:1100px">
+        <div class="mask" style="top:373px; height:177px; width:1200px">
           <span class="h coral" id="b1a" style="position:absolute;left:0;top:0">Asar?</span>
           <span class="h coral" id="b1b" style="position:absolute;left:0;top:0">Bahut kuch.</span>
         </div>
       </div>
 
-      <!-- B2: 88.7 % import dependence -->
+      <!-- B2: 88.7 % crude import dependence, barrel pictogram, typed source -->
       <div class="blk" id="b2">
-        <div class="kicker"><i></i><span>Kachcha tel · import</span></div>
+        <div class="kicker"><i></i><span>Kachcha tel · crude</span></div>
         <div class="mask" style="top:196px; height:240px"><span class="num" id="n887w"><span id="n887" class="sc">0.0%</span></span></div>
-        <div class="sub fo" style="top:452px">crude bahar se aata hai</div>
-        <div class="track fo" style="left:96px; top:532px; width:820px"><b id="f887" style="background:#fbbf24"></b></div>
-        <div class="src fo" id="b2src" style="top:574px">Source: PPAC Snapshot, Oct 2026 · 2025-26</div>
+        <svg id="barrels" style="position:absolute; left:96px; top:490px; overflow:visible" width="802" height="90" viewBox="0 0 802 90">
+          <defs><clipPath id="s04-bclip" clipPathUnits="userSpaceOnUse"><rect id="s04-bclipR" x="-4" y="-30" width="0" height="150" /></clipPath></defs>
+          <g id="bOut"></g>
+          <g id="bFill" clip-path="url(#s04-bclip)"></g>
+        </svg>
+        <div class="sub fo" id="b2u" style="top:604px">crude import par nirbharta</div>
+        <div class="srcrow fo" id="b2srow" style="top:680px">
+          <span id="b2s1"></span><span id="b2sep" style="opacity:0">·</span><span id="b2s2"></span>
+          <svg id="b2chk" width="32" height="32" viewBox="0 0 32 32" style="opacity:0; margin-left:4px; overflow:visible">
+            <circle cx="16" cy="16" r="15" fill="#2dd4bf" />
+            <path d="M8.5 16.5 L13.8 21.6 L23.5 11" fill="none" stroke="#04091b" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
       </div>
 
-      <!-- B3: ~50 % crude, ~90 % LPG via Hormuz -->
+      <!-- B3: ~50 % crude, ~90 % LPG via Hormuz: two stacked stat rows (70 px apart), labels to the right -->
       <div class="blk" id="b3">
         <div class="kicker"><i></i><span>Jung se pehle · Hormuz se</span></div>
-        <div class="mask" style="top:196px; height:230px"><span class="num" id="n50w" style="font-size:220px"><span id="n50" class="sc">~0%</span></span></div>
-        <div class="sub fo" id="b3ua" style="top:440px">crude import</div>
-        <div class="track fo" id="b3ta" style="left:96px; top:512px; width:380px"><b id="f50" style="background:#fbbf24"></b></div>
-        <div class="mask" style="top:196px; left:560px; height:230px"><span class="num" id="n90w" style="font-size:220px"><span id="n90" class="sc">~0%</span></span></div>
-        <div class="sub fo" id="b3ub" style="top:440px; left:560px">LPG import</div>
-        <div class="track fo" id="b3tb" style="left:560px; top:512px; width:380px"><b id="f90" style="background:#fbbf24"></b></div>
-        <div class="src fo" id="b3src" style="top:556px">Kpler via ThePrint · S&amp;P Global</div>
+        <div class="mask" style="top:214px; height:190px"><span class="num" id="n50w" style="font-size:180px"><span id="n50" class="sc">~0%</span></span></div>
+        <div class="slab fo" id="b3la" style="left:560px; top:246px">Crude import</div>
+        <div class="track fo" id="b3ta" style="left:560px; top:302px; width:400px"><b id="f50" style="background:#fbbf24"></b></div>
+        <div class="mask" style="top:474px; height:190px"><span class="num" id="n90w" style="font-size:180px"><span id="n90" class="sc">~0%</span></span></div>
+        <div class="slab" id="b3lb" style="left:560px; top:506px"></div>
+        <div class="track fo" id="b3tb" style="left:560px; top:562px; width:400px"><b id="f90" style="background:#e2e8f0"></b></div>
+        <div class="src fo" id="b3src" style="top:722px">Kpler via ThePrint · S&amp;P Global</div>
       </div>
 
       <!-- B4: LPG output ~25 % -->
       <div class="blk" id="b4">
-        <div class="kicker"><i></i><span>March 2026 · sarkaar</span></div>
+        <div class="kicker"><i></i><span id="k4"></span></div>
         <div class="mask" style="top:196px"><span class="h">Tez</span></div>
         <div class="mask" style="top:373px"><span class="h amber">kadam.</span></div>
-        <div class="mask" style="top:572px; height:215px; width:900px">
+        <div class="mask" style="top:580px; height:215px; width:900px">
           <span id="b4row" style="display:flex; align-items:center; gap:22px">
-            <svg width="96" height="150" viewBox="0 0 96 150" aria-hidden="true">
+            <svg id="b4arrow" width="96" height="150" viewBox="0 0 96 150" aria-hidden="true" style="overflow:visible">
               <path d="M48 6 L90 66 L62 66 L62 144 L34 144 L34 66 L6 66 Z" fill="#2dd4bf" />
             </svg>
             <span class="num teal" id="n25" style="font-size:200px">~0%</span>
           </span>
         </div>
-        <div class="sub fo" id="b4u" style="top:796px">LPG utpaadan · mid-March tak</div>
-        <div class="src fo" id="b4src" style="top:862px">AIR (newsonair), 12 Mar 2026</div>
+        <div class="sub fo" id="b4u" style="top:806px"><span id="b4u1"></span><span id="b4u2" style="display:inline-block">&nbsp;· mid-March tak</span></div>
+        <div class="src fo" id="b4src" style="top:872px">AIR (newsonair), 12 Mar 2026</div>
       </div>
 
-      <!-- B5: re-routing ~70 % -->
+      <!-- B5: re-routing: donut ~70 % outside Hormuz + "~40 deshon se" chip (no drawn routes: the source names none) -->
       <div class="blk" id="b5">
         <div class="kicker"><i></i><span>11 March 2026 · Petroleum Ministry</span></div>
         <div class="mask" style="top:196px"><span class="h">Raasta</span></div>
         <div class="mask" style="top:373px"><span class="h amber">badla.</span></div>
-        <div class="mask" style="top:572px; height:215px"><span class="num teal" id="n70" style="font-size:200px">~0%</span></div>
-        <div class="sub fo" id="b5u" style="top:796px">crude ab Hormuz ke bahar se</div>
-        <div class="src fo" id="b5src" style="top:862px">Petroleum Ministry, 11 Mar 2026 (AIR)</div>
-      </div>
-
-      <!-- B6: Brent -->
-      <div class="blk" id="b6">
-        <div class="kicker"><i></i><span>Brent crude · $ prati barrel</span></div>
-        <div class="mask" style="top:196px"><span class="h">Mehenga <span class="coral">tel.</span></span></div>
-        <svg id="brent" style="position:absolute; left:0; top:0; overflow:visible" width="1920" height="1080" viewBox="0 0 1920 1080">
-          <g id="bgrid" stroke="#e2e8f0" stroke-opacity=".22" stroke-width="2" stroke-dasharray="6 10">
-            <line x1="120" y1="796" x2="900" y2="796" /><line x1="120" y1="692" x2="900" y2="692" /><line x1="120" y1="588" x2="900" y2="588" />
-          </g>
-          <g clip-path="url(#brentClip)">
-            <path d="M220 832.4 L520 554.7 L850 660.8 L850 880 L220 880 Z" fill="url(#brentFill)" />
-            <path d="M220 832.4 L520 554.7 L850 660.8" fill="none" stroke="#fbbf24" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
-          </g>
-          <circle id="bp1" cx="220" cy="832.4" r="9" fill="#fbbf24" />
-          <circle id="bp2" cx="520" cy="554.7" r="11" fill="#ff6b6b" />
-          <circle id="bp3" cx="850" cy="660.8" r="9" fill="#fbbf24" />
-          <circle id="btip" r="8" fill="#f8fafc" />
+        <svg id="donut" class="fo" style="position:absolute; left:96px; top:616px; overflow:visible" width="368" height="368" viewBox="0 0 368 368">
+          <circle id="dTrack" cx="184" cy="184" r="150" fill="none" stroke="rgba(226,232,240,.24)" stroke-width="44" transform="rotate(-90 184 184)" stroke-dasharray="0 943" />
+          <circle id="dArc" cx="184" cy="184" r="150" fill="none" stroke="#2dd4bf" stroke-width="44" transform="rotate(-90 184 184)" stroke-dasharray="0 943" />
         </svg>
-        <div class="bval" id="bl1" style="left:105px; width:230px; top:738px">~$73</div>
-        <div class="bval" id="bl2" style="left:405px; width:230px; color:#ff6b6b">$73</div>
-        <div class="bval" id="bl3" style="left:735px; width:230px">$126</div>
-        <div class="cdate fo" id="bd1" style="left:220px">JUNG SE PEHLE</div>
-        <div class="cdate fo" id="bd2" style="left:520px">30 APR</div>
-        <div class="cdate fo" id="bd3" style="left:850px">15 OCT</div>
-        <div class="src fo" id="b6src" style="top:952px">CNN, 30 Apr · Bloomberg, 15 Oct</div>
+        <div class="dnum fo" id="n70" style="left:96px; top:750px; width:368px">~0%</div>
+        <div class="leg fo" id="b5l1" style="left:520px; top:690px; color:#2dd4bf"><i id="b5sq1" style="background:#2dd4bf"></i><span id="b5l1t"></span></div>
+        <div class="leg fo" id="b5l2" style="left:520px; top:744px; color:#94a3b8; font-size:24px"><i style="background:rgba(226,232,240,.32)"></i><span>Baaki</span></div>
+        <div class="chip fo" id="b5chip" style="left:520px; top:806px"><span id="n40">~0</span><span>deshon se</span></div>
+        <div class="src fo" id="b5src" style="left:520px; top:902px">Source: AIR (newsonair), 11 Mar 2026</div>
       </div>
 
-      <!-- B7: PPAC import bill (approved still) -->
+      <!-- B6: Brent chart panel (~$73 -> $126.41 -> ~$106) -->
+      <div class="blk" id="b6">
+        <div class="kicker"><i></i><span id="k6a"></span><span id="k6b" style="position:absolute; left:60px; top:0"></span></div>
+        <div class="mask" style="top:196px"><span class="h" style="font-size:150px">Mehenga <span class="coral">tel.</span></span></div>
+        <svg id="brent" class="fo" style="position:absolute; left:0; top:0; overflow:visible" width="1920" height="1080" viewBox="0 0 1920 1080">
+          <defs>
+            <linearGradient id="s04-brentFill" x1="0" y1="480" x2="0" y2="910" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#fbbf24" stop-opacity=".34" />
+              <stop offset="1" stop-color="#fbbf24" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <g id="bgrid" stroke="#f8fafc" stroke-opacity=".16" stroke-width="1"></g>
+          <line id="bRef" x1="330" y1="830.1" x2="330" y2="830.1" stroke="#fbbf24" stroke-opacity=".55" stroke-width="2" stroke-dasharray="7 8" opacity="0" />
+          <path id="bArea" fill="url(#s04-brentFill)" d="" />
+          <path id="bLine" fill="none" stroke="#fbbf24" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" d="" />
+          <circle id="bp2ring" cx="680" cy="502.3" r="0" fill="none" stroke="#ff6b6b" stroke-width="3" opacity="0" />
+          <circle id="bp1" cx="330" cy="910" r="0" fill="#fbbf24" />
+          <circle id="bp2" cx="680" cy="502.3" r="0" fill="#ff6b6b" />
+          <circle id="bp3" cx="1000" cy="627.4" r="0" fill="#fbbf24" />
+          <circle id="btip" r="7" fill="#f8fafc" opacity="0" />
+        </svg>
+        <div class="fo" id="b6labs">
+          <div class="ylab" id="yl0" style="top:527px">$120</div>
+          <div class="ylab" id="yl1" style="top:650px">$100</div>
+          <div class="ylab" id="yl2" style="top:773px">$80</div>
+          <div class="ylab" id="yl3" style="top:896px">$60</div>
+          <div class="bval" id="bl1" style="width:240px; text-align:center; opacity:0">~$60</div>
+          <div class="bval" id="bl2" style="left:540px; top:422px; width:280px; text-align:center; color:#ff6b6b; opacity:0">$73.00</div>
+          <div class="bval" id="bl3" style="left:1026px; top:595px; opacity:0">~$126</div>
+          <div class="cdate" id="bd1" style="left:180px">Jung se pehle</div>
+          <div class="cdate" id="bd2" style="left:530px">30 April</div>
+          <div class="cdate" id="bd3" style="left:850px">15 October</div>
+        </div>
+        <div class="src fo" id="b6src" style="top:970px">CNN, 30 Apr 2026 (intraday) · Bloomberg, 15 Oct 2026</div>
+      </div>
+
+      <!-- B7: PPAC import bill bar chart (approved still composition) -->
       <div class="blk" id="b7">
         <div class="kicker"><i></i><span>Crude import bill&nbsp;&nbsp;·&nbsp;&nbsp;Apr–Sep</span></div>
-        <div class="mask" style="top:196px"><span class="h">Tel ka bill</span></div>
-        <div class="fo" id="b7a">
-          <div class="bar" id="barA" style="left:96px; height:248px; background:#a3aec4"></div>
-          <div class="bval" id="vA" style="left:96px">$0.0 bn</div>
-          <div class="byear" style="left:96px">2025-26</div>
-        </div>
-        <div class="fo" id="b7b">
-          <div class="bar" id="barB" style="left:396px; height:362px; background:#fbbf24"></div>
-          <div class="bval" id="vB" style="left:396px">$0.0 bn</div>
-          <div class="byear" style="left:396px">2026-27</div>
-        </div>
-        <div class="mask" style="top:548px; left:736px; height:160px"><span class="num coral" id="n46w" style="font-size:150px"><span id="n46" class="sc">+0%</span></span></div>
-        <div class="sub fo" id="b7u" style="top:700px; left:736px">ek saal mein</div>
-        <div class="src fo" id="b7src" style="top:972px">Source: PPAC Snapshot, Oct 2026</div>
+        <div class="mask" style="top:196px"><span class="h" style="font-size:150px">Tel ka bill</span></div>
+        <svg id="bill" class="fo" style="position:absolute; left:0; top:0; overflow:visible" width="1920" height="1080" viewBox="0 0 1920 1080">
+          <rect id="slotA" x="96" y="500" width="240" height="390" rx="4" fill="#e2e8f0" opacity="0" />
+          <rect id="slotB" x="416" y="500" width="240" height="390" rx="4" fill="#e2e8f0" opacity="0" />
+          <line id="gGuide" x1="336" y1="623.5" x2="336" y2="623.5" stroke="#ff6b6b" stroke-width="2.5" stroke-dasharray="10 8" opacity="0" />
+          <rect id="barA" x="96" y="890" width="240" height="0" rx="4" fill="#a3aec4" />
+          <rect id="barB" x="416" y="890" width="240" height="0" rx="4" fill="#fbbf24" />
+          <line id="gTop" x1="656" y1="500" x2="656" y2="500" stroke="#ff6b6b" stroke-width="2.5" stroke-dasharray="10 8" opacity="0" />
+          <line id="gArrow" x1="700" y1="623.5" x2="700" y2="623.5" stroke="#ff6b6b" stroke-width="5" stroke-linecap="round" opacity="0" />
+          <path id="gHead" d="M-13,12 L0,-4 L13,12 Z" fill="#ff6b6b" opacity="0" />
+          <line id="bBase" x1="96" y1="890" x2="96" y2="890" stroke="#e2e8f0" stroke-opacity=".55" stroke-width="2" />
+        </svg>
+        <div class="bvw fo" id="vAw" style="left:96px; opacity:0"><span class="bv" id="vA">$0.0</span><span class="bu">bn</span></div>
+        <div class="bvw fo" id="vBw" style="left:416px; opacity:0"><span class="bv" id="vB">$0.0</span><span class="bu">bn</span></div>
+        <div class="yr fo" id="yA" style="left:96px"><span id="yAt"></span><small id="yAs">Apr–Sep</small></div>
+        <div class="yr fo" id="yB" style="left:416px"><span id="yBt"></span><small id="yBs">Apr–Sep</small></div>
+        <div class="num coral fo" id="n46" style="position:absolute; left:736px; top:480px; font-size:150px; line-height:1.06; transform-origin:left center">+46%</div>
+        <div class="sub fo" id="b7u" style="top:652px; left:736px">ek saal mein</div>
+        <div class="src fo" id="b7src" style="top:908px; left:736px">Source: PPAC Snapshot, Oct 2026</div>
       </div>
 
-      <!-- B8: rupee -->
+      <!-- B8: rupee record low -->
       <div class="blk" id="b8">
-        <div class="kicker"><i></i><span>20 May 2026 · record low</span></div>
+        <div class="kicker"><i></i><span id="k8"></span>
+          <svg id="k8up" width="22" height="28" viewBox="0 0 22 28" style="opacity:0; overflow:visible"><path d="M11 1 L21 13.5 L14.6 13.5 L14.6 27 L7.4 27 L7.4 13.5 L1 13.5 Z" fill="#fbbf24" /></svg>
+        </div>
         <div class="mask" style="top:196px"><span class="h">Rupaya</span></div>
         <div class="mask" style="top:373px"><span class="h coral">kamzor.</span></div>
-        <div class="mask" style="top:568px; height:225px; width:1000px"><span class="num" id="n9696" style="font-size:210px"><span class="rs">₹</span><span id="n9696v">0.00</span></span></div>
-        <div class="sub fo" id="b8u" style="top:796px">prati dollar</div>
-        <div class="src fo" id="b8src" style="top:862px">PTI / BW Businessworld</div>
+        <div class="dline fo" id="b8d" style="top:590px"><span id="b8dt"></span></div>
+        <div class="mask" style="top:640px; height:215px; width:1100px">
+          <span id="n9696w" style="display:flex; align-items:center; gap:30px">
+            <span class="num" style="font-size:200px"><span class="rs">₹</span><span id="n9696v">90.00</span></span>
+            <svg id="b8down" width="80" height="120" viewBox="0 0 80 120" style="opacity:0; overflow:visible"><path d="M40 116 L76 66 L52 66 L52 6 L28 6 L28 66 L4 66 Z" fill="#ff6b6b" /></svg>
+          </span>
+        </div>
+        <div class="sub fo" id="b8u" style="top:866px">prati dollar</div>
+        <div class="src fo" id="b8src" style="top:930px">PTI / BW Businessworld</div>
+      </div>
+
+      <!-- B9: payoff, typed over the return to Hormuz -->
+      <div class="blk" id="b9">
+        <div class="hl" id="h9a" style="top:640px"></div>
+        <div class="hl amber" id="h9b" style="top:790px"></div>
       </div>
 
       <div class="credit" id="credit">NASA Blue Marble · Sentinel-2 cloudless 2016 by EOX (CC BY 4.0) · DataMeet · Natural Earth</div>
@@ -192,8 +259,10 @@
 
     <script type="module">
       import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
-      /*CUES*/ const CUES = {"c01": 0.0, "c02": 3.59, "c03": 3.89, "c04": 11.09, "c05": 15.45, "c06": 20.39, "c07": 26.3, "c08": 28.98, "c09": 36.64, "c10": 39.03, "c11": 46.98, "c12": 48.31, "c13": 49.72, "c14": 54.09, "c15": 59.49, "c16": 63.73, "c17": 64.03, "c18": 71.91, "c19": 76.13, "c20": 78.52, "c21": 81.67, "c22": 87.42}; /*END CUES*/
+      import { typer, counter, flagCards, env, sm, out3, inOut, backOut, prog } from "./assets/geo/fx.js";
+      /*CUES*/ const CUES = {"c01": 0.0, "c02": 3.59, "c03": 4.81, "c04": 11.09, "c05": 16.24, "c06": 20.39, "c07": 26.3, "c08": 28.98, "c09": 36.64, "c10": 39.03, "c11": 48.31, "c12": 49.72, "c13": 52.55, "c14": 56.72, "c15": 59.31, "c16": 63.73, "c17": 64.97, "c18": 71.91, "c19": 76.13, "c20": 78.52, "c21": 81.67, "c22": 87.42}; /*END CUES*/
       const DUR = /*DUR*/ 92.6 /*END DUR*/;
+      /*SFX*/ const SFX = [[0.5, 0, "type", 20], [3.6, 0, "impact"], [4.95, 0, "whoosh"], [6.25, 0, "count", 1.5], [10.75, 0, "pop"], [11.35, 0, "type", 4], [12.55, 0, "type", 7], [14.3, 0, "ding"], [15.9, 0, "zoom"], [17.6, 0, "count", 1.0], [18.95, 0, "pop"], [21.85, 0, "type", 10], [23.15, 0, "count", 1.2], [24.9, 0, "draw"], [26.45, 0, "type", 20], [28.4, 0, "pan"], [30.1, 0, "type", 12], [31.95, 0, "pop"], [34.6, 0, "count", 1.1], [36.65, 0, "whoosh"], [38.25, 0, "glitch"], [40.3, 0, "draw"], [42.35, 0, "count", 1.4], [44.2, 0, "type", 18], [47.05, 0, "count", 0.8], [49.8, 0, "whoosh"], [50.15, 0, "type", 11], [52.6, 0, "draw"], [53.4, 0, "type", 22], [54.5, 0, "count", 0.8], [58.05, 0, "count", 1.3], [61.55, 0, "count", 1.0], [64.8, 0, "draw"], [65.65, 0, "type", 7], [67.3, 0, "pop"], [69.25, 0, "count", 1.35], [72.0, 0, "type", 7], [73.65, 0, "count", 1.15], [76.5, 0, "impact"], [78.6, 0, "type", 15], [81.7, 0, "type", 24], [82.95, 0, "count", 1.4], [85.7, 0, "pop"], [87.5, 0, "zoom"], [88.95, 0, "type", 8], [89.45, 0, "heartbeat"], [89.55, 0, "type", 13]]; /*END SFX*/
       const C = CUES;
 
       window.__timelines = window.__timelines || {};
@@ -201,45 +270,101 @@
       let done;
       window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
 
-      // One continuous camera: START = s03 END, END = s05 START.
+      // Beats at exact word times (timing/s04_words.json). The SFX block above uses the same numbers.
+      const T = {
+        k1: 0.5,      // kicker typed under "अब सवाल" 0.40
+        h1: 1.25,     // "भारत" 1.27
+        bahut: 3.6,   // "बहुत कुछ" 3.64
+        n887: 6.25,   // "88.7%" 6.28
+        card1: 10.4,  // India in view, "मंगवाता है" 10.24 (pop at +0.35)
+        ppac: 11.35,  // "PPAC" 11.40
+        fy: 12.55,    // "2025-26" 12.58
+        chk: 14.3,    // "figure" 14.34
+        n50: 17.6,    // "आधा" 17.65
+        hz: 18.7,     // "Hormuz" 18.63 (label text at +0.25)
+        lpg: 21.85,   // "LPG" 21.84
+        n90: 23.15,   // "90%" 23.18
+        sweep: 24.9,  // "इसी रास्ते" 24.68 / 24.92
+        k4: 26.45,    // "इसलिए सरकार" 26.35
+        h4: 27.45,    // "तेजी से कदम" 27.57
+        ut: 30.1,     // "LPG का उत्पादन" 30.09
+        bh4: 31.95,   // "आदेश" 31.95
+        mm: 33.3,     // "March तक" 33.28
+        n25: 34.6,    // "25%" 34.72 (lands on "बढ़" 35.74)
+        badla: 38.25, // "बदला" 38.21
+        ring: 40.3,   // "Petroleum Ministry ने बताया" 39.80-40.92
+        n70: 42.35,   // "70%" 42.40
+        bahar: 44.2,  // "Hormuz के बाहर" 44.24
+        rest: 45.45,  // "रास्तों से" 45.42
+        n40: 47.05,   // "दूसरे देशों से" 47.03
+        door: 50.15,  // "दूर का तेल" 50.17
+        meh: 51.2,    // "महंगा" 51.29
+        grid: 52.6,   // "(जंग) से पहले" 52.60
+        brent: 53.4,  // "Brent crude" 53.44
+        p1: 54.5,     // "$73" 54.58
+        d2: 56.8,     // "30 April" 56.77
+        p2: 58.05,    // "$126" 58.08
+        d3: 60.6,     // "और अभी भी" 60.55
+        p3: 61.55,    // "लगभग $106" 61.53 / 61.93
+        base: 64.8,   // after "नतीजा देखिए" 63.78
+        yB: 65.65,    // "इस साल April से September" 65.02-66.74
+        card2: 66.95, // "भारत" 67.28 (pop at +0.35)
+        vB: 69.25,    // "$90.6" 69.34 (lands on "billion" 70.62)
+        yA: 72.0,     // "पिछले साल" 71.96
+        vA: 73.65,    // "$61.9" 73.72
+        d46: 76.5,    // "46%" 76.54
+        k8: 78.6,     // "Dollar की मांग" 78.57
+        up8: 79.3,    // "बढ़ी" 79.39
+        h8: 80.0,     // "रुपया कमजोर" 80.09
+        may: 81.7,    // "20 May" 81.72
+        n96: 82.95,   // "₹96.96" 82.98
+        low: 85.7,    // "record low" 85.70
+        goli1: 88.95, // "हर गोली" 89.17
+        goli: 89.45,  // "गोली" 89.43
+        jeb: 89.55,   // "भारत की जेब" 90.10
+        tOut: 91.65,  // payoff text gone before the last ~0.9 s
+      };
+
+      // One continuous camera: START = s03 END (26.4, 56.8, 900); END (rev2) = s05 START (26.0, 57.0, 1800).
       const CAM = [
         { t: 0, lat: 26.4, lon: 56.8, alt: 900, tilt: 0, heading: 0 },
-        { t: C.c03 + 2.5, lat: 26.2, lon: 54.4, alt: 1600, tilt: 0, heading: 0 },
-        { t: C.c05, lat: 25.8, lon: 53.8, alt: 2100, tilt: 0, heading: 0 },
-        { t: C.c07, lat: 25.3, lon: 54.4, alt: 2500, tilt: 0, heading: 0 },
-        { t: C.c09 - 0.5, lat: 22.5, lon: 63.0, alt: 3400, tilt: 0, heading: 0 },
-        { t: C.c10 + 4, lat: 17.0, lon: 64.0, alt: 5500, tilt: 0, heading: 0 },
-        { t: C.c12, lat: 17.6, lon: 64.4, alt: 5400, tilt: 0, heading: 0 },
-        { t: C.c16, lat: 20.0, lon: 66.0, alt: 4400, tilt: 0, heading: 0 },
-        { t: C.c20, lat: 22.2, lon: 65.8, alt: 3600, tilt: 0, heading: 0 },
-        { t: C.c22, lat: 22.4, lon: 65.3, alt: 3700, tilt: 0, heading: 0 },
-        { t: DUR, lat: 22.0, lon: 66.0, alt: 3500, tilt: 0, heading: 0 },
+        { t: 4.6, lat: 26.1, lon: 55.3, alt: 1350, tilt: 0, heading: 0 },                    // ease back: Hormuz slides right of the question
+        { t: 10.0, lat: 23.0, lon: 59.5, alt: 4800, tilt: 0, heading: 0 },                   // pull out east: Bharat comes into view
+        { t: 15.7, lat: 22.9, lon: 59.9, alt: 5000, tilt: 0, heading: 0, ease: "linear" },   // drift
+        { t: 19.8, lat: 25.0, lon: 53.2, alt: 2300, tilt: 0, heading: 0 },                   // zoom back into Hormuz ("Hormuz se hokar")
+        { t: 27.6, lat: 25.2, lon: 53.6, alt: 2100, tilt: 0, heading: 0, ease: "linear" },   // slow push
+        { t: 32.8, lat: 21.6, lon: 64.0, alt: 4200, tilt: 0, heading: 0 },                   // pan east to India ("sarkaar")
+        { t: 34.8, lat: 21.5, lon: 64.4, alt: 4250, tilt: 0, heading: 0, ease: "linear" },   // drift
+        { t: 39.9, lat: 23.5, lon: 54.5, alt: 4600, tilt: 0, heading: 0 },                   // back west: the Hormuz lane is blocked
+        { t: 49.4, lat: 23.7, lon: 55.0, alt: 4500, tilt: 0, heading: 0, ease: "linear" },   // drift
+        { t: 54.2, lat: 20.8, lon: 62.6, alt: 5200, tilt: 0, heading: 0 },                   // "door ka tel": out over the Arabian Sea
+        { t: 63.6, lat: 21.0, lon: 63.3, alt: 4900, tilt: 0, heading: 0, ease: "linear" },   // drift
+        { t: 69.0, lat: 21.5, lon: 65.0, alt: 4000, tilt: 0, heading: 0 },                   // push toward India (bill)
+        { t: 78.3, lat: 21.8, lon: 65.6, alt: 3800, tilt: 0, heading: 0, ease: "linear" },   // drift
+        { t: 86.6, lat: 22.0, lon: 66.4, alt: 3450, tilt: 0, heading: 0, ease: "linear" },   // rupee: slow push
+        { t: 90.3, lat: 26.1, lon: 56.7, alt: 2150, tilt: 0, heading: 0 },                   // return WEST to Hormuz ("har goli")
+        { t: DUR, lat: 26.0, lon: 57.0, alt: 1800, tilt: 0, heading: 0, ease: "linear" },    // END hand-off (settles in, east-bound like s05)
       ];
 
-      // Hormuz lane, extended across the Arabian Sea to India's west coast
-      const LANE = [[54.0,25.9],[55.0,26.1],[55.6,26.3],[56.2,26.55],[56.55,26.52],[56.85,26.2],[57.3,25.7],[57.9,25.25],[59.5,24.6],
-                    [62.5,23.6],[66.0,22.6],[69.0,21.6],[70.5,20.2],[72.0,19.4],[72.8,18.95]];
-      // routes from outside Hormuz (schematic sea routes)
-      const ROUTE_W = [[43.6,12.4],[47.5,12.6],[51.0,13.0],[55.5,13.8],[60.0,15.0],[65.0,16.6],[69.5,17.9],[72.6,18.85]];
-      const ROUTE_S = [[57.0,-6.0],[61.0,1.0],[64.5,7.0],[68.0,12.0],[71.0,16.2],[72.7,18.75]];
+      // Hormuz shipping lane (official points) + a schematic run on to India's west coast
+      const LANE = [[54.0,25.9],[55.0,26.1],[55.6,26.3],[56.2,26.55],[56.55,26.52],[56.85,26.2],[57.3,25.7],[57.9,25.25],[59.5,24.6]];
+      const EXT = [[59.5,24.6],[62.5,23.6],[66.0,22.6],[69.0,21.6],[70.5,20.2],[72.0,19.4],[72.8,18.95]];
 
       const earth = await createEarth({
         canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["hormuz"],
-        lines: [{ id: "lane", pts: LANE, color: "#fbbf24", width: 5, dashed: true }],
+        lines: [
+          { id: "lane", pts: LANE, color: "#fbbf24", width: 5, dashed: true },
+          { id: "laneC", pts: LANE, color: "#ff6b6b", width: 5, dashed: true },
+          { id: "ext", pts: EXT, color: "#fbbf24", width: 4, dashed: true },
+        ],
       });
 
-      // ---------- pure helpers (seek-safe: everything below is a function of t) ----------
-      const clamp01 = (x) => Math.max(0, Math.min(1, x));
-      const sm = (x) => { x = clamp01(x); return x * x * (3 - 2 * x); };
-      const env = (t, a, b, f = 0.4) => Math.min(sm((t - a) / f), sm((b - t) / f));
-      const out3 = (x) => 1 - Math.pow(1 - clamp01(x), 3);
-      const inOut2 = (x) => { x = clamp01(x); return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
-      const backOut = (x) => { x = clamp01(x); const c = 1.70158; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
-      const prog = (t, a, d) => clamp01((t - a) / d);
+      // ---------- helpers (seek-safe: everything below is a pure function of t) ----------
       const NS = "http://www.w3.org/2000/svg";
-      const pins = document.getElementById("pins"), routesG = document.getElementById("routes"), labs = document.getElementById("labs");
-      const mk = (tag, at, parent) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); parent.appendChild(e); return e; };
       const $ = (id) => document.getElementById(id);
+      const pins = $("pins"), routesG = $("routes"), labs = $("labs");
+      const mk = (tag, at, parent) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); parent.appendChild(e); return e; };
+      const f1 = (v) => v.toFixed(1);
 
       function makePulse() {
         const g = mk("g", { opacity: 0 }, pins);
@@ -253,7 +378,7 @@
         if (!p.visible || a <= 0.002) { P.g.setAttribute("opacity", 0); return; }
         const ph = (t % 1.6) / 1.6;
         P.g.setAttribute("opacity", a.toFixed(3));
-        P.g.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) scale(${(0.6 + 0.4 * backOut(a)).toFixed(3)})`);
+        P.g.setAttribute("transform", `translate(${f1(p.x)},${f1(p.y)}) scale(${(0.6 + 0.4 * backOut(a)).toFixed(3)})`);
         P.rings.forEach((r, i) => {
           r.setAttribute("r", (16 + (i + ph) * 12).toFixed(2));
           r.setAttribute("stroke-opacity", (RA[i] + (RA[i + 1] - RA[i]) * ph).toFixed(3));
@@ -269,22 +394,22 @@
         const a = p.visible ? env(t, a0, a1, 0.35) : 0;
         const k = out3((t - a0) / 0.45);
         const x2 = p.x + L.dx * k, y2 = p.y + L.dy * k;
-        L.line.setAttribute("x1", p.x.toFixed(1)); L.line.setAttribute("y1", p.y.toFixed(1));
-        L.line.setAttribute("x2", x2.toFixed(1)); L.line.setAttribute("y2", y2.toFixed(1));
+        L.line.setAttribute("x1", f1(p.x)); L.line.setAttribute("y1", f1(p.y));
+        L.line.setAttribute("x2", f1(x2)); L.line.setAttribute("y2", f1(y2));
         L.line.setAttribute("stroke-opacity", (0.8 * a).toFixed(3));
-        L.dot.setAttribute("cx", x2.toFixed(1)); L.dot.setAttribute("cy", y2.toFixed(1));
+        L.dot.setAttribute("cx", f1(x2)); L.dot.setAttribute("cy", f1(y2));
         L.dot.setAttribute("r", (5 * backOut((t - a0 - 0.2) / 0.35) * (a > 0 ? 1 : 0)).toFixed(2));
         L.dot.setAttribute("opacity", a.toFixed(3));
         const right = L.dx >= 0;
         L.el.style.opacity = (a * prog(t, a0 + 0.25, 0.3)).toFixed(3);
-        L.el.style.transform = `translate(${(x2 + (right ? 14 : -14)).toFixed(1)}px, ${y2.toFixed(1)}px) translate(${right ? 0 : -100}%, -50%)`;
+        L.el.style.transform = `translate(${f1(x2 + (right ? 14 : -14))}px, ${f1(y2)}px) translate(${right ? 0 : -100}%, -50%)`;
       }
       function makeTag(text) { const el = document.createElement("div"); el.className = "country"; el.textContent = text; labs.appendChild(el); return el; }
-      function placeTag(el, p, a) {
+      function placeTag(el, p, a, s = 1) {
         el.style.opacity = (p.visible ? a : 0).toFixed(3);
-        el.style.transform = `translate(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px) translate(-50%, -50%)`;
+        el.style.transform = `translate(${f1(p.x)}px, ${f1(p.y)}px) translate(-50%, -50%) scale(${s.toFixed(3)})`;
       }
-      function densify(pts, step = 0.25) {
+      function densify(pts, step) {
         const o = [pts[0]];
         for (let i = 1; i < pts.length; i++) {
           const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
@@ -293,137 +418,260 @@
         }
         return o;
       }
-      function makeRoute(pts, color) {
-        const path = mk("path", { fill: "none", stroke: color, "stroke-width": 5, "stroke-linecap": "round", "stroke-linejoin": "round", opacity: 0 }, routesG);
-        const head = mk("path", { d: "M-4,-12 L20,0 L-4,12 Z", fill: color, opacity: 0 }, routesG);
-        return { pts: densify(pts), path, head };
+      // the full lane (strait + run to India) as an arc-length parametrised polyline in lon/lat
+      const FULL = densify(LANE.concat(EXT.slice(1)), 0.15);
+      const CUM = [0];
+      for (let i = 1; i < FULL.length; i++) CUM.push(CUM[i - 1] + Math.hypot(FULL[i][0] - FULL[i - 1][0], FULL[i][1] - FULL[i - 1][1]));
+      const TOT = CUM[CUM.length - 1];
+      let SL = 0; for (let i = 1; i < LANE.length; i++) SL += Math.hypot(LANE[i][0] - LANE[i - 1][0], LANE[i][1] - LANE[i - 1][1]);
+      let S_HZ = 0, bestD = 1e9;
+      FULL.forEach((q, i) => { const d = Math.hypot(q[0] - 56.3, q[1] - 26.6); if (d < bestD) { bestD = d; S_HZ = CUM[i]; } });
+      function laneAtS(s) {
+        s = Math.max(0, Math.min(TOT, s));
+        let i = 1; while (i < CUM.length - 1 && CUM[i] < s) i++;
+        const a = FULL[i - 1], b = FULL[i], k = (s - CUM[i - 1]) / Math.max(1e-9, CUM[i] - CUM[i - 1]);
+        return [a[1] + (b[1] - a[1]) * k, a[0] + (b[0] - a[0]) * k]; // [lat, lon]
       }
-      function placeRoute(R, k, a) {
-        if (a <= 0.002 || k <= 0.001) { R.path.setAttribute("opacity", 0); R.head.setAttribute("opacity", 0); return; }
-        const n = R.pts.length - 1, f = k * n, i = Math.min(n - 1, Math.floor(f)), fr = f - i;
-        const P = [];
-        for (let j = 0; j <= i; j++) P.push(earth.project(R.pts[j][1], R.pts[j][0], 0));
-        const A = R.pts[i], B = R.pts[i + 1];
-        P.push(earth.project(A[1] + (B[1] - A[1]) * fr, A[0] + (B[0] - A[0]) * fr, 0));
-        R.path.setAttribute("d", "M" + P.map((q) => q.x.toFixed(1) + "," + q.y.toFixed(1)).join(" L"));
-        R.path.setAttribute("opacity", a.toFixed(3));
-        const q1 = P[P.length - 1], q0 = P[Math.max(0, P.length - 3)];
-        const ang = Math.atan2(q1.y - q0.y, q1.x - q0.x) * 180 / Math.PI;
-        R.head.setAttribute("transform", `translate(${q1.x.toFixed(1)},${q1.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
-        R.head.setAttribute("opacity", (a * clamp01((k - 0.08) / 0.1)).toFixed(3));
+      function lanePath(s0, s1, step = 0.12) {
+        if (s1 <= s0) return "";
+        let d = "", pen = false;
+        for (let s = s0; ; s += step) {
+          const ss = Math.min(s, s1), ll = laneAtS(ss), p = earth.project(ll[0], ll[1], 0);
+          if (p.visible) { d += (pen ? "L" : "M") + f1(p.x) + "," + f1(p.y); pen = true; } else pen = false;
+          if (ss >= s1) break;
+        }
+        return d;
       }
-      const fmt = (v, d) => v.toFixed(d);
-      const countAt = (t, a, d, v0, v1, ease = out3) => v0 + (v1 - v0) * ease(prog(t, a, d));
 
       // ---------- map furniture ----------
-      const HZ = { lat: 26.6, lon: 56.3 }, MUM = { lat: 18.95, lon: 72.83 };
+      const HZ = { lat: 26.6, lon: 56.3 };
+      const sweep = mk("path", { fill: "none", stroke: "#fff1c1", "stroke-width": 7, "stroke-linecap": "round", "stroke-linejoin": "round", opacity: 0 }, routesG);
+      const ripTrail = mk("path", { fill: "none", stroke: "#ff6b6b", "stroke-width": 6, "stroke-linecap": "round", "stroke-linejoin": "round", opacity: 0 }, routesG);
+      const ripDot = mk("circle", { r: 8, fill: "#ff6b6b", opacity: 0 }, routesG);
+      const CRUDE = Array.from({ length: 14 }, () => mk("circle", { r: 5.5, fill: "#fbbf24", opacity: 0 }, routesG));
+      const LPGD = Array.from({ length: 8 }, () => mk("circle", { r: 4.5, fill: "#f8fafc", opacity: 0 }, routesG));
       const pHz = makePulse();
-      const lHz = makeLabel("Strait of Hormuz", 110, -72);
-      const tIran = makeTag("Iran"), tOman = makeTag("Oman"), tBharat = makeTag("Bharat"), tSea = makeTag("Arabian Sea");
-      const rW = makeRoute(ROUTE_W, "#fbbf24"), rS = makeRoute(ROUTE_S, "#fbbf24");
-      const oil = mk("circle", { r: 9, fill: "#fbbf24", opacity: 0 }, pins);
-      const oilRing = mk("circle", { r: 10, fill: "none", stroke: "#fbbf24", "stroke-width": 3, opacity: 0 }, pins);
-      const laneD = densify(LANE, 0.2);
+      const shock = [0, 1, 2].map(() => mk("circle", { r: 0, fill: "none", stroke: "#ff6b6b", "stroke-width": 3, opacity: 0 }, pins));
+      const xG = mk("g", { opacity: 0 }, pins);
+      const xRing = mk("circle", { r: 28, fill: "rgba(4,9,27,.45)", stroke: "#ff6b6b", "stroke-width": 3 }, xG);
+      mk("path", { d: "M-12,-12 L12,12 M12,-12 L-12,12", stroke: "#ff6b6b", "stroke-width": 6, "stroke-linecap": "round" }, xG);
+      const lHz = makeLabel("Strait of Hormuz", 90, -70);
+      const lHzX = makeLabel("Hormuz", 84, -62);
+      const tIran = makeTag("Iran"), tOman = makeTag("Oman"), tBharat = makeTag("Bharat");
+      const cards = flagCards({ html: labs, svg: $("cardsG"), items: [
+        { flags: ["in"], title: "Bharat", lat: 22.0, lon: 74.5, x: 1420, y: 200, t0: T.card1, t1: C.c05 - 0.35 },
+        { flags: ["in"], title: "Bharat", lat: 23.0, lon: 75.5, x: 1380, y: 170, t0: T.card2, t1: C.c20 - 0.4 },
+      ] });
 
-      // block windows [in, out] (out = start of the 0.4 s exit)
+      // block windows [in, out] (out = start of the 0.35 s exit)
       const W = {
-        b1: [C.c01 + 0.4, Math.max(C.c03 - 0.45, C.c02 + 1.9)], b2: [Math.max(C.c03 + 0.1, C.c02 + 2.35), C.c05 - 0.45], b3: [C.c05 + 0.1, C.c07 - 0.45],
-        b4: [C.c07 + 0.1, C.c09 - 0.45], b5: [C.c09 + 0.1, C.c12 - 0.45], b6: [C.c12 + 0.1, C.c16 - 0.45],
-        b7: [C.c16 + 0.1, C.c20 - 0.45], b8: [C.c20 + 0.1, DUR - 1.3],
+        b1: [0.45, C.c03 + 0.55], b2: [C.c03 + 1.0, C.c05 - 0.5], b3: [C.c05, C.c07 - 0.45], b4: [C.c07 + 0.05, C.c09 - 0.45],
+        b5: [C.c09 + 0.06, C.c12 - 0.45], b6: [C.c12 + 0.03, C.c16 - 0.23], b7: [C.c16 + 0.17, C.c20 - 0.45], b8: [C.c20 - 0.02, C.c22 - 0.45],
       };
 
-      const scrim = $("scrim"), credit = $("credit");
-      const n887 = $("n887"), f887 = $("f887"), n50 = $("n50"), f50 = $("f50"), n90 = $("n90"), f90 = $("f90");
-      const n25 = $("n25"), n70 = $("n70"), n46 = $("n46"), n9696v = $("n9696v");
-      const barA = $("barA"), barB = $("barB"), vA = $("vA"), vB = $("vB");
-      const clipR = $("brentClipR"), btip = $("btip"), bl2 = $("bl2"), bl3 = $("bl3");
-      const BP = [[220, 832.4], [520, 554.7], [850, 660.8]];
+      // ---------- B2 barrels (10 icons, fill sweeps to 88.7 % of the row) ----------
+      const BARREL = "M10 3 Q32 -1 54 3 Q61 42 54 81 Q32 85 10 81 Q3 42 10 3 Z";
+      const HOOPS = "M5 27 Q32 31 59 27 M5 57 Q32 61 59 57";
+      const barrels = Array.from({ length: 10 }, (_, i) => {
+        const o = mk("g", {}, $("bOut")), f = mk("g", {}, $("bFill"));
+        mk("path", { d: BARREL, fill: "rgba(226,232,240,.07)", stroke: "rgba(226,232,240,.5)", "stroke-width": 2.5 }, o);
+        mk("path", { d: HOOPS, fill: "none", stroke: "rgba(226,232,240,.35)", "stroke-width": 2 }, o);
+        mk("path", { d: BARREL, fill: "#fbbf24" }, f);
+        mk("path", { d: HOOPS, fill: "none", stroke: "rgba(120,53,15,.55)", "stroke-width": 2.5 }, f);
+        return { o, f, x: i * 82 };
+      });
+      const bclip = $("s04-bclipR");
+
+      // ---------- B6 chart geometry: y = 910 - (v - 60) * 6.143 ($60..$130 over 430 px) ----------
+      const GY = (v) => 910 - (v - 60) * 6.143;
+      const P1 = [330, GY(73)], P2 = [680, GY(126.41)], P3 = [1000, GY(106)];
+      const GRID = [60, 80, 100, 120].map((v) => mk("line", { x1: 236, y1: f1(GY(v)), x2: 236, y2: f1(GY(v)) }, $("bgrid")));
+
+      // ---------- typers + counters (pure in t) ----------
+      const ty = [
+        typer($("k1"), "Hormuz se Bharat tak", T.k1),
+        typer($("b2s1"), "PPAC", T.ppac),
+        typer($("b2s2"), "2025-26", T.fy),
+        typer($("b3lb"), "LPG import", T.lpg, { t1: W.b3[1] + 0.35 }),
+        typer($("k4"), "March 2026 · sarkaar", T.k4),
+        typer($("b4u1"), "LPG utpaadan", T.ut),
+        typer($("b5l1t"), "Hormuz ke bahar se", T.bahar),
+        typer($("k6a"), "Door ka tel", T.door, { t1: T.brent - 0.15 }),
+        typer($("k6b"), "Brent crude · $/barrel", T.brent),
+        typer($("yBt"), "2026-27", T.yB),
+        typer($("yAt"), "2025-26", T.yA),
+        typer($("k8"), "Dollar ki maang", T.k8),
+        typer($("b8dt"), "20 May 2026 · record low", T.may),
+        typer($("h9a"), "Har goli", T.goli1, { t1: T.tOut }),
+        typer($("h9b"), "Bharat ki jeb", T.jeb, { t1: T.tOut }),
+      ];
+      const cn = [
+        counter($("n887"), { to: 88.7, t0: T.n887, dur: 1.5, dec: 1, suffix: "%", fmt: (v) => v.toFixed(1) }),
+        counter($("n50"), { to: 50, t0: T.n50, dur: 1.0, prefix: "~", suffix: "%" }),
+        counter($("n90"), { to: 90, t0: T.n90, dur: 1.2, prefix: "~", suffix: "%" }),
+        counter($("n25"), { to: 25, t0: T.n25, dur: 1.1, prefix: "~", suffix: "%" }),
+        counter($("n70"), { to: 70, t0: T.n70, dur: 1.4, prefix: "~", suffix: "%" }),
+        counter($("n40"), { to: 40, t0: T.n40, dur: 0.8, prefix: "~" }),
+        counter($("bl1"), { from: 60, to: 73, t0: T.p1, dur: 0.8, prefix: "~$" }),
+        counter($("bl2"), { from: 73, to: 126.41, t0: T.p2, dur: 1.3, dec: 2, prefix: "$", fmt: (v) => v.toFixed(2) }),
+        counter($("bl3"), { from: 126, to: 106, t0: T.p3, dur: 1.0, prefix: "~$" }),
+        counter($("vB"), { to: 90.6, t0: T.vB, dur: 1.35, dec: 1, prefix: "$", fmt: (v) => v.toFixed(1) }),
+        counter($("vA"), { to: 61.9, t0: T.vA, dur: 1.15, dec: 1, prefix: "$", fmt: (v) => v.toFixed(1) }),
+        counter($("n9696v"), { from: 90, to: 96.96, t0: T.n96, dur: 1.4, dec: 2, fmt: (v) => v.toFixed(2) }),
+      ];
+
+      const scrim = $("scrim"), scrim2 = $("scrim2"), scrimH = $("scrimH"), credit = $("credit");
+      const n887 = $("n887"), n50 = $("n50"), n90 = $("n90"), f50 = $("f50"), f90 = $("f90");
+      const b2sep = $("b2sep"), b2chk = $("b2chk"), b4arrow = $("b4arrow");
+      const dTrack = $("dTrack"), dArc = $("dArc"), DL = 2 * Math.PI * 150;
+      const bRef = $("bRef"), bArea = $("bArea"), bLine = $("bLine"), btip = $("btip"), bp1 = $("bp1"), bp2 = $("bp2"), bp3 = $("bp3"), bp2ring = $("bp2ring");
+      const bl1 = $("bl1"), bl2 = $("bl2"), bl3 = $("bl3");
+      const barA = $("barA"), barB = $("barB"), slotA = $("slotA"), slotB = $("slotB"), bBase = $("bBase");
+      const gGuide = $("gGuide"), gTop = $("gTop"), gArrow = $("gArrow"), gHead = $("gHead"), vAw = $("vAw"), vBw = $("vBw");
+      const k8up = $("k8up"), b8down = $("b8down");
+      const lerp = (a, b, k) => [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k];
+      const yTopA = 890 - 390 * (61.9 / 90.6);
 
       const tl = gsap.timeline({ paused: true });
       driveWithTimeline(tl, DUR, (t) => {
-        // lane: full, dims while the new routes take over, returns for the payoff
-        const laneA = 1 - 0.7 * sm((t - C.c09 - 0.3) / 1.2) + 0.5 * sm((t - C.c12) / 1.5) + 0.2 * sm((t - C.c22) / 0.8);
-        earth.setLineOpacity("lane", Math.min(1, laneA));
+        // ---- lines: amber lane -> coral on "raasta badla"; the run to India dims, then carries the payoff ----
+        const endF = 1 - sm((t - (DUR - 0.8)) / 0.7);
+        earth.setLineOpacity("lane", (0.4 + 0.6 * sm(t / 1.6)) * (1 - sm((t - T.badla) / 0.4)));
+        earth.setLineOpacity("laneC", sm((t - T.badla) / 0.4) * (1 - 0.45 * sm((t - 49.4) / 1.0) + 0.45 * sm((t - 87.6) / 0.8)) * endF);
+        earth.setLineOpacity("ext", sm(t / 2.0) * (1 - 0.7 * sm((t - T.badla) / 0.6) + 0.25 * sm((t - 50) / 1.2) + 0.45 * sm((t - 87.6) / 0.8)) * endF);
         earth.render(camAt(CAM, t));
 
-        // camera drift keeps the scrim + credit honest
-        scrim.style.opacity = env(t, 0.6, DUR - 0.9, 0.6).toFixed(3);
+        scrim.style.opacity = env(t, 0.45, 87.1, 0.6).toFixed(3);
+        scrim2.style.opacity = env(t, 52.2, 78.0, 0.6).toFixed(3);
+        scrimH.style.opacity = env(t, 88.6, 91.85, 0.5).toFixed(3);
         credit.style.opacity = env(t, 0.4, DUR - 0.4, 0.4).toFixed(3);
 
-        // Hormuz pin + label + neighbours (first half)
+        // ---- Hormuz: pulse (B1-B3, payoff), label (B3), blocked X (B5), shockwave on "goli" ----
         const ph = earth.project(HZ.lat, HZ.lon, 0);
-        placePulse(pHz, ph, env(t, 0.3, C.c07 + 1.0, 0.6), t);
-        placeLabel(lHz, ph, t, C.c05 + 0.4, C.c07 + 0.6);
-        placeTag(tIran, earth.project(28.6, 56.8, 0), env(t, 1.2, C.c07 + 1.5, 0.5));
-        placeTag(tOman, earth.project(23.8, 57.4, 0), env(t, 8.0, C.c07 + 1.5, 0.5));
-        placeTag(tBharat, earth.project(21.5, 76.5, 0), env(t, C.c08 + 1.0, DUR - 0.9, 0.6));
-        placeTag(tSea, earth.project(17.0, 65.5, 0), env(t, C.c08 + 2.0, DUR - 0.9, 0.6));
+        placePulse(pHz, ph, Math.max(env(t, 0.3, 27.2, 0.6), env(t, 87.9, DUR - 0.25, 0.5)), t);
+        placeLabel(lHz, ph, t, T.hz, 26.9);
+        placeLabel(lHzX, ph, t, T.badla + 0.15, 49.0);
+        const aX = t < T.badla ? 0 : 1 - sm((t - 49.0) / 0.4);
+        xG.setAttribute("opacity", (aX * (ph.visible ? 1 : 0)).toFixed(3));
+        xG.setAttribute("transform", `translate(${f1(ph.x)},${f1(ph.y)}) scale(${(0.4 + 0.6 * backOut(prog(t, T.badla, 0.35))).toFixed(3)})`);
+        xRing.setAttribute("r", (28 + 3 * Math.sin(t * 4.2)).toFixed(2));
+        shock.forEach((c, i) => {
+          const k = prog(t, T.goli + i * 0.16, 1.1);
+          c.setAttribute("cx", f1(ph.x)); c.setAttribute("cy", f1(ph.y));
+          c.setAttribute("r", (14 + 120 * out3(k)).toFixed(1));
+          c.setAttribute("opacity", (k > 0 && k < 1 && ph.visible ? 0.9 * (1 - k) : 0).toFixed(3));
+        });
 
-        // new routes from outside Hormuz
-        const rEnd = C.c22 - 0.5;
-        placeRoute(rW, inOut2(prog(t, C.c10 + 0.6, 3.6)), env(t, C.c10 + 0.6, rEnd, 0.3) * (1 - 0.55 * sm((t - C.c12) / 1.5)));
-        placeRoute(rS, inOut2(prog(t, C.c11 + 0.2, 3.0)), env(t, C.c11 + 0.2, rEnd, 0.3) * (1 - 0.55 * sm((t - C.c12) / 1.5)));
+        // ---- country tags (orientation only; Bharat pops when the camera reaches India) ----
+        placeTag(tIran, earth.project(27.6, 55.2, 0), env(t, 16.9, 26.9, 0.5));
+        placeTag(tOman, earth.project(23.5, 56.8, 0), env(t, 17.3, 26.9, 0.5));
+        const bhA = Math.max(env(t, T.bh4, 36.6, 0.3), env(t, 79.0, 86.9, 0.5));
+        placeTag(tBharat, earth.project(22.3, 75.6, 0), bhA, t < 60 ? 0.8 + 0.2 * backOut(prog(t, T.bh4, 0.4)) : 1);
 
-        // payoff: one tanker of oil runs the lane into India
-        const ko = prog(t, C.c22 + 0.3, 5.0);
-        if (ko > 0 && ko < 1) {
-          const f = inOut2(ko) * (laneD.length - 1), i = Math.min(laneD.length - 2, Math.floor(f)), fr = f - i;
-          const A = laneD[i], B = laneD[i + 1];
-          const q = earth.project(A[1] + (B[1] - A[1]) * fr, A[0] + (B[0] - A[0]) * fr, 0);
-          oil.setAttribute("cx", q.x.toFixed(1)); oil.setAttribute("cy", q.y.toFixed(1));
-          oil.setAttribute("opacity", (sm(ko / 0.08) * sm((1 - ko) / 0.04)).toFixed(3));
-        } else oil.setAttribute("opacity", 0);
-        const kr = prog(t, C.c22 + 5.2, 1.6), qm = earth.project(MUM.lat, MUM.lon, 0);
-        oilRing.setAttribute("cx", qm.x.toFixed(1)); oilRing.setAttribute("cy", qm.y.toFixed(1));
-        oilRing.setAttribute("r", (10 + 60 * out3(kr)).toFixed(1));
-        oilRing.setAttribute("opacity", (kr > 0 ? (1 - kr) * env(t, 0, DUR - 0.6, 0.3) : 0).toFixed(3));
+        // ---- oil (amber) and LPG (white) flowing along the lane into India, until the route changes ----
+        const fa = env(t, 9.6, 36.4, 0.8), fl = env(t, 21.9, 36.4, 0.8);
+        const flow = (arr, a, off) => arr.forEach((c, i) => {
+          if (a <= 0.002) { c.setAttribute("opacity", 0); return; }
+          const u = ((t * 0.04 + (i + off) / arr.length) % 1 + 1) % 1, ll = laneAtS(u * TOT), p = earth.project(ll[0], ll[1], 0);
+          c.setAttribute("cx", f1(p.x)); c.setAttribute("cy", f1(p.y));
+          c.setAttribute("opacity", (a * (p.visible ? 1 : 0) * Math.min(1, u * 10, (1 - u) * 10)).toFixed(3));
+        });
+        flow(CRUDE, fa, 0); flow(LPGD, fl, 0.5);
+        // "isi raaste se": a bright sweep runs through the strait
+        const sa = env(t, T.sweep, T.sweep + 1.45, 0.2);
+        if (sa > 0.002) {
+          const h = (-0.2 + 1.5 * inOut(prog(t, T.sweep, 1.4))) * SL;
+          sweep.setAttribute("d", lanePath(Math.max(0, h - 0.3 * SL), Math.min(SL, h)));
+          sweep.setAttribute("opacity", (0.95 * sa).toFixed(3));
+        } else sweep.setAttribute("opacity", 0);
+        // payoff: the shock runs from Hormuz down the lane toward India
+        const ra = env(t, T.goli + 0.25, T.tOut, 0.25);
+        if (ra > 0.002) {
+          const s = S_HZ + (TOT - S_HZ) * 0.45 * inOut(prog(t, T.goli + 0.25, 1.9));
+          ripTrail.setAttribute("d", lanePath(Math.max(S_HZ, s - 1.4), s, 0.1));
+          ripTrail.setAttribute("opacity", (0.7 * ra).toFixed(3));
+          const ll = laneAtS(s), p = earth.project(ll[0], ll[1], 0);
+          ripDot.setAttribute("cx", f1(p.x)); ripDot.setAttribute("cy", f1(p.y)); ripDot.setAttribute("opacity", (ra * (p.visible ? 1 : 0)).toFixed(3));
+        } else { ripTrail.setAttribute("opacity", 0); ripDot.setAttribute("opacity", 0); }
 
-        // B2 counter + fill land as one beat (count-up with scale growth)
-        const k887 = out3(prog(t, C.c03 + 0.7, 2.2));
-        n887.textContent = fmt(88.7 * k887, 1) + "%";
+        cards.update(t, earth);
+        for (const x of ty) x.update(t);
+        for (const x of cn) x.update(t);
+
+        // ---- B2: 88.7 %, barrels fill in step with the counter ----
+        const k887 = out3(prog(t, T.n887, 1.5));
         n887.style.transform = `scale(${(0.86 + 0.14 * k887).toFixed(4)})`;
-        f887.style.transform = `scaleX(${(0.887 * k887).toFixed(4)})`;
-        // B3
-        const k50 = out3(prog(t, C.c05 + 0.8, 1.8)), k90 = out3(prog(t, C.c06 + 0.5, 1.8));
-        n50.textContent = "~" + Math.round(50 * k50) + "%"; n50.style.transform = `scale(${(0.86 + 0.14 * k50).toFixed(4)})`;
-        f50.style.transform = `scaleX(${(0.5 * k50).toFixed(4)})`;
-        n90.textContent = "~" + Math.round(90 * k90) + "%"; n90.style.transform = `scale(${(0.86 + 0.14 * k90).toFixed(4)})`;
-        f90.style.transform = `scaleX(${(0.9 * k90).toFixed(4)})`;
-        // B4, B5
-        n25.textContent = "~" + Math.round(countAt(t, C.c08 + 0.5, 1.6, 0, 25)) + "%";
-        n70.textContent = "~" + Math.round(countAt(t, C.c10 + 0.4, 1.8, 0, 70)) + "%";
+        bclip.setAttribute("width", (4 + 802 * 0.887 * k887).toFixed(1));
+        barrels.forEach((b, i) => {
+          const k = out3(prog(t, W.b2[0] + 0.2 + i * 0.045, 0.45)), tr = `translate(${b.x},${f1((1 - k) * 18)})`;
+          b.o.setAttribute("transform", tr); b.f.setAttribute("transform", tr); b.o.setAttribute("opacity", k.toFixed(3));
+        });
+        b2sep.style.opacity = sm((t - T.fy) / 0.15).toFixed(3);
+        b2chk.style.opacity = prog(t, T.chk, 0.15).toFixed(3);
+        b2chk.style.transform = `scale(${backOut(prog(t, T.chk, 0.4)).toFixed(3)})`;
 
-        // B6: Brent line draws through its three real points
-        const k1 = inOut2(prog(t, C.c14 + 0.2, 2.0)), k2 = inOut2(prog(t, C.c15 + 0.2, 1.8));
-        let hx, hy;
-        if (k2 <= 0) { hx = BP[0][0] + (BP[1][0] - BP[0][0]) * k1; hy = BP[0][1] + (BP[1][1] - BP[0][1]) * k1; }
-        else { hx = BP[1][0] + (BP[2][0] - BP[1][0]) * k2; hy = BP[1][1] + (BP[2][1] - BP[1][1]) * k2; }
-        clipR.setAttribute("width", Math.max(0, hx - 96 + 4).toFixed(1));
-        const moving = (k1 > 0 && k1 < 1) || (k2 > 0 && k2 < 1);
-        btip.setAttribute("cx", hx.toFixed(1)); btip.setAttribute("cy", hy.toFixed(1));
-        btip.setAttribute("opacity", moving ? 1 : 0);
-        $("bp1").setAttribute("r", (9 * backOut(prog(t, C.c13 + 0.3, 0.4))).toFixed(2));
-        $("bp2").setAttribute("r", (11 * backOut(prog(t, C.c14 + 2.15, 0.4))).toFixed(2));
-        $("bp3").setAttribute("r", (9 * backOut(prog(t, C.c15 + 1.95, 0.4))).toFixed(2));
-        // tip labels ride the head and settle on their point
-        bl2.style.opacity = ((k1 > 0 ? 1 : 0) * env(t, 0, W.b6[1] + 0.35, 0.35)).toFixed(3);
-        bl2.style.transform = `translate(${(BP[0][0] + (BP[1][0] - BP[0][0]) * k1 - 520).toFixed(1)}px, ${(BP[0][1] + (BP[1][1] - BP[0][1]) * k1 - 92).toFixed(1)}px)`;
-        bl2.textContent = k1 >= 1 ? "$126.41" : "$" + (73 + (126.41 - 73) * k1).toFixed(0);
-        bl3.style.opacity = (clamp01(k2 / 0.15) * env(t, 0, W.b6[1] + 0.35, 0.35)).toFixed(3);
-        bl3.style.transform = `translate(${(BP[1][0] + (BP[2][0] - BP[1][0]) * k2 - 850).toFixed(1)}px, ${(BP[1][1] + (BP[2][1] - BP[1][1]) * k2 - 92).toFixed(1)}px)`;
-        bl3.textContent = k2 >= 1 ? "~$106" : "$" + (126.41 + (106 - 126.41) * k2).toFixed(0);
+        // ---- B3: two stat rows ----
+        const k50 = out3(prog(t, T.n50, 1.0)), k90 = out3(prog(t, T.n90, 1.2));
+        n50.style.transform = `scale(${(0.86 + 0.14 * k50).toFixed(4)})`; f50.style.transform = `scaleX(${(0.5 * k50).toFixed(4)})`;
+        n90.style.transform = `scale(${(0.86 + 0.14 * k90).toFixed(4)})`; f90.style.transform = `scaleX(${(0.9 * k90).toFixed(4)})`;
 
-        // B7: PPAC bars grow with their counters (90.6 first, then 61.9, then +46 %)
-        const kB = out3(prog(t, C.c17 + 0.4, 2.0)), kA = out3(prog(t, C.c18 + 0.3, 1.8));
-        barB.style.transform = `scaleY(${kB.toFixed(4)})`; barA.style.transform = `scaleY(${kA.toFixed(4)})`;
-        vB.textContent = "$" + fmt(90.6 * kB, 1) + " bn"; vA.textContent = "$" + fmt(61.9 * kA, 1) + " bn";
-        vB.style.transform = `translateY(${(900 - 362 * kB - 82).toFixed(1)}px)`; vA.style.transform = `translateY(${(900 - 248 * kA - 82).toFixed(1)}px)`;
-        vB.style.opacity = kB > 0 ? 1 : 0; vA.style.opacity = kA > 0 ? 1 : 0;
-        const k46 = out3(prog(t, C.c19 + 0.2, 1.2));
-        n46.textContent = "+" + Math.round(46 * k46) + "%"; n46.style.transform = `scale(${(0.86 + 0.14 * k46).toFixed(4)})`;
+        // ---- B4: the arrow lifts with the counter ----
+        b4arrow.style.transform = `translateY(${f1(-14 * out3(prog(t, T.n25, 1.1)))}px)`;
 
-        // B8: rupee stamp
-        n9696v.textContent = fmt(countAt(t, C.c21 + 0.5, 1.4, 90, 96.96), 2);
+        // ---- B5: donut track draws, then the ~70 % arc sweeps ----
+        dTrack.setAttribute("stroke-dasharray", `${f1(DL * inOut(prog(t, T.ring, 0.8)))} ${f1(DL)}`);
+        dArc.setAttribute("stroke-dasharray", `${f1(DL * 0.7 * out3(prog(t, T.n70, 1.4)))} ${f1(DL)}`);
+
+        // ---- B6: Brent chart ----
+        GRID.forEach((g, i) => g.setAttribute("x2", f1(236 + 824 * inOut(prog(t, T.grid + i * 0.08, 0.7)))));
+        const kP1 = out3(prog(t, T.p1, 0.8)), y1 = 910 + (P1[1] - 910) * kP1;
+        bp1.setAttribute("cy", f1(y1));
+        bp1.setAttribute("r", (t < T.p1 ? 0 : 7 + 3 * backOut(prog(t, T.p1 + 0.8, 0.35))).toFixed(2));
+        bl1.style.opacity = prog(t, T.p1, 0.2).toFixed(3);
+        bl1.style.transform = `translate(210px, ${f1(y1 - 82)}px)`;
+        bRef.setAttribute("x2", f1(330 + 730 * inOut(prog(t, T.p1 + 0.8, 0.8))));
+        bRef.setAttribute("opacity", t < T.p1 + 0.8 ? 0 : 1);
+        const k1 = inOut(prog(t, T.p2, 1.3)), k2 = inOut(prog(t, T.p3, 1.0));
+        if (k1 > 0) {
+          const pts = [P1, lerp(P1, P2, k1)];
+          if (k2 > 0) pts.push(lerp(P2, P3, k2));
+          const head = pts[pts.length - 1], d = "M" + pts.map((q) => f1(q[0]) + "," + f1(q[1])).join(" L");
+          bLine.setAttribute("d", d);
+          bArea.setAttribute("d", d + ` L${f1(head[0])},910 L${P1[0]},910 Z`);
+          const moving = k1 < 1 || (k2 > 0 && k2 < 1);
+          btip.setAttribute("cx", f1(head[0])); btip.setAttribute("cy", f1(head[1])); btip.setAttribute("opacity", moving ? 1 : 0);
+        } else { bLine.setAttribute("d", ""); bArea.setAttribute("d", ""); btip.setAttribute("opacity", 0); }
+        bp2.setAttribute("r", (12 * backOut(prog(t, T.p2 + 1.3, 0.35))).toFixed(2));
+        bp3.setAttribute("r", (10 * backOut(prog(t, T.p3 + 1.0, 0.35))).toFixed(2));
+        const kr = prog(t, T.p2 + 1.3, 0.9);
+        bp2ring.setAttribute("r", (12 + 34 * out3(kr)).toFixed(1));
+        bp2ring.setAttribute("opacity", (kr > 0 && kr < 1 ? 0.9 * (1 - kr) : 0).toFixed(3));
+        bl2.style.opacity = prog(t, T.p2, 0.2).toFixed(3);
+        bl3.style.opacity = prog(t, T.p3, 0.2).toFixed(3);
+
+        // ---- B7: PPAC bars (90.6 first, then 61.9), then the +46 % delta ----
+        bBase.setAttribute("x2", f1(96 + 600 * inOut(prog(t, T.base, 0.6))));
+        const so = (0.06 * prog(t, T.base + 0.2, 0.5)).toFixed(3);
+        slotA.setAttribute("opacity", so); slotB.setAttribute("opacity", so);
+        const kB = out3(prog(t, T.vB, 1.35)), kA = out3(prog(t, T.vA, 1.15));
+        const hB = 390 * kB, hA = 390 * (61.9 / 90.6) * kA;
+        barB.setAttribute("y", f1(890 - hB)); barB.setAttribute("height", f1(hB));
+        barA.setAttribute("y", f1(890 - hA)); barA.setAttribute("height", f1(hA));
+        vBw.style.opacity = t >= T.vB ? 1 : 0; vBw.style.transform = `translateY(${f1(890 - hB - 12 - 64)}px)`;
+        vAw.style.opacity = t >= T.vA ? 1 : 0; vAw.style.transform = `translateY(${f1(890 - hA - 12 - 64)}px)`;
+        const kg = inOut(prog(t, T.d46 - 0.35, 0.35)), kt = inOut(prog(t, T.d46 - 0.2, 0.25)), ka = out3(prog(t, T.d46 - 0.15, 0.3));
+        gGuide.setAttribute("y1", f1(yTopA)); gGuide.setAttribute("y2", f1(yTopA));
+        gGuide.setAttribute("x2", f1(336 + 376 * kg)); gGuide.setAttribute("opacity", kg > 0 ? 0.9 : 0);
+        gTop.setAttribute("x2", f1(656 + 56 * kt)); gTop.setAttribute("opacity", kt > 0 ? 0.9 : 0);
+        const yTip = yTopA - (yTopA - 506) * ka;
+        gArrow.setAttribute("y1", f1(yTopA)); gArrow.setAttribute("y2", f1(yTip)); gArrow.setAttribute("opacity", ka > 0 ? 1 : 0);
+        gHead.setAttribute("transform", `translate(700,${f1(yTip - 6)})`); gHead.setAttribute("opacity", ka > 0 ? 1 : 0);
+
+        // ---- B8: demand arrow after the typed kicker, rupee-down arrow on "record low" ----
+        k8up.style.opacity = prog(t, T.up8, 0.15).toFixed(3);
+        k8up.style.transform = `translateY(${f1(6 - 6 * backOut(prog(t, T.up8, 0.4)))}px)`;
+        b8down.style.opacity = prog(t, T.low, 0.15).toFixed(3);
+        b8down.style.transform = `translateY(${f1(-30 * (1 - out3(prog(t, T.low, 0.45))))}px) scale(${(0.7 + 0.3 * backOut(prog(t, T.low, 0.45))).toFixed(3)})`;
       });
 
       // ---------- text blocks (one paused timeline) ----------
@@ -433,7 +681,8 @@
       const riseOut = (el, at) => tl.fromTo(el, { yPercent: 0 }, { yPercent: -105, duration: 0.4, ease: "power2.in", immediateRender: false }, at);
       const fadeOut = (el, at) => tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, at);
       const popIn = (el, at) => tl.fromTo(el, { scale: 1.25, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" }, at);
-      function kickIn(id, at) { const b = $(id); ruleIn(b.querySelector(".kicker i"), at); fadeIn(b.querySelector(".kicker span"), at + 0.15); }
+      const rule = (id) => $(id).querySelector(".kicker i");
+      function kickIn(id, at) { ruleIn(rule(id), at); fadeIn($(id).querySelector(".kicker span"), at + 0.15); }
       function blockOut(id) {
         const b = $(id), at = W[id][1];
         b.querySelectorAll(".mask > *:not(.gone)").forEach((e) => riseOut(e, at));
@@ -442,70 +691,70 @@
       }
       const H = (id, i) => $(id).querySelectorAll(".mask > *")[i];
 
-      // B1
-      kickIn("b1", W.b1[0]);
-      riseIn(H("b1", 0), W.b1[0] + 0.3);
-      riseIn($("b1a"), W.b1[0] + 0.45);
+      // B1: typed kicker, two-line question; line 2 swaps to the answer, both lines leave together
+      ruleIn(rule("b1"), W.b1[0]);
+      riseIn(H("b1", 0), T.h1); riseIn($("b1a"), T.h1 + 0.12);
       $("b1a").classList.add("gone");
-      riseOut($("b1a"), C.c02 - 0.1);
-      riseIn($("b1b"), C.c02 + 0.15);
+      riseOut($("b1a"), T.bahut - 0.15);
+      riseIn($("b1b"), T.bahut);
       blockOut("b1");
 
-      // B2 (88.7 %)
+      // B2: 88.7 %
       kickIn("b2", W.b2[0]);
-      riseIn($("n887w"), W.b2[0] + 0.3);
-      fadeIn($("b2").querySelector(".sub"), C.c03 + 1.4);
-      fadeIn($("b2").querySelector(".track"), C.c03 + 0.6);
-      fadeIn($("b2src"), C.c04 + 0.2);
+      riseIn($("n887w"), W.b2[0] + 0.25);
+      fadeIn($("b2u"), 9.25);
       blockOut("b2");
 
-      // B3 (~50 %, ~90 %)
+      // B3: ~50 % crude, ~90 % LPG (stacked rows, never side by side)
       kickIn("b3", W.b3[0]);
-      riseIn($("n50w"), C.c05 + 0.5);
-      fadeIn($("b3ua"), C.c05 + 1.2); fadeIn($("b3ta"), C.c05 + 0.7);
-      riseIn($("n90w"), C.c06 + 0.25);
-      fadeIn($("b3ub"), C.c06 + 0.9); fadeIn($("b3tb"), C.c06 + 0.4);
-      fadeIn($("b3src"), C.c06 + 2.0);
+      fadeIn($("b3la"), W.b3[0] + 0.35); fadeIn($("b3ta"), W.b3[0] + 0.5);
+      riseIn($("n50w"), T.n50 - 0.2);
+      fadeIn($("b3tb"), T.lpg);
+      riseIn($("n90w"), T.n90 - 0.2);
+      fadeIn($("b3src"), T.sweep - 0.3);
       blockOut("b3");
 
-      // B4 (LPG ~25 %)
-      kickIn("b4", W.b4[0]);
-      riseIn(H("b4", 0), W.b4[0] + 0.3); riseIn(H("b4", 1), W.b4[0] + 0.42);
-      riseIn($("b4row"), C.c08 + 0.3);
-      fadeIn($("b4u"), C.c08 + 1.2); fadeIn($("b4src"), C.c08 + 2.4);
+      // B4: LPG output ~25 %
+      ruleIn(rule("b4"), W.b4[0]);
+      riseIn(H("b4", 0), T.h4); riseIn(H("b4", 1), T.h4 + 0.12);
+      fadeIn($("b4u2"), T.mm);
+      riseIn($("b4row"), T.n25 - 0.15);
+      fadeIn($("b4src"), T.n25 + 0.3);
       blockOut("b4");
 
-      // B5 (~70 % outside Hormuz)
+      // B5: route changed (no drawn routes; donut + chip)
       kickIn("b5", W.b5[0]);
-      riseIn(H("b5", 0), W.b5[0] + 0.3); riseIn(H("b5", 1), W.b5[0] + 0.42);
-      riseIn(n70, C.c10 + 0.2);
-      fadeIn($("b5u"), C.c10 + 1.2); fadeIn($("b5src"), C.c10 + 2.6);
+      riseIn(H("b5", 0), W.b5[0] + 0.2); riseIn(H("b5", 1), W.b5[0] + 0.32);
+      fadeIn($("n70"), T.n70 - 0.05, 0.3);
+      fadeIn($("b5sq1"), T.bahar - 0.05, 0.3);
+      fadeIn($("b5l2"), T.rest);
+      popIn($("b5chip"), T.n40 - 0.05);
+      fadeIn($("b5src"), C.c11 + 0.1);
       blockOut("b5");
 
-      // B6 (Brent)
-      kickIn("b6", W.b6[0]);
-      riseIn(H("b6", 0), W.b6[0] + 0.3);
-      tl.fromTo("#brent", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, C.c13 - 0.2);
-      tl.fromTo("#brent", { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, W.b6[1]);
-      popIn($("bl1"), C.c13 + 0.45);
-      fadeOut($("bl1"), W.b6[1]);
-      fadeIn($("bd1"), C.c13 + 0.6); fadeIn($("bd2"), C.c14 + 1.6); fadeIn($("bd3"), C.c15 + 1.4);
-      fadeIn($("b6src"), C.c15 + 2.4);
+      // B6: Brent chart (kicker retypes from "door ka tel" to "Brent crude")
+      ruleIn(rule("b6"), W.b6[0] + 0.1);
+      riseIn(H("b6", 0), T.meh);
+      ["yl0", "yl1", "yl2", "yl3"].forEach((id, i) => fadeIn($(id), T.grid + 0.2 + (3 - i) * 0.08, 0.35));
+      fadeIn($("bd1"), T.p1 + 0.1); fadeIn($("bd2"), T.d2); fadeIn($("bd3"), T.d3);
+      fadeIn($("b6src"), T.p2 + 1.5);
       blockOut("b6");
 
-      // B7 (PPAC bars, the approved still)
+      // B7: import bill bars
       kickIn("b7", W.b7[0]);
-      riseIn(H("b7", 0), W.b7[0] + 0.3);
-      fadeIn($("b7b"), C.c17 + 0.2); fadeIn($("b7a"), C.c18 + 0.1);
-      riseIn($("n46w"), C.c19 + 0.05);
-      fadeIn($("b7u"), C.c19 + 0.7); fadeIn($("b7src"), C.c19 + 1.2);
+      riseIn(H("b7", 0), W.b7[0] + 0.25);
+      fadeIn($("yBs"), T.yB, 0.35); fadeIn($("yAs"), T.yA, 0.35);
+      fadeIn($("b7src"), T.vB + 1.75);
+      popIn($("n46"), T.d46 - 0.05);
+      fadeIn($("b7u"), T.d46 + 0.6);
       blockOut("b7");
 
-      // B8 (rupee)
-      kickIn("b8", W.b8[0]);
-      riseIn(H("b8", 0), W.b8[0] + 0.3); riseIn(H("b8", 1), W.b8[0] + 0.42);
-      riseIn($("n9696"), C.c21 + 0.3);
-      fadeIn($("b8u"), C.c21 + 1.4); fadeIn($("b8src"), C.c21 + 2.4);
+      // B8: rupee
+      ruleIn(rule("b8"), W.b8[0]);
+      riseIn(H("b8", 0), T.h8); riseIn(H("b8", 1), T.h8 + 0.12);
+      riseIn($("n9696w"), T.n96 - 0.15);
+      fadeIn($("b8u"), T.n96 + 1.85);
+      fadeIn($("b8src"), T.n96 + 2.25);
       blockOut("b8");
 
       window.__timelines["main"] = tl;

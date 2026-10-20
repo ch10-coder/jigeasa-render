@@ -16,51 +16,67 @@
       html, body { width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
       #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
       #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-      #s02-fx { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: visible; }
-      .scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,0) 55%); }
-      .scrim-r { position: absolute; inset: 0; background: linear-gradient(270deg, rgba(4,9,27,.7) 0%, rgba(4,9,27,.6) 14%, rgba(4,9,27,0) 30%); }
-      .block { position: absolute; left: 96px; top: 150px; width: 900px; }
-      .kicker { display: flex; align-items: center; gap: 16px; font: 700 28px Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase;
-                text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .kicker i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
-      .mask { overflow: hidden; }
-      .gap { height: 22px; }
-      .h { font: 400 170px/1.04 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
-           text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .h.k { color: #ff6b6b; }
-      .row { position: absolute; left: 1466px; top: 0; white-space: nowrap; opacity: 0; }
-      .row .lab { font: 700 26px/1 Inter; letter-spacing: 5px; color: #f8fafc; text-transform: uppercase;
-                  text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
-      .row .lab b { font-weight: 700; display: inline-block; width: 40px; }
-      .meter { display: flex; gap: 4px; margin-top: 14px; }
-      .meter span { display: block; width: 14px; height: 7px; border-radius: 1px; background: rgba(148,163,184,.35); position: relative; overflow: hidden; }
-      .meter span em { position: absolute; inset: 0; background: #ff6b6b; opacity: 0; }
-      .credit { position: absolute; left: 0; right: 0; top: 1028px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px;
-                text-shadow: 0 2px 2px rgba(2,6,16,.7); }
+      #s02-fx { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+      .s02-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,0) 55%); }
+      .s02-scrim-r { position: absolute; inset: 0; background: linear-gradient(270deg, rgba(4,9,27,.72) 0%, rgba(4,9,27,.62) 14%, rgba(4,9,27,0) 31%); }
+      .s02-block { position: absolute; left: 96px; top: 150px; width: 900px; transform-origin: 0% 50%; }
+      .s02-kick { display: flex; align-items: center; gap: 16px; font: 700 28px/34px Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase;
+                  white-space: nowrap; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .s02-kick i { display: block; flex: none; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
+      .s02-mask { overflow: hidden; }
+      .s02-gap { height: 22px; }
+      .s02-h { font: 400 150px/1.04 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
+               text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .s02-h.k { color: #ff6b6b; }
+      /* ranking rows: [rank] [flag(s)] NAME / khatra meter / typed tag */
+      .s02-row { position: absolute; left: 1452px; top: 0; display: flex; align-items: flex-start; white-space: nowrap; opacity: 0; }
+      .s02-num { width: 30px; margin-top: -7px; font: 400 38px/40px Anton; color: #ff6b6b; text-shadow: 0 3px 2.5px rgba(2,6,16,.75); }
+      .s02-flags { display: flex; gap: 6px; margin: -3px 12px 0 0; transform-origin: 50% 50%; }
+      .s02-flags img { display: block; width: 44px; height: 33px; border-radius: 4px; object-fit: cover;
+                       box-shadow: 0 0 0 1px rgba(248,250,252,.22), 0 4px 10px rgba(2,6,16,.45); }
+      .s02-lab { font: 700 24px/26px Inter; letter-spacing: 3.5px; color: #f8fafc; text-transform: uppercase;
+                 text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
+      .s02-meter { display: flex; gap: 4px; margin-top: 10px; }
+      .s02-meter span { display: block; width: 14px; height: 7px; border-radius: 1px; background: rgba(148,163,184,.35); position: relative; overflow: hidden; }
+      .s02-meter em { position: absolute; inset: 0; background: #ff6b6b; transform-origin: 0 50%; transform: scaleX(0); }
+      .s02-tag { display: flex; align-items: center; gap: 10px; margin-top: 10px; font: 700 19px/20px Inter; letter-spacing: 3px; color: #cbd5e1;
+                 text-transform: uppercase; text-shadow: 0 2px 2px rgba(2,6,16,.75); }
+      .s02-tag i { display: block; width: 6px; height: 6px; border-radius: 3px; background: #ff6b6b; opacity: 0; }
+      .s02-credit { position: absolute; left: 0; right: 0; top: 1028px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px;
+                    text-shadow: 0 2px 2px rgba(2,6,16,.7); }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="29.23" data-width="1920" data-height="1080">
       <canvas id="earth"></canvas>
-      <div class="scrim" id="s02-scrim"></div>
-      <div class="scrim-r" id="s02-scrim-r"></div>
       <svg id="s02-fx" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+        <g id="s02-bands"></g>
+        <g id="s02-sweep"></g>
         <g id="s02-leaders"></g>
         <g id="s02-pulses"></g>
+        <g id="s02-home" opacity="0">
+          <circle id="s02-home-halo" r="7" fill="none" stroke="#2dd4bf" stroke-width="2" />
+          <circle r="7.5" fill="#2dd4bf" />
+          <circle r="3" fill="#f8fafc" />
+        </g>
       </svg>
+      <div class="s02-scrim" id="s02-scrim"></div>
+      <div class="s02-scrim-r" id="s02-scrim-r"></div>
       <div id="s02-rows"></div>
-      <div class="block" id="s02-block">
-        <div class="kicker"><i id="s02-rule"></i><span id="s02-kick">Bharat ke nazariye se</span></div>
-        <div class="gap"></div>
-        <div class="mask"><div class="h" id="s02-h1">Khatre ki</div></div>
-        <div class="mask"><div class="h k" id="s02-h2">Ranking.</div></div>
+      <div class="s02-block" id="s02-block">
+        <div class="s02-kick"><i id="s02-rule"></i><span id="s02-kick">Bharat ke nazariye se</span></div>
+        <div class="s02-gap"></div>
+        <div class="s02-mask"><div class="s02-h" id="s02-h1">Khatre ki</div></div>
+        <div class="s02-mask"><div class="s02-h k" id="s02-h2">Ranking.</div></div>
       </div>
-      <div class="credit">NASA Blue Marble &nbsp;·&nbsp; Borders: DataMeet, Natural Earth (India view)</div>
+      <div class="s02-credit">NASA Blue Marble &nbsp;·&nbsp; Borders: DataMeet, Natural Earth (India view)</div>
     </div>
     <script type="module">
-      import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
-      /*CUES*/ const CUES = {"c01": 0.35, "c02": 2.05, "c03": 7.36, "c04": 12.38, "c05": 13.94, "c06": 17.89, "c07": 21.16, "c08": 23.23, "c09": 25.4}; /*END CUES*/
+      import { createEarth, driveWithTimeline } from "./assets/geo/engine.js";
+      import { typer, env, sm, out3, backOut, prog, clamp01 } from "./assets/geo/fx.js";
+      /*CUES*/ const CUES = {"c01": 0.35, "c02": 2.05, "c03": 7.36, "c04": 12.38, "c05": 14.61, "c06": 17.89, "c07": 19.0, "c08": 22.21, "c09": 23.23}; /*END CUES*/
       const DUR = /*DUR*/ 29.23 /*END DUR*/;
+      /*SFX*/ const SFX = [[0.85, 0, "impact"], [2.62, 0, "pop"], [3.20, 0, "draw"], [5.69, 0, "type", 15], [7.85, 0, "pop"], [8.30, 0, "draw"], [10.03, 0, "type", 6], [11.20, 0, "type", 8], [12.90, 0, "pop"], [13.55, 0, "pop"], [14.02, 0, "draw"], [18.40, 0, "pop"], [19.10, 0, "draw"], [20.51, 0, "type", 4], [21.80, 0, "pop"], [22.30, 0, "draw"], [23.96, 0, "ding"], [25.5, 0, "heartbeat"], [27.1, 0, "zoom"]]; /*END SFX*/
       const C = CUES;
 
       window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
@@ -68,127 +84,244 @@
       let done;
       window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
 
-      // ---------- camera: START (30,62,24000) -> pull back to the hemisphere -> lean toward each station as it is named
-      //            -> recentre -> dive to END over the Gulf (27,58,14000)
-      const CAM = [
-        { t: 0, lat: 30, lon: 62, alt: 24000, tilt: 0, heading: 0 },
-        { t: C.c02 + 1.0, lat: 29, lon: 63, alt: 30000, tilt: 0, heading: 0 },               // whole picture
-        { t: C.c03 - 0.3, lat: 28, lon: 61, alt: 29500, tilt: 0, heading: 0, ease: "linear" }, // station 1: Hormuz
-        { t: C.c03 + 2.2, lat: 30, lon: 67, alt: 29000, tilt: 0, heading: 0 },               // station 2: Pakistan
-        { t: C.c05 + 1.2, lat: 33, lon: 72, alt: 29000, tilt: 0, heading: 0 },               // stations 3 + 4: China
-        { t: C.c07 - 0.6, lat: 37, lon: 62, alt: 30500, tilt: 0, heading: 0 },               // station 5: Ukraine
-        { t: C.c09, lat: 30, lon: 72, alt: 30000, tilt: 0, heading: 0 },                     // station 6: Taiwan
-        { t: C.c09 + 2.4, lat: 30, lon: 66, alt: 31000, tilt: 0, heading: 0 },               // recentre on India
-        { t: DUR, lat: 27, lon: 58, alt: 14000, tilt: 0, heading: 0 },                        // dive to the Gulf: hand-off
-      ];
+      // ---------- word times (timing/s02_words.json, chapter seconds). Note: CUES c07-c09 sit 1-2 s before the spoken
+      // words ("aur number chhe" is at 21.21, "ye ranking" 23.28, "yaani" 25.45), so the late beats use these word times.
+      const W = {
+        number1: 2.1, ek: 2.54, strait: 3.12, sabse: 5.69,
+        number2: 7.41, do: 7.79, pakistan: 8.21, zameen: 10.01, samudra: 11.18,
+        number3: 12.43, teen: 12.83, aur34: 13.23, chaar: 13.47, china: 13.99, ladakh: 14.66, shaksgam: 16.62,
+        number5: 17.94, paanch: 18.32, russia: 19.05, jung: 20.51,
+        number6: 21.35, chhe: 21.73, taiwan: 22.26,
+        ye: 23.28, bharat: 23.96, yaani: 25.45, ghar: 27.37,
+      };
 
-      const clamp01 = (x) => Math.max(0, Math.min(1, x));
-      const ramp = (t, a, d) => clamp01((t - a) / d);
-      const smooth = (x) => x * x * (3 - 2 * x);
-      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+      // ---------- camera: one smooth path (monotone cubic per channel, log altitude); first/last keys = the hand-offs.
+      // Pull back to the whole picture, lean toward each station as it is named, swing west at globe scale while the
+      // rings sweep out from India, then start the dive toward the Gulf (s03 carries it on down to the strait).
+      const CAMK = [
+        [0, 30.0, 62.0, 24000],       // START hand-off
+        [2.6, 29.0, 63.0, 30000],     // "pehle poori tasveer": whole picture
+        [6.0, 28.6, 63.6, 29800],     // station 1: Hormuz
+        [10.5, 30.2, 67.0, 29400],    // station 2: Pakistan
+        [16.0, 32.5, 71.0, 29000],    // stations 3 + 4: China
+        [19.8, 34.6, 71.6, 30200],    // station 5: Ukraine (lean north)
+        [22.7, 30.5, 73.4, 29800],    // station 6: Taiwan (lean east)
+        [27.0, 28.0, 62.5, 29300],    // swing west under the distance rings
+        [DUR, 27.0, 58.0, 14000],     // END hand-off: the dive into the Gulf begins
+      ];
+      function camPath(K) {
+        const n = K.length, T = K.map((k) => k[0]);
+        const ch = [K.map((k) => k[1]), K.map((k) => k[2]), K.map((k) => Math.log(k[3]))];
+        const M = ch.map((Y) => {
+          const h = [], d = [], m = new Array(n).fill(0);
+          for (let i = 0; i < n - 1; i++) { h.push(T[i + 1] - T[i]); d.push((Y[i + 1] - Y[i]) / h[i]); }
+          for (let i = 1; i < n - 1; i++) {
+            if (d[i - 1] * d[i] > 0) { const w1 = 2 * h[i] + h[i - 1], w2 = h[i] + 2 * h[i - 1]; m[i] = (w1 + w2) / (w1 / d[i - 1] + w2 / d[i]); }
+          }
+          return m; // end tangents 0: the hand-offs are at rest
+        });
+        return (t) => {
+          let i = 0;
+          while (i < n - 2 && t > T[i + 1]) i++;
+          const h = T[i + 1] - T[i], s = clamp01((t - T[i]) / h), s2 = s * s, s3 = s2 * s;
+          const v = ch.map((Y, c) => (2 * s3 - 3 * s2 + 1) * Y[i] + (s3 - 2 * s2 + s) * h * M[c][i] + (-2 * s3 + 3 * s2) * Y[i + 1] + (s3 - s2) * h * M[c][i + 1]);
+          return { lat: v[0], lon: v[1], alt: Math.exp(v[2]), tilt: 0, heading: 0 };
+        };
+      }
+      const cam = camPath(CAMK);
+
       const NS = "http://www.w3.org/2000/svg";
       const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
 
+      // ---------- pulses: carried over from s01 (same ring phase at the join); the phase also lands on s03's Hormuz pulse
+      // (s03 draws it with tOn = -1, i.e. phase (t + 1) / 1.6, ring factor 0.8).
+      const phase = (t) => (t - DUR + 1) / 1.6;
       function makePulse(layer, maxR = 42) {
         const g = el("g", { opacity: 0 }, layer);
-        const rings = [150, 90, 50].map((a) => ({ a: a / 255, c: el("circle", { r: 11, fill: "none", stroke: "#ff6b6b", "stroke-width": 2.5 }, g) }));
+        const burst = el("circle", { r: 11, fill: "none", stroke: "#ff6b6b", "stroke-width": 2, "stroke-opacity": 0 }, g);
+        const rings = [150, 90, 50].map((a) => ({ a: Math.min(1, (a / 255) * 1.6), c: el("circle", { r: 11, fill: "none", stroke: "#ff6b6b", "stroke-width": 2.5 }, g) }));
         const dot = el("circle", { r: 11, fill: "#ff6b6b" }, g);
         el("circle", { r: 4.5, fill: "#f8fafc" }, g);
-        return { g, rings, dot, maxR };
+        return { g, rings, dot, burst, maxR };
       }
-      function drawPulse(P, p, t, alpha, boost = 0) {
+      function drawPulse(P, p, t, alpha, scale, ringK, burstK) {
         const a = alpha * (p.visible ? 1 : 0);
         if (a <= 0.002) { P.g.setAttribute("opacity", 0); return; }
-        const s = 1 + 0.3 * boost;
-        P.g.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) scale(${s.toFixed(3)})`);
+        P.g.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) scale(${scale.toFixed(3)})`);
         P.g.setAttribute("opacity", a.toFixed(3));
-        P.dot.setAttribute("r", (11 * (1 + 0.07 * Math.sin(t * Math.PI * 2 / 1.6))).toFixed(2));
+        const ph0 = phase(t);
+        P.dot.setAttribute("r", (11 * (1 + 0.07 * Math.sin(ph0 * Math.PI * 2))).toFixed(2));
         for (let i = 0; i < 3; i++) {
-          const ph = (((t / 1.6 + i / 3) % 1) + 1) % 1;
+          const ph = (((ph0 + i / 3) % 1) + 1) % 1;
           P.rings[i].c.setAttribute("r", (11 + (P.maxR - 11) * ph).toFixed(1));
-          P.rings[i].c.setAttribute("stroke-opacity", (Math.min(1, P.rings[i].a * 1.6) * (1 - ph) * (0.6 + 0.4 * boost)).toFixed(3));
+          P.rings[i].c.setAttribute("stroke-opacity", (P.rings[i].a * (1 - ph) * ringK).toFixed(3));
         }
+        if (burstK > 0 && burstK < 1) {
+          P.burst.setAttribute("r", (11 + 56 * out3(burstK)).toFixed(1));
+          P.burst.setAttribute("stroke-opacity", (0.85 * (1 - burstK)).toFixed(3));
+        } else P.burst.setAttribute("stroke-opacity", "0");
       }
 
-      // ---------- stations (rank order = India's point of view), meter = 5 bars, value from the approved board
+      // ---------- geodesic helpers (deg)
+      const D = Math.PI / 180;
+      const gcDist = (a, b) => Math.acos(Math.max(-1, Math.min(1, Math.sin(a[0] * D) * Math.sin(b[0] * D) + Math.cos(a[0] * D) * Math.cos(b[0] * D) * Math.cos((b[1] - a[1]) * D)))) / D;
+      function circlePts(c, rDeg, n = 96) {
+        const p1 = c[0] * D, l1 = c[1] * D, d = rDeg * D, out = [];
+        for (let k = 0; k <= n; k++) {
+          const th = (2 * Math.PI * k) / n;
+          const p2 = Math.asin(Math.sin(p1) * Math.cos(d) + Math.cos(p1) * Math.sin(d) * Math.cos(th));
+          const l2 = l1 + Math.atan2(Math.sin(th) * Math.sin(d) * Math.cos(p1), Math.cos(d) - Math.sin(p1) * Math.sin(p2));
+          out.push([p2 / D, l2 / D]);
+        }
+        return out;
+      }
+      function ringPath(pts) {
+        let d = "", pen = false;
+        for (const q of pts) {
+          const p = earth.project(q[0], q[1], 0);
+          if (!p.visible) { pen = false; continue; }
+          d += (pen ? "L" : "M") + p.x.toFixed(1) + " " + p.y.toFixed(1);
+          pen = true;
+        }
+        return d;
+      }
+
+      // ---------- stations (rank order = India's point of view); meter = 5 bars, values from the approved board
+      const DELHI = [28.61, 77.21];      // "hamare ghar": the rings start at home
+      const DOTX = 1436;                 // row anchor dots (rows start at x 1452)
       const ROWY = [250, 362, 475, 587, 699, 811];
       const ST = [
-        { n: 1, name: "Hormuz", ll: [26.6, 56.3], m: 5, on: C.c02 + 0.4 },
-        { n: 2, name: "Pakistan seema", ll: [30.92, 74.61], m: 5, on: C.c03 + 0.4 },
-        { n: 3, name: "LAC", ll: [34.76, 78.22], m: 4, on: C.c04 + 0.5 },
-        { n: 4, name: "Shaksgam", ll: [36.12, 76.55], m: 4, on: C.c05 + 1.9 },
-        { n: 5, name: "Ukraine", ll: [49.0, 31.5], m: 3, on: C.c06 + 0.4 },
-        { n: 6, name: "Taiwan", ll: [23.7, 121.0], m: 2, on: C.c07 + 0.4 },
+        { n: 1, name: "Hormuz", flags: ["ir"], ll: [26.6, 56.3], m: 5, line: W.number1, pop: W.ek + 0.08, fill: W.strait + 0.08,
+          act: [[W.number1, W.number2]], tag: { a: "SABSE ZYADA TEL", ta: W.sabse, color: "#fbbf24" } },
+        { n: 2, name: "Pakistan seema", flags: ["pk"], ll: [30.92, 74.61], m: 5, line: W.number2, pop: W.do + 0.06, fill: W.pakistan + 0.09,
+          act: [[W.number2, W.number3]], tag: { a: "ZAMEEN", ta: W.zameen + 0.02, b: "SAMUNDAR", tb: W.samudra + 0.02 } },
+        { n: 3, name: "LAC", flags: ["cn"], ll: [34.76, 78.22], m: 4, line: W.number3, pop: W.teen + 0.07, fill: W.china + 0.03,
+          act: [[W.number3, W.aur34], [W.china, W.shaksgam - 0.07]] },
+        { n: 4, name: "Shaksgam", flags: ["cn", "pk"], ll: [36.12, 76.55], m: 4, line: W.aur34, pop: W.chaar + 0.08, fill: W.china + 0.075,
+          act: [[W.aur34, W.ladakh], [W.shaksgam, W.number5]] },
+        { n: 5, name: "Ukraine", flags: ["ru", "ua"], ll: [49.0, 31.5], m: 3, line: W.number5, pop: W.paanch + 0.08, fill: W.russia + 0.05,
+          act: [[W.number5, W.number6]], tag: { a: "JUNG", ta: W.jung, color: "#ff6b6b" } },
+        { n: 6, name: "Taiwan", flags: ["tw"], ll: [23.7, 121.0], m: 2, line: W.number6, pop: W.chhe + 0.07, fill: W.taiwan + 0.04,
+          act: [[W.number6, W.ye]] },
       ];
-      const OUT = C.c09 + 2.4;        // legend + headline clear before the dive
+      // distance rings: 3 rings sweep out from New Delhi; a station "pings" when the first ring reaches it
+      const SW_T0 = W.yaani + 0.05, SW_D = 1.5, SW_R = 42, SW_GAP = 0.45;
+      const OUT_R = 27.3;                // rows + leaders clear
+      const OUT_H = 27.5;                // headline clears (both lines together)
       const rowsEl = document.getElementById("s02-rows");
-      const lead = document.getElementById("s02-leaders");
-      const pulses = document.getElementById("s02-pulses");
+      const lead = document.getElementById("s02-leaders"), pulses = document.getElementById("s02-pulses");
+      const bands = document.getElementById("s02-bands"), sweep = document.getElementById("s02-sweep");
       ST.forEach((s, i) => {
         s.y = ROWY[i];
-        s.next = i < ST.length - 1 ? ST[i + 1].on : C.c08;  // the row stays "active" until the next one is named
+        s.d = gcDist(DELHI, s.ll);
+        s.hit = SW_T0 + (SW_D * s.d) / SW_R;
+        s.bandPts = circlePts(DELHI, s.d);
+        s.band = el("path", { fill: "none", stroke: "#2dd4bf", "stroke-width": 1.5, "stroke-dasharray": "6 7", opacity: 0 }, bands);
         const r = document.createElement("div");
-        r.className = "row"; r.style.top = (s.y - 13) + "px";
-        r.innerHTML = `<div class="lab"><b>${s.n}</b>${s.name}</div><div class="meter">${"<span><em></em></span>".repeat(5)}</div>`;
+        r.className = "s02-row"; r.style.top = (s.y - 13) + "px";
+        const tag = s.tag ? `<div class="s02-tag" style="color:${s.tag.color || "#cbd5e1"}"><span class="ta"></span>${s.tag.b ? '<i></i><span class="tb"></span>' : ""}</div>` : "";
+        r.innerHTML = `<div class="s02-num">${s.n}</div><div class="s02-flags">${s.flags.map((f) => `<img src="assets/flags/${f}.svg" alt="">`).join("")}</div>` +
+          `<div><div class="s02-lab">${s.name}</div><div class="s02-meter">${"<span><em></em></span>".repeat(5)}</div>${tag}</div>`;
         rowsEl.appendChild(r);
-        s.row = r; s.bars = [...r.querySelectorAll("em")];
-        s.line = el("line", { stroke: "#f8fafc", "stroke-width": 2, "stroke-opacity": 0.8, "stroke-linecap": "round" }, lead);
-        s.pin = el("circle", { r: 5, fill: "#f8fafc", opacity: 0 }, lead);
+        s.row = r; s.flagsEl = r.querySelector(".s02-flags"); s.bars = [...r.querySelectorAll("em")];
+        if (s.tag) {
+          s.tyA = typer(r.querySelector(".ta"), s.tag.a, s.tag.ta);
+          if (s.tag.b) { s.tyB = typer(r.querySelector(".tb"), s.tag.b, s.tag.tb); s.sep = r.querySelector(".s02-tag i"); }
+        }
+        s.line = el("line", { stroke: "#f8fafc", "stroke-width": 2, "stroke-opacity": 0, "stroke-linecap": "round" }, lead);
         s.end = el("circle", { r: 5, fill: "#f8fafc", opacity: 0 }, lead);
-        s.pulse = makePulse(pulses, 40);
+        s.pulse = makePulse(pulses, 42);
       });
+      const SWEEP = [0, 1, 2].map(() => el("path", { fill: "none", stroke: "#2dd4bf", "stroke-width": 2.2, opacity: 0 }, sweep));
+      const home = document.getElementById("s02-home"), homeHalo = document.getElementById("s02-home-halo");
 
       const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: [] });
       const tl = gsap.timeline({ paused: true });
 
       driveWithTimeline(tl, DUR, (t) => {
-        earth.render(camAt(CAM, t));
-        // India glows a little brighter on "hamare ghar ke kitne kareeb"
-        earth.setLineOpacity("india_glow", 1.9 + 0.8 * Math.min(smooth(ramp(t, C.c09 + 0.2, 0.8)), 1 - smooth(ramp(t, OUT, 1.0))));
-        const out = 1 - smooth(ramp(t, OUT, 0.45));
+        earth.render(cam(t));
+        // India's glow: 1.9 from s01, brighter on "Bharat ke nazariye se", back to the default 1.0 for s03 during the dive
+        earth.setLineOpacity("india_glow", 1.9 - 0.9 * sm(prog(t, 27.0, 2.0)) + 0.9 * env(t, W.bharat - 0.05, OUT_R + 0.3, 0.5));
+
+        const outR = 1 - sm(prog(t, OUT_R, 0.4));
+        const allOn = sm(prog(t, W.ye, 0.5));
+        const ringFade = 1 - sm(prog(t, 27.2, 0.8));
+        const fade5 = 1 - sm(prog(t, 26.9, 0.8));          // during the dive only Hormuz stays (s03 starts with it)
+        const toS03 = sm(prog(t, 27.4, 1.3));              // Hormuz pulse settles to s03's look (scale 1, ring factor 0.8)
+
+        // home marker at New Delhi on "Bharat", rings sweep out on "yaani ... hamare ghar ke kitne kareeb"
+        const pd = earth.project(DELHI[0], DELHI[1], 0);
+        const ha = sm(prog(t, W.bharat, 0.25)) * ringFade * (pd.visible ? 1 : 0);
+        home.setAttribute("opacity", ha.toFixed(3));
+        if (ha > 0.002) {
+          home.setAttribute("transform", `translate(${pd.x.toFixed(1)},${pd.y.toFixed(1)}) scale(${(0.5 + 0.5 * backOut(prog(t, W.bharat, 0.4))).toFixed(3)})`);
+          const hp = ((((t - W.bharat) / 1.6) % 1) + 1) % 1;
+          homeHalo.setAttribute("r", (7 + 18 * hp).toFixed(1)); homeHalo.setAttribute("stroke-opacity", (0.8 * (1 - hp)).toFixed(3));
+        }
+        SWEEP.forEach((p, k) => {
+          const f = prog(t, SW_T0 + k * SW_GAP, SW_D);
+          if (f <= 0 || f >= 1 || ringFade <= 0.002) { p.setAttribute("opacity", 0); return; }
+          p.setAttribute("d", ringPath(circlePts(DELHI, Math.max(0.3, SW_R * f))));
+          p.setAttribute("opacity", ((k === 0 ? 0.95 : 0.55) * Math.pow(1 - f, 0.6) * ringFade).toFixed(3));
+        });
+
         for (const s of ST) {
           const p = earth.project(s.ll[0], s.ll[1], 0);
-          const active = t >= s.on && t < s.next + 0.2 ? Math.min(smooth(ramp(t, s.on, 0.35)), 1 - smooth(ramp(t, s.next, 0.4))) : 0;
-          const allOn = smooth(ramp(t, C.c08, 0.5));
-          // pulses: all six carry over from the hook; during the dive only Hormuz stays
-          const keep = s.n === 1 ? 1 : 1 - smooth(ramp(t, OUT + 0.2, 1.8));
-          drawPulse(s.pulse, p, t, keep, active);
-          // leader line: dot pops at the pin, line draws to the row, label fades in
-          const kd = smooth(ramp(t, s.on, 0.55)) * out;
-          const ex = 1450, ey = s.y;
-          if (kd > 0.002 && p.visible) {
-            const x2 = p.x + (ex - p.x) * kd, y2 = p.y + (ey - p.y) * kd;
+          let active = 0;
+          for (const [a, b] of s.act) active = Math.max(active, env(t, a, b, 0.3));
+          const ping = sm(prog(t, s.hit, 0.12)) * (1 - sm(prog(t, s.hit + 0.3, 0.9)));
+          const hl = Math.max(active, allOn, ping);
+
+          // distance band left behind once the ring has passed the station
+          const ba = 0.34 * sm(prog(t, s.hit, 0.3)) * ringFade;
+          if (ba > 0.002) { s.band.setAttribute("d", ringPath(s.bandPts)); s.band.setAttribute("opacity", ba.toFixed(3)); }
+          else s.band.setAttribute("opacity", 0);
+
+          // pulse (all six carry over from s01; during the dive only Hormuz stays)
+          const boost = Math.max(active * 0.8, ping);
+          const burstA = prog(t, s.pop, 0.9), burstB = prog(t, s.hit, 0.9);
+          const burstK = burstA > 0 && burstA < 1 ? burstA : burstB > 0 && burstB < 1 ? burstB : 0;
+          if (s.n === 1) drawPulse(s.pulse, p, t, 1, 1 + 0.3 * boost * (1 - toS03), (0.6 + 0.4 * boost) * (1 - toS03) + 0.8 * toS03, burstK);
+          else drawPulse(s.pulse, p, t, fade5, 1 + 0.3 * boost, 0.6 + 0.4 * boost, burstK);
+
+          // leader: draws from the pin to the row dot as "number ..." is spoken
+          const kd = sm(prog(t, s.line, Math.max(0.25, s.pop - s.line)));
+          if (kd > 0.002 && outR > 0.002 && p.visible) {
             s.line.setAttribute("x1", p.x.toFixed(1)); s.line.setAttribute("y1", p.y.toFixed(1));
-            s.line.setAttribute("x2", x2.toFixed(1)); s.line.setAttribute("y2", y2.toFixed(1));
-            s.line.setAttribute("stroke-opacity", (0.8 * out * (0.55 + 0.45 * Math.max(active, allOn))).toFixed(3));
-            s.pin.setAttribute("cx", p.x.toFixed(1)); s.pin.setAttribute("cy", p.y.toFixed(1));
-            s.pin.setAttribute("opacity", out.toFixed(3));
-          } else { s.line.setAttribute("stroke-opacity", 0); s.pin.setAttribute("opacity", 0); }
-          const pe = ramp(t, s.on + 0.45, 0.35);
-          const pk = pe >= 1 ? 1 : Math.max(0, backOut(pe));
-          s.end.setAttribute("cx", ex); s.end.setAttribute("cy", ey);
-          s.end.setAttribute("r", (5 * pk).toFixed(2)); s.end.setAttribute("opacity", (out * (pe > 0 ? 1 : 0)).toFixed(3));
-          const la = smooth(ramp(t, s.on + 0.55, 0.4));
-          s.row.style.opacity = (la * out * (0.72 + 0.28 * Math.max(active, allOn))).toFixed(3);
-          s.row.style.transform = `translateX(${((1 - la) * 18).toFixed(1)}px)`;
-          s.bars.forEach((b, i) => { b.style.opacity = i < s.m ? smooth(ramp(t, s.on + 0.8 + i * 0.12, 0.18)).toFixed(3) : "0"; });
+            s.line.setAttribute("x2", (p.x + (DOTX - p.x) * kd).toFixed(1)); s.line.setAttribute("y2", (p.y + (s.y - p.y) * kd).toFixed(1));
+            s.line.setAttribute("stroke-opacity", (0.8 * outR * (0.28 + 0.72 * Math.max(active, 0.55 * allOn, ping))).toFixed(3));
+          } else s.line.setAttribute("stroke-opacity", 0);
+          const pe = prog(t, s.pop - 0.08, 0.3);
+          s.end.setAttribute("cx", DOTX); s.end.setAttribute("cy", s.y);
+          s.end.setAttribute("r", (5 * (pe >= 1 ? 1 : Math.max(0, backOut(pe)))).toFixed(2));
+          s.end.setAttribute("opacity", (outR * (pe > 0 ? 1 : 0)).toFixed(3));
+
+          // row pops on the spoken number: flags spring in, then the meter draws, tags type
+          const la = sm(prog(t, s.pop, 0.25));
+          s.row.style.opacity = (la * outR * (0.62 + 0.38 * hl)).toFixed(3);
+          s.row.style.transform = `translateX(${((1 - la) * 18 + 6 * ping).toFixed(1)}px)`;
+          const china = s.n === 3 || s.n === 4 ? 0.15 * env(t, W.china, W.china + 0.7, 0.2) : 0;
+          s.flagsEl.style.transform = `scale(${((0.6 + 0.4 * backOut(prog(t, s.pop, 0.4))) * (1 + china)).toFixed(3)})`;
+          s.bars.forEach((b, i) => { b.style.transform = `scaleX(${i < s.m ? sm(prog(t, s.fill + i * 0.09, 0.16)).toFixed(3) : 0})`; });
+          if (s.tyA) s.tyA.update(t);
+          if (s.tyB) { s.tyB.update(t); s.sep.style.opacity = sm(prog(t, s.tag.tb - 0.06, 0.15)).toFixed(3); }
         }
       });
 
-      // ---------- headline block (style A)
+      // ---------- headline block (style A), one impact
       tl.fromTo(["#s02-scrim", "#s02-scrim-r"], { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, C.c01);
       tl.fromTo("#s02-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, C.c01 + 0.2);
       tl.fromTo("#s02-kick", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, C.c01 + 0.35);
       tl.fromTo("#s02-h1", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, C.c01 + 0.5);
       tl.fromTo("#s02-h2", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, C.c01 + 0.62);
-      // "Bharat ke nazariye se": the kicker flashes as the voice says it
-      tl.fromTo("#s02-kick", { color: "#fbbf24" }, { color: "#fde68a", duration: 0.3, ease: "power1.out", immediateRender: false }, C.c08 + 0.2);
-      tl.to("#s02-kick", { color: "#fbbf24", duration: 0.6, ease: "power1.in" }, C.c08 + 0.9);
-      tl.fromTo("#s02-block", { scale: 1 }, { scale: 1.02, duration: OUT - C.c01, ease: "none", transformOrigin: "0% 50%" }, C.c01);
-      // clear before the dive
-      tl.to(["#s02-h1", "#s02-h2"], { yPercent: -100, duration: 0.4, ease: "power2.in", stagger: 0.08 }, OUT);
-      tl.to(["#s02-kick", "#s02-rule"], { opacity: 0, duration: 0.35, ease: "power2.in" }, OUT + 0.1);
-      tl.to(["#s02-scrim", "#s02-scrim-r"], { opacity: 0, duration: 0.8, ease: "power1.inOut" }, OUT + 0.3);
+      // "Bharat ke nazariye se": the kicker flashes as the voice says it (with the home marker + ding)
+      tl.fromTo("#s02-kick", { color: "#fbbf24" }, { color: "#fde68a", duration: 0.3, ease: "power1.out", immediateRender: false }, W.bharat);
+      tl.to("#s02-kick", { color: "#fbbf24", duration: 0.6, ease: "power1.in" }, W.bharat + 0.7);
+      tl.fromTo("#s02-block", { scale: 1 }, { scale: 1.02, duration: OUT_H - C.c01, ease: "none" }, C.c01);
+      // clear before the dive: both headline lines leave together
+      tl.to(["#s02-h1", "#s02-h2"], { yPercent: -100, duration: 0.4, ease: "power2.in" }, OUT_H);
+      tl.to(["#s02-kick", "#s02-rule"], { opacity: 0, duration: 0.35, ease: "power2.in" }, OUT_H + 0.05);
+      tl.to(["#s02-scrim", "#s02-scrim-r"], { opacity: 0, duration: 0.8, ease: "power1.inOut" }, OUT_H + 0.2);
 
       window.__timelines["main"] = tl;
       done();

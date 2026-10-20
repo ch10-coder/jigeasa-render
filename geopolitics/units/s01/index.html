@@ -16,47 +16,80 @@
       html, body { width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
       #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
       #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-      #s01-fx { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: visible; }
-      .scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,0) 55%); }
-      .block { position: absolute; left: 96px; top: 150px; width: 1100px; }
-      .kicker { display: flex; align-items: center; gap: 16px; font: 700 28px Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase;
-                text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .kicker i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
-      .mask { overflow: hidden; }
-      .gap { height: 22px; }
-      .h { font: 400 150px/1.04 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
-           text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .h.k { color: #ff6b6b; }
-      .odo { display: inline-block; height: 1.04em; overflow: hidden; vertical-align: top; }
-      .odo-col { display: block; }
-      .odo-col span { display: block; height: 1.04em; }
-      .sub { margin-top: 20px; font: 500 40px Inter; color: rgba(226,232,240,.94); white-space: nowrap;
-             text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .credit { position: absolute; left: 0; right: 0; top: 1028px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px;
-                text-shadow: 0 2px 2px rgba(2,6,16,.7); }
+      .s01-layer { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+      .s01-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,0) 55%); }
+      .s01-kick { display: flex; align-items: center; gap: 16px; font: 700 28px/34px Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase;
+                  white-space: nowrap; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .s01-kick i { display: block; flex: none; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
+      .s01-solo { position: absolute; left: 96px; }
+      .s01-block { position: absolute; left: 96px; top: 190px; width: 1100px; transform-origin: 0% 50%; }
+      .s01-mask { overflow: hidden; }
+      .s01-gap { height: 22px; }
+      .s01-h { font: 400 150px/1.04 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
+               text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .s01-h.k { color: #ff6b6b; }
+      .s01-chips { margin-top: 52px; }
+      .s01-chip { display: flex; align-items: center; gap: 14px; width: max-content; height: 56px; padding: 0 22px 0 14px; margin-bottom: 16px;
+                  background: rgba(4,9,27,.74); border: 1px solid rgba(248,250,252,.16); border-radius: 12px;
+                  box-shadow: 0 10px 30px rgba(2,6,16,.45); transform-origin: 0% 50%; }
+      .s01-chip svg { display: block; flex: none; width: 34px; height: 34px; }
+      .s01-chip .ct { font: 700 26px/1 Inter; letter-spacing: 4px; color: #f8fafc; text-transform: uppercase; white-space: nowrap; }
+      .s01-credit { position: absolute; left: 0; right: 0; top: 1028px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px;
+                    text-shadow: 0 2px 2px rgba(2,6,16,.7); }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="40.44" data-width="1920" data-height="1080">
       <canvas id="earth"></canvas>
-      <svg id="s01-fx" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+      <svg class="s01-layer" id="s01-fx" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
         <g id="s01-arcs"></g>
+        <g id="s01-arrive"></g>
+        <g id="s01-lead"></g>
         <g id="s01-pulses"></g>
+        <path id="s01-k1line" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" opacity="0" />
       </svg>
-      <div class="scrim" id="s01-scrim"></div>
-      <div class="block" id="s01-block">
-        <div class="kicker"><i id="s01-rule"></i><span id="s01-kick">October 2026</span></div>
-        <div class="gap"></div>
-        <div class="mask"><div class="h" id="s01-h1"><span class="odo"><span class="odo-col" id="s01-odo"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></span></span> CHUNAUTIYAN</div></div>
-        <div class="mask"><div class="h k" id="s01-h2">Ek Bharat.</div></div>
-        <div class="mask"><div class="sub" id="s01-sub">Har chunauti ka asar Bharat tak pahunchta hai</div></div>
+      <div class="s01-scrim" id="s01-scrim"></div>
+      <div class="s01-layer" id="s01-cards"></div>
+      <!-- opening stamp, typed on "Is waqt" -->
+      <div class="s01-kick s01-solo" id="s01-k0" style="top: 190px"><i id="s01-r0"></i><span id="s01-k0t"></span></div>
+      <!-- title block: arrives once all six cards are out (c09) -->
+      <div class="s01-block" id="s01-block">
+        <div class="s01-kick"><i id="s01-rule"></i><span id="s01-kick">October 2026</span></div>
+        <div class="s01-gap"></div>
+        <div class="s01-mask"><div class="s01-h" id="s01-h1">6 Chunautiyan</div></div>
+        <div class="s01-mask"><div class="s01-h k" id="s01-h2">Ek Bharat.</div></div>
+        <div class="s01-chips">
+          <div class="s01-chip" id="s01-c1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3.5" y="3" width="10" height="18" rx="1.6" /><rect x="5.8" y="5.6" width="5.4" height="4.2" rx=".6" />
+              <path d="M13.5 8.2h2.2a1.5 1.5 0 0 1 1.5 1.5v6.8a1.5 1.5 0 0 0 3 0V8.4L18.3 6.2" /><path d="M2 21h13" />
+            </svg>
+            <span class="ct" id="s01-c1t"></span>
+          </div>
+          <div class="s01-chip" id="s01-c2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 21V7M12 21V7M19 21V7M3 11h18M3 16h18" /><path d="M3 5.5l2-2 2 2 2-2 2 2 2-2 2 2 2-2 2 2 2-2" />
+            </svg>
+            <span class="ct" id="s01-c2t"></span>
+          </div>
+          <div class="s01-chip" id="s01-c3">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="2" width="12" height="20" rx="2.6" /><path d="M10.5 5h3" /><circle cx="12" cy="18.4" r="1" />
+            </svg>
+            <span class="ct" id="s01-c3t"></span>
+          </div>
+        </div>
       </div>
-      <div class="credit">NASA Blue Marble &nbsp;·&nbsp; Borders: DataMeet, Natural Earth (India view)</div>
+      <!-- closing kicker: "sabse khatarnaak se shuru karke" -->
+      <div class="s01-kick s01-solo" id="s01-k1" style="top: 566px"><i id="s01-r1"></i><span id="s01-k1t"></span></div>
+      <div class="s01-credit">NASA Blue Marble &nbsp;·&nbsp; Borders: DataMeet, Natural Earth (India view)</div>
     </div>
     <script type="module">
-      import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
-      /*CUES*/ const CUES = {"c01": 0.05, "c02": 5.81, "c03": 8.24, "c04": 10.21, "c05": 13.37, "c06": 13.67, "c07": 19.29, "c08": 22.61, "c09": 25.38, "c10": 29.85, "c11": 31.18, "c12": 32.26, "c13": 34.49, "c14": 38.15}; /*END CUES*/
+      import { createEarth, driveWithTimeline } from "./assets/geo/engine.js";
+      import { typer, flagCards, env, sm, out3, backOut, prog, clamp01 } from "./assets/geo/fx.js";
+      /*CUES*/ const CUES = {"c01": 0.05, "c02": 5.81, "c03": 8.24, "c04": 10.21, "c05": 13.37, "c06": 13.85, "c07": 19.29, "c08": 22.61, "c09": 25.38, "c10": 29.85, "c11": 31.18, "c12": 32.26, "c13": 34.49, "c14": 38.15}; /*END CUES*/
       const DUR = /*DUR*/ 40.44 /*END DUR*/;
+      /*SFX*/ const SFX = [[0.55, 0, "type", 12], [3.83, 0, "heartbeat"], [6.27, 0.35, "pop"], [8.59, 0.35, "pop"], [10.58, 0.35, "pop"], [11.40, 0.35, "pop"], [13.75, 0.35, "pop"], [15.0, 0, "pan"], [17.51, 0.35, "pop"], [19.6, 0, "draw"], [24.45, 0, "zoom"], [25.65, 0, "impact"], [30.12, 0, "type", 11], [31.5, 0, "type", 5], [32.75, 0, "type", 15], [35.8, 0, "whoosh"], [37.2, 0, "type", 19]]; /*END SFX*/
       const C = CUES;
 
       window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
@@ -64,135 +97,263 @@
       let done;
       window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
 
-      // ---------- camera: START (24,50,26000) -> slow spin east while the fires light -> push in for the title -> END (30,62,24000)
-      const CAM = [
-        { t: 0, lat: 24, lon: 50, alt: 26000, tilt: 0, heading: 0 },
-        { t: C.c02 + 0.6, lat: 25, lon: 56, alt: 24500, tilt: 0, heading: 0 },               // lean to Hormuz
-        { t: C.c04 + 0.9, lat: 29, lon: 70, alt: 23500, tilt: 0, heading: 0 },               // Punjab, Ladakh, Karakoram
-        { t: C.c05 + 0.9, lat: 32, lon: 64, alt: 25000, tilt: 0, heading: 0 },               // lean west for Europe
-        { t: C.c07, lat: 27, lon: 79, alt: 24500, tilt: 0, heading: 0 },                     // swing east for Taiwan
-        { t: C.c08 + 1.5, lat: 27, lon: 74, alt: 27000, tilt: 0, heading: 0 },               // "hazaaron km door": whole picture
-        { t: C.c09 + 4.5, lat: 32, lon: 67, alt: 15500, tilt: 0, heading: 0 },               // push in for the title
-        { t: C.c14, lat: 32.6, lon: 69.5, alt: 14300, tilt: 0, heading: 0, ease: "linear" }, // slow drift under the hold
-        { t: DUR, lat: 30, lon: 62, alt: 24000, tilt: 0, heading: 0 },                        // hand-off
-      ];
+      // ---------- word times (timing/s01_words.json, chapter seconds): the beats below sit on these
+      const W = {
+        waqt: 0.32,       // "वक्त"
+        chhe: 3.83,       // "छह" (बड़ी चुनौतियां)
+        samudra: 6.42,    // "समुद्र"
+        punjab: 8.74,     // "पंजाब"
+        himalaya: 10.73,  // "हिमालय"
+        karakoram: 11.55, // "काराकोरम"
+        europe: 13.90,    // "Europe"
+        dweep: 17.66,     // "द्वीप"
+        ye: 19.34,        // "यह जगह ... हजारों किलोमीटर दूर"
+        common: 24.42,    // "common"
+        chunauti: 25.69,  // "हर चुनौती का असर"
+        bharat: 28.5,     // "भारत तक पहुंचता है"
+        petrol: 30.16,    // "petrol pump"
+        seema: 31.57,     // "सीमा"
+        aapke: 32.59,     // "आपके phone की कीमत"
+        ekek: 36.46,      // "एक एक करके"
+      };
 
-      // ---------- helpers (pure functions of t)
-      const clamp01 = (x) => Math.max(0, Math.min(1, x));
-      const ramp = (t, a, d) => clamp01((t - a) / d);
-      const smooth = (x) => x * x * (3 - 2 * x);
-      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+      // ---------- camera: one smooth path (monotone cubic per channel, log altitude); first/last keys = the hand-offs.
+      // The globe stays big and centred (diameter ~1,040-1,140 px) while the six cards land, pushes in for the title, then
+      // pulls back and turns west toward the Gulf into the hand-off.
+      const CAMK = [
+        [0, 24.0, 50.0, 26000],       // START hand-off
+        [6.6, 26.5, 61.0, 25300],     // turning east: Hormuz card
+        [12.2, 29.5, 71.0, 24700],    // Punjab, LAC, Shaksgam cards
+        [14.6, 30.3, 73.5, 25000],    // Europe card
+        [17.9, 30.4, 79.5, 25400],    // pan east toward the Pacific: Taiwan card
+        [22.6, 29.6, 77.0, 26800],    // "hazaaron kilometer door": ease back, whole picture, arcs draw to India
+        [24.45, 29.8, 75.0, 26300],   // cards clear, push begins
+        [27.2, 32.4, 68.0, 16600],    // push in for "6 CHUNAUTIYAN / EK BHARAT."
+        [35.4, 31.8, 69.6, 15600],    // slow settle push under the title
+        [DUR, 30.0, 62.0, 24000],     // END hand-off: pull back + turn west toward the Gulf
+      ];
+      function camPath(K) {
+        const n = K.length, T = K.map((k) => k[0]);
+        const ch = [K.map((k) => k[1]), K.map((k) => k[2]), K.map((k) => Math.log(k[3]))];
+        const M = ch.map((Y) => {
+          const h = [], d = [], m = new Array(n).fill(0);
+          for (let i = 0; i < n - 1; i++) { h.push(T[i + 1] - T[i]); d.push((Y[i + 1] - Y[i]) / h[i]); }
+          for (let i = 1; i < n - 1; i++) {
+            if (d[i - 1] * d[i] > 0) { const w1 = 2 * h[i] + h[i - 1], w2 = h[i] + 2 * h[i - 1]; m[i] = (w1 + w2) / (w1 / d[i - 1] + w2 / d[i]); }
+          }
+          return m; // end tangents stay 0: the camera arrives at / leaves the hand-offs from rest
+        });
+        return (t) => {
+          let i = 0;
+          while (i < n - 2 && t > T[i + 1]) i++;
+          const h = T[i + 1] - T[i], s = clamp01((t - T[i]) / h), s2 = s * s, s3 = s2 * s;
+          const v = ch.map((Y, c) => (2 * s3 - 3 * s2 + 1) * Y[i] + (s3 - 2 * s2 + s) * h * M[c][i] + (-2 * s3 + 3 * s2) * Y[i + 1] + (s3 - s2) * h * M[c][i + 1]);
+          return { lat: v[0], lon: v[1], alt: Math.exp(v[2]), tilt: 0, heading: 0 };
+        };
+      }
+      const cam = camPath(CAMK);
+
       const NS = "http://www.w3.org/2000/svg";
       const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
 
+      // ---------- pulses (frame.md: coral dot r 11, white core, 3 rings, 1.6 s). The ring phase is set so it carries on
+      // seamlessly into s02 (which starts its rings at phase (1 - 29.23) / 1.6).
+      const PH0 = (1 - 29.23) / 1.6;
+      const phase = (t) => (t - DUR) / 1.6 + PH0;
       function makePulse(layer, maxR = 42) {
         const g = el("g", { opacity: 0 }, layer);
-        const rings = [150, 90, 50].map((a) => ({ a: a / 255, c: el("circle", { r: 11, fill: "none", stroke: "#ff6b6b", "stroke-width": 2.5 }, g) }));
+        const burst = el("circle", { r: 11, fill: "none", stroke: "#ff6b6b", "stroke-width": 2, "stroke-opacity": 0 }, g);
+        const rings = [150, 90, 50].map((a) => ({ a: Math.min(1, (a / 255) * 1.6), c: el("circle", { r: 11, fill: "none", stroke: "#ff6b6b", "stroke-width": 2.5 }, g) }));
         const dot = el("circle", { r: 11, fill: "#ff6b6b" }, g);
         el("circle", { r: 4.5, fill: "#f8fafc" }, g);
-        return { g, rings, dot, maxR };
+        return { g, rings, dot, burst, maxR };
       }
-      function drawPulse(P, p, t, tOn, alpha, boost = 0) {
-        const a = alpha * (t >= tOn ? 1 : 0) * (p.visible ? 1 : 0);
+      function drawPulse(P, p, t, alpha, scale, ringK, burstK) {
+        const a = alpha * (p.visible ? 1 : 0);
         if (a <= 0.002) { P.g.setAttribute("opacity", 0); return; }
-        const k = clamp01((t - tOn) / 0.5);
-        const s = (k >= 1 ? 1 : Math.max(0, backOut(k))) * (1 + 0.3 * boost);
-        P.g.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) scale(${s.toFixed(3)})`);
+        P.g.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) scale(${Math.max(0, scale).toFixed(3)})`);
         P.g.setAttribute("opacity", a.toFixed(3));
-        P.dot.setAttribute("r", (11 * (1 + 0.07 * Math.sin((t - tOn) * Math.PI * 2 / 1.6))).toFixed(2));
+        const ph0 = phase(t);
+        P.dot.setAttribute("r", (11 * (1 + 0.07 * Math.sin(ph0 * Math.PI * 2))).toFixed(2));
         for (let i = 0; i < 3; i++) {
-          const ph = ((((t - tOn) / 1.6 + i / 3) % 1) + 1) % 1;
+          const ph = (((ph0 + i / 3) % 1) + 1) % 1;
           P.rings[i].c.setAttribute("r", (11 + (P.maxR - 11) * ph).toFixed(1));
-          P.rings[i].c.setAttribute("stroke-opacity", (Math.min(1, P.rings[i].a * 1.6) * (1 - ph) * (0.6 + 0.4 * boost)).toFixed(3));
+          P.rings[i].c.setAttribute("stroke-opacity", (P.rings[i].a * (1 - ph) * ringK).toFixed(3));
         }
+        if (burstK > 0 && burstK < 1) {
+          P.burst.setAttribute("r", (11 + 64 * out3(burstK)).toFixed(1));
+          P.burst.setAttribute("stroke-opacity", (0.85 * (1 - burstK)).toFixed(3));
+        } else P.burst.setAttribute("stroke-opacity", "0");
       }
 
-      // ---------- the six fires (lat, lon)
-      const INDIA = [22.8, 78.6];
-      const FIRES = [
-        { id: "hormuz", ll: [26.6, 56.3], on: C.c02 + 0.3, cat: "oil" },
-        { id: "punjab", ll: [30.92, 74.61], on: C.c03 + 0.3, cat: "border" },
-        { id: "ladakh", ll: [34.76, 78.22], on: C.c04 + 0.6, cat: "border" },
-        { id: "karakoram", ll: [36.12, 76.55], on: C.c04 + 1.5, cat: "border" },
-        { id: "ukraine", ll: [49.0, 31.5], on: C.c05 + 0.3, cat: "oil" },
-        { id: "taiwan", ll: [23.7, 121.0], on: C.c06 + 1.6, cat: "chip" },
+      // ---------- the six challenges, in rank order (each card carries its rank number, so the count builds as they land)
+      const CARD_T1 = 24.75; // cards clear (0.4 s fade) right before the push-in for the title
+      const HOT = [
+        { ll: [26.6, 56.3], cat: "oil", num: 1, flags: ["ir"], title: "Hormuz", sub: "Samundar ka tang raasta", t0: W.samudra - 0.15, side: "L", y: 650 },
+        { ll: [30.92, 74.61], cat: "border", num: 2, flags: ["pk"], title: "Punjab seema", sub: "Bharat-Pakistan", t0: W.punjab - 0.15, side: "L", y: 360 },
+        { ll: [34.76, 78.22], cat: "border", num: 3, flags: ["cn"], title: "LAC", sub: "Ladakh, Himalaya", t0: W.himalaya - 0.15, side: "R", y: 360 },
+        { ll: [36.12, 76.55], cat: "border", num: 4, flags: ["cn", "pk"], title: "Shaksgam", sub: "Karakoram", t0: W.karakoram - 0.15, side: "R", y: 110 },
+        { ll: [49.0, 31.5], cat: "oil", num: 5, flags: ["ru", "ua"], title: "Russia-Ukraine", sub: "Europe", t0: W.europe - 0.15, side: "L", y: 110 },
+        { ll: [23.7, 121.0], cat: "chip", num: 6, flags: ["tw"], title: "Taiwan", sub: "Prashant Mahasagar", t0: W.dweep - 0.15, side: "R", y: 650 },
       ];
-      // fire counter steps (odometer) follow the pulses: 1 Hormuz, 2 Punjab, 3 Ladakh, 4 Karakoram, 5 Ukraine, 6 Taiwan
-      const pulseLayer = document.getElementById("s01-pulses");
-      const arcLayer = document.getElementById("s01-arcs");
       const CATCOL = { oil: "#fbbf24", border: "#ff6b6b", chip: "#2dd4bf" };
-      // emphasis windows: petrol pump (oil), seema (border), phone (chip)
-      const EMPH = { oil: [C.c10, C.c11 - 0.1], border: [C.c11, C.c12 - 0.1], chip: [C.c12, C.c13 + 0.6] };
+      // chips: petrol pump (oil), seema (border), phone ki keemat (chip) light up their own arcs + pulses
+      const T_C1 = W.petrol - 0.04, T_C2 = W.seema - 0.07, T_C3 = W.aapke + 0.16;
+      const EMPH = { oil: [T_C1 - 0.1, T_C2 - 0.1], border: [T_C2 - 0.05, T_C3 - 0.1], chip: [T_C3 - 0.05, C.c13 + 0.1] };
 
-      // smoke arcs: each fire -> India, a bowed curve lifted off the globe, drawn on at "har aag ka dhuaan"
-      const N = 48;
-      for (const [i, f] of FIRES.entries()) {
-        const [la0, lo0] = f.ll, [la1, lo1] = INDIA;
-        const dx = lo1 - lo0, dy = la1 - la0, len = Math.hypot(dx, dy);
-        const nx = -dy / len, ny = dx / len, bow = 0.14 * len * (i % 2 ? -1 : 1);
-        f.arc = [];
-        for (let j = 0; j <= N; j++) {
-          const u = j / N, b = Math.sin(Math.PI * u) * bow;
-          f.arc.push([la0 + dy * u + ny * b, lo0 + dx * u + nx * b, Math.sin(Math.PI * u) * 180000]);
+      // ---------- arcs: each hotspot -> India along the great circle, lifted off the globe; drawn on at "hazaaron km door"
+      const INDIA = [22.8, 78.6];
+      const NA = 48;
+      function gcArc(a, b) {
+        const D = Math.PI / 180, u3 = ([la, lo]) => [Math.cos(la * D) * Math.cos(lo * D), Math.cos(la * D) * Math.sin(lo * D), Math.sin(la * D)];
+        const va = u3(a), vb = u3(b), om = Math.acos(Math.max(-1, Math.min(1, va[0] * vb[0] + va[1] * vb[1] + va[2] * vb[2])));
+        const lift = 0.09 * om * 6371 * 1000; // metres: the arc top sits ~9 % of its length above the ground
+        const pts = [];
+        for (let j = 0; j <= NA; j++) {
+          const u = j / NA, s0 = Math.sin((1 - u) * om) / Math.sin(om), s1 = Math.sin(u * om) / Math.sin(om);
+          const x = va[0] * s0 + vb[0] * s1, y = va[1] * s0 + vb[1] * s1, z = va[2] * s0 + vb[2] * s1, r = Math.hypot(x, y, z);
+          pts.push([Math.asin(z / r) / D, Math.atan2(y, x) / D, Math.sin(Math.PI * u) * lift]);
         }
-        f.arcOn = C.c09 + 0.3 + i * 0.28;
-        f.base = el("path", { fill: "none", stroke: "#5eead4", "stroke-width": 2.5, "stroke-linecap": "round", "stroke-dasharray": "16 9", opacity: 0 }, arcLayer);
-        f.hi = el("path", { fill: "none", stroke: CATCOL[f.cat], "stroke-width": 4.5, "stroke-linecap": "round", opacity: 0 }, arcLayer);
-        f.pulse = makePulse(pulseLayer, 42);
+        return pts;
       }
+      const arcLayer = document.getElementById("s01-arcs"), arriveLayer = document.getElementById("s01-arrive");
+      const pulseLayer = document.getElementById("s01-pulses");
+      HOT.forEach((h, i) => {
+        h.tBlip = W.chhe + i * 0.07;
+        h.arc = gcArc(h.ll, INDIA);
+        h.arcOn = W.ye + 0.26 + i * 0.25;
+        h.base = el("path", { fill: "none", stroke: "#5eead4", "stroke-width": 2, "stroke-linecap": "round", "stroke-dasharray": "14 9", opacity: 0 }, arcLayer);
+        h.hi = el("path", { fill: "none", stroke: CATCOL[h.cat], "stroke-width": 3.5, "stroke-linecap": "round", opacity: 0 }, arcLayer);
+        h.ring = el("circle", { r: 6, fill: "none", stroke: "#2dd4bf", "stroke-width": 2.5, "stroke-opacity": 0 }, arriveLayer);
+        h.pulse = makePulse(pulseLayer, 42);
+      });
+
+      // ---------- typed text (fx.js typer, 24 cps; SFX "type" entries use the same start times)
+      const k0 = typer(document.getElementById("s01-k0t"), "OCTOBER 2026", W.waqt + 0.23, { t1: 5.85 });
+      const c1 = typer(document.getElementById("s01-c1t"), "PETROL PUMP", T_C1);
+      const c2 = typer(document.getElementById("s01-c2t"), "SEEMA", T_C2);
+      const c3 = typer(document.getElementById("s01-c3t"), "PHONE KI KEEMAT", T_C3);
+      const T_K1 = 37.2, K1_OUT = 39.6; // "SABSE PEHLE: HORMUZ" types just ahead of "sabse khatarnaak" (38.2), clears by DUR - 0.8
+      const K1_TXT = "SABSE PEHLE: HORMUZ";
+      const k1span = document.getElementById("s01-k1t");
+      const k1 = typer(k1span, K1_TXT, T_K1, { t1: K1_OUT });
+      const k1line = document.getElementById("s01-k1line");
 
       const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: [] });
+
+      // flag cards (fx.js): two columns at the frame edges, 3 left + 3 right, leader line from each hotspot
+      const cards = flagCards({
+        html: document.getElementById("s01-cards"), svg: document.getElementById("s01-lead"),
+        items: HOT.map((h) => ({ num: h.num, flags: h.flags, title: h.title, sub: h.sub, lat: h.ll[0], lon: h.ll[1],
+          x: h.side === "L" ? 96 : 1444, y: h.y, t0: h.t0, t1: CARD_T1, side: h.side })),
+      });
+      try { await Promise.all(["700 26px Inter", "500 21px Inter", "400 40px Anton", "700 28px Inter"].map((f) => document.fonts.load(f))); } catch (e) {}
+      // right column: right edges aligned at x 1824
+      for (const c of cards.cards) if (c.it.side === "R") c.it.x = 1824 - (c.el.offsetWidth || 380);
+      // closing kicker leader starts just after the full typed line
+      k1span.textContent = K1_TXT;
+      const K1_X = 96 + (document.getElementById("s01-k1").offsetWidth || 520) + 18, K1_Y = 566 + 17;
+      k1span.textContent = "";
+
       const tl = gsap.timeline({ paused: true });
 
       driveWithTimeline(tl, DUR, (t) => {
-        earth.render(camAt(CAM, t));
-        // India's boundary is quiet until "Bharat tak pahunchta hai", then glows teal
-        const ind = 0.28 + 0.72 * smooth(ramp(t, C.c09 + 2.4, 1.6));
-        earth.setLineOpacity("india", ind);
-        earth.setLineOpacity("india_glow", ind * (1 + 0.9 * smooth(ramp(t, C.c09 + 2.4, 1.6))));
-        const arcFade = 1 - smooth(ramp(t, C.c14 - 0.2, 1.4));
-        for (const f of FIRES) {
-          const [ew0, ew1] = EMPH[f.cat];
-          const emph = Math.min(smooth(ramp(t, ew0, 0.45)), 1 - smooth(ramp(t, ew1, 0.5)));
-          drawPulse(f.pulse, earth.project(f.ll[0], f.ll[1], 0), t, f.on, 1, emph);
-          // arc draw-on (only the visible part of the globe)
-          const k = smooth(ramp(t, f.arcOn, 2.6));
-          const a = arcFade * ramp(t, f.arcOn, 0.3);
-          if (k <= 0 || a <= 0.002) { f.base.setAttribute("opacity", 0); f.hi.setAttribute("opacity", 0); continue; }
-          const last = k * N, jn = Math.floor(last);
-          let d = "", pen = false;
-          for (let j = 0; j <= Math.min(N, jn + 1); j++) {
-            let q = f.arc[j];
-            if (j > last) { const p0 = f.arc[j - 1], fr = last - (j - 1); q = [p0[0] + (q[0] - p0[0]) * fr, p0[1] + (q[1] - p0[1]) * fr, p0[2] + (q[2] - p0[2]) * fr]; }
-            const p = earth.project(q[0], q[1], q[2]);
-            if (!p.visible) { pen = false; continue; }
-            d += (pen ? "L" : "M") + p.x.toFixed(1) + " " + p.y.toFixed(1);
-            pen = true;
+        earth.render(cam(t));
+        // India's boundary is quiet until "Bharat tak pahunchta hai", then glows teal (ends at 1 / 1.9 = s02's start)
+        const ib = sm(prog(t, W.bharat - 0.05, 1.2));
+        earth.setLineOpacity("india", 0.45 + 0.55 * ib);
+        earth.setLineOpacity("india_glow", (0.45 + 0.55 * ib) * (1 + 0.9 * ib));
+
+        const pIndia = earth.project(INDIA[0], INDIA[1], 0);
+        const arcFade = 1 - sm(prog(t, 38.2, 1.4));
+        HOT.forEach((h, i) => {
+          const p = earth.project(h.ll[0], h.ll[1], 0);
+          // pulse: dim blip on "chhe badi chunautiyan", full when its card lands
+          let alpha = 0, scale = 0;
+          if (t >= h.tBlip && t < h.t0) { alpha = 0.5 * clamp01(prog(t, h.tBlip, 0.12) * 1.2); scale = 0.6 * backOut(prog(t, h.tBlip, 0.35)); }
+          else if (t >= h.t0) { alpha = 1; scale = 0.6 + 0.4 * backOut(prog(t, h.t0, 0.5)); }
+          const [e0, e1] = EMPH[h.cat];
+          const emph = env(t, e0, e1, 0.35);
+          const seq = env(t, W.ekek - 0.1 + i * 0.13, W.ekek + 0.45 + i * 0.13, 0.15); // "ek ek karke": one by one
+          const top = i === 0 ? env(t, T_K1, K1_OUT + 0.15, 0.4) : 0;                  // "sabse khatarnaak": Hormuz
+          const boost = Math.max(emph, seq, top);
+          const b1 = prog(t, h.t0, 0.9), b2 = prog(t, W.common, 0.9);                  // light-up burst, "ek baat common"
+          const burstK = b1 > 0 && b1 < 1 ? b1 : b2 > 0 && b2 < 1 ? b2 : 0;
+          drawPulse(h.pulse, p, t, alpha, scale * (1 + 0.3 * boost), 0.6 + 0.4 * boost, burstK);
+
+          // arc draw-on (visible part of the globe only) + dashes flowing toward India
+          const k = sm(prog(t, h.arcOn, 2.2));
+          const a = arcFade * prog(t, h.arcOn, 0.3);
+          if (k <= 0 || a <= 0.002) { h.base.setAttribute("opacity", 0); h.hi.setAttribute("opacity", 0); }
+          else {
+            const last = k * NA, jn = Math.floor(last);
+            let d = "", pen = false;
+            for (let j = 0; j <= Math.min(NA, jn + 1); j++) {
+              let q = h.arc[j];
+              if (j > last) { const q0 = h.arc[j - 1], fr = last - (j - 1); q = [q0[0] + (q[0] - q0[0]) * fr, q0[1] + (q[1] - q0[1]) * fr, q0[2] + (q[2] - q0[2]) * fr]; }
+              const pp = earth.project(q[0], q[1], q[2]);
+              if (!pp.visible) { pen = false; continue; }
+              d += (pen ? "L" : "M") + pp.x.toFixed(1) + " " + pp.y.toFixed(1);
+              pen = true;
+            }
+            h.base.setAttribute("d", d); h.hi.setAttribute("d", d);
+            h.base.setAttribute("opacity", (0.75 * a).toFixed(3));
+            h.base.setAttribute("stroke-dashoffset", (-t * 38).toFixed(1));
+            h.hi.setAttribute("opacity", (0.95 * a * emph).toFixed(3));
           }
-          f.base.setAttribute("d", d); f.hi.setAttribute("d", d);
-          f.base.setAttribute("opacity", (0.78 * a).toFixed(3));
-          f.base.setAttribute("stroke-dashoffset", (-t * 38).toFixed(1));
-          f.hi.setAttribute("opacity", (0.95 * a * emph).toFixed(3));
+          // India receives each arc: a teal ring opens where it lands
+          const kr = prog(t, h.arcOn + 2.1, 0.9);
+          if (kr > 0 && kr < 1 && pIndia.visible) {
+            h.ring.setAttribute("cx", pIndia.x.toFixed(1)); h.ring.setAttribute("cy", pIndia.y.toFixed(1));
+            h.ring.setAttribute("r", (6 + 42 * out3(kr)).toFixed(1)); h.ring.setAttribute("stroke-opacity", (0.9 * (1 - kr)).toFixed(3));
+          } else h.ring.setAttribute("stroke-opacity", "0");
+        });
+
+        // flag cards + leader lines; the pulse marks the place (fx's own dot hidden), lines step back while the arcs draw
+        cards.update(t, earth);
+        const lineDim = 1 - 0.45 * sm(prog(t, W.ye, 0.8));
+        for (const c of cards.cards) {
+          c.dot.setAttribute("opacity", "0");
+          c.line.setAttribute("opacity", ((parseFloat(c.line.getAttribute("opacity")) || 0) * lineDim).toFixed(3));
         }
+
+        // typed text
+        k0.update(t); c1.update(t); c2.update(t); c3.update(t); k1.update(t);
+        // closing kicker leader: kicker -> Hormuz pulse (draws after the typing, leaves with the kicker)
+        const kl = out3(prog(t, k1.end + 0.02, 0.4)), ka = t >= K1_OUT ? 0 : sm((K1_OUT - t) / 0.35);
+        const ph = earth.project(HOT[0].ll[0], HOT[0].ll[1], 0);
+        if (kl > 0 && ka > 0.002 && ph.visible) {
+          const dx = ph.x - K1_X, dy = ph.y - K1_Y, L = Math.hypot(dx, dy) || 1, Le = Math.max(0, L - 20) * kl;
+          k1line.setAttribute("d", `M${K1_X.toFixed(1)},${K1_Y.toFixed(1)} L${(K1_X + (dx / L) * Le).toFixed(1)},${(K1_Y + (dy / L) * Le).toFixed(1)}`);
+          k1line.setAttribute("opacity", (0.9 * ka).toFixed(3));
+        } else k1line.setAttribute("opacity", "0");
       });
 
-      // ---------- text block (style A): kicker at "is waqt", the fire counter rides line 1, "EK BHARAT." on "Bharat tak pahunchta hai"
-      tl.fromTo("#s01-scrim", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, C.c01 + 0.6);
-      tl.fromTo("#s01-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, C.c01 + 0.8);
-      tl.fromTo("#s01-kick", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, C.c01 + 0.95);
-      tl.fromTo("#s01-h1", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, FIRES[0].on);
-      const odoAt = [FIRES[1].on, FIRES[2].on, FIRES[3].on, FIRES[4].on, FIRES[5].on];
-      odoAt.forEach((at, i) => tl.to("#s01-odo", { yPercent: -100 * (i + 1) / 6, duration: 0.45, ease: "power3.out" }, at));
-      tl.fromTo("#s01-h2", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, C.c09 + 0.5);
-      tl.fromTo("#s01-sub", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, C.c09 + 2.6);
-      // slow settle push on the headline while it holds (never frozen)
-      tl.fromTo("#s01-block", { scale: 1 }, { scale: 1.025, duration: C.c14 - C.c09, ease: "none", transformOrigin: "0% 50%" }, C.c09);
-      // clear before the join (lines slide up into their masks)
-      const X = C.c14 + 0.3;
-      tl.to(["#s01-h1", "#s01-h2"], { yPercent: -100, duration: 0.4, ease: "power2.in", stagger: 0.08 }, X);
-      tl.to("#s01-sub", { opacity: 0, y: -16, duration: 0.35, ease: "power2.in" }, X);
-      tl.to(["#s01-kick", "#s01-rule"], { opacity: 0, duration: 0.35, ease: "power2.in" }, X + 0.1);
-      tl.to("#s01-scrim", { opacity: 0, duration: 0.8, ease: "power1.inOut" }, X + 0.3);
+      // ---------- opening stamp rule (the text itself is typed by k0)
+      tl.fromTo("#s01-r0", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, W.waqt + 0.08);
+      tl.to("#s01-r0", { opacity: 0, duration: 0.35, ease: "power2.in" }, 5.5);
+
+      // ---------- title block (style A): enters on "har chunauti" once all six cards are out, one unit, one impact
+      const B = W.chunauti - 0.04;      // 25.65
+      const X = C.c13 + 0.36;           // 34.85: clears on "aaj hum"
+      tl.fromTo("#s01-scrim", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, B - 0.35);
+      tl.fromTo("#s01-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, B - 0.2);
+      tl.fromTo("#s01-kick", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, B - 0.1);
+      tl.fromTo("#s01-h1", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, B);
+      tl.fromTo("#s01-h2", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, B + 0.12);
+      tl.fromTo("#s01-block", { scale: 1 }, { scale: 1.025, duration: X - B, ease: "none" }, B);
+      // chips pop one per phrase, text typed (typer), icon in the category colour
+      [["#s01-c1", T_C1], ["#s01-c2", T_C2], ["#s01-c3", T_C3]].forEach(([id, t0]) =>
+        tl.fromTo(id, { opacity: 0, x: -14, scale: 0.9 }, { opacity: 1, x: 0, scale: 1, duration: 0.3, ease: "back.out(1.6)" }, t0 - 0.08));
+      // leave as one unit (both headline lines together, chips with them)
+      tl.to(["#s01-h1", "#s01-h2"], { yPercent: -100, duration: 0.4, ease: "power2.in" }, X);
+      tl.to(["#s01-c1", "#s01-c2", "#s01-c3"], { opacity: 0, y: -12, duration: 0.35, ease: "power2.in" }, X);
+      tl.to(["#s01-kick", "#s01-rule"], { opacity: 0, duration: 0.35, ease: "power2.in" }, X + 0.05);
+      tl.to("#s01-scrim", { opacity: 0, duration: 0.8, ease: "power1.inOut" }, X + 0.2);
+
+      // ---------- closing kicker rule
+      tl.fromTo("#s01-r1", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, T_K1 - 0.15);
+      tl.to("#s01-r1", { opacity: 0, duration: 0.35, ease: "power2.in" }, K1_OUT - 0.35);
 
       window.__timelines["main"] = tl;
       done();

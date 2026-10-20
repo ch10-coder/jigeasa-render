@@ -16,9 +16,14 @@
       html, body { width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
       #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
       #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-      #s03-fx { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: visible; }
-      .scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,0) 55%); }
-      .scrim-b { position: absolute; left: 0; right: 0; bottom: 0; height: 300px; background: linear-gradient(0deg, rgba(4,9,27,.78) 0%, rgba(4,9,27,.6) 45%, rgba(4,9,27,0) 100%); }
+      #s03-fx, #s03-cardsvg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+      #s03-labels, #s03-cards { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+      .scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,0) 55%); opacity: 0; }
+      .scrim-b { position: absolute; left: 0; right: 0; bottom: 0; height: 300px; background: linear-gradient(0deg, rgba(4,9,27,.78) 0%, rgba(4,9,27,.6) 45%, rgba(4,9,27,0) 100%); opacity: 0; }
+      .pool { position: absolute; left: 56px; top: 116px; width: 600px; height: 104px; border-radius: 52px; background: rgba(4,9,27,.6); filter: blur(22px); opacity: 0; }
+      .tag { position: absolute; left: 96px; top: 150px; display: flex; align-items: center; gap: 16px; font: 700 28px Inter; letter-spacing: 5px; color: #fbbf24;
+             text-transform: uppercase; white-space: nowrap; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .tag i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
       .block { position: absolute; left: 96px; top: 150px; width: 1000px; }
       .kicker { display: flex; align-items: center; gap: 16px; font: 700 28px Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase;
                 text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); white-space: nowrap; }
@@ -28,58 +33,68 @@
       .h { font: 400 180px/1.04 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
            text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
       .h.k { color: #ff6b6b; }
-      .sub { margin-top: 20px; font: 500 40px Inter; color: rgba(226,232,240,.94); white-space: nowrap;
-             text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .sub2 { margin-top: 8px; }
+      .row11 { display: flex; align-items: baseline; gap: 20px; margin-top: 12px; transform-origin: 0 50%; white-space: nowrap; }
+      .row11 .n { font: 400 92px/1 Anton; color: #ff6b6b; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .row11 .u { font: 700 30px Inter; letter-spacing: 5px; color: #e2e8f0; text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
       .geo { position: absolute; left: 0; top: 0; white-space: nowrap; opacity: 0; font: 600 28px Inter; letter-spacing: 9px; color: rgba(226,232,240,.94);
              text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 14px rgba(2,6,16,.55); }
-      .geo.sea { font-size: 22px; letter-spacing: 7px; color: rgba(186,230,253,.86); }
-      .geo.src { font: 700 22px Inter; letter-spacing: 5px; color: #f8fafc; }
+      .geo.sea { font-size: 22px; letter-spacing: 7px; color: rgba(186,230,253,.9); }
+      .s03-strike { position: absolute; left: 10px; right: 10px; top: 50%; height: 4px; margin-top: -2px; border-radius: 2px; background: #ff6b6b;
+                    transform-origin: left center; box-shadow: 0 0 0 1px rgba(4,9,27,.45); }
       #s03-tl { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
-      .tl-base { position: absolute; left: 150px; top: 929px; width: 1600px; height: 2px; background: rgba(226,232,240,.35); transform-origin: left center; }
-      .tl-fill { position: absolute; left: 150px; top: 928px; width: 1600px; height: 4px; background: #fbbf24; transform-origin: left center; }
+      .tl-base { position: absolute; left: 170px; top: 929px; width: 1560px; height: 2px; background: rgba(226,232,240,.35); transform-origin: left center; }
+      .tl-fill { position: absolute; left: 170px; top: 928px; width: 1560px; height: 4px; background: #fbbf24; transform-origin: left center; }
+      .tl-cur { position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%; border: 2px solid rgba(251,191,36,.9); opacity: 0; }
       .node { position: absolute; top: 868px; width: 300px; text-align: center; }
       .node .d { font: 700 26px/1 Inter; letter-spacing: 4px; color: #fbbf24; text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.75); }
       .node .dot { width: 14px; height: 14px; border-radius: 50%; background: #fbbf24; margin: 27px auto 0; box-shadow: 0 0 0 4px rgba(251,191,36,.18); }
       .node .x { margin-top: 18px; font: 500 26px/1 Inter; color: rgba(226,232,240,.94); text-shadow: 0 3px 2.5px rgba(2,6,16,.75); white-space: nowrap; }
       .credit { position: absolute; left: 0; right: 0; top: 1028px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px;
-                text-shadow: 0 2px 2px rgba(2,6,16,.7); }
+                text-shadow: 0 2px 2px rgba(2,6,16,.7); opacity: 0; }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="67.26" data-width="1920" data-height="1080">
       <canvas id="earth"></canvas>
-      <div class="scrim" id="s03-scrim"></div>
-      <div class="scrim-b" id="s03-scrim-b"></div>
       <svg id="s03-fx" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
-        <g id="s03-arrows"></g>
         <g id="s03-flow"></g>
+        <g id="s03-marks"></g>
+        <g id="s03-arcs"></g>
         <g id="s03-pulses"></g>
       </svg>
+      <div class="scrim" id="s03-scrim"></div>
+      <div class="scrim-b" id="s03-scrim-b"></div>
+      <div class="pool" id="s03-pool"></div>
       <div id="s03-labels"></div>
+      <svg id="s03-cardsvg" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div id="s03-cards"></div>
 
-      <!-- block 1: the strait -->
+      <!-- typed status tags (top-left slot, one at a time) -->
+      <div class="tag" id="s03-tagA"><i id="s03-tagA-r"></i><span id="s03-tagA-t"></span></div>
+      <div class="tag" id="s03-tagB"><i id="s03-tagB-r"></i><span id="s03-tagB-t"></span></div>
+      <div class="tag" id="s03-tagC"><i id="s03-tagC-r"></i><span id="s03-tagC-t"></span></div>
+
+      <!-- block 1: "HORMUZ / BAND." on "lagbhag band hai" -->
       <div class="block" id="s03-b1">
         <div class="kicker"><i id="s03-rule1"></i><span id="s03-kick1">Strait of Hormuz</span></div>
         <div class="gap"></div>
         <div class="mask"><div class="h" id="s03-h1">Hormuz</div></div>
         <div class="mask"><div class="h k" id="s03-h2">Band.</div></div>
-        <div class="mask"><div class="sub" id="s03-sub1">Iran aur Oman ke beech samundar ka tang raasta</div></div>
       </div>
       <!-- block 2: October attacks (UKMTO) -->
       <div class="block" id="s03-b2">
-        <div class="kicker"><i id="s03-rule2"></i><span id="s03-kick2">October 2026</span></div>
+        <div class="kicker"><i id="s03-rule2"></i><span id="s03-kick2"></span></div>
         <div class="gap"></div>
         <div class="mask"><div class="h" id="s03-h3"><span id="s03-count">0</span></div></div>
         <div class="mask"><div class="h k" id="s03-h4">Hamle.</div></div>
-        <div class="mask"><div class="sub" id="s03-sub2">6–14 Oct &nbsp;·&nbsp; UKMTO</div></div>
-        <div class="mask"><div class="sub sub2" id="s03-sub3">11 aakhri 4 dinon mein</div></div>
+        <div class="row11" id="s03-r11"><span class="n">11</span><span class="u">aakhri 4 din</span></div>
       </div>
 
       <!-- timeline strip FEB -> OCT -->
       <div id="s03-tl">
         <div class="tl-base" id="s03-tl-base"></div>
         <div class="tl-fill" id="s03-tl-fill"></div>
+        <div class="tl-cur" id="s03-tl-cur"></div>
       </div>
 
       <div class="credit" id="s03-cr-a">NASA Blue Marble &nbsp;·&nbsp; Borders: DataMeet, Natural Earth (India view)</div>
@@ -87,50 +102,116 @@
     </div>
     <script type="module">
       import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
-      /*CUES*/ const CUES = {"c01": 0.35, "c02": 2.08, "c03": 6.07, "c04": 10.0, "c05": 16.96, "c06": 20.2, "c07": 27.48, "c08": 31.71, "c09": 40.25, "c10": 43.86, "c11": 46.42, "c12": 51.87, "c13": 52.17, "c14": 57.79, "c15": 65.0}; /*END CUES*/
+      import { typer, counter, flagCards, env, sm, out3, backOut, prog, clamp01 } from "./assets/geo/fx.js";
+      /*CUES*/ const CUES = {"c01": 0.35, "c02": 2.08, "c03": 6.07, "c04": 10.0, "c05": 15.26, "c06": 18.76, "c07": 27.48, "c08": 31.71, "c09": 40.25, "c10": 43.86, "c11": 46.42, "c12": 51.87, "c13": 54.86, "c14": 57.79, "c15": 65.0}; /*END CUES*/
       const DUR = /*DUR*/ 67.26 /*END DUR*/;
+      /*SFX*/ const SFX = [[0.55, 0, "type", 16], [1.35, 0, "zoom"], [2.35, 0, "pop"], [3.03, 0, "pop"], [5.05, 0, "draw", 0, -29], [6.68, 0, "type", 12], [8.69, 0, "type", 12], [8.95, 0, "whoosh"], [10.4, 0, "pop"], [11.13, 0, "pop"], [11.81, 0, "pop"], [12.51, 0, "pop"], [13.33, 0, "pop"], [13.85, 0, "draw"], [15.0, 0, "pan"], [19.37, 0, "impact"], [21.21, 0, "hit"], [21.7, 0, "whoosh"], [23.95, 0, "pop"], [24.71, 0, "pop"], [26.4, 0, "impact"], [27.75, 0, "zoom"], [28.71, 0, "pop"], [30.65, 0, "hit"], [32.6, 0, "type", 17], [33.86, 0, "hit"], [37.1, 0, "draw"], [38.46, 0, "type", 14], [40.3, 0, "pop"], [42.62, 0, "pop"], [45.37, 0, "draw"], [46.81, 0, "pop"], [49.24, 0, "hit"], [50.97, 0, "glitch"], [51.92, 0, "pop"], [52.54, 0, "draw"], [54.6, 0, "zoom", 0, -25], [54.91, 0, "type", 12], [55.89, 0, "hit"], [59.9, 0, "pop"], [61.79, 0, "hit"], [62.5, 0, "count", 1.15], [65.51, 0, "hit"]]; /*END SFX*/
       const C = CUES;
+
+      // Word times (chapter s) from timing/s03_words.json. CUES c05/c06/c13 sit ~0.6-2 s early against the real voice,
+      // so every beat syncs to these word times instead (CUES table left untouched).
+      const W = {
+        iran: 2.35, oman: 3.03, tang: 5.09, persian: 6.68, gulfOman: 8.69,               // "ईरान", "Oman", "तंग", "Persian", "Gulf of Oman"
+        saudi: 10.05, iraq: 11.13, kuwait: 11.81, qatar: 12.51, uae: 13.33, tel: 14.09,   // the five producers, "तेल"
+        band: 19.37, kahaani: 20.25, d28: 21.21,                                          // "बंद", "कहानी", "28"
+        america: 23.95, israel: 24.71, iran2: 25.53, hamle: 26.47,                         // "America", "Israel", "Iran", "हमले"
+        march: 28.71, band2: 30.65, ceasefire: 32.6, d13: 33.86,                           // "March", "बंद", "ceasefire", "13"
+        bandargah: 36.3, naakebandi: 37.1, naval: 38.46,                                   // "बंदरगाहों", "नाकाबंदी", "naval"
+        june: 40.3, samjhauta: 42.62, khul: 45.37, july: 46.81, hamle2: 49.24, toot: 50.97, // "June", "समझौता", "खुल", "July", "हमले", "टूट"
+        august: 51.92, naake2: 52.54, october: 54.91,                                      // "August", "नाकेबंदी", "October"
+        hamle3: 55.89, sabse: 56.39, tez: 56.85, hain: 57.15, mto: 59.9,                   // "हमले सबसे तेज हैं", "MTO"
+        d6: 61.79, d15: 63.65, d11: 65.51,                                                 // "6", "15", "11"
+      };
 
       window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
       window.__timelines = window.__timelines || {};
       let done;
       window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
+      const $ = (id) => document.getElementById(id);
 
-      // ---------- camera: START (27,58,14000) -> dive into the strait -> tilt for the lane -> pull back west over the Gulf states
-      //            -> dive back for "band" -> slow drift under the timeline -> push for the October attacks -> END (26.4,56.8,900)
+      // ---------- camera: START (27,58,14000) -> dive into the strait -> slow tilt (the two gulfs) -> pull back west (producers)
+      //            -> follow the oil east to the strait ("band") -> pull back over Iran (28 Feb strikes) -> dive back (March)
+      //            -> slow drifts under the timeline -> push in on the October attacks -> END (26.4,56.8,900)
       const CAM = [
         { t: 0, lat: 27, lon: 58, alt: 14000, tilt: 0, heading: 0 },
-        { t: C.c02 + 2.6, lat: 26.3, lon: 56.4, alt: 1100, tilt: 0, heading: 0, ease: "inOut3" },     // dive (from space into the Gulf)
-        { t: C.c03 + 1.8, lat: 26.45, lon: 56.5, alt: 950, tilt: 18, heading: 0 },                     // tilt along the lane
-        { t: C.c04 + 2.8, lat: 27.0, lon: 52.6, alt: 2600, tilt: 0, heading: 0 },                      // pull back west: Gulf states
-        { t: C.c05 - 0.4, lat: 27.1, lon: 52.3, alt: 2450, tilt: 0, heading: 0, ease: "linear" },
-        { t: C.c05 + 2.8, lat: 26.25, lon: 56.45, alt: 1000, tilt: 0, heading: 0 },                    // back to the strait: "band"
-        { t: C.c09, lat: 26.2, lon: 56.6, alt: 940, tilt: 0, heading: 0, ease: "linear" },
-        { t: C.c13, lat: 26.35, lon: 56.85, alt: 1050, tilt: 0, heading: 0, ease: "linear" },
-        { t: C.c14 + 4.4, lat: 26.3, lon: 56.9, alt: 880, tilt: 0, heading: 0 },                       // push in on the attacks
-        { t: DUR, lat: 26.4, lon: 56.8, alt: 900, tilt: 0, heading: 0, ease: "linear" },               // hand-off
+        { t: 3.7, lat: 26.1, lon: 56.5, alt: 1150, tilt: 0, heading: 0, ease: "inOut3" },   // dive from space (zoom SFX, steepest ~1.9 s)
+        { t: 8.9, lat: 26.2, lon: 56.4, alt: 1020, tilt: 16, heading: 0 },                  // slow tilt over the strait
+        { t: 10.7, lat: 27.3, lon: 51.6, alt: 2750, tilt: 0, heading: 0 },                  // pull back west: the Gulf producers
+        { t: 14.9, lat: 27.2, lon: 51.9, alt: 2650, tilt: 0, heading: 0 },                  // drift while the flags pop
+        { t: 18.1, lat: 26.3, lon: 56.45, alt: 1050, tilt: 0, heading: 0 },                 // follow the oil east to the strait
+        { t: 20.0, lat: 26.25, lon: 56.45, alt: 960, tilt: 0, heading: 0 },                 // push on "band"
+        { t: 21.6, lat: 26.25, lon: 56.5, alt: 945, tilt: 0, heading: 0 },
+        { t: 24.0, lat: 31.3, lon: 54.2, alt: 4200, tilt: 0, heading: 0 },                  // pull back: all of Iran (28 Feb strikes)
+        { t: 27.4, lat: 31.0, lon: 54.4, alt: 4000, tilt: 0, heading: 0 },
+        { t: 30.2, lat: 26.3, lon: 56.5, alt: 1000, tilt: 0, heading: 0, ease: "inOut3" },  // dive back: March, Hormuz closed
+        { t: 35.5, lat: 26.5, lon: 56.85, alt: 1200, tilt: 0, heading: 0 },                 // ease up to frame Iran's ports
+        { t: 40.5, lat: 26.5, lon: 56.95, alt: 1250, tilt: 0, heading: 0 },
+        { t: 45.0, lat: 26.3, lon: 56.6, alt: 1020, tilt: 0, heading: 0 },
+        { t: 54.4, lat: 26.35, lon: 56.75, alt: 1080, tilt: 0, heading: 0 },
+        { t: 57.2, lat: 26.3, lon: 56.95, alt: 760, tilt: 0, heading: 0 },                  // push in on the October attacks
+        { t: DUR, lat: 26.4, lon: 56.8, alt: 900, tilt: 0, heading: 0 },                    // hand-off
       ];
 
-      const clamp01 = (x) => Math.max(0, Math.min(1, x));
-      const ramp = (t, a, d) => clamp01((t - a) / d);
-      const smooth = (x) => x * x * (3 - 2 * x);
-      const win = (t, a, b, fi = 0.45, fo = 0.45) => Math.min(smooth(ramp(t, a, fi)), 1 - smooth(ramp(t, b, fo)));
-      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
       const NS = "http://www.w3.org/2000/svg";
-      const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+      const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+      const fx = { flow: $("s03-flow"), marks: $("s03-marks"), arcs: $("s03-arcs"), pulses: $("s03-pulses") };
+      const endFade = (t) => sm((DUR - 0.2 - t) / 0.7);
 
-      function makePulse(layer, maxR = 42) {
-        const g = el("g", { opacity: 0 }, layer);
-        const rings = [150, 90, 50].map((a) => ({ a: a / 255, c: el("circle", { r: 11, fill: "none", stroke: "#ff6b6b", "stroke-width": 2.5 }, g) }));
-        const dot = el("circle", { r: 11, fill: "#ff6b6b" }, g);
-        el("circle", { r: 4.5, fill: "#f8fafc" }, g);
+      // ---------- polylines in (lon, lat): length in degrees, point at fraction u ([lat, lon]), projected partial path
+      function poly(pts) { const seg = []; let L = 0; for (let i = 1; i < pts.length; i++) { const d = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); seg.push(d); L += d; } return { pts, seg, L }; }
+      function polyAt(P, u, off = 0) {
+        let s = clamp01(u) * P.L;
+        for (let i = 0; i < P.seg.length; i++) {
+          if (s <= P.seg[i] || i === P.seg.length - 1) {
+            const f = Math.min(1, s / P.seg[i]), a = P.pts[i], b = P.pts[i + 1];
+            const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy);
+            return [a[1] + dy * f + (dx / L) * off, a[0] + dx * f - (dy / L) * off];
+          }
+          s -= P.seg[i];
+        }
+      }
+      function polyD(P, k) {
+        let s = clamp01(k) * P.L, d = "", pen = false;
+        const put = (lon, lat) => { const p = earth.project(lat, lon, 0); if (p.visible) { d += (pen ? "L" : "M") + p.x.toFixed(1) + " " + p.y.toFixed(1); pen = true; } else pen = false; };
+        put(P.pts[0][0], P.pts[0][1]);
+        for (let i = 1; i < P.pts.length; i++) {
+          const a = P.pts[i - 1], b = P.pts[i], sl = P.seg[i - 1];
+          if (s >= sl) { put(b[0], b[1]); s -= sl; }
+          else { const f = s / sl; put(a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f); break; }
+        }
+        return d;
+      }
+      // a line between two projected points, grown from its middle by k, with short end ticks
+      function capsD(pa, pb, k, cap) {
+        const mx = (pa.x + pb.x) / 2, my = (pa.y + pb.y) / 2;
+        const ax = mx + (pa.x - mx) * k, ay = my + (pa.y - my) * k, bx = mx + (pb.x - mx) * k, by = my + (pb.y - my) * k;
+        const L = Math.hypot(bx - ax, by - ay) || 1, nx = -(by - ay) / L * cap, ny = (bx - ax) / L * cap;
+        const f = (v) => v.toFixed(1);
+        return `M${f(ax)},${f(ay)} L${f(bx)},${f(by)} M${f(ax + nx)},${f(ay + ny)} L${f(ax - nx)},${f(ay - ny)} M${f(bx + nx)},${f(by + ny)} L${f(bx - nx)},${f(by - ny)}`;
+      }
+      // dashed ring (blockade) drawn on by k, slowly rotating
+      function ringD(cx, cy, R, k, rot) {
+        const N = 16, slot = 360 / N, dash = slot * 0.6, total = k * N; let d = "";
+        for (let j = 0; j < N && j < total; j++) {
+          const fr = Math.min(1, total - j), a0 = (rot + j * slot) * Math.PI / 180, a1 = a0 + dash * fr * Math.PI / 180;
+          d += `M${(cx + R * Math.cos(a0)).toFixed(1)},${(cy + R * Math.sin(a0)).toFixed(1)} A${R},${R} 0 0 1 ${(cx + R * Math.cos(a1)).toFixed(1)},${(cy + R * Math.sin(a1)).toFixed(1)}`;
+        }
+        return d;
+      }
+
+      // ---------- pulses (coral dot, white core, 3 rings; pure in t)
+      function makePulse(layer, maxR = 40) {
+        const g = mk("g", { opacity: 0 }, layer);
+        const rings = [150, 90, 50].map((a) => ({ a: a / 255, c: mk("circle", { r: 11, fill: "none", stroke: "#ff6b6b", "stroke-width": 2.5 }, g) }));
+        const dot = mk("circle", { r: 11, fill: "#ff6b6b" }, g);
+        mk("circle", { r: 4.5, fill: "#f8fafc" }, g);
         return { g, rings, dot, maxR };
       }
-      function drawPulse(P, p, t, tOn, alpha) {
+      function drawPulse(P, p, t, tOn, alpha, boost = 1) {
         const a = alpha * (t >= tOn ? 1 : 0) * (p.visible ? 1 : 0);
         if (a <= 0.002) { P.g.setAttribute("opacity", 0); return; }
         const k = clamp01((t - tOn) / 0.45);
-        const s = k >= 1 ? 1 : Math.max(0, backOut(k));
+        const s = (k >= 1 ? 1 : Math.max(0, backOut(k))) * boost;
         P.g.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) scale(${s.toFixed(3)})`);
         P.g.setAttribute("opacity", a.toFixed(3));
         P.dot.setAttribute("r", (11 * (1 + 0.07 * Math.sin((t - tOn) * Math.PI * 2 / 1.6))).toFixed(2));
@@ -141,209 +222,294 @@
         }
       }
 
-      // ---------- shipping lane (lon, lat) + a point at fraction u along it (returns [lat, lon])
+      // ---------- shipping lane (lon, lat) and points on it
       const LANE = [[54.0,25.9],[55.0,26.1],[55.6,26.3],[56.2,26.55],[56.55,26.52],[56.85,26.2],[57.3,25.7],[57.9,25.25],[59.5,24.6]];
-      const segL = []; let laneLen = 0;
-      for (let i = 1; i < LANE.length; i++) { const d = Math.hypot(LANE[i][0] - LANE[i - 1][0], LANE[i][1] - LANE[i - 1][1]); segL.push(d); laneLen += d; }
-      function laneAt(u, off = 0) {
-        let s = clamp01(u) * laneLen;
-        for (let i = 0; i < segL.length; i++) {
-          if (s <= segL[i] || i === segL.length - 1) {
-            const f = Math.min(1, s / segL[i]), a = LANE[i], b = LANE[i + 1];
-            const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy);
-            return [a[1] + dy * f + (dx / L) * off, a[0] + dx * f - (dy / L) * off];
-          }
-          s -= segL[i];
-        }
-      }
+      const LP = poly(LANE);
+      const laneAt = (u, off = 0) => polyAt(LP, u, off);
 
-      const fx = { arrows: document.getElementById("s03-arrows"), flow: document.getElementById("s03-flow"), pulses: document.getElementById("s03-pulses") };
-
-      // Hormuz hotspot carried over from the ranking; it hands over to the lane as the camera dives
+      // Hormuz hotspot carried over from the ranking; fades as the camera dives
       const hotspot = makePulse(fx.pulses, 42);
 
-      // ---------- Gulf producers -> the lane ("Saudi Arabia, Iraq, Kuwait, Qatar aur UAE")
-      const ARROW_END = C.c05 - 0.7;
-      const SRC = [
-        { name: "Saudi Arabia", ll: [26.65, 50.15], to: [26.02, 54.7], on: C.c04 + 1.1, dy: 34 },
-        { name: "Iraq", ll: [30.05, 48.4], to: [26.08, 54.85], on: C.c04 + 1.9, dy: -34 },
-        { name: "Kuwait", ll: [29.2, 48.0], to: [26.05, 54.8], on: C.c04 + 2.6, dy: 34 },
-        { name: "Qatar", ll: [25.75, 51.5], to: [25.98, 54.6], on: C.c04 + 3.3, dy: 34 },
-        { name: "UAE", ll: [24.45, 54.4], to: [25.98, 54.95], on: C.c04 + 4.0, dy: 34 },
+      // ---------- oil flow: five feeders (one per producer) join a trunk that runs out through the strait to the world.
+      // Amber dashes march while oil moves; they freeze and turn coral on "band", resume on "khul jaayega", freeze again in July.
+      const FEED = [
+        [[47.8,30.5],[48.6,29.85],[49.5,29.0],[50.6,27.9]],     // Iraq (Basra)
+        [[47.9,29.3],[48.4,29.05],[49.3,28.6],[50.6,27.9]],     // Kuwait
+        [[50.1,26.4],[50.4,26.85],[51.2,27.1],[51.9,27.0]],     // Saudi Arabia (Gulf coast)
+        [[51.2,25.3],[51.6,25.95],[52.3,26.4],[53.1,26.3]],     // Qatar
+        [[54.4,24.4],[54.45,24.85],[54.7,25.5],[55.0,26.1]],    // UAE
       ];
-      const AN = 36;
-      for (const [i, s] of SRC.entries()) {
-        const [la0, lo0] = s.ll, [la1, lo1] = s.to;
-        const dx = lo1 - lo0, dy = la1 - la0, len = Math.hypot(dx, dy), bow = 0.16 * len * (i % 2 ? -1 : 1);
-        s.pts = [];
-        for (let j = 0; j <= AN; j++) { const u = j / AN, b = Math.sin(Math.PI * u) * bow; s.pts.push([la0 + dy * u - (dx / len) * b, lo0 + dx * u + (dy / len) * b]); }
-        s.path = el("path", { fill: "none", stroke: "#fbbf24", "stroke-width": 3.5, "stroke-linecap": "round", opacity: 0 }, fx.arrows);
-        s.head = el("polygon", { points: "0,0 -16,-8 -16,8", fill: "#fbbf24", opacity: 0 }, fx.arrows);
-        s.dot = el("circle", { r: 6, fill: "#fbbf24", stroke: "#04091b", "stroke-width": 2, opacity: 0 }, fx.arrows);
+      const MAIN = [[50.6,27.9],[51.9,27.0],[53.1,26.3],[54.0,25.9],[55.0,26.1],[55.6,26.3],[56.2,26.55],[56.55,26.52],[56.85,26.2],[57.3,25.7],[57.9,25.25],[59.5,24.6],[61.5,23.9]];
+      const FEED_ON = 13.85; // "का तेल"
+      const FLOWS = [
+        ...FEED.map((pts, i) => ({ P: poly(pts), on: FEED_ON + i * 0.06, dur: 0.8, w: 4, dash: "12 12", alpha: (t) => 1 - 0.45 * sm((t - 21.5) / 1.0) })),
+        { P: poly(MAIN), on: 14.55, dur: 2.0, w: 5, dash: "18 14", alpha: () => 1 },
+      ];
+      for (const F of FLOWS) {
+        F.u = mk("path", { fill: "none", stroke: "rgba(4,9,27,.55)", "stroke-width": F.w + 4, "stroke-linecap": "round", "stroke-linejoin": "round", opacity: 0 }, fx.flow);
+        F.p = mk("path", { fill: "none", stroke: "#fbbf24", "stroke-width": F.w, "stroke-linecap": "round", "stroke-dasharray": F.dash, opacity: 0 }, fx.flow);
       }
-      // oil moving out through the strait (stops on "band")
-      const FLOW = Array.from({ length: 10 }, () => el("circle", { r: 5.5, fill: "#fde68a", stroke: "#b45309", "stroke-width": 1.5, opacity: 0 }, fx.flow));
-      const FLOW_ON = C.c04 + 4.2, FLOW_STOP = C.c05 + 0.3;
+      const ism = (x) => { x = clamp01(x); return x * x * x - 0.5 * x * x * x * x; }; // integral of smoothstep
+      function run(t, a, b, f = 0.35) { // seconds of "flowing" between a and b, with soft start and stop
+        if (t <= a) return 0;
+        const up = f * ism((t - a) / f), flat = Math.max(0, Math.min(t, b - f) - (a + f));
+        const down = t <= b - f ? 0 : f * (0.5 - ism((b - Math.min(t, b)) / f));
+        return up + flat + down;
+      }
+      const flowClock = (t) => run(t, FEED_ON, W.band + 0.15) + run(t, W.khul, W.hamle2 + 0.1);
+      const hot = (t) => Math.max(sm((t - W.band) / 0.35) * (1 - sm((t - (W.khul - 0.1)) / 0.5)), sm((t - W.hamle2) / 0.35));
+      const flowCol = (h) => `rgb(${Math.round(251 + 4 * h)},${Math.round(191 - 84 * h)},${Math.round(36 + 71 * h)})`;
 
-      // ---------- attacks on the lane: July (3) and October (15, UKMTO 6–14 Oct; the last 11 in the final four days)
-      const JULY = [0.40, 0.52, 0.60].map((u, k) => ({ ll: laneAt(u, k % 2 ? 0.05 : -0.05), on: C.c11 + 0.8 + k * 0.3, p: makePulse(fx.pulses, 36) }));
-      const OCT_U = [0.30, 0.62, 0.41, 0.55, 0.35, 0.68, 0.47, 0.33, 0.58, 0.44, 0.64, 0.38, 0.52, 0.70, 0.49];
-      const COUNT_ON = C.c14 + 4.8, COUNT_STEP = 0.24;
-      const OCT = OCT_U.map((u, k) => ({ ll: laneAt(u, (k % 3 - 1) * 0.06), on: COUNT_ON + k * COUNT_STEP, p: makePulse(fx.pulses, 30) }));
+      // ---------- "tang raasta": width marker across the strait
+      const WM = { n: [27.03, 56.47], s: [26.40, 56.42] };
+      const wmPath = mk("path", { fill: "none", stroke: "#f8fafc", "stroke-width": 2.5, "stroke-linecap": "round", opacity: 0 }, fx.marks);
 
-      // ---------- map labels (pure functions of t; leave when the camera moves on)
-      const LBL = document.getElementById("s03-labels");
-      const mkLabel = (txt, cls) => { const d = document.createElement("div"); d.className = "geo " + cls; d.textContent = txt; LBL.appendChild(d); return d; };
-      const HOLD_A = C.c05 + 2.6, HOLD_B = DUR - 1.1;
-      const LABELS = [
-        { el: mkLabel("Iran", ""), ll: [27.45, 57.7], vis: (t) => Math.max(win(t, C.c02 + 0.6, C.c04 + 0.4), win(t, HOLD_A, HOLD_B, 0.6, 0.5)) },
-        { el: mkLabel("Oman", ""), ll: [25.25, 56.1], vis: (t) => Math.max(win(t, C.c02 + 1.2, C.c04 + 0.4), win(t, HOLD_A + 0.2, HOLD_B, 0.6, 0.5)) },
-        { el: mkLabel("Persian Gulf", "sea"), ll: [26.75, 54.55], vis: (t) => win(t, C.c03 + 0.3, C.c04 + 0.6) },
-        { el: mkLabel("Gulf of Oman", "sea"), ll: [25.15, 58.35], vis: (t) => win(t, C.c03 + 1.8, C.c04 + 0.6) },
-        ...SRC.map((s) => ({ el: mkLabel(s.name, "src"), ll: s.ll, dy: s.dy, vis: (t) => win(t, s.on, ARROW_END, 0.35, 0.5) })),
+      // ---------- March: Iran closes the strait (coral barrier), retracts on "khul jaayega"
+      const BAR = { n: [26.9, 56.42], s: [26.36, 56.5] };
+      const barGlow = mk("path", { fill: "none", stroke: "#ff6b6b", "stroke-width": 16, "stroke-linecap": "round", opacity: 0 }, fx.marks);
+      const barCore = mk("path", { fill: "none", stroke: "#ff6b6b", "stroke-width": 5, "stroke-linecap": "round", opacity: 0 }, fx.marks);
+
+      // ---------- 13 April / August: US naval blockade rings around Iran's ports (Bandar Lengeh, Bandar Abbas, Jask)
+      const PORTS = [{ ll: [26.56, 54.88], oct: false }, { ll: [27.18, 56.27], oct: true }, { ll: [25.64, 57.77], oct: true }].map((P) => ({
+        ...P,
+        ring: mk("path", { fill: "none", stroke: "#f8fafc", "stroke-width": 3, "stroke-linecap": "round", opacity: 0 }, fx.marks),
+        dot: mk("circle", { r: 5, fill: "#f8fafc", stroke: "#04091b", "stroke-width": 2, opacity: 0 }, fx.marks),
+      }));
+
+      // ---------- 28 Feb: US + Israel air strikes on Iran (arcs from the west, flashes on landing)
+      const STRIKES = [
+        { o: [33.6, 33.5], to: [35.6, 51.4], on: 25.80 },
+        { o: [30.8, 33.8], to: [32.6, 51.7], on: 25.88 },
+        { o: [33.6, 33.5], to: [34.3, 47.1], on: 25.96 },
+        { o: [30.8, 33.8], to: [29.6, 52.5], on: 26.04 },
+      ]; // [lat, lon]
+      for (const s of STRIKES) {
+        const [la0, lo0] = s.o, [la1, lo1] = s.to, dl = lo1 - lo0, dt = la1 - la0, len = Math.hypot(dl, dt), bow = 0.12 * len, pts = [];
+        for (let j = 0; j <= 40; j++) { const u = j / 40, b = Math.sin(Math.PI * u) * bow; pts.push([lo0 + dl * u - (dt / len) * b, la0 + dt * u + (dl / len) * b]); }
+        s.P = poly(pts); s.arrive = s.on + 0.5;
+        s.path = mk("path", { fill: "none", stroke: "#ff6b6b", "stroke-width": 3, "stroke-linecap": "round", opacity: 0 }, fx.arcs);
+        s.head = mk("circle", { r: 5.5, fill: "#fff1f1", opacity: 0 }, fx.arcs);
+        s.ring = mk("circle", { r: 8, fill: "none", stroke: "#ff6b6b", "stroke-width": 3, opacity: 0 }, fx.arcs);
+        s.pulse = makePulse(fx.pulses, 34);
+      }
+
+      // ---------- July attacks (3) and October attacks (15, UKMTO 6-14 Oct; 11 of them in the last four days)
+      const JULY = [0.44, 0.50, 0.56].map((u, k) => ({ ll: laneAt(u, k % 2 ? 0.05 : -0.05), on: W.hamle2 + k * 0.2, p: makePulse(fx.pulses, 36) }));
+      const CNT_T0 = 62.5, CNT_D = 1.15; // counter 0 -> 15 lands on "15" (63.65)
+      const cntAt = (k) => CNT_T0 + CNT_D * (1 - Math.cbrt(1 - (k + 0.5) / 15)); // when the counter shows k+1
+      const OCT_U = [0.47, 0.55, 0.42, 0.59, 0.50, 0.44, 0.61, 0.53, 0.40, 0.57, 0.46, 0.62, 0.49, 0.43, 0.56];
+      const EARLY = [W.hamle3, W.sabse, W.tez, W.hain]; // the first four ("hamle sabse tez hain")
+      const OCT = OCT_U.map((u, k) => ({ ll: laneAt(u, (k % 3 - 1) * 0.055), on: k < 4 ? EARLY[k] : cntAt(k), tc: cntAt(k), p: makePulse(fx.pulses, 30) }));
+
+      // ---------- map labels: typed sea names, country label for the wide Iran view
+      const LBL = $("s03-labels");
+      const mkLabel = (cls) => { const d = document.createElement("div"); d.className = "geo " + cls; LBL.appendChild(d); return d; };
+      const SEA = [
+        { el: mkLabel("sea"), text: "Persian Gulf", ll: [26.6, 54.3], t0: W.persian },
+        { el: mkLabel("sea"), text: "Gulf of Oman", ll: [25.2, 57.4], t0: W.gulfOman },
+      ].map((L) => ({ ...L, ty: typer(L.el, L.text, L.t0, { t1: 10.5 }), hw: L.text.length * 20.6 / 2 }));
+      const lIran = mkLabel(""); lIran.textContent = "Iran";
+
+      // ---------- typed status tags (top-left) + block 2 kicker
+      const TAGS = [
+        { r: $("s03-tagA-r"), ty: typer($("s03-tagA-t"), "Strait of Hormuz", 0.55, { t1: 9.4 }), t0: 0.55, t1: 9.4, pool: true },
+        { r: $("s03-tagB-r"), ty: typer($("s03-tagB-t"), "Ceasefire · 8 Apr", W.ceasefire, { t1: 36.6 }), t0: W.ceasefire, t1: 36.6, pool: true },
+        { r: $("s03-tagC-r"), ty: typer($("s03-tagC-t"), "Naval blockade", W.naval, { t1: 41.9 }), t0: W.naval, t1: 41.9, pool: true },
+        { r: $("s03-rule2"), ty: typer($("s03-kick2"), "October 2026", W.october, { t1: 66.6 }), t0: W.october, t1: 66.6, pool: false },
       ];
+      const pool = $("s03-pool");
 
-      // ---------- timeline strip: 7 milestones, each lands on its voice cue
+      // ---------- flag cards: leader line from the place, card pops on the spoken name (pop SFX = t0 + 0.35)
+      const CARD_ITEMS = [
+        { key: "ir", flags: ["ir"], title: "Iran", lat: 27.45, lon: 57.2, x: 1300, y: 170, t0: W.iran - 0.35, t1: 9.3 },
+        { key: "om", flags: ["om"], title: "Oman", lat: 26.05, lon: 56.2, x: 330, y: 740, t0: W.oman - 0.35, t1: 9.3 },
+        { key: "sa", flags: ["sa"], title: "Saudi Arabia", lat: 26.4, lon: 50.1, x: 96, y: 560, t0: W.saudi, t1: 15.4 },
+        { key: "iq", flags: ["iq"], title: "Iraq", lat: 30.5, lon: 47.8, x: 96, y: 236, t0: W.iraq - 0.35, t1: 15.4 },
+        { key: "kw", flags: ["kw"], title: "Kuwait", lat: 29.3, lon: 47.9, x: 96, y: 352, t0: W.kuwait - 0.35, t1: 15.4 },
+        { key: "qa", flags: ["qa"], title: "Qatar", lat: 25.3, lon: 51.2, x: 96, y: 676, t0: W.qatar - 0.35, t1: 15.4 },
+        { key: "ae", flags: ["ae"], title: "UAE", lat: 24.4, lon: 54.4, x: 96, y: 792, t0: W.uae - 0.35, t1: 15.4 },
+        { key: "us", flags: ["us"], title: "America", lat: 29.6, lon: 52.5, x: 1420, y: 420, t0: W.america - 0.35, t1: 27.7 },
+        { key: "il", flags: ["il"], title: "Israel", lat: 32.6, lon: 51.7, x: 1420, y: 300, t0: W.israel - 0.35, t1: 27.7 },
+        { key: "mou", flags: ["us", "ir"], title: "Samjhauta", sub: "America – Iran", lat: 26.55, lon: 56.42, x: 1330, y: 170, t0: W.samjhauta - 0.35, t1: 51.85 },
+        { key: "uk", flags: ["gb"], title: "UKMTO", lat: 26.09, lon: 56.95, x: 1420, y: 200, t0: W.mto - 0.35, t1: 66.2 },
+      ];
+      const cards = flagCards({ html: $("s03-cards"), svg: $("s03-cardsvg"), items: CARD_ITEMS });
+      const mou = cards.cards[CARD_ITEMS.findIndex((c) => c.key === "mou")];
+      const strike = document.createElement("div"); strike.className = "s03-strike"; strike.style.transform = "scaleX(0)"; mou.el.appendChild(strike);
+
+      // ---------- timeline strip: 7 milestones, each lands on its spoken word
       const TL = [
-        { d: "28 Feb", x: "Jung shuru", at: C.c06 + 1.2 },
-        { d: "March", x: "Raasta band", at: C.c07 + 1.2 },
-        { d: "13 Apr", x: "US blockade", at: C.c08 + 3.0 },
-        { d: "June", x: "Samjhauta", at: C.c09 + 0.3 },
-        { d: "July", x: "Toot gaya", at: C.c11 + 0.6 },
-        { d: "August", x: "Blockade wapas", at: C.c12 + 0.3 },
-        { d: "6–14 Oct", x: "15 hamle", at: C.c14 + 4.6 },
+        { d: "28 Feb", x: "Jung shuru", at: W.d28 },
+        { d: "March", x: "Raasta band", at: W.march },
+        { d: "13 Apr", x: "US blockade", at: W.d13 },
+        { d: "June", x: "Samjhauta", at: W.june },
+        { d: "July", x: "Toot gaya", at: W.july },
+        { d: "August", x: "Blockade wapas", at: W.august },
+        { d: "6–14 Oct", x: "15 hamle", at: W.d6 },
       ];
-      const tlEl = document.getElementById("s03-tl");
+      const TX0 = 170, TSTEP = 260;
+      const tlEl = $("s03-tl");
       TL.forEach((n, i) => {
-        const x = 150 + i * (1600 / 6);
         const d = document.createElement("div");
-        d.className = "node"; d.style.left = (x - 150) + "px";
+        d.className = "node"; d.style.left = (TX0 + i * TSTEP - 150) + "px";
         d.innerHTML = `<div class="d" id="s03-n${i}d">${n.d}</div><div class="dot" id="s03-n${i}o"></div><div class="x" id="s03-n${i}x">${n.x}</div>`;
         tlEl.appendChild(d);
       });
+      const tlCur = $("s03-tl-cur");
 
       const earth = await createEarth({
-        canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["hormuz"],
+        canvas: $("earth"), assetBase: "./assets/geo/", regions: ["hormuz"],
         lines: [{ id: "lane", pts: LANE, color: "#fbbf24", width: 5, dashed: true }],
       });
       const tl = gsap.timeline({ paused: true });
-      const crA = document.getElementById("s03-cr-a"), crB = document.getElementById("s03-cr-b");
-      const countEl = document.getElementById("s03-count");
-
-      const drawCurve = (pts, k) => {
-        const N = pts.length - 1, last = k * N, jn = Math.floor(last);
-        let d = "", pen = false, tip = null, prev = null;
-        for (let j = 0; j <= Math.min(N, jn + 1); j++) {
-          let q = pts[j];
-          if (j > last) { const p0 = pts[j - 1], fr = last - (j - 1); q = [p0[0] + (q[0] - p0[0]) * fr, p0[1] + (q[1] - p0[1]) * fr]; }
-          const p = earth.project(q[0], q[1], 0);
-          if (!p.visible) { pen = false; continue; }
-          d += (pen ? "L" : "M") + p.x.toFixed(1) + " " + p.y.toFixed(1);
-          pen = true; prev = tip; tip = p;
-        }
-        return { d, tip, prev };
-      };
+      const crA = $("s03-cr-a"), crB = $("s03-cr-b"), scrim = $("s03-scrim"), scrimB = $("s03-scrim-b");
+      const cnt = counter($("s03-count"), { from: 0, to: 15, t0: CNT_T0, dur: CNT_D });
 
       driveWithTimeline(tl, DUR, (t) => {
+        // the engine lane is only the hand-off track: it fades in under the SVG flow at the very end (s04 opens on it)
+        earth.setLineOpacity("lane", sm((t - (DUR - 0.9)) / 0.7));
         earth.render(camAt(CAM, t));
-        // the lane: bright while oil flows, dims on "band", hope on "khul jaayega", dims again in July
-        let lane = 1 - 0.55 * smooth(ramp(t, C.c05 + 0.5, 0.8));
-        lane += 0.45 * smooth(ramp(t, C.c10 + 0.3, 0.8)) - 0.5 * smooth(ramp(t, C.c11 + 0.5, 0.8));
-        earth.setLineOpacity("lane", Math.max(0.35, Math.min(1, lane)) * smooth(ramp(t, C.c01, 1.6)));
-        // credits follow the imagery on screen
-        const kb = smooth(ramp(t, C.c02, 1.2));
-        crA.style.opacity = (1 - kb).toFixed(3); crB.style.opacity = kb.toFixed(3);
 
-        drawPulse(hotspot, earth.project(26.6, 56.3, 0), t, -1, 1 - smooth(ramp(t, C.c01 + 0.4, 2.4)));
+        const cf = sm(t / 0.4) * sm((DUR - t) / 0.4), kb = sm((t - 2.0) / 1.2);
+        crA.style.opacity = ((1 - kb) * cf).toFixed(3); crB.style.opacity = (kb * cf).toFixed(3);
+        scrim.style.opacity = Math.max(env(t, 18.7, 23.25, 0.5), env(t, 54.6, 66.75, 0.5)).toFixed(3);
+        scrimB.style.opacity = env(t, 20.0, DUR - 0.4, 0.6).toFixed(3);
 
-        // producer arrows draw on, arrowhead rides the tip
-        for (const s of SRC) {
-          const a = win(t, s.on, ARROW_END, 0.25, 0.5);
-          const k = smooth(ramp(t, s.on, 1.3));
-          const o = earth.project(s.ll[0], s.ll[1], 0);
-          s.dot.setAttribute("cx", o.x.toFixed(1)); s.dot.setAttribute("cy", o.y.toFixed(1));
-          s.dot.setAttribute("opacity", (a * (o.visible ? 1 : 0)).toFixed(3));
-          if (a <= 0.002 || k <= 0.01) { s.path.setAttribute("opacity", 0); s.head.setAttribute("opacity", 0); continue; }
-          const c = drawCurve(s.pts, k);
-          s.path.setAttribute("d", c.d); s.path.setAttribute("opacity", (0.95 * a).toFixed(3));
-          if (c.tip && c.prev) {
-            const ang = Math.atan2(c.tip.y - c.prev.y, c.tip.x - c.prev.x) * 180 / Math.PI;
-            s.head.setAttribute("transform", `translate(${c.tip.x.toFixed(1)},${c.tip.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
-            s.head.setAttribute("opacity", (0.95 * a).toFixed(3));
-          } else s.head.setAttribute("opacity", 0);
+        drawPulse(hotspot, earth.project(26.6, 56.3, 0), t, -1, 1 - sm((t - 0.6) / 2.0));
+
+        // typed tags (amber rule draws first) + the soft pool behind the standalone ones
+        let pa = 0;
+        for (const T of TAGS) {
+          T.ty.update(t);
+          T.r.style.transform = `scaleX(${out3(prog(t, T.t0 - 0.15, 0.35)).toFixed(3)})`;
+          T.r.style.opacity = (t < T.t0 - 0.15 ? 0 : sm((T.t1 - t) / 0.35)).toFixed(3);
+          if (T.pool) pa = Math.max(pa, env(t, T.t0 - 0.15, T.t1, 0.35));
         }
-        // oil flowing out of the Gulf along the lane, freezes and fades on "band"
-        const ft = Math.min(t, FLOW_STOP) - FLOW_ON;
-        const fa = win(t, FLOW_ON, FLOW_STOP + 0.2, 0.5, 0.9);
-        FLOW.forEach((c, i) => {
-          if (fa <= 0.002) { c.setAttribute("opacity", 0); return; }
-          const u = ((ft * 0.075 + i / FLOW.length) % 1 + 1) % 1;
-          const ll = laneAt(u), p = earth.project(ll[0], ll[1], 0);
-          c.setAttribute("cx", p.x.toFixed(1)); c.setAttribute("cy", p.y.toFixed(1));
-          c.setAttribute("opacity", (fa * (p.visible ? 1 : 0) * Math.min(1, u * 8, (1 - u) * 8)).toFixed(3));
+        pool.style.opacity = pa.toFixed(3);
+
+        // strait width marker ("tang raasta")
+        const kw = out3(prog(t, 5.05, 0.45)), aw = env(t, 5.05, 9.3, 0.3);
+        if (aw > 0.002) {
+          wmPath.setAttribute("d", capsD(earth.project(WM.n[0], WM.n[1], 0), earth.project(WM.s[0], WM.s[1], 0), kw, 9));
+          wmPath.setAttribute("opacity", (0.9 * aw).toFixed(3));
+        } else wmPath.setAttribute("opacity", 0);
+
+        // oil flow
+        const clock = flowClock(t), col = flowCol(hot(t)), ef = endFade(t);
+        for (const F of FLOWS) {
+          const k = sm(prog(t, F.on, F.dur)), a = (t < F.on ? 0 : 1) * F.alpha(t) * ef;
+          if (k <= 0.002 || a <= 0.002) { F.u.setAttribute("opacity", 0); F.p.setAttribute("opacity", 0); continue; }
+          const d = polyD(F.P, k);
+          F.u.setAttribute("d", d); F.p.setAttribute("d", d);
+          F.u.setAttribute("opacity", (0.6 * a).toFixed(3)); F.p.setAttribute("opacity", a.toFixed(3));
+          F.p.setAttribute("stroke", col); F.p.setAttribute("stroke-dashoffset", (-clock * 70).toFixed(1));
+        }
+
+        // March barrier across the strait
+        const kbar = out3(prog(t, W.band2, 0.35)) * (1 - sm(prog(t, W.khul - 0.15, 0.45)));
+        if (kbar > 0.002) {
+          const d = capsD(earth.project(BAR.n[0], BAR.n[1], 0), earth.project(BAR.s[0], BAR.s[1], 0), kbar, 12);
+          barCore.setAttribute("d", d); barGlow.setAttribute("d", d);
+          barCore.setAttribute("opacity", 0.95);
+          barGlow.setAttribute("opacity", (0.16 + 0.07 * Math.sin((t - W.band2) * Math.PI * 2 / 1.6) + 0.4 * (1 - prog(t, W.band2, 0.6))).toFixed(3));
+        } else { barCore.setAttribute("opacity", 0); barGlow.setAttribute("opacity", 0); }
+
+        // blockade rings: 13 April (gone with the June deal), back in August (dimmed under the October attacks)
+        PORTS.forEach((P, i) => {
+          const a1 = env(t, W.bandargah + i * 0.12, 43.7, 0.3);
+          const a2 = env(t, W.naake2 - 0.25 + i * 0.08, DUR - 0.2, 0.3) * (P.oct ? 1 - 0.4 * sm((t - 54.6) / 0.8) : 1 - sm((t - 54.4) / 0.6));
+          const a = Math.max(a1, a2), p = earth.project(P.ll[0], P.ll[1], 0);
+          if (a <= 0.002 || !p.visible) { P.ring.setAttribute("opacity", 0); P.dot.setAttribute("opacity", 0); return; }
+          P.dot.setAttribute("cx", p.x.toFixed(1)); P.dot.setAttribute("cy", p.y.toFixed(1)); P.dot.setAttribute("opacity", a.toFixed(3));
+          const kr = t < 47 ? out3(prog(t, W.naakebandi + i * 0.1, 0.7)) : out3(prog(t, W.naake2 + i * 0.1, 0.7));
+          if (kr > 0.002) { P.ring.setAttribute("d", ringD(p.x, p.y, 30, kr, t * 20 + i * 40)); P.ring.setAttribute("opacity", (0.9 * a).toFixed(3)); }
+          else P.ring.setAttribute("opacity", 0);
         });
 
-        // July attacks: pop on "phir se jahaazon par hamle", fade as August/October take over
-        for (const j of JULY) drawPulse(j.p, earth.project(j.ll[0], j.ll[1], 0), t, j.on, (1 - 0.6 * smooth(ramp(t, C.c12 + 0.5, 1))) * (1 - smooth(ramp(t, COUNT_ON - 0.6, 0.8))));
-        // October: 15 pulses multiply in step with the counter; the first 4 dim when "11 in the last four days" is said
-        let popped = 0;
+        // 28 Feb strikes
+        for (const s of STRIKES) {
+          const a = env(t, s.on, 27.6, 0.2), k = sm(prog(t, s.on, 0.5));
+          if (a > 0.002 && k > 0.002) {
+            s.path.setAttribute("d", polyD(s.P, k)); s.path.setAttribute("opacity", (0.9 * a).toFixed(3));
+            const tip = polyAt(s.P, k), tp = earth.project(tip[0], tip[1], 0);
+            s.head.setAttribute("cx", tp.x.toFixed(1)); s.head.setAttribute("cy", tp.y.toFixed(1));
+            s.head.setAttribute("opacity", (k < 0.999 ? a : 0).toFixed(3));
+          } else { s.path.setAttribute("opacity", 0); s.head.setAttribute("opacity", 0); }
+          const p = earth.project(s.to[0], s.to[1], 0), kf = prog(t, s.arrive, 0.7);
+          if (t >= s.arrive && kf < 1 && p.visible) {
+            s.ring.setAttribute("cx", p.x.toFixed(1)); s.ring.setAttribute("cy", p.y.toFixed(1));
+            s.ring.setAttribute("r", (8 + 76 * out3(kf)).toFixed(1)); s.ring.setAttribute("opacity", ((1 - kf) * 0.9).toFixed(3));
+          } else s.ring.setAttribute("opacity", 0);
+          drawPulse(s.pulse, p, t, s.arrive, 1 - sm((t - 27.4) / 0.6));
+        }
+
+        // July: attacks on ships
+        for (const j of JULY) drawPulse(j.p, earth.project(j.ll[0], j.ll[1], 0), t, j.on, (1 - 0.55 * sm((t - 52.0) / 1)) * (1 - sm((t - 55.0) / 0.8)));
+        // October: four early attacks, then the rest multiply with the counter; on "11" the first four dim and the last 11 flare
         OCT.forEach((o, k) => {
-          if (t >= o.on) popped++;
-          const dim = k < 4 ? 1 - 0.65 * smooth(ramp(t, C.c15 + 0.4, 0.6)) : 1;
-          drawPulse(o.p, earth.project(o.ll[0], o.ll[1], 0), t, o.on, dim * (1 - smooth(ramp(t, DUR - 1.0, 0.8))));
+          const flare = k < 4 ? 1 + 0.3 * Math.sin(Math.PI * prog(t, o.tc, 0.35)) : 1 + 0.35 * Math.sin(Math.PI * prog(t, W.d11, 0.5));
+          const dim = k < 4 ? 1 - 0.65 * sm((t - W.d11) / 0.4) : 1;
+          drawPulse(o.p, earth.project(o.ll[0], o.ll[1], 0), t, o.on, dim * ef, flare);
         });
-        countEl.textContent = String(Math.max(1, popped));
+        cnt.update(t);
 
-        for (const L of LABELS) {
-          const a = L.vis(t);
-          if (a <= 0.002) { L.el.style.opacity = 0; continue; }
+        // labels
+        for (const L of SEA) {
+          L.ty.update(t);
           const p = earth.project(L.ll[0], L.ll[1], 0);
-          L.el.style.opacity = (p.visible ? a : 0).toFixed(3);
-          L.el.style.transform = `translate(${p.x.toFixed(1)}px, ${(p.y + (L.dy || 0)).toFixed(1)}px) translate(-50%, -50%)`;
+          if (!p.visible) L.el.style.opacity = "0";
+          L.el.style.transform = `translate(${(p.x - L.hw).toFixed(1)}px, ${(p.y - 14).toFixed(1)}px)`;
         }
+        const ai = env(t, W.iran2 - 0.25, 27.6, 0.35), pi = earth.project(32.0, 54.0, 0);
+        lIran.style.opacity = (pi.visible ? ai : 0).toFixed(3);
+        lIran.style.transform = `translate(${pi.x.toFixed(1)}px, ${pi.y.toFixed(1)}px) translate(-50%, -50%)`;
+
+        // flag cards; the June deal card breaks on "toot gaya" (strike-through, coral edge, short jitter)
+        cards.update(t, earth);
+        strike.style.transform = `scaleX(${out3(prog(t, W.toot, 0.22)).toFixed(3)})`;
+        mou.el.style.borderColor = t >= W.toot ? "rgba(255,107,107,.9)" : "rgba(248,250,252,.16)";
+        mou.el.style.filter = t >= W.toot ? "saturate(0.35)" : "none";
+        if (t >= W.toot && t < W.toot + 0.4) mou.el.style.transform += ` translateX(${(Math.sin((t - W.toot) * 97) * 8 * (1 - (t - W.toot) / 0.4)).toFixed(1)}px)`;
+
+        // timeline: a ring marks the latest milestone and slides to the next one
+        let ci = -1; for (let i = 0; i < TL.length; i++) if (t >= TL[i].at) ci = i;
+        if (ci >= 0) {
+          const x0 = TX0 + Math.max(0, ci - 1) * TSTEP, x1 = TX0 + ci * TSTEP, x = x0 + (x1 - x0) * out3(prog(t, TL[ci].at, 0.4));
+          const br = 1 + 0.12 * Math.sin((t - TL[ci].at) * Math.PI * 2 / 1.6);
+          tlCur.style.transform = `translate(${(x - 15).toFixed(1)}px, 915px) scale(${br.toFixed(3)})`;
+          tlCur.style.opacity = sm((t - TL[0].at) / 0.4).toFixed(3);
+        } else tlCur.style.opacity = "0";
       });
 
-      // ---------- block 1: "HORMUZ / BAND." lands on "lagbhag band hai"
-      const B1 = C.c05 + 0.4;
-      tl.fromTo("#s03-scrim", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, B1 - 0.2);
+      // ---------- block 1: "HORMUZ / BAND." rises on "lagbhag band" (impact on "बंद" 19.37), leaves as one unit before the strikes
+      const B1 = 18.85, X1 = 22.75;
       tl.fromTo("#s03-rule1", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, B1);
-      tl.fromTo("#s03-kick1", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, B1 + 0.15);
-      tl.fromTo("#s03-h1", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, B1 + 0.3);
-      tl.fromTo("#s03-h2", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, B1 + 0.42);
-      tl.fromTo("#s03-sub1", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, B1 + 0.9);
-      tl.fromTo("#s03-b1", { scale: 1 }, { scale: 1.025, duration: C.c13 - B1, ease: "none", transformOrigin: "0% 50%" }, B1);
-      const X1 = C.c13 + 0.2;
-      tl.to(["#s03-h1", "#s03-h2"], { yPercent: -100, duration: 0.4, ease: "power2.in", stagger: 0.08 }, X1);
-      tl.to("#s03-sub1", { opacity: 0, y: -16, duration: 0.35, ease: "power2.in" }, X1);
-      tl.to(["#s03-kick1", "#s03-rule1"], { opacity: 0, duration: 0.35, ease: "power2.in" }, X1 + 0.1);
+      tl.fromTo("#s03-kick1", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, B1 + 0.1);
+      tl.fromTo("#s03-h1", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, 19.05);
+      tl.fromTo("#s03-h2", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, 19.2);
+      tl.fromTo("#s03-b1", { scale: 1 }, { scale: 1.03, duration: X1 - B1, ease: "none", transformOrigin: "0% 50%" }, B1);
+      tl.to(["#s03-h1", "#s03-h2"], { yPercent: -100, duration: 0.4, ease: "power2.in", stagger: 0.06 }, X1);
+      tl.to(["#s03-kick1", "#s03-rule1"], { opacity: 0, duration: 0.35, ease: "power2.in" }, X1 + 0.05);
 
-      // ---------- block 2: UKMTO counter (scrim stays up between the two blocks)
-      tl.fromTo("#s03-rule2", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, C.c14 + 0.8);
-      tl.fromTo("#s03-kick2", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, C.c14 + 0.95);
-      tl.fromTo("#s03-h3", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, COUNT_ON - 0.15);
-      tl.fromTo("#s03-h4", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, COUNT_ON - 0.03);
-      tl.fromTo("#s03-sub2", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, COUNT_ON + 14 * COUNT_STEP + 0.3);
-      tl.fromTo("#s03-sub3", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, C.c15 + 0.4);
-      tl.fromTo("#s03-b2", { scale: 1 }, { scale: 1.02, duration: DUR - 1.6 - C.c14, ease: "none", transformOrigin: "0% 50%" }, C.c14);
-      const X2 = DUR - 1.6;
-      tl.to(["#s03-h3", "#s03-h4"], { yPercent: -100, duration: 0.4, ease: "power2.in", stagger: 0.08 }, X2);
-      tl.to(["#s03-sub2", "#s03-sub3"], { opacity: 0, y: -16, duration: 0.35, ease: "power2.in" }, X2);
-      tl.to(["#s03-kick2", "#s03-rule2"], { opacity: 0, duration: 0.35, ease: "power2.in" }, X2 + 0.1);
-      tl.to("#s03-scrim", { opacity: 0, duration: 0.7, ease: "power1.inOut" }, X2 + 0.2);
+      // ---------- block 2: typed "OCTOBER 2026" kicker (callback), "15 / HAMLE." counter, "11 aakhri 4 din" on "11"
+      const X2 = 66.2;
+      tl.fromTo("#s03-h3", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, 62.35);
+      tl.fromTo("#s03-h4", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, 62.47);
+      tl.fromTo("#s03-r11", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2.2)" }, W.d11);
+      tl.fromTo("#s03-b2", { scale: 1 }, { scale: 1.02, duration: X2 - 54.7, ease: "none", transformOrigin: "0% 50%" }, 54.7);
+      tl.to(["#s03-h3", "#s03-h4"], { yPercent: -100, duration: 0.38, ease: "power2.in", stagger: 0.05 }, X2);
+      tl.to("#s03-r11", { opacity: 0, duration: 0.3, ease: "power2.in" }, X2);
 
-      // ---------- timeline strip: base line draws, the amber fill advances node to node
-      const T0 = C.c06 + 0.4;
-      tl.fromTo("#s03-scrim-b", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, T0 - 0.3);
-      tl.fromTo("#s03-tl-base", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power2.inOut" }, T0);
-      tl.fromTo("#s03-tl-fill", { scaleX: 0 }, { scaleX: 0, duration: 0.01 }, T0);
+      // ---------- timeline strip: base line draws on "kahaani", the amber fill advances node to node
+      tl.fromTo("#s03-tl-base", { scaleX: 0 }, { scaleX: 1, duration: 1.0, ease: "power2.inOut" }, W.kahaani);
+      tl.fromTo("#s03-tl-fill", { scaleX: 0 }, { scaleX: 0, duration: 0.01 }, W.kahaani);
       TL.forEach((n, i) => {
-        if (i > 0) tl.to("#s03-tl-fill", { scaleX: i / 6, duration: 0.7, ease: "power2.inOut" }, n.at - 0.5);
+        if (i > 0) tl.to("#s03-tl-fill", { scaleX: i / 6, duration: 0.6, ease: "power2.inOut" }, n.at - 0.6);
         tl.fromTo(`#s03-n${i}o`, { scale: 0 }, { scale: 1, duration: 0.45, ease: "back.out(2.4)" }, n.at);
-        tl.fromTo(`#s03-n${i}d`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, n.at + 0.08);
-        tl.fromTo(`#s03-n${i}x`, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, n.at + 0.2);
+        tl.fromTo(`#s03-n${i}d`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, n.at);
+        tl.fromTo(`#s03-n${i}x`, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, n.at + 0.15);
       });
-      tl.to("#s03-tl", { opacity: 0, duration: 0.5, ease: "power1.in" }, DUR - 1.5);
-      tl.to("#s03-scrim-b", { opacity: 0, duration: 0.7, ease: "power1.inOut" }, DUR - 1.4);
+      tl.to("#s03-tl", { opacity: 0, duration: 0.5, ease: "power1.in" }, 65.95);
 
       window.__timelines["main"] = tl;
       done();

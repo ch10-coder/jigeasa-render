@@ -73,3 +73,10 @@ Every visual beat is placed with `CUES.cNN + offset`, never a bare number. The r
 - No `Date.now()`, no `performance.now()`, no `Math.random()` (use the seeded `seeded()` pattern if needed), no `requestAnimationFrame` loops, no network fetches at render time. All data is local.
 - A pulse or loop must be a pure function of `t`.
 - Do not tween `.clip` elements. Animate inner nodes.
+
+## Revision 2 additions (2026-10-19)
+- `assets/geo/fx.js`: `typer` (kinetic typing), `counter`, `flagCards` (leader line + flag card), `drawOn`, easing helpers. Pure in t.
+- `assets/flags/<iso2>.svg` (flag-icons, MIT).
+- Engine: `indiaFadeKm`, `indiaLine`, per-line `dash` and `rings`; India line 2 px + 5 px glow; lines lifted with altitude.
+- `/*SFX*/ const SFX = [...]; /*END SFX*/` block in every chapter (kinds in tools/sfx_plan.py and .hyperframes/frame-packets/_revision2.md).
+- `timing/sNN_words.json`: word times for exact sync. `tools/check_js.py <file>`: syntax + SFX JSON check.
