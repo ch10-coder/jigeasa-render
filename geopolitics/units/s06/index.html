@@ -20,13 +20,15 @@
                background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,.45) 42%, rgba(4,9,27,0) 58%); }
       #bscrim { position: absolute; left: 0; right: 0; bottom: 0; height: 320px; opacity: 0;
                 background: linear-gradient(0deg, rgba(4,9,27,.78) 0%, rgba(4,9,27,.55) 45%, rgba(4,9,27,0) 100%); }
-      #ov { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+      #ov, .full { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
       #labs { position: absolute; inset: 0; }
       .blk { position: absolute; inset: 0; }
       .kicker { position: absolute; left: 96px; top: 150px; display: flex; align-items: center; gap: 16px; font: 700 28px Inter;
                 letter-spacing: 5px; color: #fbbf24; text-transform: uppercase; white-space: nowrap;
                 text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
       .kicker i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
+      .kt { position: relative; display: block; width: 900px; height: 34px; }
+      .kt > span { position: absolute; left: 0; top: 0; white-space: nowrap; }
       .mask { position: absolute; left: 96px; overflow: hidden; }
       .mask > * { display: block; white-space: nowrap; }
       .h { font: 400 170px/1.04 Anton; color: #f8fafc; text-transform: uppercase;
@@ -35,10 +37,29 @@
       .coral { color: #ff6b6b; }
       .sub { position: absolute; left: 96px; font: 500 40px/1.2 Inter; color: #e2e8f0; white-space: nowrap;
              text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .stat { position: absolute; left: 96px; top: 566px; display: flex; align-items: center; gap: 20px; white-space: nowrap; }
+      .stat .n { display: block; font: 400 120px/1 Anton; color: #ff6b6b; opacity: 0; transform-origin: 0 50%;
+                 text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .stat .u { display: block; font: 700 32px Inter; letter-spacing: 5px; color: #f8fafc; text-transform: uppercase; opacity: 0;
+                 text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .stamp { position: absolute; left: 96px; font: 400 96px/1 Anton; color: #ff6b6b; text-transform: uppercase; white-space: nowrap;
+               padding: 12px 28px 8px; border: 5px solid #ff6b6b; border-radius: 10px; opacity: 0; transform-origin: 30% 50%; }
+      .card { position: absolute; left: 96px; display: flex; align-items: center; gap: 16px; padding: 14px 22px 14px 14px; opacity: 0;
+              background: rgba(4,9,27,.78); border: 1px solid rgba(248,250,252,.16); border-radius: 12px; white-space: nowrap;
+              box-shadow: 0 10px 30px rgba(2,6,16,.45); transform-origin: 0 50%; }
+      .card img { display: block; width: 64px; height: 48px; border-radius: 5px; object-fit: cover; box-shadow: 0 0 0 1px rgba(248,250,252,.22); }
+      .card .t { font: 700 26px Inter; letter-spacing: 4px; text-transform: uppercase; color: #f8fafc; line-height: 1.05; }
+      .card .s { font: 500 22px Inter; color: #cbd5e1; margin-top: 6px; line-height: 1.1; min-height: 24px; }
+      .lbl { position: absolute; left: 96px; font: 700 28px Inter; letter-spacing: 5px; color: #2dd4bf; text-transform: uppercase; white-space: nowrap;
+             text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .ty { position: absolute; left: 96px; font: 400 96px/1.04 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
+            text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .chip { position: absolute; left: 96px; display: flex; align-items: center; gap: 14px; font: 700 30px/1.2 Inter; letter-spacing: 4px;
+              color: #f8fafc; text-transform: uppercase; white-space: nowrap; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .chip i { display: block; width: 5px; height: 30px; border-radius: 2px; background: #ff6b6b; opacity: 0; transform-origin: 50% 50%; }
       .lab { position: absolute; left: 0; top: 0; font: 700 26px Inter; letter-spacing: 5px; color: #f8fafc; white-space: nowrap; opacity: 0;
              text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
       /* timeline strip */
-      #tline { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
       .td { position: absolute; top: 866px; font: 700 26px Inter; letter-spacing: 5px; color: #fbbf24; white-space: nowrap; text-transform: uppercase;
             text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 6px 14px rgba(2,6,16,.45); }
       .tx { position: absolute; top: 950px; font: 500 26px Inter; color: #e2e8f0; white-space: nowrap;
@@ -60,41 +81,51 @@
       </svg>
       <div id="labs"></div>
 
-      <!-- B1: 22 April 2025 -->
+      <!-- B1: where it began; 22 April 2025, Pahalgam -->
       <div class="blk" id="b1">
-        <div class="kicker"><i></i><span>22 April 2025&nbsp;&nbsp;·&nbsp;&nbsp;Pahalgam</span></div>
+        <div class="kicker" id="k1"><i></i><span class="kt"><span id="k0t"></span><span id="k1t"></span></span></div>
         <div class="mask" style="top:196px"><span class="h">Aatanki</span></div>
         <div class="mask" style="top:373px"><span class="h coral">hamla.</span></div>
-        <div class="sub fo" id="b1s" style="top:566px">26 log maare gaye</div>
+        <div class="stat" id="b1st"><span class="n" id="b1n">26</span><span class="u" id="b1u">log maare gaye</span></div>
       </div>
 
       <!-- B2: 23 April 2025, IWT in abeyance -->
       <div class="blk" id="b2">
-        <div class="kicker"><i></i><span>23 April 2025</span></div>
+        <div class="kicker" id="k2"><i></i><span id="k2t"></span></div>
         <div class="mask" style="top:196px"><span class="h s150">Sandhi</span></div>
-        <div class="mask" style="top:352px; height:157px; width:1000px">
-          <span class="h s150 coral" id="b2a" style="position:absolute; left:0; top:0">abeyance.</span>
-          <span class="h s150 coral" id="b2b" style="position:absolute; left:0; top:0">lagu nahi.</span>
-        </div>
-        <div class="sub fo" id="b2s" style="top:524px">Indus Waters Treaty</div>
+        <div class="mask" style="top:352px"><span class="h s150 coral">abeyance.</span></div>
+        <div class="sub" id="b2s" style="top:524px"></div>
+        <div class="stamp" id="b2st" style="top:600px">Lagu nahi</div>
       </div>
 
       <!-- B3: Operation Sindoor (approved still) -->
       <div class="blk" id="b3">
-        <div class="kicker"><i></i><span>Pahalgam&nbsp;&nbsp;·&nbsp;&nbsp;Kashmir</span></div>
+        <div class="kicker" id="k3"><i></i><span id="k3t"></span></div>
         <div class="mask" style="top:196px"><span class="h">Operation</span></div>
         <div class="mask" style="top:373px"><span class="h coral">Sindoor.</span></div>
-        <div class="sub fo" id="b3s" style="top:566px">Bharat: operation abhi khatam nahi hua</div>
+        <div class="card" id="b3c" style="top:584px"><img src="assets/flags/pk.svg" alt="" /><div><div class="t">Pakistan · PoK</div><div class="s" id="b3cs"></div></div></div>
+        <div class="lbl" id="b3who" style="top:584px; opacity:0">Bharat:</div>
+        <div class="ty" id="b3t" style="top:626px"></div>
+      </div>
+
+      <!-- B4: every small incident -->
+      <div class="blk" id="b4">
+        <div class="chip" id="c1" style="top:200px"><i></i><span></span></div>
+        <div class="chip" id="c2" style="top:256px"><i></i><span></span></div>
+        <div class="mask" style="top:330px"><span class="h s150">Chhoti ghatna,</span></div>
+        <div class="mask" style="top:486px"><span class="h s150 coral">badi ladaai.</span></div>
+        <svg class="full" viewBox="0 0 1920 1080"><g id="spark"></g></svg>
       </div>
 
       <!-- timeline strip: 22 Apr 2025 -> 23 Apr -> 7 May -> 10 May -->
-      <svg id="tline" viewBox="0 0 1920 1080">
-        <line x1="230" y1="930" x2="1700" y2="930" stroke="#e2e8f0" stroke-opacity=".25" stroke-width="2" id="tlTrack" />
+      <svg class="full" id="tline" viewBox="0 0 1920 1080" style="opacity:0">
+        <line x1="230" y1="930" x2="1700" y2="930" stroke="#e2e8f0" stroke-opacity=".25" stroke-width="2" />
         <line id="tlLine" x1="230" y1="930" x2="230" y2="930" stroke="#e2e8f0" stroke-opacity=".85" stroke-width="2.5" />
         <circle id="tn0" cx="230" cy="930" r="0" fill="#fbbf24" />
         <circle id="tn1" cx="720" cy="930" r="0" fill="#fbbf24" />
         <circle id="tn2" cx="1210" cy="930" r="0" fill="#fbbf24" />
         <circle id="tn3" cx="1700" cy="930" r="0" fill="#fbbf24" />
+        <circle id="tr" cx="230" cy="930" r="8" fill="none" stroke="#fbbf24" stroke-width="2.5" opacity="0" />
       </svg>
       <div class="tc" id="tc0" style="left:230px"><div class="td">22 Apr 2025</div><div class="tx">Pahalgam hamla</div></div>
       <div class="tc" id="tc1" style="left:720px"><div class="td">23 Apr</div><div class="tx">Sindhu Jal Sandhi abeyance</div></div>
@@ -106,8 +137,10 @@
 
     <script type="module">
       import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
+      import { typer, env, sm, out3, inOut, backOut, prog } from "./assets/geo/fx.js";
       /*CUES*/ const CUES = {"c01": 0.35, "c02": 2.52, "c03": 5.02, "c04": 9.26, "c05": 15.84, "c06": 18.27, "c07": 22.37, "c08": 26.13, "c09": 29.9, "c10": 34.42}; /*END CUES*/
       const DUR = /*DUR*/ 42.54 /*END DUR*/;
+      /*SFX*/ const SFX = [["c01", 0.0, "pan"], [0.5, 0, "type", 14], [2.57, 0, "type", 24], [3.6, 0, "pop"], [4.85, 0, "pop"], [7.49, 0, "hit"], ["c04", 0.0, "whoosh"], [9.35, 0, "type", 13], [10.0, 0, "pop"], [11.0, 0, "type", 19], [11.9, 0, "draw"], [12.87, 0, "pop"], [17.33, 0, "hit"], ["c06", 0.03, "zoom"], [18.86, 0, "type", 10], [19.45, 0, "pop"], [20.75, 0, "impact"], [22.45, 0, "pop"], [24.22, 0, "type", 16], [26.2, 0, "draw"], [28.05, 0, "pop"], [32.75, 0, "type", 16], ["c10", 0.08, "whoosh"], [35.05, 0, "type", 17], [36.91, 0, "type", 18], [38.45, 0, "impact"]]; /*END SFX*/
       const C = CUES;
 
       window.__timelines = window.__timelines || {};
@@ -115,15 +148,35 @@
       let done;
       window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
 
-      // START = s05 END; END = s07 START. North to Kashmir, pull back for the Indus, dive into 3D over
-      // Pahalgam (Pir Panjal in front, looking NNE), then lift out toward Ladakh.
+      // ---------- beats (word times from timing/s06_words.json) ----------
+      const T_K0 = 0.5;                 // typed kicker while "ye tanaav kahan se shuru hua?"
+      const T_K1 = 2.57;                // "22" 2.57 ... "2025" 3.57
+      const T_N1 = 3.6;                 // strip node 22 Apr 2025
+      const T_PAH = 4.6;                // Pahalgam label (text at +0.25; "पहलगाम" 5.07)
+      const T_H1 = 5.9, T_26 = 7.49;    // "आतंकी" 5.93, "26" 7.49
+      const X1 = 9.1;
+      const T_K2 = 9.35, T_N2 = 10.0;   // "अगले ही दिन" 9.31-9.73
+      const T_H2 = 10.9, T_IWT = 11.0;  // "Indus" 10.97
+      const T_RIV = 11.9, T_RIVL = 12.87, T_FLOW = 14.47, T_LAGU = 17.33; // "सिंधु" 12.87, "abans" 14.47, "लागू" 17.33
+      const X2 = 18.5;
+      const T_K3 = 18.86, T_N3 = 19.45, T_H3 = 20.6; // "7 May 2025" 18.86-19.38, "Operation" 20.70
+      const T_POK = 22.42, T_THI = 24.22, X_POK = 29.7; // "पाकिस्तान" 22.42, "आतंकी ठिकानों" 24.22
+      const T_SEG = 26.2, T_N4 = 28.05, T_FIR = 28.81; // "चार दिन" 26.18, "10 May" 28.05, "firing" 28.81
+      const T_WHO = 30.27, T_KHA = 32.75;             // "भारत" 30.27, "खत्म" 33.11
+      const X3 = 34.62;
+      const T_C1 = 35.05, T_C2 = 36.91, T_H4 = 38.3, T_SPARK = 41.02; // "फिरोजपुर" 34.99, "समुद्र" 36.91, "हर" 38.34, "चिंगारी" 41.02
+      const X4 = 41.3;
+
+      // ---------- camera: START = s05 END, END = s07 START ----------
+      // North to Pahalgam, pull back for the Indus, dive into 3D over Pahalgam (Pir Panjal in front, looking NNE), lift to Ladakh.
       const CAM = [
         { t: 0, lat: 31.5, lon: 74.8, alt: 400, tilt: 0, heading: 0 },
-        { t: C.c03 + 1.5, lat: 33.978, lon: 74.606, alt: 600, tilt: 0, heading: 0 },
-        { t: C.c04 + 2.5, lat: 33.5, lon: 73.0, alt: 1800, tilt: 0, heading: 0 },
-        { t: C.c06 - 0.4, lat: 33.55, lon: 73.2, alt: 1700, tilt: 0, heading: 0 },
-        { t: C.c06 + 4.2, lat: 34.0146, lon: 75.3026, alt: 40, tilt: 62, heading: 20, ease: "out" },
-        { t: C.c09 + 3.0, lat: 34.03, lon: 75.33, alt: 36, tilt: 64, heading: 26 },
+        { t: 4.2, lat: 33.25, lon: 74.6, alt: 820, tilt: 0, heading: 0 },
+        { t: C.c04, lat: 33.82, lon: 74.45, alt: 700, tilt: 0, heading: 0 },
+        { t: 12.2, lat: 33.75, lon: 72.5, alt: 1900, tilt: 0, heading: 0 },
+        { t: C.c06 + 0.03, lat: 33.8, lon: 72.7, alt: 1750, tilt: 0, heading: 0 },
+        { t: 22.9, lat: 34.0146, lon: 75.3026, alt: 40, tilt: 62, heading: 20 },
+        { t: C.c10, lat: 34.03, lon: 75.33, alt: 36, tilt: 64, heading: 26 },
         { t: DUR, lat: 34.3, lon: 76.5, alt: 1500, tilt: 0, heading: 0 },
       ];
 
@@ -131,20 +184,18 @@
       const INDUS = [[78.95,32.95],[78.3,33.6],[77.58,34.13],[76.9,34.33],[76.2,34.72],[75.63,35.3],[75.1,35.6],[74.62,35.68],
                      [74.1,35.42],[73.2,35.3],[72.88,34.93],[72.69,34.09],[72.24,33.89],[71.55,32.97],[71.45,32.6]];
 
-      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["north", "kashmir"] });
+      // punjab matches s05's last frame and fades as we leave; ladakh matches s07's first frame; kashmir (terrain, thin burned
+      // India line) fades on the final lift. indiaFadeKm 111: the vector India line is full at >= 400 km (the s05 join) and
+      // gives way to the burned line on the Pahalgam terrain.
+      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/",
+        regions: ["north", "punjab", "kashmir", "ladakh"], indiaFadeKm: 111 });
 
-      // ---------- pure helpers (all a function of t) ----------
-      const clamp01 = (x) => Math.max(0, Math.min(1, x));
-      const sm = (x) => { x = clamp01(x); return x * x * (3 - 2 * x); };
-      const env = (t, a, b, f = 0.4) => Math.min(sm((t - a) / f), sm((b - t) / f));
-      const out3 = (x) => 1 - Math.pow(1 - clamp01(x), 3);
-      const inOut2 = (x) => { x = clamp01(x); return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
-      const backOut = (x) => { x = clamp01(x); const c = 1.70158; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
-      const prog = (t, a, d) => clamp01((t - a) / d);
+      // ---------- helpers ----------
       const NS = "http://www.w3.org/2000/svg";
-      const pins = document.getElementById("pins"), riverG = document.getElementById("river"), labs = document.getElementById("labs");
-      const mk = (tag, at, parent) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); parent.appendChild(e); return e; };
       const $ = (id) => document.getElementById(id);
+      const pins = $("pins"), riverG = $("river"), labs = $("labs");
+      const mk = (tag, at, parent) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); parent.appendChild(e); return e; };
+      const f1 = (v) => v.toFixed(1);
 
       function makePulse() {
         const g = mk("g", { opacity: 0 }, pins);
@@ -158,7 +209,7 @@
         if (!p.visible || a <= 0.002) { P.g.setAttribute("opacity", 0); return; }
         const ph = (t % 1.6) / 1.6;
         P.g.setAttribute("opacity", a.toFixed(3));
-        P.g.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) scale(${(0.6 + 0.4 * backOut(a)).toFixed(3)})`);
+        P.g.setAttribute("transform", `translate(${f1(p.x)},${f1(p.y)}) scale(${(0.6 + 0.4 * backOut(a)).toFixed(3)})`);
         P.rings.forEach((r, i) => {
           r.setAttribute("r", (16 + (i + ph) * 12).toFixed(2));
           r.setAttribute("stroke-opacity", (RA[i] + (RA[i + 1] - RA[i]) * ph).toFixed(3));
@@ -174,15 +225,15 @@
         const a = p.visible ? env(t, a0, a1, 0.35) : 0;
         const k = out3((t - a0) / 0.45);
         const x2 = p.x + L.dx * k, y2 = p.y + L.dy * k;
-        L.line.setAttribute("x1", p.x.toFixed(1)); L.line.setAttribute("y1", p.y.toFixed(1));
-        L.line.setAttribute("x2", x2.toFixed(1)); L.line.setAttribute("y2", y2.toFixed(1));
+        L.line.setAttribute("x1", f1(p.x)); L.line.setAttribute("y1", f1(p.y));
+        L.line.setAttribute("x2", f1(x2)); L.line.setAttribute("y2", f1(y2));
         L.line.setAttribute("stroke-opacity", (0.8 * a).toFixed(3));
-        L.dot.setAttribute("cx", x2.toFixed(1)); L.dot.setAttribute("cy", y2.toFixed(1));
+        L.dot.setAttribute("cx", f1(x2)); L.dot.setAttribute("cy", f1(y2));
         L.dot.setAttribute("r", (5 * backOut((t - a0 - 0.2) / 0.35) * (a > 0 ? 1 : 0)).toFixed(2));
         L.dot.setAttribute("opacity", a.toFixed(3));
         const right = L.dx >= 0;
         L.el.style.opacity = (a * prog(t, a0 + 0.25, 0.3)).toFixed(3);
-        L.el.style.transform = `translate(${(x2 + (right ? 14 : -14)).toFixed(1)}px, ${y2.toFixed(1)}px) translate(${right ? 0 : -100}%, -50%)`;
+        L.el.style.transform = `translate(${f1(x2 + (right ? 14 : -14))}px, ${f1(y2)}px) translate(${right ? 0 : -100}%, -50%)`;
       }
       function densify(pts, step = 0.1) {
         const o = [pts[0]];
@@ -193,98 +244,139 @@
         }
         return o;
       }
+      function chip(id, text, t0, t1) {
+        const el = $(id), bar = el.querySelector("i"), ty = typer(el.querySelector("span"), text, t0, { t1 });
+        return { update(t) {
+          ty.update(t);
+          bar.style.opacity = t < t0 - 0.12 ? "0" : sm((t1 - t) / 0.35).toFixed(3);
+          bar.style.transform = `scaleY(${(0.2 + 0.8 * backOut(prog(t, t0 - 0.12, 0.3))).toFixed(3)})`;
+        } };
+      }
 
       // ---------- map furniture ----------
       const PAH = { lat: 34.016, lon: 75.318 };
       const pPah = makePulse();
-      const lPah = makeLabel("Pahalgam", 110, -80);
+      const lPah1 = makeLabel("Pahalgam", 110, -80);   // B1 / B2 (map scale)
+      const lPah2 = makeLabel("Pahalgam", 110, -80);   // B3 (3D terrain, approved still)
       const IND = densify(INDUS);
-      const riverGlow = mk("path", { fill: "none", stroke: "#5a9cff", "stroke-width": 12, "stroke-opacity": 0.22, "stroke-linecap": "round", "stroke-linejoin": "round", opacity: 0 }, riverG);
-      const riverLine = mk("path", { fill: "none", stroke: "#5a9cff", "stroke-width": 4.5, "stroke-linecap": "round", "stroke-linejoin": "round", opacity: 0 }, riverG);
+      const riverGlow = mk("path", { fill: "none", stroke: "#5a9cff", "stroke-width": 9, "stroke-opacity": 0.18, "stroke-linecap": "round", "stroke-linejoin": "round", opacity: 0 }, riverG);
+      const riverLine = mk("path", { fill: "none", stroke: "#5a9cff", "stroke-width": 3.5, "stroke-linecap": "round", "stroke-linejoin": "round", opacity: 0 }, riverG);
+      const riverFlow = mk("path", { fill: "none", stroke: "#e0f2fe", "stroke-width": 2.5, "stroke-linecap": "round", "stroke-dasharray": "8 26", opacity: 0 }, riverG);
       const lInd = makeLabel("Sindhu (Indus)", 90, -50);
+      const spark = $("spark");
+      const SPK = [...Array(10)].map((_, i) => ({ a: (i / 10) * Math.PI * 2 + 0.2,
+        el: mk("line", { stroke: i % 2 ? "#fbbf24" : "#ff6b6b", "stroke-width": 4, "stroke-linecap": "round", opacity: 0 }, spark) }));
 
-      // timeline strip nodes: x and reveal time
-      const TN = [[230, C.c02 + 0.3], [720, C.c04 + 0.3], [1210, C.c06 + 0.3], [1700, C.c08 + 0.4]];
-      const tlLine = $("tlLine"), tn = [0, 1, 2, 3].map((i) => $("tn" + i));
+      // timeline strip: node x and landing time
+      const TN = [[230, T_N1], [720, T_N2], [1210, T_N3], [1700, T_N4]];
+      const tlLine = $("tlLine"), tn = [0, 1, 2, 3].map((i) => $("tn" + i)), tr = $("tr");
       const scrim = $("scrim"), bscrim = $("bscrim"), credit = $("credit"), tline = $("tline");
-      const W = { b1: [C.c02 + 0.15, C.c04 - 0.45], b2: [C.c04 + 0.1, C.c06 - 0.45], b3: [C.c06 + 0.1, DUR - 1.3] };
-      const STRIP_OUT = DUR - 1.2;
+
+      // ---------- typed pieces ----------
+      const typers = [
+        typer($("k0t"), "Tanaav ki jadd", T_K0, { t1: 2.55 }),
+        typer($("k1t"), "22 April 2025 · Pahalgam", T_K1, { t1: X1 + 0.35 }),
+        typer($("k2t"), "23 April 2025", T_K2, { t1: X2 + 0.35 }),
+        typer($("b2s"), "Indus Waters Treaty", T_IWT, { t1: X2 + 0.35 }),
+        typer($("k3t"), "7 May 2025", T_K3, { t1: X3 + 0.35 }),
+        typer($("b3cs"), "Aatanki thikaane", T_THI, { t1: X_POK + 0.35 }),
+        typer($("b3t"), "Khatam nahi hua.", T_KHA, { t1: X3 + 0.35 }),
+        chip("c1", "Ferozepur ki goli", T_C1, X4 + 0.35),
+        chip("c2", "Samundar ki takkar", T_C2, X4 + 0.35),
+      ];
 
       const tl = gsap.timeline({ paused: true });
       driveWithTimeline(tl, DUR, (t) => {
+        earth.setPatchOpacity("punjab", 1 - sm(prog(t, 4.0, 3.0)));
+        earth.setPatchOpacity("kashmir", 1 - sm(prog(t, 40.0, 2.3)));
         earth.render(camAt(CAM, t));
-        scrim.style.opacity = env(t, C.c02 - 0.3, DUR - 0.9, 0.6).toFixed(3);
-        const stripA = env(t, C.c02, STRIP_OUT + 0.35, 0.5);
+        scrim.style.opacity = env(t, 0.3, DUR - 0.6, 0.5).toFixed(3);
+        const stripA = env(t, 2.9, X3 + 0.35, 0.5);
         bscrim.style.opacity = stripA.toFixed(3);
         tline.style.opacity = stripA.toFixed(3);
         credit.style.opacity = env(t, 0.4, DUR - 0.4, 0.4).toFixed(3);
+        for (const ty of typers) ty.update(t);
 
-        // Pahalgam pin (terrain height from the DEM)
+        // Pahalgam pin (terrain height from the DEM): pops as it comes into view, stays through the dive
         const pp = earth.project(PAH.lat, PAH.lon);
-        placePulse(pPah, pp, env(t, C.c03, C.c09 + 4.5, 0.6), t);
-        placeLabel(lPah, pp, t, C.c03 + 0.4, C.c09 + 4.0);
+        placePulse(pPah, pp, env(t, 2.75, 35.2, 0.5), t);
+        placeLabel(lPah1, pp, t, T_PAH, X1);
+        placeLabel(lPah2, pp, t, 22.6, 34.9);
 
-        // the Indus draws downstream (India -> Pakistan) on the IWT beat, leaves on the dive
-        const kr = inOut2(prog(t, C.c04 + 0.6, 3.6)), ar = env(t, C.c04 + 0.6, C.c06 + 1.6, 0.4);
+        // the Indus draws downstream (India -> Pakistan), then a slow flow runs along it; it leaves on the dive
+        const kr = inOut(prog(t, T_RIV, 3.3)), ar = env(t, T_RIV, 19.2, 0.4);
         if (kr > 0 && ar > 0.002) {
           const n = IND.length - 1, f = kr * n, i = Math.min(n - 1, Math.floor(f)), fr = f - i;
           const P = [];
           for (let j = 0; j <= i; j++) P.push(earth.project(IND[j][1], IND[j][0], 0));
           const A = IND[i], B = IND[i + 1];
           P.push(earth.project(A[1] + (B[1] - A[1]) * fr, A[0] + (B[0] - A[0]) * fr, 0));
-          const d = "M" + P.map((q) => q.x.toFixed(1) + "," + q.y.toFixed(1)).join(" L");
-          riverLine.setAttribute("d", d); riverGlow.setAttribute("d", d);
+          const d = "M" + P.map((q) => f1(q.x) + "," + f1(q.y)).join(" L");
+          riverLine.setAttribute("d", d); riverGlow.setAttribute("d", d); riverFlow.setAttribute("d", d);
           riverLine.setAttribute("opacity", ar.toFixed(3)); riverGlow.setAttribute("opacity", ar.toFixed(3));
-        } else { riverLine.setAttribute("opacity", 0); riverGlow.setAttribute("opacity", 0); }
-        placeLabel(lInd, earth.project(35.3, 75.63, 0), t, C.c04 + 2.4, C.c06 + 0.8);
+          riverFlow.setAttribute("opacity", (0.85 * ar * sm(prog(t, T_FLOW, 0.6))).toFixed(3));
+          riverFlow.setAttribute("stroke-dashoffset", (-(t - T_FLOW) * 70).toFixed(1));
+        } else { riverLine.setAttribute("opacity", 0); riverGlow.setAttribute("opacity", 0); riverFlow.setAttribute("opacity", 0); }
+        placeLabel(lInd, earth.project(35.3, 75.63, 0), t, T_RIVL - 0.25, X2 + 0.3);
 
-        // timeline strip: line runs to the newest node, node pops on its cue
+        // timeline strip: the line runs to the newest node, each node lands with a ring
         let x = TN[0][0];
-        for (let i = 1; i < TN.length; i++) x += (TN[i][0] - TN[i - 1][0]) * out3(prog(t, TN[i][1] - 0.5, 0.8));
-        tlLine.setAttribute("x2", x.toFixed(1));
+        for (let i = 1; i < 3; i++) x += (TN[i][0] - TN[i - 1][0]) * out3(prog(t, TN[i][1] - 0.6, 0.7));
+        x += (TN[3][0] - TN[2][0]) * sm(prog(t, T_SEG, T_N4 - T_SEG)); // "chaar din ka sangharsh" runs 7 May -> 10 May
+        tlLine.setAttribute("x2", f1(x));
         tn.forEach((c, i) => c.setAttribute("r", (8 * backOut(prog(t, TN[i][1], 0.4))).toFixed(2)));
+        let ring = -1; for (let i = 0; i < 4; i++) if (t >= TN[i][1] && t < TN[i][1] + 0.7) ring = i;
+        if (ring >= 0) {
+          const k = prog(t, TN[ring][1], 0.7);
+          tr.setAttribute("cx", TN[ring][0]); tr.setAttribute("r", (8 + 26 * out3(k)).toFixed(1)); tr.setAttribute("opacity", (0.9 * (1 - k)).toFixed(3));
+        } else tr.setAttribute("opacity", 0);
+
+        // "chingaari": a small spark beside the last line
+        const ks = prog(t, T_SPARK, 0.5);
+        SPK.forEach((s) => {
+          const r0 = 16 + 40 * out3(ks), r1 = 30 + 72 * out3(ks), c = Math.cos(s.a), si = Math.sin(s.a);
+          s.el.setAttribute("x1", f1(990 + c * r0)); s.el.setAttribute("y1", f1(560 + si * r0));
+          s.el.setAttribute("x2", f1(990 + c * r1)); s.el.setAttribute("y2", f1(560 + si * r1));
+          s.el.setAttribute("opacity", (ks > 0 && ks < 1 ? 0.95 * (1 - ks) : 0).toFixed(3));
+        });
       });
 
-      // ---------- text (one paused timeline) ----------
+      // ---------- text tweens (one paused timeline) ----------
       const ruleIn = (el, at) => tl.fromTo(el, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, at);
       const fadeIn = (el, at, d = 0.4) => tl.fromTo(el, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: d, ease: "power2.out" }, at);
       const riseIn = (el, at) => tl.fromTo(el, { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, at);
       const riseOut = (el, at) => tl.fromTo(el, { yPercent: 0 }, { yPercent: -105, duration: 0.4, ease: "power2.in", immediateRender: false }, at);
-      const fadeOut = (el, at) => tl.fromTo(el, { opacity: 1, y: 0 }, { opacity: 0, y: -10, duration: 0.35, ease: "power2.in", immediateRender: false }, at);
-      function kickIn(id, at) { const b = $(id); ruleIn(b.querySelector(".kicker i"), at); fadeIn(b.querySelector(".kicker span"), at + 0.15); }
-      function blockOut(id) {
-        const b = $(id), at = W[id][1];
-        b.querySelectorAll(".mask > *:not(.gone)").forEach((e) => riseOut(e, at));
-        b.querySelectorAll(".fo").forEach((e) => fadeOut(e, at));
-        fadeOut(b.querySelector(".kicker"), at);
-      }
-      const H = (id, i) => $(id).querySelectorAll(".mask > *")[i];
+      const fadeOut = (el, at) => tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, at);
+      const heads = (id) => $(id).querySelectorAll(".mask > *");
+      const headIn = (id, at) => heads(id).forEach((e, i) => riseIn(e, at + i * 0.12));
+      const headOut = (id, at) => heads(id).forEach((e) => riseOut(e, at));
+      function ruleKick(id, at, out) { const r = $(id).querySelector("i"); ruleIn(r, at); fadeOut(r, out); }
 
-      // B1: 22 Apr 2025 — Pahalgam
-      kickIn("b1", W.b1[0]);
-      riseIn(H("b1", 0), W.b1[0] + 0.3); riseIn(H("b1", 1), C.c03 + 0.1);
-      fadeIn($("b1s"), C.c03 + 1.6);
-      blockOut("b1");
+      // B1: typed kicker right away, the date kicker on "22 April 2025", headline rises as one unit, "26" lands hard (hit)
+      ruleKick("k1", 0.4, X1);
+      headIn("b1", T_H1); headOut("b1", X1);
+      tl.fromTo($("b1n"), { opacity: 0, scale: 1.5 }, { opacity: 1, scale: 1, duration: 0.22, ease: "power2.in" }, T_26 - 0.22);
+      fadeIn($("b1u"), T_26 + 0.05, 0.3);
+      fadeOut($("b1n"), X1); fadeOut($("b1u"), X1);
+      // B2: 23 April kicker, SANDHI / ABEYANCE, typed treaty name, the Indus, then the LAGU NAHI stamp (hit)
+      ruleKick("k2", T_K2 - 0.1, X2);
+      headIn("b2", T_H2); headOut("b2", X2);
+      tl.fromTo($("b2st"), { opacity: 0, scale: 1.7 }, { opacity: 1, scale: 1, duration: 0.2, ease: "power2.in" }, T_LAGU - 0.2);
+      fadeOut($("b2st"), X2);
+      // B3: 7 May kicker, OPERATION SINDOOR (impact), Pakistan + PoK card, then India: "khatam nahi hua"
+      ruleKick("k3", T_K3 - 0.1, X3);
+      headIn("b3", T_H3); headOut("b3", X3);
+      tl.fromTo($("b3c"), { opacity: 0, scale: 0.82 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.7)" }, T_POK);
+      fadeOut($("b3c"), X_POK);
+      fadeIn($("b3who"), T_WHO, 0.3); fadeOut($("b3who"), X3);
+      // B4: two typed incidents, then the closing headline (impact) and a spark on "chingaari"
+      headIn("b4", T_H4); headOut("b4", X4);
 
-      // B2: 23 Apr — treaty in abeyance, then the line swap "lagu nahi"
-      kickIn("b2", W.b2[0]);
-      riseIn(H("b2", 0), W.b2[0] + 0.3); riseIn($("b2a"), W.b2[0] + 0.45);
-      fadeIn($("b2s"), C.c04 + 1.2);
-      $("b2a").classList.add("gone");
-      riseOut($("b2a"), C.c05 - 0.1); riseIn($("b2b"), C.c05 + 0.15);
-      blockOut("b2");
-
-      // B3: Operation Sindoor — the approved still, subtitle on "khatam nahi hua"
-      kickIn("b3", W.b3[0]);
-      riseIn(H("b3", 0), W.b3[0] + 0.3); riseIn(H("b3", 1), W.b3[0] + 0.42);
-      fadeIn($("b3s"), C.c09 + 0.4);
-      blockOut("b3");
-
-      // timeline labels arrive with their nodes, leave together at the end
+      // timeline labels land with their nodes and leave with B3
       TN.forEach(([, at], i) => {
         const tc = $("tc" + i);
-        fadeIn(tc.querySelector(".td"), at + 0.1); fadeIn(tc.querySelector(".tx"), at + 0.25);
-        fadeOut(tc.querySelector(".td"), STRIP_OUT); fadeOut(tc.querySelector(".tx"), STRIP_OUT);
+        fadeIn(tc.querySelector(".td"), at + 0.1); fadeIn(tc.querySelector(".tx"), i === 3 ? T_FIR : at + 0.25);
+        fadeOut(tc.querySelector(".td"), X3); fadeOut(tc.querySelector(".tx"), X3);
       });
 
       window.__timelines["main"] = tl;

@@ -18,7 +18,7 @@
       #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
       #scrim { position: absolute; inset: 0; opacity: 0;
                background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,.45) 42%, rgba(4,9,27,0) 58%); }
-      #ov { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+      #ov, .full { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
       #labs { position: absolute; inset: 0; }
       .blk { position: absolute; inset: 0; }
       .kicker { position: absolute; left: 96px; top: 150px; display: flex; align-items: center; gap: 16px; font: 700 28px Inter;
@@ -29,17 +29,46 @@
       .mask > * { display: block; white-space: nowrap; }
       .h { font: 400 170px/1.04 Anton; color: #f8fafc; text-transform: uppercase;
            text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .coral { color: #ff6b6b; }
-      .sub { position: absolute; left: 96px; font: 500 40px/1.2 Inter; color: #e2e8f0; white-space: nowrap;
+      .h.s150 { font-size: 150px; }
+      .coral { color: #ff6b6b; } .amber { color: #fbbf24; } .teal { color: #2dd4bf; }
+      .ty { position: absolute; left: 96px; font: 400 120px/1.04 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
+            text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .ty.s110 { font-size: 110px; }
+      .ty.coral { color: #ff6b6b; }
+      #p0row { position: absolute; left: 96px; top: 410px; display: flex; align-items: center; gap: 30px; }
+      #p0row .ty { position: static; }
+      .chip { position: absolute; left: 96px; display: flex; align-items: center; gap: 14px; font: 700 30px/1.2 Inter; letter-spacing: 4px;
+              color: #f8fafc; text-transform: uppercase; white-space: nowrap; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .chip i { display: block; width: 5px; height: 30px; border-radius: 2px; background: #2dd4bf; opacity: 0; transform-origin: 50% 50%; }
+      .chip i.c { background: #ff6b6b; }
+      .lbl { position: absolute; left: 96px; font: 700 28px Inter; letter-spacing: 5px; color: #cbd5e1; text-transform: uppercase; white-space: nowrap;
              text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .say { position: absolute; left: 96px; font: 500 36px/1.2 Inter; color: #e2e8f0; white-space: nowrap;
-             text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 8px 26px rgba(2,6,16,.45); }
-      .say b { font: 700 30px Inter; letter-spacing: 4px; margin-right: 14px; vertical-align: 2px; }
-      .say b.in { color: #2dd4bf; } .say b.pk { color: #cbd5e1; }
+      .lbl.teal { color: #2dd4bf; }
+      .stamp { position: absolute; left: 96px; font: 400 100px/1 Anton; color: #ff6b6b; text-transform: uppercase; white-space: nowrap;
+               padding: 12px 28px 8px; border: 5px solid #ff6b6b; border-radius: 10px; opacity: 0; transform-origin: 30% 50%; }
+      .flagt { position: absolute; width: 168px; text-align: center; opacity: 0; }
+      .flagt img { display: block; width: 168px; height: 126px; border-radius: 8px; object-fit: cover;
+                   box-shadow: 0 0 0 1.5px rgba(248,250,252,.35), 0 10px 26px rgba(2,6,16,.45); }
+      .flagt b { display: block; margin-top: 12px; font: 700 24px Inter; letter-spacing: 5px; color: #f8fafc; text-transform: uppercase;
+                 text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 6px 14px rgba(2,6,16,.45); }
+      .vh { position: absolute; left: 96px; display: flex; align-items: center; gap: 14px; opacity: 0; font: 700 28px Inter; letter-spacing: 5px;
+            text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 6px 14px rgba(2,6,16,.45); }
+      .vh img { display: block; width: 54px; height: 40px; border-radius: 4px; object-fit: cover; box-shadow: 0 0 0 1px rgba(248,250,252,.3); }
+      .vh b.in { color: #2dd4bf; } .vh b.pk { color: #e2e8f0; }
+      .vr { position: absolute; left: 164px; font: 700 30px Inter; letter-spacing: 3px; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
+            text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .vr.coral { color: #ff6b6b; }
       .lab { position: absolute; left: 0; top: 0; font: 700 26px Inter; letter-spacing: 5px; color: #f8fafc; white-space: nowrap; opacity: 0;
              text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
+      .lab.am { color: #fbbf24; font-size: 22px; letter-spacing: 4px; }
       .country { position: absolute; left: 0; top: 0; font: 600 28px Inter; letter-spacing: 9px; color: rgba(226,232,240,.94); white-space: nowrap;
                  opacity: 0; text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 14px rgba(2,6,16,.5); }
+      .num { position: absolute; left: 0; top: 0; font: 400 64px/1 Anton; color: #fbbf24; white-space: nowrap; opacity: 0; text-transform: uppercase;
+             text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 8px 22px rgba(2,6,16,.5); }
+      .veo { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      .veo video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.92) contrast(1.06) brightness(.94); }
+      .veo-tag { position: absolute; right: 40px; top: 34px; font: 600 18px Inter; letter-spacing: 3px; text-transform: uppercase;
+                 color: rgba(248,250,252,.78); text-shadow: 0 2px 3px rgba(2,6,16,.8); }
       .credit { position: absolute; left: 0; right: 0; bottom: 26px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px;
                 opacity: 0; text-shadow: 0 2px 2px rgba(2,6,16,.8); }
     </style>
@@ -47,48 +76,132 @@
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="77.0" data-width="1920" data-height="1080">
       <canvas id="earth"></canvas>
-      <div id="scrim"></div>
       <svg id="ov" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
         <g id="wakes"></g>
+        <g id="map"></g>
         <g id="pins"></g>
       </svg>
       <div id="labs"></div>
 
-      <!-- B1: the sea collision -->
-      <div class="blk" id="b1">
-        <div class="kicker"><i></i><span>15 September 2026</span></div>
-        <div class="mask" style="top:196px"><span class="h">Samundar mein</span></div>
-        <div class="mask" style="top:373px"><span class="h coral">takkar.</span></div>
-        <div class="sub fo" id="s1" style="top:566px">International paani · koi bada nuksaan nahi</div>
-        <div class="sub fo" id="s2" style="top:566px">Bharat: 1991 ke samjhaute ka ulanghan</div>
-        <div class="sub fo" id="s3" style="top:566px">Dono deshon ne diplomats talab kiye</div>
+      <!-- AI bridge clips (symbolic, tagged): above the map overlays, below the scrim and text -->
+      <div class="veo" id="veo1"><video id="veo1v" src="assets/veo/v07_warships_sea.mp4"
+           data-start="10.3" data-duration="2.2" data-media-start="5.8" muted playsinline></video>
+        <div class="veo-tag">Pratikaatmak drishya · AI</div></div>
+      <div class="veo" id="veo2"><video id="veo2v" src="assets/veo/v08_border_fence_night.mp4"
+           data-start="32.85" data-duration="2.6" data-media-start="0" muted playsinline></video>
+        <div class="veo-tag">Pratikaatmak drishya · AI</div></div>
+      <div id="scrim"></div>
+
+      <!-- P0: the pan east -->
+      <div class="blk" id="p0">
+        <div id="p0row">
+          <span class="ty" id="p0t"></span>
+          <svg id="p0arrow" width="240" height="80" viewBox="0 0 240 80" style="opacity:0; overflow:visible">
+            <path id="p0line" d="M8,40 L212,40" fill="none" stroke="#fbbf24" stroke-width="9" stroke-linecap="round" />
+            <path id="p0head" d="M184,14 L216,40 L184,66" fill="none" stroke="#fbbf24" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="0" />
+          </svg>
+        </div>
       </div>
 
-      <!-- B2: Ferozepur (approved still) + both versions, attributed -->
+      <!-- B1: the sea collision (15 Sep 2026) -->
+      <div class="blk" id="b1">
+        <div class="kicker" id="k1"><i></i><span id="k1t"></span></div>
+        <div class="mask" style="top:196px"><span class="h">Samundar mein</span></div>
+        <div class="mask" id="h1bm" style="top:373px"><span class="h coral">takkar.</span></div>
+        <div class="chip" id="ch1" style="top:598px"><i></i><span></span></div>
+        <div class="chip" id="ch2" style="top:654px"><i></i><span></span></div>
+      </div>
+
+      <!-- P2: India says it broke the 1991 agreement -->
+      <div class="blk" id="p2">
+        <div class="lbl teal" id="p2who" style="top:222px"></div>
+        <svg id="p2doc" style="position:absolute; left:96px; top:292px; opacity:0; overflow:visible" width="112" height="140" viewBox="0 0 112 140">
+          <path d="M8,6 H76 L104,34 V134 H8 Z" fill="rgba(4,9,27,.55)" stroke="#f8fafc" stroke-width="5" stroke-linejoin="round" />
+          <path d="M76,6 V34 H104" fill="none" stroke="#f8fafc" stroke-width="5" stroke-linejoin="round" />
+          <path d="M26,62 H86 M26,84 H86 M26,106 H66" stroke="#f8fafc" stroke-opacity=".7" stroke-width="5" stroke-linecap="round" />
+        </svg>
+        <div class="mask" style="left:240px; top:268px"><span class="h amber" id="p2yr">1991</span></div>
+        <div class="lbl" id="p2agr" style="left:248px; top:452px; font-size:36px; letter-spacing:7px; color:#f8fafc"></div>
+        <div class="stamp" id="p2st" style="top:528px">Ulanghan</div>
+      </div>
+
+      <!-- P3: both sides summon diplomats -->
+      <div class="blk" id="p3">
+        <div class="flagt" id="p3fi" style="left:96px; top:250px"><img src="assets/flags/in.svg" alt="" /><b>Bharat</b></div>
+        <div class="flagt" id="p3fp" style="left:600px; top:250px"><img src="assets/flags/pk.svg" alt="" /><b>Pakistan</b></div>
+        <svg class="full" id="p3svg" viewBox="0 0 1920 1080" style="opacity:0">
+          <path id="p3a" d="M292,292 L566,292" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linecap="round" />
+          <path id="p3ah" d="M546,276 L570,292 L546,308" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0" />
+          <path id="p3b" d="M570,336 L296,336" fill="none" stroke="#2dd4bf" stroke-width="6" stroke-linecap="round" />
+          <path id="p3bh" d="M316,320 L292,336 L316,352" fill="none" stroke="#2dd4bf" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0" />
+        </svg>
+        <div class="ty s110" id="p3t" style="top:432px"></div>
+      </div>
+
+      <!-- P4: closest since 2025 -->
+      <div class="blk" id="p4">
+        <div class="lbl" id="p4who" style="top:222px"></div>
+        <div class="mask" style="top:262px"><span class="h s150" id="p4h"><span class="amber">2025</span> ke baad</span></div>
+        <svg class="full" id="p4svg" viewBox="0 0 1920 1080" style="opacity:0">
+          <path id="p4dim" d="" fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" />
+          <path id="p4dimc" d="" fill="none" stroke="#ff6b6b" stroke-width="3.5" stroke-linecap="round" opacity="0" />
+          <g id="p4L"><image href="assets/flags/pk.svg" x="-24" y="-64" width="48" height="36" />
+            <path d="M46,0 L18,-17 L-42,-17 L-42,17 L18,17 Z" fill="#e2e8f0" stroke="#04091b" stroke-width="3" stroke-opacity=".6" /></g>
+          <g id="p4R"><image href="assets/flags/in.svg" x="-24" y="-64" width="48" height="36" />
+            <path d="M46,0 L18,-17 L-42,-17 L-42,17 L18,17 Z" transform="rotate(180)" fill="#2dd4bf" stroke="#04091b" stroke-width="3" stroke-opacity=".6" /></g>
+        </svg>
+        <div class="ty coral" id="p4t" style="top:604px"></div>
+      </div>
+
+      <!-- B2: Ferozepur sector (approved still) + both versions -->
       <div class="blk" id="b2">
-        <div class="kicker"><i></i><span>2 October 2026&nbsp;&nbsp;·&nbsp;&nbsp;Punjab</span></div>
+        <div class="kicker" id="k2"><i></i><span id="k2t"></span></div>
         <div class="mask" style="top:196px"><span class="h">Ghar ki</span></div>
         <div class="mask" style="top:373px"><span class="h coral">deewar.</span></div>
-        <div class="sub fo" id="b2s" style="top:566px">Ferozepur sector, Bharat–Pakistan seema</div>
-        <div class="say fo" id="sayIN" style="top:646px"><b class="in">BHARAT:</b>3 log ghuse, nahi ruke; BSF ne goli chalaai</div>
-        <div class="say fo" id="sayPK" style="top:708px"><b class="pk">PAKISTAN:</b>2 naagrik maare gaye, 1 ghayal</div>
+        <div class="vh" id="vIN" style="top:598px"><img src="assets/flags/in.svg" alt="" /><b class="in">Bharat</b></div>
+        <div class="vr" id="vIN1" style="top:648px"></div>
+        <div class="vr" id="vIN2" style="top:694px"></div>
+        <div class="vr coral" id="vIN3" style="top:740px"></div>
+        <div class="vh" id="vPK" style="top:806px"><img src="assets/flags/pk.svg" alt="" /><b class="pk">Pakistan</b></div>
+        <div class="vr" id="vPK1" style="top:856px"></div>
+        <div class="vr" id="vPK2" style="top:902px"></div>
+      </div>
+
+      <!-- Q3: the summons; Q4: India's reply -->
+      <div class="blk" id="q3">
+        <div class="flagt" id="q3fi" style="left:96px; top:250px"><img src="assets/flags/in.svg" alt="" /><b>Bharat</b></div>
+        <div class="flagt" id="q3fp" style="left:600px; top:250px"><img src="assets/flags/pk.svg" alt="" /><b>Pakistan</b></div>
+        <svg class="full" id="q3svg" viewBox="0 0 1920 1080" style="opacity:0">
+          <path id="q3a" d="M570,292 L296,292" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linecap="round" />
+          <path id="q3ah" d="M316,276 L292,292 L316,308" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0" />
+          <path id="q3b" d="M292,336 L566,336" fill="none" stroke="#2dd4bf" stroke-width="6" stroke-linecap="round" />
+          <path id="q3bh" d="M546,320 L570,336 L546,352" fill="none" stroke="#2dd4bf" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0" />
+        </svg>
+        <div class="ty s110" id="q3t" style="top:432px"></div>
+      </div>
+      <div class="blk" id="q4">
+        <div class="lbl teal" id="q4who" style="top:222px; opacity:0">Bharat:</div>
+        <div class="mask" style="top:262px"><span class="h s150">Aarop</span></div>
+        <div class="mask" style="top:418px"><span class="h s150 coral">bebuniyaad.</span></div>
+        <div class="chip" id="q4ch" style="top:612px"><i class="c"></i><span></span></div>
       </div>
 
       <!-- B3: no envoys since 2019 -->
       <div class="blk" id="b3">
-        <div class="kicker"><i></i><span>2019 se&nbsp;&nbsp;·&nbsp;&nbsp;Dilli aur Islamabad</span></div>
-        <div class="mask" style="top:196px"><span class="h">Koi ambassador</span></div>
-        <div class="mask" style="top:373px"><span class="h coral">nahi.</span></div>
+        <div class="kicker" id="k3"><i></i><span id="k3t"></span></div>
+        <div class="mask" style="top:196px"><span class="h s150">Koi ambassador</span></div>
+        <div class="mask" style="top:352px"><span class="h s150 coral">nahi.</span></div>
       </div>
 
-      <div class="credit" id="credA">NASA Blue Marble · DataMeet · Natural Earth</div>
-      <div class="credit" id="credB">Sentinel-2 cloudless 2016 by EOX (CC BY 4.0) · DataMeet · Natural Earth</div>
+      <div class="credit" id="credit">NASA Blue Marble · Sentinel-2 cloudless 2016 by EOX (CC BY 4.0) · DataMeet · Natural Earth</div>
     </div>
 
     <script type="module">
       import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
+      import { typer, flagCards, drawOn, env, sm, out3, backOut, prog } from "./assets/geo/fx.js";
       /*CUES*/ const CUES = {"c01": 0.35, "c02": 3.67, "c03": 4.89, "c04": 12.55, "c05": 13.92, "c06": 15.75, "c07": 22.07, "c08": 26.19, "c09": 32.7, "c10": 35.7, "c11": 37.93, "c12": 47.42, "c13": 49.5, "c14": 54.48, "c15": 56.88, "c16": 68.17, "c17": 69.14, "c18": 74.34}; /*END CUES*/
       const DUR = /*DUR*/ 77.0 /*END DUR*/;
+      /*SFX*/ const SFX = [["c01", 0.0, "pan"], [2.35, 0, "type", 15], [3.72, 0, "type", 11], [4.94, 0, "type", 17], [7.63, 0, "pop"], [9.64, 0, "pop"], [10.3, 0, "whoosh"], [11.56, 0, "clash"], [12.3, 0, "whoosh", null, -8], [12.6, 0, "type", 19], [13.97, 0, "type", 21], [16.5, 0, "type", 15], [17.66, 0, "hit"], [20.04, 0, "type", 9], [20.88, 0, "hit"], [22.12, 0, "pop"], [23.76, 0, "draw"], [24.3, 0, "type", 15], [26.55, 0, "type", 18], [27.8, 0, "hit"], [29.43, 0, "draw"], [31.37, 0, "type", 10], ["c09", 0.05, "whoosh"], [33.65, 0, "type", 23], [35.0, 0, "whoosh", null, -8], ["c10", 0.0, "zoom"], [36.5, 0, "pop"], [37.0, 0, "impact"], [37.98, 0, "pop"], [39.21, 0, "type", 11], [39.8, 0, "pop"], [44.62, 0, "type", 9], [45.71, 0, "draw"], [47.75, 0, "type", 10], [48.53, 0, "hit"], [49.55, 0, "pop"], [51.58, 0, "type", 20], [53.19, 0, "type", 8], [55.4, 0, "pop"], [56.09, 0, "draw"], [56.35, 0, "type", 14], [59.09, 0, "draw"], [61.2, 0, "hit"], [64.63, 0, "type", 18], [66.11, 0, "draw"], ["c16", 0.13, "whoosh"], [69.2, 0, "type", 17], [70.35, 0, "pop"], [70.7, 0, "pop"], [71.31, 0, "hit"], [73.1, 0, "impact"], ["c18", 0.26, "zoom"], [75.45, 0, "glitch"]]; /*END SFX*/
       const C = CUES;
 
       window.__timelines = window.__timelines || {};
@@ -96,32 +209,69 @@
       let done;
       window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
 
-      // START = s04 END; END = s06 START. Sea leg frames the meeting point right of the text;
-      // the Punjab leg looks west across the border so Kasur sits upper-right, clear of the text block.
+      // ---------- beats (word times from timing/s05_words.json) ----------
+      const T_P0 = 2.35;            // typed "POORAB KI TARAF" ("पूरब" 2.42, "तरफ" 2.88)
+      const T_SEA = 3.72;           // "Arabian" 3.72
+      const T_SHIP = C.c02 + 0.3;   // ships appear
+      const T_K1 = 4.94;            // "15" 4.94
+      const T_PKN = 7.63, T_INN = 9.64; // "Pakistan" 7.63, "भारतीय" 9.64
+      const T_CLASH = 11.56;        // "टकरा" 11.56
+      const T_CH1 = 12.60, T_CH2 = 13.97; // "International" 12.60, "कोई" 13.97
+      const X1 = 16.05;             // headline + chips leave (chip 2 readable >= 1.2 s)
+      const T_WHO2 = 16.50, T_1991 = 17.66, T_AGR = 20.04, T_ULA = 20.88; // "कहा", "1991", "समझौते", "उल्लंघन"
+      const X2 = 21.85;
+      const T_FLAGS1 = 22.12, T_ARW1 = 23.76, T_TAL1 = 24.30; // "दोनों", "diplomats", "बुलाकर"
+      const X3 = 26.15;
+      const T_EXP = 26.55, T_2025 = 27.80, T_CLOSE = 29.43, T_KAREEB = 30.75, T_PB = 31.37; // "Experts", "2025", "दोनों सेनाएं", "करीब", "पहली"
+      const X4 = 33.0, K1X = 32.65;
+      const T_K2 = 33.65;           // "2 October" 33.65
+      const T_FZP = 36.25, T_H2 = 36.75; // "Firozepur" 36.47
+      const T_VIN = 37.98, T_V1 = 39.21, T_KAS = 39.55; // "भारत" 37.98, "तीन" 39.21, "पाकिस्तान" 39.81
+      const T_GHUSE = 43.41, T_V2 = 44.62, T_RUKE = 44.84, T_FENCE = 45.71, T_BADH = 46.79; // "घुसे", "नहीं", "रुके", "fence", "बढ़ते"
+      const T_V3 = 47.75, T_GOLI = 48.53, T_VPK = 49.55, T_V4 = 51.58, T_V5 = 53.19; // "BSF", "गोली", "पाकिस्तान", "दो", "एक"
+      const X5 = 54.8;
+      const T_FLAGS2 = 55.4, T_ARWA = 56.09, T_TAL2 = 56.35, T_ARWB = 59.09; // "diplomat", "तलब", "बुलाकर"
+      const X6 = 60.9;
+      const T_AAROP = 61.05, T_NASHA = 64.63, T_BAAR = 66.11; // "आरोप" 61.13, "नशा" 64.63, "बार बार" 66.11
+      const X7 = 67.9;
+      const T_K3 = 69.2, T_ISB = 70.0, T_DEL = 70.35, T_LINK = 70.85, T_2019 = 71.31, T_H3 = 72.95, T_RAASTE = 75.45; // "राजधानियों" 69.99, "2019" 71.31, "ambassador" 72.97, "रास्ते" 75.45
+      const X8 = 75.8;
+
+      // ---------- one continuous camera ----------
+      // START = s04 END (back over Hormuz, rev2). Pan EAST at ~constant altitude to the northern Arabian Sea, slow orbit while
+      // the collision story plays, travel NE, dive onto the Ferozepur sector (looking west across the border), pull out to
+      // see both capitals, then settle on END = s06 START.
       const CAM = [
-        { t: 0, lat: 22.0, lon: 66.0, alt: 3500, tilt: 0, heading: 0 },
-        { t: C.c02 + 1.2, lat: 21.715, lon: 64.701, alt: 1600, tilt: 0, heading: 0 },
-        { t: C.c08, lat: 21.761, lon: 65.262, alt: 1150, tilt: 0, heading: 0 },
-        { t: C.c09, lat: 21.9, lon: 65.45, alt: 1250, tilt: 0, heading: 0 },
-        { t: C.c09 + 2.8, lat: 27.5, lon: 71.5, alt: 1400, tilt: 20, heading: -20 },
-        { t: C.c10 + 3.0, lat: 30.8926, lon: 74.4877, alt: 42, tilt: 58, heading: -80, ease: "out" },
-        { t: C.c16, lat: 30.9015, lon: 74.4968, alt: 36, tilt: 60, heading: -72 },
+        { t: 0, lat: 26.0, lon: 57.0, alt: 1800, tilt: 0, heading: 0 },
+        { t: C.c02 + 0.73, lat: 21.82, lon: 63.74, alt: 1650, tilt: 0, heading: 0 },
+        { t: C.c04, lat: 21.70, lon: 64.05, alt: 1450, tilt: 8, heading: -4 },
+        { t: C.c08, lat: 21.62, lon: 64.35, alt: 1250, tilt: 14, heading: -8 },
+        { t: C.c09, lat: 21.58, lon: 64.5, alt: 1150, tilt: 18, heading: -11 },
+        { t: C.c10, lat: 30.3, lon: 74.25, alt: 2000, tilt: 10, heading: -70 },
+        { t: C.c10 + 3.5, lat: 30.8926, lon: 74.4877, alt: 42, tilt: 58, heading: -80 },
+        { t: C.c16 + 0.1, lat: 30.9015, lon: 74.4968, alt: 36, tilt: 60, heading: -70 },
+        { t: C.c17 + 1.86, lat: 32.3, lon: 68.7, alt: 3000, tilt: 0, heading: 0 },
+        { t: C.c18 + 0.26, lat: 32.2, lon: 68.95, alt: 2850, tilt: 0, heading: 0 },
         { t: DUR, lat: 31.5, lon: 74.8, alt: 400, tilt: 0, heading: 0 },
       ];
 
-      const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["north", "punjab"] });
+      // hormuz loaded for a clean join with s04. India's line is kept at every altitude (indiaFadeKm 0) and swapped for a
+      // fine dashed copy ("border") over the flat Punjab patch, so nothing doubles or slides; no glow there.
+      const earth = await createEarth({
+        canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["hormuz", "north", "punjab"],
+        indiaFadeKm: 0, indiaLine: { id: "border", color: "#2dd4bf", width: 4, dashed: true, dash: [0.5, 0.32], opacity: 1 },
+      });
+      earth.setLineOpacity("border", 0);
 
-      // ---------- pure helpers (all a function of t) ----------
-      const clamp01 = (x) => Math.max(0, Math.min(1, x));
-      const sm = (x) => { x = clamp01(x); return x * x * (3 - 2 * x); };
-      const env = (t, a, b, f = 0.4) => Math.min(sm((t - a) / f), sm((b - t) / f));
-      const out3 = (x) => 1 - Math.pow(1 - clamp01(x), 3);
-      const backOut = (x) => { x = clamp01(x); const c = 1.70158; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
-      const prog = (t, a, d) => clamp01((t - a) / d);
+      // ---------- helpers ----------
       const NS = "http://www.w3.org/2000/svg";
-      const pins = document.getElementById("pins"), wakes = document.getElementById("wakes"), labs = document.getElementById("labs");
-      const mk = (tag, at, parent) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); parent.appendChild(e); return e; };
       const $ = (id) => document.getElementById(id);
+      const pins = $("pins"), wakes = $("wakes"), mapG = $("map"), labs = $("labs");
+      const mk = (tag, at, parent) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); parent.appendChild(e); return e; };
+      const f1 = (v) => v.toFixed(1);
+      const DEG = Math.PI / 180;
+      const offKm = (pt, de, dn) => [pt[0] + dn / 111.2, pt[1] + de / (111.2 * Math.cos(pt[0] * DEG))];
+      const lerp2 = (a, b, k) => [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k];
 
       function makePulse() {
         const g = mk("g", { opacity: 0 }, pins);
@@ -135,142 +285,349 @@
         if (!p.visible || a <= 0.002) { P.g.setAttribute("opacity", 0); return; }
         const ph = (t % 1.6) / 1.6;
         P.g.setAttribute("opacity", a.toFixed(3));
-        P.g.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) scale(${(0.6 + 0.4 * backOut(a)).toFixed(3)})`);
+        P.g.setAttribute("transform", `translate(${f1(p.x)},${f1(p.y)}) scale(${(0.6 + 0.4 * backOut(a)).toFixed(3)})`);
         P.rings.forEach((r, i) => {
           r.setAttribute("r", (16 + (i + ph) * 12).toFixed(2));
           r.setAttribute("stroke-opacity", (RA[i] + (RA[i + 1] - RA[i]) * ph).toFixed(3));
         });
       }
-      function makeLabel(text, dx, dy) {
+      function makeLabel(text, dx, dy, cls = "") {
         const line = mk("line", { stroke: "#f8fafc", "stroke-opacity": 0, "stroke-width": 2 }, pins);
         const dot = mk("circle", { r: 0, fill: "#f8fafc" }, pins);
-        const el = document.createElement("div"); el.className = "lab"; el.textContent = text; labs.appendChild(el);
+        const el = document.createElement("div"); el.className = "lab " + cls; el.textContent = text; labs.appendChild(el);
         return { line, dot, el, dx, dy };
       }
       function placeLabel(L, p, t, a0, a1) {
         const a = p.visible ? env(t, a0, a1, 0.35) : 0;
         const k = out3((t - a0) / 0.45);
         const x2 = p.x + L.dx * k, y2 = p.y + L.dy * k;
-        L.line.setAttribute("x1", p.x.toFixed(1)); L.line.setAttribute("y1", p.y.toFixed(1));
-        L.line.setAttribute("x2", x2.toFixed(1)); L.line.setAttribute("y2", y2.toFixed(1));
+        L.line.setAttribute("x1", f1(p.x)); L.line.setAttribute("y1", f1(p.y));
+        L.line.setAttribute("x2", f1(x2)); L.line.setAttribute("y2", f1(y2));
         L.line.setAttribute("stroke-opacity", (0.8 * a).toFixed(3));
-        L.dot.setAttribute("cx", x2.toFixed(1)); L.dot.setAttribute("cy", y2.toFixed(1));
+        L.dot.setAttribute("cx", f1(x2)); L.dot.setAttribute("cy", f1(y2));
         L.dot.setAttribute("r", (5 * backOut((t - a0 - 0.2) / 0.35) * (a > 0 ? 1 : 0)).toFixed(2));
         L.dot.setAttribute("opacity", a.toFixed(3));
         const right = L.dx >= 0;
         L.el.style.opacity = (a * prog(t, a0 + 0.25, 0.3)).toFixed(3);
-        L.el.style.transform = `translate(${(x2 + (right ? 14 : -14)).toFixed(1)}px, ${y2.toFixed(1)}px) translate(${right ? 0 : -100}%, -50%)`;
+        L.el.style.transform = `translate(${f1(x2 + (right ? 14 : -14))}px, ${f1(y2)}px) translate(${right ? 0 : -100}%, -50%)`;
       }
       function makeTag(text) { const el = document.createElement("div"); el.className = "country"; el.textContent = text; labs.appendChild(el); return el; }
-      function placeTag(el, p, a) {
+      function placeTag(el, p, a, left = false) {
         el.style.opacity = (p.visible ? a : 0).toFixed(3);
-        el.style.transform = `translate(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px) translate(-50%, -50%)`;
+        el.style.transform = `translate(${f1(p.x)}px, ${f1(p.y)}px) translate(${left ? 0 : -50}%, -50%)`;
+      }
+      // a typed chip: bar pops, text types, both fade together before t1
+      function chip(id, text, t0, t1) {
+        const el = $(id), bar = el.querySelector("i"), ty = typer(el.querySelector("span"), text, t0, { t1 });
+        return { end: ty.end, update(t) {
+          ty.update(t);
+          bar.style.opacity = t < t0 - 0.12 ? "0" : (t1 === Infinity ? "1" : sm((t1 - t) / 0.35).toFixed(3));
+          bar.style.transform = `scaleY(${(0.2 + 0.8 * backOut(prog(t, t0 - 0.12, 0.3))).toFixed(3)})`;
+        } };
+      }
+      // screen-space arrow between two projected points (slight bezier bulge), drawn up to k (0..1)
+      function arrowD(p0, p1, bulge, k) {
+        const mx = (p0.x + p1.x) / 2, my = (p0.y + p1.y) / 2, dx = p1.x - p0.x, dy = p1.y - p0.y, L = Math.hypot(dx, dy) || 1;
+        const cx = mx - dy / L * bulge, cy = my + dx / L * bulge;
+        const n = 16, pts = [];
+        for (let i = 0; i <= n; i++) {
+          const u = (i / n) * k, a = (1 - u) * (1 - u), b = 2 * (1 - u) * u, c = u * u;
+          pts.push([a * p0.x + b * cx + c * p1.x, a * p0.y + b * cy + c * p1.y]);
+        }
+        const tip = pts[n], pre = pts[n - 1], ang = Math.atan2(tip[1] - pre[1], tip[0] - pre[0]);
+        const hs = 16, h1 = [tip[0] - hs * Math.cos(ang - 0.5), tip[1] - hs * Math.sin(ang - 0.5)], h2 = [tip[0] - hs * Math.cos(ang + 0.5), tip[1] - hs * Math.sin(ang + 0.5)];
+        return { line: "M" + pts.map((q) => f1(q[0]) + "," + f1(q[1])).join(" L"),
+                 head: `M${f1(h1[0])},${f1(h1[1])} L${f1(tip[0])},${f1(tip[1])} L${f1(h2[0])},${f1(h2[1])}` };
       }
 
-      // ---------- ships (15 Sep 2026, northern Arabian Sea; schematic positions) ----------
+      // ---------- P0: Hormuz label as we leave, typed direction + arrow ----------
+      const HOR = [26.6, 56.3];
+      const lHor = makeLabel("Hormuz", 70, -64);
+      const p0draw = drawOn($("p0line"), 2.98, 0.4), p0head = $("p0head"), p0arrow = $("p0arrow");
+
+      // ---------- ships (15 Sep 2026, northern Arabian Sea; schematic) ----------
       const MEET = { lat: 21.6, lon: 66.4 };
       const SHIPS = [
-        { from: [22.5, 65.5], to: [21.618, 66.382], color: "#e2e8f0", label: makeLabel("Pakistan Navy", 60, -92) },
-        { from: [20.8, 67.3], to: [21.582, 66.418], color: "#2dd4bf", label: makeLabel("Bharatiya Navy", 92, 78) },
+        { from: [22.5, 65.5], to: [21.618, 66.382], color: "#e2e8f0", sgn: 1 },
+        { from: [20.8, 67.3], to: [21.582, 66.418], color: "#2dd4bf", sgn: -1 },
       ];
       for (const s of SHIPS) {
         s.wake = mk("path", { fill: "none", stroke: s.color, "stroke-width": 3, "stroke-linecap": "round", "stroke-dasharray": "2 9", opacity: 0 }, wakes);
         s.g = mk("g", { opacity: 0 }, pins);
         mk("path", { d: "M20,0 L7,-8 L-17,-8 L-17,8 L7,8 Z", fill: s.color, stroke: "#04091b", "stroke-width": 2, "stroke-opacity": 0.6 }, s.g);
       }
-      const T_SHIP = C.c02 + 0.3, T_TOUCH = C.c03 + 3.6, T_SEA_END = C.c09 + 0.6;
+      const T_SEA_END = 33.3;
       const shipPos = (s, t) => {
-        const k = out3(prog(t, T_SHIP, T_TOUCH - T_SHIP));
-        // after the touch the two hulls drift a hair apart
-        const d = 0.035 * sm((t - T_TOUCH - 0.3) / 6);
-        const sgn = s === SHIPS[0] ? 1 : -1;
-        return [s.from[0] + (s.to[0] - s.from[0]) * k + sgn * d, s.from[1] + (s.to[1] - s.from[1]) * k - sgn * d];
+        const k = Math.pow(prog(t, T_SHIP, T_CLASH - T_SHIP), 1.15);
+        const d = 0.04 * out3(prog(t, T_CLASH, 1.6)) + 0.012 * sm(prog(t, T_CLASH + 1.6, 14)); // recoil, then a slow drift apart
+        return [s.from[0] + (s.to[0] - s.from[0]) * k + s.sgn * d, s.from[1] + (s.to[1] - s.from[1]) * k - s.sgn * d];
       };
-      const flash = mk("circle", { r: 10, fill: "none", stroke: "#f8fafc", "stroke-width": 4, opacity: 0 }, pins);
+      const flashA = mk("circle", { r: 10, fill: "none", stroke: "#f8fafc", "stroke-width": 4, opacity: 0 }, pins);
+      const flashB = mk("circle", { r: 10, fill: "none", stroke: "#ff6b6b", "stroke-width": 3, opacity: 0 }, pins);
+      const flashC = mk("circle", { r: 18, fill: "#f8fafc", opacity: 0 }, pins);
+      const pSea = makePulse();
+      const tSea = makeTag("Arabian Sea");
+      const cards = flagCards({ html: labs, svg: $("ov"), items: [
+        { flags: ["pk"], title: "Pakistan", sub: "Navy ka jahaaz", lat: 22.5, lon: 65.5, x: 1480, y: 230, t0: T_PKN - 0.35, t1: X2 },
+        { flags: ["in"], title: "Bharat", sub: "Navy warship", lat: 20.8, lon: 67.3, x: 1560, y: 860, t0: T_INN - 0.35, t1: X2 },
+        { flags: ["pk"], title: "Islamabad", sub: "Pakistan", lat: 33.68, lon: 73.05, x: 1470, y: 250, t0: T_ISB, t1: 75.2 },
+        { flags: ["in"], title: "Dilli", sub: "Bharat", lat: 28.61, lon: 77.21, x: 1180, y: 900, t0: T_DEL, t1: 75.2 },
+      ] });
 
-      // ---------- Punjab ----------
+      // ---------- typed pieces (24 cps; each has a "type" SFX with its character count) ----------
+      const typers = [
+        typer($("p0t"), "Poorab ki taraf", T_P0, { t1: 4.65 }),
+        typer(tSea, "Arabian Sea", T_SEA, { t1: T_SEA_END }),
+        typer($("k1t"), "15 September 2026", T_K1, { t1: K1X + 0.35 }),
+        chip("ch1", "International paani", T_CH1, X1 + 0.35),
+        chip("ch2", "Koi bada nuksaan nahi", T_CH2, X1 + 0.35),
+        typer($("p2who"), "Bharat ka kehna", T_WHO2, { t1: X2 + 0.35 }),
+        typer($("p2agr"), "Samjhauta", T_AGR, { t1: X2 + 0.35 }),
+        typer($("p3t"), "Diplomats talab", T_TAL1, { t1: X3 + 0.35 }),
+        typer($("p4who"), "Experts ke mutabiq", T_EXP, { t1: X4 + 0.35 }),
+        typer($("p4t"), "Pehli baar", T_PB, { t1: X4 + 0.35 }),
+        typer($("k2t"), "2 October 2026 · Punjab", T_K2, { t1: X7 + 0.35 }),
+        typer($("vIN1"), "3 log ghuse", T_V1, { t1: X5 + 0.35 }),
+        typer($("vIN2"), "Nahi ruke", T_V2, { t1: X5 + 0.35 }),
+        typer($("vIN3"), "BSF firing", T_V3, { t1: X5 + 0.35 }),
+        typer($("vPK1"), "2 naagrik maare gaye", T_V4, { t1: X5 + 0.35 }),
+        typer($("vPK2"), "1 ghayal", T_V5, { t1: X5 + 0.35 }),
+        typer($("q3t"), "Diplomat talab", T_TAL2, { t1: X6 + 0.35 }),
+        chip("q4ch", "Nasha taskar giroh", T_NASHA, X7 + 0.35),
+        typer($("k3t"), "Diplomatic rishte", T_K3, { t1: X8 + 0.35 }),
+      ];
+      const p3a = drawOn($("p3a"), T_ARW1, 0.45), p3b = drawOn($("p3b"), T_ARW1, 0.45);
+      const q3a = drawOn($("q3a"), T_ARWA, 0.45), q3b = drawOn($("q3b"), T_ARWB, 0.45);
+      const h1bm = $("h1bm"), p3svg = $("p3svg"), q3svg = $("q3svg");
+      const p4L = $("p4L"), p4R = $("p4R"), p4dim = $("p4dim"), p4dimc = $("p4dimc"), p4svg = $("p4svg");
+
+      // ---------- Punjab: Ferozepur sector, Kasur opposite ----------
       const FZP = { lat: 30.92, lon: 74.61 }, KASUR = { lat: 31.12, lon: 74.45 };
-      const pSea = makePulse(), pFzp = makePulse();
+      const pFzp = makePulse();
       const lFzp = makeLabel("Ferozepur", 110, 70);
-      const lKas = makeLabel("Kasur (Pakistan)", -100, -60);
-      const tSea = makeTag("Arabian Sea"), tPak = makeTag("Pakistan"), tBh = makeTag("Bharat");
-      const shot = mk("circle", { r: 10, fill: "none", stroke: "#ff6b6b", "stroke-width": 4, opacity: 0 }, pins);
+      const lKas = makeLabel("Kasur", -90, -60);
+      const tPak = makeTag("Pakistan"), tBh = makeTag("Bharat");
+      // border segment (DataMeet vertices) the schematic crossing is drawn across; NIN = unit normal into India (east, north km)
+      const BA = [30.9403, 74.4165], BB = [30.9925, 74.5465], BC = [31.0166, 74.5423];
+      const UB = [0.9056, 0.4241], NIN = [0.4241, -0.9056], NIN2 = [0.9890, 0.1477];
+      const onAB = (k, d, lat = 0) => offKm(lerp2(BA, BB, k), NIN[0] * d + UB[0] * lat, NIN[1] * d + UB[1] * lat);
+      // India's account, schematic: three people from Pakistan's side, across the border, on toward the fence (0.6 km inside)
+      const CROSS = [-0.45, 0.02, 0.48].map((lat, i) => ({ a: onAB(0.75, -3.2 - (i === 1 ? 0.15 : 0), lat), b: onAB(0.75, 0.6, lat * 0.6) }));
+      for (const c of CROSS) {
+        c.trail = mk("path", { fill: "none", stroke: "#ff6b6b", "stroke-width": 2.5, "stroke-linecap": "round", "stroke-dasharray": "2 7", opacity: 0 }, mapG);
+        c.dot = mk("circle", { r: 6.5, fill: "#ff6b6b", stroke: "#f8fafc", "stroke-width": 2, opacity: 0 }, mapG);
+      }
+      function crossK(t) {
+        if (t < T_GHUSE + 0.65) return 0.89 * sm(prog(t, T_V1 + 0.4, T_GHUSE + 0.65 - T_V1 - 0.4)); // the border is passed on "ghuse"
+        if (t < T_RUKE) return 0.89;                                                                // "rokne par": a halt
+        return 0.89 + 0.11 * sm(prog(t, T_RUKE, T_BADH - T_RUKE));                                  // "nahi ruke ... fence ki taraf"
+      }
+      const X2PT = onAB(0.75, 0);
+      const xFlash = mk("circle", { r: 6, fill: "none", stroke: "#f8fafc", "stroke-width": 3, opacity: 0 }, mapG);
+      const fence = mk("path", { fill: "none", stroke: "#fbbf24", "stroke-width": 3.5, "stroke-linecap": "round", "stroke-dasharray": "10 7", opacity: 0 }, mapG);
+      const F0 = onAB(0.55, 0.6), F1 = onAB(0.95, 0.6);
+      const lFence = makeLabel("Fence", 26, 26, "am");
+      const shotA = mk("circle", { r: 8, fill: "none", stroke: "#f8fafc", "stroke-width": 3, opacity: 0 }, mapG);
+      const shotB = mk("circle", { r: 8, fill: "none", stroke: "#ff6b6b", "stroke-width": 3, opacity: 0 }, mapG);
+      // "baar baar ghuspaith": three crossings drawn from Pakistan's side
+      const offB = (k, d) => offKm(lerp2(BB, BC, k), NIN2[0] * d, NIN2[1] * d);
+      const BAAR = [[onAB(0.25, -2.6), onAB(0.25, 1.6)], [onAB(0.5, -2.6), onAB(0.5, 1.6)], [offB(0.5, -2.2), offB(0.5, 1.6)]]
+        .map(([a, b], i) => ({ a, b, t0: [T_BAAR, 66.45, 66.73][i],
+          line: mk("path", { fill: "none", stroke: "#ff6b6b", "stroke-width": 4, "stroke-linecap": "round", opacity: 0 }, mapG),
+          head: mk("path", { fill: "none", stroke: "#ff6b6b", "stroke-width": 4, "stroke-linecap": "round", "stroke-linejoin": "round", opacity: 0 }, mapG) }));
 
-      const W = { b1: [C.c03 + 0.1, C.c09 - 0.45], b2: [C.c09 + 0.3, C.c16 - 0.45], b3: [C.c16 + 0.1, DUR - 1.3] };
-      const scrim = $("scrim"), credA = $("credA"), credB = $("credB");
+      // ---------- B3: Dilli - Islamabad, a dashed link that breaks in 2019 ----------
+      const ISB = [33.68, 73.05], DEL = [28.61, 77.21];
+      const lnkA = mk("path", { fill: "none", stroke: "#e2e8f0", "stroke-width": 3.5, "stroke-linecap": "round", "stroke-dasharray": "14 12", opacity: 0 }, mapG);
+      const lnkB = mk("path", { fill: "none", stroke: "#e2e8f0", "stroke-width": 3.5, "stroke-linecap": "round", "stroke-dasharray": "14 12", opacity: 0 }, mapG);
+      const lnkX = mk("path", { fill: "none", stroke: "#ff6b6b", "stroke-width": 5, "stroke-linecap": "round", opacity: 0 }, mapG);
+      const y2019 = document.createElement("div"); y2019.className = "num"; y2019.textContent = "2019 se"; labs.appendChild(y2019);
+      const bez = (p0, c, p1, u) => { const a = (1 - u) * (1 - u), b = 2 * (1 - u) * u, d = u * u; return [a * p0.x + b * c[0] + d * p1.x, a * p0.y + b * c[1] + d * p1.y]; };
+      function bezD(p0, c, p1, u0, u1) {
+        if (u1 <= u0) return "";
+        let s = ""; for (let i = 0; i <= 20; i++) { const q = bez(p0, c, p1, u0 + (u1 - u0) * i / 20); s += (i ? " L" : "M") + f1(q[0]) + "," + f1(q[1]); }
+        return s;
+      }
+
+      const scrim = $("scrim"), credit = $("credit");
+      // clip windows = the <video> data-start / data-duration; only the wrapper is animated (fade 0.45 s, slow push 1.10 -> 1.16)
+      const VEO = [[$("veo1"), 10.3, 2.2], [$("veo2"), 32.85, 2.6]];
 
       const tl = gsap.timeline({ paused: true });
       driveWithTimeline(tl, DUR, (t) => {
-        earth.render(camAt(CAM, t));
-        scrim.style.opacity = env(t, C.c03 - 0.3, DUR - 0.9, 0.6).toFixed(3);
-        credA.style.opacity = env(t, 0.4, C.c10 + 0.6, 0.5).toFixed(3);
-        credB.style.opacity = env(t, C.c10 + 1.0, DUR - 0.4, 0.5).toFixed(3);
+        const cam = camAt(CAM, t);
+        const kq = t - T_CLASH; // a short, decaying camera shake on the collision
+        if (kq > 0 && kq < 0.8) { const a = 0.03 * Math.exp(-5 * kq) * Math.sin(kq * 2 * Math.PI * 7); cam.lat += a; cam.lon += a * 0.6; }
+        const uB = env(t, 37.3, 69.4, 0.8); // dashed border only over the flat Punjab patch
+        earth.setLineOpacity("border", uB);
+        earth.setLineOpacity("india", 1 - uB); earth.setLineOpacity("india_glow", 1 - uB);
+        earth.render(cam);
+        scrim.style.opacity = env(t, 2.0, DUR - 0.6, 0.5).toFixed(3);
+        for (const [w, a, d] of VEO) {
+          w.style.opacity = env(t, a, a + d, 0.45).toFixed(3);
+          w.style.transform = `scale(${(1.10 + 0.06 * prog(t, a, d)).toFixed(4)})`;
+        }
+        credit.style.opacity = env(t, 0.4, DUR - 0.4, 0.4).toFixed(3);
+        for (const ty of typers) ty.update(t);
 
-        // sea
-        placeTag(tSea, earth.project(20.4, 67.6, 0), env(t, C.c02, T_SEA_END, 0.5));
-        for (const s of SHIPS) {
-          const a = env(t, T_SHIP, T_SEA_END, 0.4);
+        // P0: leaving Hormuz, the arrow points east and keeps drifting that way
+        placeLabel(lHor, earth.project(HOR[0], HOR[1], 0), t, 0.45, 2.1);
+        p0draw.update(t);
+        p0head.setAttribute("opacity", prog(t, 3.3, 0.12).toFixed(3));
+        p0arrow.style.opacity = t < 2.98 ? "0" : sm((4.65 - t) / 0.35).toFixed(3);
+        p0arrow.style.transform = `translateX(${(44 * sm(prog(t, 3.0, 1.6))).toFixed(1)}px)`;
+
+        // sea: ships with wakes converge and collide on "takra"
+        const aS = env(t, T_SHIP, T_SEA_END, 0.4);
+        SHIPS.forEach((s, i) => {
           const [la, lo] = shipPos(s, t), [la0, lo0] = shipPos(s, t - 0.15);
           const p = earth.project(la, lo, 0), p0 = earth.project(s.from[0], s.from[1], 0), pb = earth.project(la0, lo0, 0);
           const dir = Math.hypot(p.x - pb.x, p.y - pb.y) > 0.3 ? Math.atan2(p.y - pb.y, p.x - pb.x) : Math.atan2(p.y - p0.y, p.x - p0.x);
-          s.g.setAttribute("opacity", (p.visible ? a : 0).toFixed(3));
-          s.g.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) rotate(${(dir * 180 / Math.PI).toFixed(1)}) scale(${(0.7 + 0.3 * backOut(prog(t, T_SHIP, 0.5))).toFixed(3)})`);
-          s.wake.setAttribute("d", `M${p0.x.toFixed(1)},${p0.y.toFixed(1)} L${p.x.toFixed(1)},${p.y.toFixed(1)}`);
-          s.wake.setAttribute("opacity", (0.55 * a).toFixed(3));
-          placeLabel(s.label, p, t, C.c03 + 0.3, T_SEA_END - 0.2);
-        }
+          const rock = t > T_CLASH ? 6 * Math.exp(-3 * (t - T_CLASH)) * Math.sin((t - T_CLASH) * 14) : 0;
+          s.g.setAttribute("opacity", (p.visible ? aS : 0).toFixed(3));
+          s.g.setAttribute("transform", `translate(${f1(p.x)},${f1(p.y)}) rotate(${(dir * 180 / Math.PI + rock).toFixed(1)}) scale(${(1.25 * (0.7 + 0.3 * backOut(prog(t, T_SHIP, 0.5)))).toFixed(3)})`);
+          s.wake.setAttribute("d", `M${f1(p0.x)},${f1(p0.y)} L${f1(p.x)},${f1(p.y)}`);
+          s.wake.setAttribute("opacity", (0.55 * aS).toFixed(3));
+          cards.cards[i].it.lat = la; cards.cards[i].it.lon = lo;
+        });
+        cards.update(t, earth);
         const pm = earth.project(MEET.lat, MEET.lon, 0);
-        placePulse(pSea, pm, env(t, T_TOUCH, T_SEA_END, 0.5), t);
-        const kf = prog(t, T_TOUCH, 0.9);
-        flash.setAttribute("cx", pm.x.toFixed(1)); flash.setAttribute("cy", pm.y.toFixed(1));
-        flash.setAttribute("r", (12 + 90 * out3(kf)).toFixed(1));
-        flash.setAttribute("opacity", (kf > 0 && kf < 1 ? 0.9 * (1 - kf) : 0).toFixed(3));
+        placePulse(pSea, pm, env(t, T_CLASH + 0.2, T_SEA_END - 0.3, 0.5), t);
+        const kf = prog(t, T_CLASH, 0.9), kg = prog(t, T_CLASH + 0.12, 1.0);
+        for (const [el, k, r0, r1, a0] of [[flashA, kf, 12, 110, 0.95], [flashB, kg, 12, 150, 0.8]]) {
+          el.setAttribute("cx", f1(pm.x)); el.setAttribute("cy", f1(pm.y));
+          el.setAttribute("r", (r0 + (r1 - r0) * out3(k)).toFixed(1));
+          el.setAttribute("opacity", (k > 0 && k < 1 ? a0 * (1 - k) : 0).toFixed(3));
+        }
+        const kc = prog(t, T_CLASH, 0.35);
+        flashC.setAttribute("cx", f1(pm.x)); flashC.setAttribute("cy", f1(pm.y));
+        flashC.setAttribute("opacity", (kc > 0 && kc < 1 ? 0.85 * (1 - kc) : 0).toFixed(3));
+        placeTag(tSea, earth.project(20.0, 62.8, 0), Number(tSea.style.opacity || 0), true);
+        const ks = t - T_CLASH; // TAKKAR shakes on the hit
+        h1bm.style.transform = ks > 0 && ks < 0.7 ? `translateX(${(16 * Math.exp(-6 * ks) * Math.sin(ks * 2 * Math.PI * 9)).toFixed(1)}px)` : "none";
 
-        // Punjab: Ferozepur sector pin, Kasur opposite
+        // P3 / Q3 summons arrows
+        p3svg.style.opacity = env(t, T_ARW1 - 0.05, X3 + 0.35, 0.3).toFixed(3);
+        p3a.update(t); p3b.update(t);
+        $("p3ah").setAttribute("opacity", prog(t, T_ARW1 + 0.36, 0.1).toFixed(3));
+        $("p3bh").setAttribute("opacity", prog(t, T_ARW1 + 0.36, 0.1).toFixed(3));
+        q3svg.style.opacity = env(t, T_ARWA - 0.05, X6 + 0.35, 0.3).toFixed(3);
+        q3a.update(t); q3b.update(t);
+        $("q3ah").setAttribute("opacity", prog(t, T_ARWA + 0.36, 0.1).toFixed(3));
+        $("q3bh").setAttribute("opacity", prog(t, T_ARWB + 0.36, 0.1).toFixed(3));
+        $("q3b").style.opacity = t < T_ARWB ? "0" : "1";
+
+        // P4: two navies close the gap ("itni kareeb")
+        p4svg.style.opacity = env(t, 28.6, X4 + 0.35, 0.35).toFixed(3);
+        const kk = sm(prog(t, T_CLOSE, T_KAREEB + 0.3 - T_CLOSE));
+        const xl = 170 + 260 * kk, xr = 850 - 260 * kk, y = 530;
+        p4L.setAttribute("transform", `translate(${f1(xl)},${y})`); p4R.setAttribute("transform", `translate(${f1(xr)},${y})`);
+        const bl = xl + 60, br = xr - 60, mid = (bl + br) / 2, half = (br - bl) / 2 * out3(prog(t, T_CLOSE, 0.45));
+        const dd = half > 1 ? `M${f1(mid - half)},${y} L${f1(mid + half)},${y} M${f1(mid - half)},${y - 13} L${f1(mid - half)},${y + 13} M${f1(mid + half)},${y - 13} L${f1(mid + half)},${y + 13}` : "";
+        p4dim.setAttribute("d", dd); p4dimc.setAttribute("d", dd);
+        p4dimc.setAttribute("opacity", sm((kk - 0.8) / 0.2).toFixed(3));
+
+        // Punjab map furniture
         const pf = earth.project(FZP.lat, FZP.lon, 0), pk = earth.project(KASUR.lat, KASUR.lon, 0);
-        placePulse(pFzp, pf, env(t, C.c10 + 2.4, C.c17 + 2.5, 0.6), t);
-        placeLabel(lFzp, pf, t, C.c10 + 3.0, C.c16 + 0.6);
-        placeLabel(lKas, pk, t, C.c10 + 3.6, C.c16 + 0.6);
-        placeTag(tPak, earth.project(31.02, 74.3, 0), env(t, C.c11 + 0.5, C.c16 + 0.6, 0.6));
-        placeTag(tBh, earth.project(31.0, 74.7, 0), env(t, C.c11 + 0.5, C.c16 + 0.6, 0.6));
-        const ks = prog(t, C.c12 + 0.2, 1.0);
-        shot.setAttribute("cx", pf.x.toFixed(1)); shot.setAttribute("cy", pf.y.toFixed(1));
-        shot.setAttribute("r", (12 + 110 * out3(ks)).toFixed(1));
-        shot.setAttribute("opacity", (ks > 0 && ks < 1 && pf.visible ? 0.9 * (1 - ks) : 0).toFixed(3));
+        placePulse(pFzp, pf, env(t, 36.2, 68.6, 0.5), t);
+        placeLabel(lFzp, pf, t, T_FZP, 68.5);
+        placeLabel(lKas, pk, t, T_KAS, 68.5);
+        placeTag(tPak, earth.project(31.02, 74.3, 0), env(t, 38.9, 68.5, 0.6));
+        placeTag(tBh, earth.project(31.0, 74.7, 0), env(t, 38.9, 68.5, 0.6));
+        // the crossing, India's version (schematic)
+        const aX = Math.min(env(t, T_V1, X5 + 0.3, 0.3), 1 - prog(t, T_GOLI + 0.5, 0.6));
+        const kx = crossK(t);
+        let cx = 0, cy = 0;
+        CROSS.forEach((c, i) => {
+          const ll = lerp2(c.a, c.b, kx), p = earth.project(ll[0], ll[1], 0), pa = earth.project(c.a[0], c.a[1], 0);
+          const a = p.visible ? aX : 0;
+          c.dot.setAttribute("cx", f1(p.x)); c.dot.setAttribute("cy", f1(p.y));
+          c.dot.setAttribute("r", (6.5 * (0.4 + 0.6 * backOut(prog(t, T_V1 + i * 0.1, 0.35)))).toFixed(2));
+          c.dot.setAttribute("opacity", a.toFixed(3));
+          c.trail.setAttribute("d", `M${f1(pa.x)},${f1(pa.y)} L${f1(p.x)},${f1(p.y)}`);
+          c.trail.setAttribute("opacity", (0.7 * a).toFixed(3));
+          cx += p.x / 3; cy += p.y / 3;
+        });
+        const px2 = earth.project(X2PT[0], X2PT[1], 0), kxf = prog(t, T_GHUSE, 0.6);
+        xFlash.setAttribute("cx", f1(px2.x)); xFlash.setAttribute("cy", f1(px2.y));
+        xFlash.setAttribute("r", (6 + 40 * out3(kxf)).toFixed(1));
+        xFlash.setAttribute("opacity", (kxf > 0 && kxf < 1 ? 0.85 * (1 - kxf) : 0).toFixed(3));
+        const pF0 = earth.project(F0[0], F0[1], 0), pF1 = earth.project(F1[0], F1[1], 0), kfe = out3(prog(t, T_FENCE, 0.5));
+        fence.setAttribute("d", `M${f1(pF0.x)},${f1(pF0.y)} L${f1(pF0.x + (pF1.x - pF0.x) * kfe)},${f1(pF0.y + (pF1.y - pF0.y) * kfe)}`);
+        fence.setAttribute("opacity", (kfe > 0 ? env(t, T_FENCE, X5 + 0.35, 0.3) : 0).toFixed(3));
+        placeLabel(lFence, pF1, t, T_FENCE + 0.3, X5 + 0.35);
+        for (const [el, d0, r1] of [[shotA, 0, 80], [shotB, 0.15, 120]]) {
+          const k = prog(t, T_GOLI + d0, 0.75);
+          el.setAttribute("cx", f1(cx)); el.setAttribute("cy", f1(cy));
+          el.setAttribute("r", (8 + r1 * out3(k)).toFixed(1));
+          el.setAttribute("opacity", (k > 0 && k < 1 ? 0.95 * (1 - k) : 0).toFixed(3));
+        }
+        for (const b of BAAR) {
+          const k = out3(prog(t, b.t0, 0.45)), a = k > 0 ? env(t, b.t0, X7 + 0.4, 0.15) : 0;
+          if (a <= 0.002) { b.line.setAttribute("opacity", 0); b.head.setAttribute("opacity", 0); continue; }
+          const g = arrowD(earth.project(b.a[0], b.a[1], 0), earth.project(b.b[0], b.b[1], 0), -26, Math.max(0.02, k));
+          b.line.setAttribute("d", g.line); b.head.setAttribute("d", g.head);
+          b.line.setAttribute("opacity", (0.95 * a).toFixed(3)); b.head.setAttribute("opacity", (a * prog(t, b.t0 + 0.3, 0.12)).toFixed(3));
+        }
+
+        // B3: the capitals; the link breaks on "2019" and thins out on "raaste bhi kam"
+        const pi = earth.project(ISB[0], ISB[1], 0), pd = earth.project(DEL[0], DEL[1], 0);
+        const ddx = pd.x - pi.x, ddy = pd.y - pi.y, LL = Math.hypot(ddx, ddy) || 1;
+        const ctl = [(pi.x + pd.x) / 2 + ddy / LL * 80, (pi.y + pd.y) / 2 - ddx / LL * 80];
+        const kd = out3(prog(t, T_LINK, 0.45)), gap = 0.07 * sm(prog(t, T_2019, 0.35));
+        const fadeL = 1 - sm(prog(t, T_RAASTE, 0.55));
+        const flick = t > T_RAASTE && t < T_RAASTE + 0.55 && Math.floor(t * 30) % 3 === 0 ? 0.35 : 1;
+        const aL = (kd > 0 ? env(t, T_LINK, 76.1, 0.2) : 0) * fadeL * flick;
+        lnkA.setAttribute("d", bezD(pi, ctl, pd, 0, Math.min(kd, 0.5 - gap)));
+        lnkB.setAttribute("d", bezD(pi, ctl, pd, 0.5 + gap, kd));
+        const dashG = 12 + 26 * sm(prog(t, T_RAASTE, 0.5));
+        for (const e of [lnkA, lnkB]) { e.setAttribute("opacity", (0.9 * aL).toFixed(3)); e.setAttribute("stroke-dasharray", `14 ${dashG.toFixed(1)}`); }
+        const mq = bez(pi, ctl, pd, 0.5), xs = 13 * backOut(prog(t, T_2019, 0.3));
+        lnkX.setAttribute("d", xs > 0.5 ? `M${f1(mq[0] - xs)},${f1(mq[1] - xs)} L${f1(mq[0] + xs)},${f1(mq[1] + xs)} M${f1(mq[0] + xs)},${f1(mq[1] - xs)} L${f1(mq[0] - xs)},${f1(mq[1] + xs)}` : "");
+        lnkX.setAttribute("opacity", (t >= T_2019 ? aL : 0).toFixed(3));
+        y2019.style.opacity = (t < T_2019 ? 0 : Math.min(1, prog(t, T_2019, 0.2) * 1.5) * fadeL * flick).toFixed(3);
+        y2019.style.transform = `translate(${f1(mq[0] + 46)}px, ${f1(mq[1])}px) translate(0, -50%) scale(${(0.8 + 0.2 * backOut(prog(t, T_2019, 0.35))).toFixed(3)})`;
       });
 
-      // ---------- text blocks ----------
+      // ---------- text tweens (one paused timeline) ----------
       const ruleIn = (el, at) => tl.fromTo(el, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, at);
       const fadeIn = (el, at, d = 0.4) => tl.fromTo(el, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: d, ease: "power2.out" }, at);
       const riseIn = (el, at) => tl.fromTo(el, { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, at);
       const riseOut = (el, at) => tl.fromTo(el, { yPercent: 0 }, { yPercent: -105, duration: 0.4, ease: "power2.in", immediateRender: false }, at);
-      const fadeOut = (el, at) => tl.fromTo(el, { opacity: 1, y: 0 }, { opacity: 0, y: -10, duration: 0.35, ease: "power2.in", immediateRender: false }, at);
-      function kickIn(id, at) { const b = $(id); ruleIn(b.querySelector(".kicker i"), at); fadeIn(b.querySelector(".kicker span"), at + 0.15); }
-      function headIn(id, at) { $(id).querySelectorAll(".mask > *").forEach((e, i) => riseIn(e, at + 0.3 + i * 0.12)); }
-      function blockOut(id) {
-        const b = $(id), at = W[id][1];
-        b.querySelectorAll(".mask > *").forEach((e) => riseOut(e, at));
-        b.querySelectorAll(".fo:not(.gone)").forEach((e) => fadeOut(e, at));
-        fadeOut(b.querySelector(".kicker"), at);
-      }
+      const fadeOut = (el, at) => tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, at);
+      const popIn = (el, at, s0 = 0.6) => tl.fromTo(el, { opacity: 0, scale: s0 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.7)" }, at);
+      const heads = (id) => $(id).querySelectorAll(".mask > *");
+      const headIn = (id, at) => heads(id).forEach((e, i) => riseIn(e, at + i * 0.12));
+      const headOut = (id, at) => heads(id).forEach((e) => riseOut(e, at));
+      function ruleKick(id, at, out) { const r = $(id).querySelector("i"); ruleIn(r, at); fadeOut(r, out); }
 
-      // B1: kicker + headline, then three subtitle line-swaps on their cues
-      kickIn("b1", W.b1[0]); headIn("b1", W.b1[0]);
-      fadeIn($("s1"), C.c04 + 0.1); $("s1").classList.add("gone"); fadeOut($("s1"), C.c06 - 0.1);
-      fadeIn($("s2"), C.c06 + 0.3); $("s2").classList.add("gone"); fadeOut($("s2"), C.c07 - 0.1);
-      fadeIn($("s3"), C.c07 + 0.3);
-      blockOut("b1");
-
-      // B2: GHAR KI DEEWAR, the sector line, then both versions of 2 Oct, each attributed
-      kickIn("b2", W.b2[0]); headIn("b2", W.b2[0]);
-      fadeIn($("b2s"), C.c10 + 0.3);
-      fadeIn($("sayIN"), C.c11 + 0.4, 0.5);
-      fadeIn($("sayPK"), C.c13 + 0.3, 0.5);
-      blockOut("b2");
-
-      // B3: no ambassadors since 2019
-      kickIn("b3", W.b3[0]); headIn("b3", W.b3[0] + 0.6);
-      blockOut("b3");
+      // B1: kicker typed on the date, headline rises as one unit, TAKKAR shakes on the collision, two typed chips
+      ruleKick("k1", T_K1 - 0.1, K1X);
+      headIn("b1", 5.75); headOut("b1", X1);
+      // P2: "Bharat ka kehna" -> 1991 (hit) -> samjhauta -> ULANGHAN stamp (hit)
+      popIn($("p2doc"), T_1991 - 0.25, 0.7); fadeOut($("p2doc"), X2);
+      riseIn($("p2yr"), T_1991 - 0.12); riseOut($("p2yr"), X2);
+      tl.fromTo($("p2st"), { opacity: 0, scale: 1.7 }, { opacity: 1, scale: 1, duration: 0.2, ease: "power2.in" }, T_ULA - 0.2);
+      fadeOut($("p2st"), X2);
+      // P3: both flags, a two-way arrow, typed "diplomats talab"
+      popIn($("p3fi"), T_FLAGS1); popIn($("p3fp"), T_FLAGS1 + 0.12);
+      fadeOut($("p3fi"), X3); fadeOut($("p3fp"), X3);
+      // P4: 2025 line (hit), navies closing, typed "pehli baar"
+      riseIn($("p4h"), T_2025 - 0.15); riseOut($("p4h"), X4);
+      // B2: kicker typed on "2 October", GHAR KI DEEWAR rises during the dive (impact), both versions type in
+      ruleKick("k2", T_K2 - 0.1, X7);
+      headIn("b2", T_H2); headOut("b2", X5);
+      tl.fromTo($("vIN"), { opacity: 0, x: -18 }, { opacity: 1, x: 0, duration: 0.35, ease: "power2.out" }, T_VIN); fadeOut($("vIN"), X5);
+      tl.fromTo($("vPK"), { opacity: 0, x: -18 }, { opacity: 1, x: 0, duration: 0.35, ease: "power2.out" }, T_VPK); fadeOut($("vPK"), X5);
+      // Q3: the summons (PK -> IN on "talab", IN -> PK on "bulaakar"), typed "diplomat talab"
+      popIn($("q3fi"), T_FLAGS2); popIn($("q3fp"), T_FLAGS2 + 0.12);
+      fadeOut($("q3fi"), X6); fadeOut($("q3fp"), X6);
+      // Q4: India's reply
+      fadeIn($("q4who"), T_AAROP - 0.05, 0.3); fadeOut($("q4who"), X7);
+      headIn("q4", T_AAROP); headOut("q4", X7);
+      // B3: no ambassadors since 2019 (impact)
+      ruleKick("k3", T_K3 - 0.1, X8);
+      headIn("b3", T_H3); headOut("b3", X8);
 
       window.__timelines["main"] = tl;
       done();

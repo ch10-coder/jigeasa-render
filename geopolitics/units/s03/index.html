@@ -49,6 +49,9 @@
       .node .d { font: 700 26px/1 Inter; letter-spacing: 4px; color: #fbbf24; text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.75); }
       .node .dot { width: 14px; height: 14px; border-radius: 50%; background: #fbbf24; margin: 27px auto 0; box-shadow: 0 0 0 4px rgba(251,191,36,.18); }
       .node .x { margin-top: 18px; font: 500 26px/1 Inter; color: rgba(226,232,240,.94); text-shadow: 0 3px 2.5px rgba(2,6,16,.75); white-space: nowrap; }
+      .veo { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      .veo video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.92) contrast(1.06) brightness(.94); }
+      .veo-tag { position: absolute; right: 40px; top: 34px; font: 600 18px Inter; letter-spacing: 3px; text-transform: uppercase; color: rgba(248,250,252,.78); text-shadow: 0 2px 3px rgba(2,6,16,.8); }
       .credit { position: absolute; left: 0; right: 0; top: 1028px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px;
                 text-shadow: 0 2px 2px rgba(2,6,16,.7); opacity: 0; }
     </style>
@@ -62,6 +65,13 @@
         <g id="s03-arcs"></g>
         <g id="s03-pulses"></g>
       </svg>
+      <!-- AI bridge clips (symbolic): above the map, below scrim + text; the wrapper is animated, never the timed video -->
+      <div class="veo" id="s03-veo1"><video id="s03-veo1v" src="assets/veo/v01_hormuz_tankers.mp4"
+           data-start="15.35" data-duration="3.25" data-media-start="1.0" muted playsinline></video>
+        <div class="veo-tag">Pratikaatmak drishya · AI</div></div>
+      <div class="veo" id="s03-veo2"><video id="s03-veo2v" src="assets/veo/v02_strait_empty.mp4"
+           data-start="19.9" data-duration="3.3" data-media-start="0.5" muted playsinline></video>
+        <div class="veo-tag">Pratikaatmak drishya · AI</div></div>
       <div class="scrim" id="s03-scrim"></div>
       <div class="scrim-b" id="s03-scrim-b"></div>
       <div class="pool" id="s03-pool"></div>
@@ -105,7 +115,7 @@
       import { typer, counter, flagCards, env, sm, out3, backOut, prog, clamp01 } from "./assets/geo/fx.js";
       /*CUES*/ const CUES = {"c01": 0.35, "c02": 2.08, "c03": 6.07, "c04": 10.0, "c05": 15.26, "c06": 18.76, "c07": 27.48, "c08": 31.71, "c09": 40.25, "c10": 43.86, "c11": 46.42, "c12": 51.87, "c13": 54.86, "c14": 57.79, "c15": 65.0}; /*END CUES*/
       const DUR = /*DUR*/ 67.26 /*END DUR*/;
-      /*SFX*/ const SFX = [[0.55, 0, "type", 16], [1.35, 0, "zoom"], [2.35, 0, "pop"], [3.03, 0, "pop"], [5.05, 0, "draw", 0, -29], [6.68, 0, "type", 12], [8.69, 0, "type", 12], [8.95, 0, "whoosh"], [10.4, 0, "pop"], [11.13, 0, "pop"], [11.81, 0, "pop"], [12.51, 0, "pop"], [13.33, 0, "pop"], [13.85, 0, "draw"], [15.0, 0, "pan"], [19.37, 0, "impact"], [21.21, 0, "hit"], [21.7, 0, "whoosh"], [23.95, 0, "pop"], [24.71, 0, "pop"], [26.4, 0, "impact"], [27.75, 0, "zoom"], [28.71, 0, "pop"], [30.65, 0, "hit"], [32.6, 0, "type", 17], [33.86, 0, "hit"], [37.1, 0, "draw"], [38.46, 0, "type", 14], [40.3, 0, "pop"], [42.62, 0, "pop"], [45.37, 0, "draw"], [46.81, 0, "pop"], [49.24, 0, "hit"], [50.97, 0, "glitch"], [51.92, 0, "pop"], [52.54, 0, "draw"], [54.6, 0, "zoom", 0, -25], [54.91, 0, "type", 12], [55.89, 0, "hit"], [59.9, 0, "pop"], [61.79, 0, "hit"], [62.5, 0, "count", 1.15], [65.51, 0, "hit"]]; /*END SFX*/
+      /*SFX*/ const SFX = [[0.55, 0, "type", 16], [1.35, 0, "zoom"], [2.35, 0, "pop"], [3.03, 0, "pop"], [5.05, 0, "draw", 0, -29], [6.68, 0, "type", 12], [8.69, 0, "type", 12], [8.95, 0, "whoosh"], [10.4, 0, "pop"], [11.13, 0, "pop"], [11.81, 0, "pop"], [12.51, 0, "pop"], [13.33, 0, "pop"], [13.85, 0, "draw"], [15.3, 0, "zoom"], [18.5, 0, "whoosh", 0, -28], [19.37, 0, "impact"], [19.85, 0, "zoom", 0, -25], [21.21, 0, "hit"], [22.95, 0, "whoosh", 0, -26], [23.95, 0, "pop"], [24.71, 0, "pop"], [26.4, 0, "impact"], [27.75, 0, "zoom"], [28.71, 0, "pop"], [30.65, 0, "hit"], [32.6, 0, "type", 17], [33.86, 0, "hit"], [37.1, 0, "draw"], [38.46, 0, "type", 14], [40.3, 0, "pop"], [42.62, 0, "pop"], [45.37, 0, "draw"], [46.81, 0, "pop"], [49.24, 0, "hit"], [50.97, 0, "glitch"], [51.92, 0, "pop"], [52.54, 0, "draw"], [54.6, 0, "zoom", 0, -25], [54.91, 0, "type", 12], [55.89, 0, "hit"], [59.9, 0, "pop"], [61.79, 0, "hit"], [62.5, 0, "count", 1.15], [65.51, 0, "hit"]]; /*END SFX*/
       const C = CUES;
 
       // Word times (chapter s) from timing/s03_words.json. CUES c05/c06/c13 sit ~0.6-2 s early against the real voice,
@@ -362,6 +372,10 @@
         lines: [{ id: "lane", pts: LANE, color: "#fbbf24", width: 5, dashed: true }],
       });
       const tl = gsap.timeline({ paused: true });
+      // AI clips: v01 tankers on "isi raaste se duniya tak jaata hai" (match cut from the pan toward the strait),
+      // v02 empty strait under HORMUZ / BAND. (cut out into the pull-back over Iran). Map overlays hide while a clip is up.
+      const VEO = [{ el: $("s03-veo1"), s: 15.35, d: 3.25 }, { el: $("s03-veo2"), s: 19.9, d: 3.3 }];
+      const MAPLAYERS = ["s03-fx", "s03-labels", "s03-cardsvg", "s03-cards"].map($);
       const crA = $("s03-cr-a"), crB = $("s03-cr-b"), scrim = $("s03-scrim"), scrimB = $("s03-scrim-b");
       const cnt = counter($("s03-count"), { from: 0, to: 15, t0: CNT_T0, dur: CNT_D });
 
@@ -369,6 +383,13 @@
         // the engine lane is only the hand-off track: it fades in under the SVG flow at the very end (s04 opens on it)
         earth.setLineOpacity("lane", sm((t - (DUR - 0.9)) / 0.7));
         earth.render(camAt(CAM, t));
+        let va = 0;
+        for (const V of VEO) {
+          const a = env(t, V.s, V.s + V.d, 0.45); va = Math.max(va, a);
+          V.el.style.opacity = a.toFixed(3);
+          V.el.style.transform = `scale(${(1.10 + 0.06 * prog(t, V.s, V.d)).toFixed(4)})`;
+        }
+        for (const m of MAPLAYERS) m.style.opacity = (1 - va).toFixed(3);
 
         const cf = sm(t / 0.4) * sm((DUR - t) / 0.4), kb = sm((t - 2.0) / 1.2);
         crA.style.opacity = ((1 - kb) * cf).toFixed(3); crB.style.opacity = (kb * cf).toFixed(3);

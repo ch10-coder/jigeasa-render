@@ -16,104 +16,141 @@
       html, body { width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
       #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #04070f; }
       #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-      .s11-full { position: absolute; inset: 0; pointer-events: none; }
+      .s11-full { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; overflow: visible; }
+      .veo { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      .veo video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.92) contrast(1.06) brightness(.94); }
+      .veo-tag { position: absolute; right: 40px; top: 34px; font: 600 18px Inter; letter-spacing: 3px; text-transform: uppercase; color: rgba(248,250,252,.78); text-shadow: 0 2px 3px rgba(2,6,16,.8); }
       #s11-scrim { background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,0) 55%); opacity: 0; }
-      .s11-block { position: absolute; left: 96px; top: 140px; width: 1100px; }
-      .s11-kicker { position: relative; height: 36px; }
-      .s11-krow { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 16px; height: 36px; font: 700 28px Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase; white-space: nowrap; }
+      .s11-sh { text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .s11-krow { position: absolute; left: 96px; top: 140px; display: flex; align-items: center; gap: 16px; height: 36px; font: 700 28px Inter; letter-spacing: 5px;
+                  color: #fbbf24; text-transform: uppercase; white-space: nowrap; }
       .s11-krow i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
-      .s11-krow span { display: block; }
-      .s11-mask { overflow: hidden; }
-      .s11-kicker + .s11-mask { margin-top: 22px; }
-      .s11-h { font: 400 156px/1.0 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap; padding-bottom: 4px;
-               text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .s11-h.s11-coral { color: #ff6b6b; }
-      .s11-h.s11-amber { color: #fbbf24; }
-      .s11-subs { position: relative; height: 60px; margin-top: 18px; }
-      .s11-sub { position: absolute; left: 0; top: 0; font: 500 38px Inter; color: rgba(226,232,240,.94); white-space: nowrap;
-                 text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .s11-sub b { font-weight: 700; color: #fbbf24; letter-spacing: 1px; }
-      .s11-count { position: absolute; left: 96px; top: 600px; font: 400 170px/1 Anton; color: #fbbf24; white-space: nowrap;
-                   text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .s11-unit { position: absolute; left: 96px; top: 784px; font: 500 38px Inter; color: rgba(226,232,240,.94); white-space: nowrap;
-                  text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .s11-tag { margin-top: 16px; font: 700 34px Inter; letter-spacing: 4px; color: #f8fafc; white-space: nowrap;
-                 text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 8px 26px rgba(2,6,16,.4); }
-      .s11-note { margin-top: 12px; font: 500 32px Inter; color: rgba(226,232,240,.9); white-space: nowrap;
-                  text-shadow: 0 3px 2.5px rgba(2,6,16,.7); }
+      .s11-mask { position: absolute; left: 96px; overflow: hidden; }
+      .s11-h { font: 400 156px/1.0 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap; padding-bottom: 4px; }
+      .s11-coral { color: #ff6b6b; } .s11-amber { color: #fbbf24; }
+      .s11-tag { position: absolute; left: 96px; font: 700 36px Inter; letter-spacing: 4px; text-transform: uppercase; white-space: nowrap; opacity: 0; }
+      .s11-flag { position: absolute; top: 398px; width: 64px; height: 48px; border-radius: 5px; box-shadow: 0 0 0 1px rgba(248,250,252,.22), 0 6px 16px rgba(2,6,16,.5); opacity: 0; }
+      #s11-count { position: absolute; left: 96px; top: 462px; font: 400 190px/1 Anton; color: #fbbf24; white-space: nowrap; opacity: 0; }
+      #s11-unit { position: absolute; left: 96px; top: 668px; font: 500 34px Inter; color: rgba(226,232,240,.94); white-space: nowrap; opacity: 0; }
+      #s11-panel { position: absolute; left: 1392px; top: 246px; width: 416px; height: 616px; border-radius: 16px; background: rgba(4,9,27,.62);
+                   box-shadow: 0 0 0 1px rgba(248,250,252,.10); opacity: 0; }
+      #s11-pcap { position: absolute; left: 1424px; top: 262px; font: 700 20px Inter; letter-spacing: 4px; color: #cbd5e1; white-space: nowrap; opacity: 0; }
+      .s11-ilab { position: absolute; top: 816px; width: 120px; margin-left: -60px; text-align: center; font: 700 18px Inter; letter-spacing: 3px; color: #e2e8f0; opacity: 0; }
+      .s11-chip { position: absolute; left: 96px; display: flex; align-items: center; gap: 16px; height: 60px; padding: 0 22px 0 8px; border-radius: 10px;
+                  background: rgba(4,9,27,.55); box-shadow: 0 0 0 1px rgba(248,250,252,.14); font: 700 28px Inter; letter-spacing: 4px; color: #f8fafc; white-space: nowrap; opacity: 0; }
+      .s11-chip img { width: 58px; height: 44px; border-radius: 5px; box-shadow: 0 0 0 1px rgba(248,250,252,.22); }
+      .s11-chip small { font: 500 22px Inter; letter-spacing: 1px; color: #cbd5e1; text-transform: none; }
+      #s11-stat { position: absolute; left: 96px; top: 604px; display: flex; align-items: center; gap: 14px; font: 700 28px Inter; letter-spacing: 4px; color: #fbbf24; white-space: nowrap; opacity: 0; }
+      #s11-stat i { display: block; width: 14px; height: 14px; border-radius: 50%; background: #fbbf24; }
       .s11-lab { position: absolute; left: 0; top: 0; font: 700 26px Inter; letter-spacing: 5px; color: #f8fafc; white-space: nowrap; opacity: 0;
                  text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
-      .s11-country { font: 600 28px Inter; letter-spacing: 9px; color: rgba(226,232,240,.9); }
-      .s11-water { font: 700 26px Inter; letter-spacing: 9px; color: rgba(226,232,240,.88); }
-      .s11-credit { position: absolute; left: 0; right: 0; top: 1028px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px; opacity: 0;
+      .s11-water { font: 700 24px Inter; letter-spacing: 9px; color: rgba(226,232,240,.88); }
+      #s11-credit { position: absolute; left: 0; right: 0; top: 1028px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px; opacity: 0;
                     text-shadow: 0 2px 3px rgba(2,6,16,.8); }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="53.57" data-width="1920" data-height="1080">
       <canvas id="earth"></canvas>
-      <div class="s11-full" id="s11-scrim"></div>
-      <svg class="s11-full" id="s11-svg" width="1920" height="1080" viewBox="0 0 1920 1080" data-layout-allow-overflow>
-        <path id="s11-arc-glow" d="" fill="none" stroke="#2dd4bf" stroke-opacity="0.22" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
-        <path id="s11-arc" d="" fill="none" stroke="#2dd4bf" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      <svg class="s11-full" id="s11-svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+        <path id="s11-arc-glow" d="" fill="none" stroke="#2dd4bf" stroke-opacity="0.2" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+        <path id="s11-arc" d="" fill="none" stroke="#2dd4bf" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
-      <div class="s11-lab s11-country" id="s11-lab-china">CHINA</div>
-      <div class="s11-lab s11-water" id="s11-lab-strait">TAIWAN STRAIT</div>
       <div class="s11-lab" id="s11-lab-taiwan">TAIWAN</div>
+      <div class="s11-lab s11-water" id="s11-lab-strait">TAIWAN STRAIT</div>
       <div class="s11-lab" id="s11-lab-dholera">DHOLERA &nbsp;·&nbsp; GUJARAT</div>
+      <div class="s11-full" id="s11-cards"></div>
+      <svg class="s11-full" id="s11-cardsvg" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
 
-      <!-- Block 1: Taiwan / chip -->
-      <div class="s11-block" id="s11-b1">
-        <div class="s11-kicker">
-          <div class="s11-krow"><i id="s11-k1-rule"></i><span id="s11-k1-kick">Chhathi chunauti &nbsp;·&nbsp; sabse door</span></div>
-          <div class="s11-krow"><i id="s11-k2-rule"></i><span id="s11-k2-kick">Taiwan Strait</span></div>
-        </div>
-        <div class="s11-mask"><div class="s11-h" id="s11-b1-h1">Taiwan</div></div>
-        <div class="s11-mask"><div class="s11-h s11-coral" id="s11-b1-h2">Chip.</div></div>
-      </div>
-      <!-- context subtitles (sit in the empty second-line slot before CHIP. arrives) -->
-      <div class="s11-block" id="s11-subs" style="top: 380px;">
-        <div class="s11-subs">
-          <div class="s11-sub" id="s11-sub1">China ka daava: &ldquo;apna hissa&rdquo;</div>
-          <div class="s11-sub" id="s11-sub2"><b>11 OCTOBER</b> &nbsp;Paraguay, Belize par pratibandh</div>
-          <div class="s11-sub" id="s11-sub3">PLA + Russia: <b>CENTER-2026</b> abhyaas</div>
-        </div>
-      </div>
-      <div class="s11-count" id="s11-count">&gt;<span id="s11-num">0</span>%</div>
-      <div class="s11-unit" id="s11-unit">duniya ke sabse advanced chips ka hissa</div>
+      <!-- AI bridge clips (symbolic): above the map, below scrim and text -->
+      <div class="veo" id="s11-veo1"><video id="s11-veo1v" src="assets/veo/v11_chip_wafer.mp4"
+           data-start="25.4" data-duration="3.6" data-media-start="1.0" muted playsinline></video>
+        <div class="veo-tag">Pratikaatmak drishya · AI</div></div>
+      <div class="veo" id="s11-veo2"><video id="s11-veo2v" src="assets/veo/v12_fab_construction.mp4"
+           data-start="45.9" data-duration="3.6" data-media-start="0.5" muted playsinline></video>
+        <div class="veo-tag">Pratikaatmak drishya · AI</div></div>
 
-      <!-- Block 2: Dholera -->
-      <div class="s11-block" id="s11-b2">
-        <div class="s11-kicker">
-          <div class="s11-krow"><i id="s11-k3-rule"></i><span id="s11-k3-kick">India Semiconductor Mission</span></div>
-        </div>
-        <div class="s11-mask"><div class="s11-h" id="s11-b2-h1">Pehli badi</div></div>
-        <div class="s11-mask"><div class="s11-h s11-amber" id="s11-b2-h2">Chip fab.</div></div>
-        <div class="s11-tag" id="s11-b2-tag">TATA ELECTRONICS + PSMC</div>
-        <div class="s11-note" id="s11-b2-note">abhi ban rahi hai</div>
-      </div>
+      <div class="s11-full" id="s11-scrim"></div>
 
-      <div class="s11-credit" id="s11-credit">NASA Blue Marble &nbsp;·&nbsp; Sentinel-2 cloudless 2016 by EOX (CC BY 4.0) &nbsp;·&nbsp; DataMeet &nbsp;·&nbsp; Natural Earth (India view)</div>
+      <!-- chip share panel (right, over the Pacific) -->
+      <div id="s11-panel"></div>
+      <div id="s11-pcap">ADVANCED CHIPS</div>
+      <svg class="s11-full" id="s11-psvg" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+      <div class="s11-ilab" id="s11-il0" style="left:1480px">PHONE</div>
+      <div class="s11-ilab" id="s11-il1" style="left:1600px">LAPTOP</div>
+      <div class="s11-ilab" id="s11-il2" style="left:1720px">GAADI</div>
+
+      <!-- kickers (one slot) -->
+      <div class="s11-krow s11-sh" id="s11-k1"><i id="s11-k1r"></i><span id="s11-k1t">Chhathi chunauti &nbsp;·&nbsp; sabse door</span></div>
+      <div class="s11-krow s11-sh" id="s11-k2"><i id="s11-k2r"></i><span id="s11-k2t"></span></div>
+      <div class="s11-krow s11-sh" id="s11-k3"><i id="s11-k3r"></i><span id="s11-k3t"></span></div>
+      <!-- headlines (one at a time in the same slot) -->
+      <div class="s11-mask" style="top:198px"><div class="s11-h s11-sh" id="s11-htw">Taiwan</div></div>
+      <div class="s11-mask" style="top:198px"><div class="s11-h s11-coral s11-sh" id="s11-hchip" style="font-size:230px">Chip.</div></div>
+      <div class="s11-h s11-sh" id="s11-hd1" style="position:absolute;left:96px;top:198px;font-size:140px;opacity:0"></div>
+      <div class="s11-h s11-amber s11-sh" id="s11-hd2" style="position:absolute;left:96px;top:338px;font-size:140px;opacity:0"></div>
+      <!-- sanctions beat -->
+      <div class="s11-tag s11-amber s11-sh" id="s11-date" style="top:404px"></div>
+      <div class="s11-tag s11-coral s11-sh" id="s11-prat" style="top:458px"></div>
+      <!-- Center-2026 beat -->
+      <img class="s11-flag" id="s11-fcn" src="assets/flags/cn.svg" alt="" style="left:96px" />
+      <img class="s11-flag" id="s11-fru" src="assets/flags/ru.svg" alt="" style="left:174px" />
+      <div class="s11-h s11-sh" id="s11-cname" style="position:absolute;left:262px;top:386px;font-size:68px;opacity:0"></div>
+      <div class="s11-tag s11-amber s11-sh" id="s11-cdate" style="top:476px;font-size:32px;text-transform:none"></div>
+      <!-- chip beat -->
+      <div class="s11-tag s11-sh" id="s11-adv" style="top:470px;font-size:40px;color:#f8fafc"></div>
+      <div id="s11-count" class="s11-sh">&gt;0%</div>
+      <div id="s11-unit" class="s11-sh">duniya ke sabse advanced chips</div>
+      <!-- Dholera beat -->
+      <div class="s11-chip" id="s11-tata" style="top:520px"><img src="assets/flags/in.svg" alt="" />TATA ELECTRONICS</div>
+      <div id="s11-stat" class="s11-sh"><i id="s11-statdot"></i><span id="s11-statt"></span></div>
+      <div class="s11-chip" id="s11-psmc" style="top:684px"><img src="assets/flags/tw.svg" alt="" />PSMC <small>Taiwan ki company</small></div>
+
+      <div id="s11-credit">NASA Blue Marble &nbsp;·&nbsp; Sentinel-2 cloudless 2016 by EOX (CC BY 4.0) &nbsp;·&nbsp; DataMeet &nbsp;·&nbsp; Natural Earth (India view)</div>
     </div>
     <script type="module">
       import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
+      import { typer, counter, flagCards, env, sm, out3, backOut, prog } from "./assets/geo/fx.js";
       /*CUES*/ const CUES = {"c01": 0.35, "c02": 3.89, "c03": 4.55, "c04": 6.68, "c05": 14.78, "c06": 20.9, "c07": 23.77, "c08": 24.62, "c09": 25.51, "c10": 33.35, "c11": 36.38, "c12": 40.65, "c13": 44.07}; /*END CUES*/
       const DUR = /*DUR*/ 53.57 /*END DUR*/;
+      /*SFX*/ const SFX = [[2.96, 0, "impact"], [5.35, 0, "pop"], [6.73, 0, "type", 10], [8.94, 0, "pop"], [10.68, 0, "pop"], [13.75, 0, "type", 10], [15.63, 0, "type", 12], [16.41, 0, "pop"], [17.55, 0, "pop"], [19.17, 0, "type", 11], [20.95, 0, "type", 14], [24.67, 0, "impact"], [25.4, 0, "zoom"], [26.62, 0, "type", 14], [28.6, 0, "whoosh", null, -28], [29.0, 0, "count", 1.0], [31.0, 0, "draw"], [32.68, 0, "pop"], [33.4, 0, "pop"], [34.2, 0, "pop"], [34.96, 0, "draw"], [37.97, 0, "glitch"], [39.2, 0, "whoosh"], [40.8, 0, "draw"], [42.04, 0, "type", 27], [44.86, 0, "pop"], [45.85, 0, "zoom"], [46.45, 0, "type", 10], [47.25, 0, "type", 8], [48.06, 0, "pop"], [49.06, 0, "type", 18], [49.5, 0, "whoosh", null, -28], [50.06, 0, "pop"]]; /*END SFX*/
 
-      // One continuous camera: START 35,75,14000 -> spin east, dive to the Taiwan Strait -> arc back to Dholera -> END 24,95,9000
-      const T_LEAVE = CUES.c11 + 0.7;
-      const T_MID = CUES.c12 + 0.9;
-      const T_DHOL = CUES.c13 + 4.4;
+      // Word times (timing/s11_words.json). c02/c03/c10 run ~1 s ahead of the voice, so every key beat sits on a word.
+      const W_TAIWAN = 2.96;   // "Taiwan."
+      const W_APNA = 5.0;      // "Taiwan ko apna" (China card; China said at 3.94, card waits until its pin is on screen left of the card)
+      const W_11OCT = 6.73;    // "11"
+      const W_PARA = 8.59;     // "Paraguay"
+      const W_BELIZE = 10.33;  // "Belize"
+      const W_PRAT = 13.75;    // "प्रतिबंध"
+      const W_AAKHIR = 15.63;  // "आखिर" (end of September)
+      const W_CHINA2 = 16.41;  // "China ki sena"
+      const W_RUSSIA = 17.55;  // "Russia"
+      const W_ABHYAAS = 19.17; // "अभ्यास"
+      const W_BHARAT = 20.95;  // "भारत के लिए"
+      const W_CHIP = 24.67;    // "chip."
+      const W_ADV = 26.62;     // "advanced"
+      const W_90 = 29.0;       // "90%"
+      const W_TW2 = 31.0;      // "Taiwan mein banta hai"
+      const W_PHONE = 32.68, W_LAPTOP = 33.4, W_GAADI = 34.2, W_SAB = 34.96; // "phone", "laptop", "गाड़ी", "सब इन्हीं पर"
+      const W_JUNG = 37.97;    // "जंग"
+      const W_RUK = 39.54;     // "रुक"
+      const W_SEMI = 42.04;    // "Semiconductor"
+      const W_DHOLERA = 44.86; // "ढोलेरा"
+      const W_PEHLI = 46.45, W_CHIPFAB = 47.25, W_TATA = 48.06, W_BANA = 49.06, W_TWCO = 50.06; // "पहली", "chip", "Tata", "बना", "Taiwan ki hi company"
+      const V1 = [25.4, 3.6], V2 = [45.9, 3.6]; // clip windows (= the <video> data-start / data-duration)
+
+      // One continuous camera: START 35,75,14000 -> spin east + dive to the strait -> pull out ("aas paas") ->
+      // fly west to Gujarat -> push in over Dholera (under the fab clip) -> pull out east to END 24,95,9000
       const CAM = [
-        { t: 0, lat: 35, lon: 75, alt: 14000, tilt: 0, heading: 0 },
-        { t: CUES.c04 + 2.6, lat: 24.4, lon: 117.6, alt: 3300, tilt: 0, heading: 0, ease: "inOut" },
-        { t: CUES.c05, lat: 23.8, lon: 119.5, alt: 1500, tilt: 0, heading: 0, ease: "inOut" },
-        { t: CUES.c09 + 2.0, lat: 23.65, lon: 120.0, alt: 1050, tilt: 0, heading: 0, ease: "inOut" },
-        { t: T_LEAVE, lat: 23.6, lon: 120.1, alt: 980, tilt: 0, heading: 0, ease: "linear" },
-        { t: T_MID, lat: 24.3, lon: 97.0, alt: 7500, tilt: 0, heading: 0, ease: "in" },
-        { t: T_DHOL, lat: 22.6, lon: 69.4, alt: 2800, tilt: 0, heading: 0, ease: "out" },
-        { t: DUR - 6.2, lat: 22.7, lon: 70.4, alt: 2650, tilt: 0, heading: 0, ease: "linear" },
-        { t: DUR, lat: 24, lon: 95, alt: 9000, tilt: 0, heading: 0, ease: "inOut" },
+        { t: 0, lat: 35, lon: 75, alt: 14000 },
+        { t: 8.6, lat: 24.6, lon: 118.0, alt: 3900, ease: "inOut" },
+        { t: 15.2, lat: 23.9, lon: 119.5, alt: 1750, ease: "inOut" },
+        { t: 36.6, lat: 23.75, lon: 119.9, alt: 1150, ease: "linear" },
+        { t: 39.0, lat: 23.9, lon: 117.0, alt: 2600, ease: "inOut" },
+        { t: 42.4, lat: 24.0, lon: 96.0, alt: 7600, ease: "in" },
+        { t: 45.8, lat: 22.5, lon: 69.8, alt: 2700, ease: "out" },
+        { t: 49.4, lat: 22.45, lon: 70.1, alt: 2300, ease: "linear" },
+        { t: DUR, lat: 24, lon: 95, alt: 9000, ease: "inOut" },
       ];
 
       window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
@@ -121,51 +158,41 @@
       window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
       const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["taiwan"] });
 
-      // ---------- pure helpers ----------
-      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
-      const sm = (x) => { x = clamp(x); return x * x * (3 - 2 * x); };
-      const backOut = (x) => { x = clamp(x); const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
-      const p2out = (x) => { x = clamp(x); return 1 - (1 - x) * (1 - x); };
-      const win = (t, a, b, f = 0.4) => sm((t - a) / f) * (1 - sm((t - b) / f));
+      const $ = (id) => document.getElementById(id);
       const D = Math.PI / 180;
-
       const NS = "http://www.w3.org/2000/svg";
-      const svg = document.getElementById("s11-svg");
-      const el = (tag, attrs, parent = svg) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+      const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+      const svg = $("s11-svg"), psvg = $("s11-psvg");
 
-      function mkPulse(color, rings = 3) {
-        const g = el("g", { opacity: 0 });
-        const rs = Array.from({ length: rings }, () => el("circle", { r: 11, fill: "none", stroke: color, "stroke-width": 3 }, g));
-        el("circle", { r: 11, fill: color }, g);
-        el("circle", { r: 4.5, fill: "#f8fafc" }, g);
-        return { g, rings: rs };
+      // hotspot pulse (same look and ring phase as s12 / s13 so the joins match)
+      function mkPulse(parent, color) {
+        const g = mk("g", { opacity: 0 }, parent);
+        const rings = [0, 1, 2].map(() => mk("circle", { r: 13, fill: "none", stroke: color, "stroke-width": 3 }, g));
+        mk("circle", { r: 11, fill: color }, g); mk("circle", { r: 4.5, fill: "#f8fafc" }, g);
+        return { g, rings };
       }
-      const RING_A = [150 / 255, 90 / 255, 50 / 255];
       function placePulse(P, p, t, a, scale = 1) {
         if (!p.visible || a < 0.002) { P.g.setAttribute("opacity", 0); return; }
-        P.g.setAttribute("opacity", a.toFixed(3));
-        P.g.setAttribute("transform", `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${(scale * (0.4 + 0.6 * backOut(a))).toFixed(3)})`);
-        P.rings.forEach((r, i) => {
-          const ph = (((t + i * 0.533) % 1.6) + 1.6) % 1.6 / 1.6;
-          r.setAttribute("r", (11 + ph * 30).toFixed(2));
-          r.setAttribute("stroke-opacity", ((1 - ph) * RING_A[i]).toFixed(3));
+        const ph = (t % 1.6) / 1.6, breathe = 1 + 0.06 * Math.sin(ph * Math.PI * 2);
+        P.g.setAttribute("opacity", Math.min(1, a).toFixed(3));
+        P.g.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) scale(${(scale * breathe * (0.4 + 0.6 * backOut(Math.min(1, a)))).toFixed(4)})`);
+        P.rings.forEach((c, k) => {
+          const q = (ph + k / 3) % 1;
+          c.setAttribute("r", (13 + q * 34).toFixed(2));
+          c.setAttribute("stroke-opacity", ((1 - q) * [0.59, 0.35, 0.2][k] * 1.3).toFixed(3));
         });
       }
       function mkLeader() {
-        return { line: el("line", { stroke: "#ffffff", "stroke-opacity": 0.8, "stroke-width": 2, opacity: 0 }),
-                 dot: el("circle", { r: 5, fill: "#f8fafc", opacity: 0 }) };
+        return { line: mk("line", { stroke: "#ffffff", "stroke-opacity": 0.8, "stroke-width": 2, opacity: 0 }, svg), dot: mk("circle", { r: 5, fill: "#f8fafc", opacity: 0 }, svg) };
       }
-      function placeLabel(lab, L, p, dx, dy, t, t0, t1) {
-        const draw = p2out((t - t0) / 0.45);
-        const a = win(t, t0, t1, 0.4);
+      function placeLabel(lab, L, p, dx, dy, t, a, t0) {
         if (!p.visible || a < 0.002) { lab.style.opacity = 0; if (L) { L.line.setAttribute("opacity", 0); L.dot.setAttribute("opacity", 0); } return; }
         if (L) {
-          const ex = p.x + dx * draw, ey = p.y + dy * draw;
+          const k = out3((t - t0) / 0.45), ex = p.x + dx * k, ey = p.y + dy * k;
           L.line.setAttribute("x1", p.x.toFixed(1)); L.line.setAttribute("y1", p.y.toFixed(1));
           L.line.setAttribute("x2", ex.toFixed(1)); L.line.setAttribute("y2", ey.toFixed(1));
           L.line.setAttribute("opacity", a.toFixed(3));
-          L.dot.setAttribute("cx", ex.toFixed(1)); L.dot.setAttribute("cy", ey.toFixed(1));
-          L.dot.setAttribute("opacity", a.toFixed(3));
+          L.dot.setAttribute("cx", ex.toFixed(1)); L.dot.setAttribute("cy", ey.toFixed(1)); L.dot.setAttribute("opacity", a.toFixed(3));
           lab.style.transform = `translate(${(p.x + dx + 14).toFixed(1)}px, ${(p.y + dy - 16).toFixed(1)}px)`;
           lab.style.opacity = (a * sm((t - t0 - 0.25) / 0.3)).toFixed(3);
         } else {
@@ -173,11 +200,10 @@
           lab.style.opacity = a.toFixed(3);
         }
       }
-      // great-circle point between two (lat, lon)
       const toV = (lat, lon) => [Math.cos(lat * D) * Math.cos(lon * D), Math.cos(lat * D) * Math.sin(lon * D), Math.sin(lat * D)];
       function gc(a, b, k) {
         const A = toV(a[0], a[1]), B = toV(b[0], b[1]);
-        const w = Math.acos(clamp(A[0] * B[0] + A[1] * B[1] + A[2] * B[2], -1, 1));
+        const w = Math.acos(Math.max(-1, Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2])));
         const s = Math.sin(w), f1 = Math.sin((1 - k) * w) / s, f2 = Math.sin(k * w) / s;
         const v = [A[0] * f1 + B[0] * f2, A[1] * f1 + B[1] * f2, A[2] * f1 + B[2] * f2];
         return [Math.asin(v[2]) / D, Math.atan2(v[1], v[0]) / D];
@@ -185,114 +211,202 @@
 
       // ---------- map elements ----------
       const TWN = [23.7, 121.0], DHO = [22.25, 72.19];
-      const pTwn = mkPulse("#ff6b6b", 3);
+      const pTwn = mkPulse(svg, "#ff6b6b"), pDho = mkPulse(svg, "#2dd4bf");
       const lTwn = mkLeader(), lDho = mkLeader();
-      // Dholera: teal pin (not a danger hotspot), single soft ring
-      const pDho = mkPulse("#2dd4bf", 2);
-      const arcHead = el("circle", { r: 7, fill: "#2dd4bf", stroke: "#f8fafc", "stroke-width": 2.5, opacity: 0 });
-      const arcPath = document.getElementById("s11-arc"), arcGlow = document.getElementById("s11-arc-glow");
-      const labChina = document.getElementById("s11-lab-china"), labStrait = document.getElementById("s11-lab-strait");
-      const labTwn = document.getElementById("s11-lab-taiwan"), labDho = document.getElementById("s11-lab-dholera");
-      const num = document.getElementById("s11-num");
-      const N_ARC = 72, ARC_H = 450000; // metres at the arc's peak
-      const T_ARC0 = T_LEAVE + 0.6, T_ARC1 = T_DHOL - 0.3;
+      const arcHead = mk("circle", { r: 7, fill: "#2dd4bf", stroke: "#f8fafc", "stroke-width": 2.5, opacity: 0 }, svg);
+      const arcPath = $("s11-arc"), arcGlow = $("s11-arc-glow");
+      const T_ARC0 = 40.8, T_ARC1 = 45.3, N_ARC = 72, ARC_H = 450000;
+
+      // flag cards: China (claimant + sanctioning side); Paraguay and Belize hang off Taiwan ("Taiwan se rishton ki wajah se")
+      const cards = flagCards({ html: $("s11-cards"), svg: $("s11-cardsvg"), items: [
+        { flags: ["cn"], title: "China", sub: "Daava: apna hissa", lat: 25.5, lon: 118.0, x: 1500, y: 110, t0: W_APNA, t1: 15.4 },
+        { flags: ["py"], title: "Paraguay", sub: "Mantri", lat: TWN[0], lon: TWN[1], x: 1380, y: 300, t0: W_PARA, t1: 15.4 },
+        { flags: ["bz"], title: "Belize", sub: "Videsh mantri", lat: TWN[0], lon: TWN[1], x: 1380, y: 760, t0: W_BELIZE, t1: 15.4 },
+      ] });
+
+      // ---------- chip share panel: 10 x 10 grid fills as >90% counts; supply lines to phone / laptop / car ----------
+      const GX = 1424, GY = 298, CELL = 30, GAP = 6, LIT = 92;
+      const cells = [];
+      for (let i = 0; i < 100; i++) {
+        const cx = GX + (i % 10) * (CELL + GAP), cy = GY + Math.floor(i / 10) * (CELL + GAP);
+        cells.push(mk("rect", { x: cx, y: cy, width: CELL, height: CELL, rx: 4, fill: "#94a3b8", opacity: 0 }, psvg));
+      }
+      const ICX = [1480, 1600, 1720], ICY = 736;
+      const supply = ICX.map((x) => mk("path", { d: `M1601,${GY + 356} C1601,${GY + 400} ${x},${ICY - 50} ${x},${ICY - 6}`, fill: "none", stroke: "#2dd4bf", "stroke-width": 3, pathLength: 1, "stroke-dasharray": "1 1", "stroke-dashoffset": 1, opacity: 0 }, psvg));
+      const icons = [
+        `<rect x="-22" y="-36" width="44" height="72" rx="8" /><line x1="-8" y1="26" x2="8" y2="26" />`,
+        `<rect x="-30" y="-26" width="60" height="40" rx="4" /><path d="M-40,20 L40,20 L34,30 L-34,30 Z" />`,
+        `<path d="M-40,14 L-40,-2 L-26,-6 L-16,-24 L18,-24 L30,-6 L40,-2 L40,14 Z" /><circle cx="-22" cy="16" r="9" /><circle cx="22" cy="16" r="9" />`,
+      ].map((g) => { const e = mk("g", { fill: "none", stroke: "#f8fafc", "stroke-width": 3.5, "stroke-linejoin": "round", "stroke-linecap": "round", opacity: 0 }, psvg); e.innerHTML = g; return e; });
+      const breakX = ICX.map((x) => {
+        const g = mk("g", { opacity: 0, stroke: "#ff6b6b", "stroke-width": 4, "stroke-linecap": "round" }, psvg);
+        const mx = (1601 + x) / 2, my = (GY + 356 + ICY - 6) / 2 + 6;
+        g.innerHTML = `<line x1="${mx - 9}" y1="${my - 9}" x2="${mx + 9}" y2="${my + 9}"/><line x1="${mx + 9}" y1="${my - 9}" x2="${mx - 9}" y2="${my + 9}"/>`;
+        return g;
+      });
+      const T_ICON = [W_PHONE, W_LAPTOP, W_GAADI];
+      const PANEL_IN = W_90 - 0.1, PANEL_OUT = 40.3;
+      const twLine = mk("path", { d: "", fill: "none", stroke: "#f8fafc", "stroke-width": 2, "stroke-opacity": 0.85, opacity: 0 }, psvg);
+      const warnRing = mk("circle", { r: 0, fill: "none", stroke: "#ff6b6b", "stroke-width": 4, opacity: 0 }, svg);
+
+      // ---------- typed text ----------
+      const ty = {
+        k2: typer($("s11-k2t"), "BHARAT KE LIYE", W_BHARAT, { t1: 40.3 }),
+        k3: typer($("s11-k3t"), "INDIA SEMICONDUCTOR MISSION", W_SEMI, { t1: 52.6 }),
+        date: typer($("s11-date"), "11 OCTOBER", W_11OCT, { t1: 15.55 }),
+        prat: typer($("s11-prat"), "PRATIBANDH", W_PRAT, { t1: 15.55 }),
+        cdate: typer($("s11-cdate"), "28 Sep–3 Oct", W_AAKHIR, { t1: 21.15 }),
+        cname: typer($("s11-cname"), "CENTER-2026", W_ABHYAAS, { t1: 21.15 }),
+        adv: typer($("s11-adv"), "SABSE ADVANCED", W_ADV, { t1: 28.85 }),
+        hd1: typer($("s11-hd1"), "PEHLI BADI", W_PEHLI, { t1: 52.6 }),
+        hd2: typer($("s11-hd2"), "CHIP FAB", W_CHIPFAB, { t1: 52.6 }),
+        stat: typer($("s11-statt"), "ABHI BANA RAHA HAI", W_BANA, { t1: 52.6 }),
+      };
+      const cnt = counter($("s11-count"), { to: 90, t0: W_90, dur: 1.0, prefix: ">", suffix: "%" });
+      const veo1 = $("s11-veo1"), veo2 = $("s11-veo2");
+      const labTwn = $("s11-lab-taiwan"), labStrait = $("s11-lab-strait"), labDho = $("s11-lab-dholera");
+      const statDot = $("s11-statdot"), panel = $("s11-panel"), pcap = $("s11-pcap");
+      const ilabs = [0, 1, 2].map((i) => $("s11-il" + i));
 
       const tl = gsap.timeline({ paused: true });
       driveWithTimeline(tl, DUR, (t) => {
-        const c = camAt(CAM, t);
-        earth.render(c);
-        // Taiwan hotspot pulse; grows a little on "jung hui to supply ruk sakti hai"
+        earth.render(camAt(CAM, t));
+        // clips: wrapper fades 0.45 s in / out, slow push 1.10 -> 1.16 (also crops the generator mark)
+        const v1 = env(t, V1[0], V1[0] + V1[1], 0.45), v2 = env(t, V2[0], V2[0] + V2[1], 0.45);
+        veo1.style.opacity = v1.toFixed(3); veo1.style.transform = `scale(${(1.10 + 0.06 * prog(t, V1[0], V1[1])).toFixed(4)})`;
+        veo2.style.opacity = v2.toFixed(3); veo2.style.transform = `scale(${(1.10 + 0.06 * prog(t, V2[0], V2[1])).toFixed(4)})`;
+        const mapK = 1 - Math.max(v1, v2); // map overlays hide while a clip is up
+
+        // Taiwan pulse: pops on "Taiwan.", stays lit to the end (s12 starts with it lit); swells on "jung"
         const pt = earth.project(TWN[0], TWN[1], 0);
-        const grow = 1 + 0.35 * sm((t - (CUES.c11 + 1.5)) / 0.8);
-        placePulse(pTwn, pt, t, win(t, 5.2, DUR - 0.9, 0.5), grow);
-        placeLabel(labTwn, lTwn, pt, 110, -70, t, CUES.c03 + 2.2, T_LEAVE + 2.6);
-        placeLabel(labChina, null, earth.project(25.4, 117.6, 0), -80, -14, t, CUES.c03 + 2.8, T_LEAVE + 2.2);
-        placeLabel(labStrait, null, earth.project(23.25, 118.9, 0), -150, -14, t, CUES.c06 + 0.6, T_LEAVE + 2.0);
-        // arc Taiwan -> Dholera, drawn as the camera flies back to India
-        const prog = sm((t - T_ARC0) / (T_ARC1 - T_ARC0));
-        const arcA = win(t, T_ARC0, DUR - 0.9, 0.3);
-        if (prog > 0.001 && arcA > 0.002) {
+        const grow = 1 + 0.35 * env(t, W_JUNG, 40.6, 0.6);
+        placePulse(pTwn, pt, t, prog(t, W_TAIWAN, 0.55) * mapK, grow);
+        placeLabel(labTwn, lTwn, pt, 110, -70, t, env(t, 6.2, V1[0] + 0.2, 0.4) * mapK, 6.2);
+        placeLabel(labStrait, null, earth.project(23.25, 118.9, 0), -150, -14, t, env(t, 15.8, V1[0] + 0.2, 0.4) * mapK, 15.8);
+        // "jung": one coral warning ring from Taiwan
+        const wr = prog(t, W_JUNG, 1.4);
+        if (wr > 0 && wr < 1 && pt.visible) {
+          warnRing.setAttribute("cx", pt.x.toFixed(1)); warnRing.setAttribute("cy", pt.y.toFixed(1));
+          warnRing.setAttribute("r", (20 + 260 * out3(wr)).toFixed(1)); warnRing.setAttribute("opacity", (0.9 * (1 - wr)).toFixed(3));
+        } else warnRing.setAttribute("opacity", 0);
+
+        cards.update(t, earth);
+        // the sanctions land: Paraguay and Belize cards take a coral edge on "pratibandh"
+        const pk = sm((t - W_PRAT) / 0.3);
+        for (const i of [1, 2]) cards.cards[i].el.style.boxShadow = `0 10px 30px rgba(2,6,16,.45), 0 0 0 ${(2.5 * pk).toFixed(2)}px rgba(255,107,107,${(0.95 * pk).toFixed(3)})`;
+
+        // Taiwan -> Dholera arc, drawn during the flight back to India; it goes with the fab clip cut
+        const ap = sm((t - T_ARC0) / (T_ARC1 - T_ARC0)), arcA = env(t, T_ARC0, V2[0] + 0.3, 0.3);
+        if (ap > 0.001 && arcA > 0.002) {
           let d = "", pen = false, head = null;
-          const n = Math.max(2, Math.ceil(N_ARC * prog));
+          const n = Math.max(2, Math.ceil(N_ARC * ap));
           for (let i = 0; i <= n; i++) {
-            const k = Math.min(prog, i / N_ARC);
-            const ll = gc(TWN, DHO, k);
+            const k = Math.min(ap, i / N_ARC), ll = gc(TWN, DHO, k);
             const p = earth.project(ll[0], ll[1], Math.sin(Math.PI * k) * ARC_H);
             if (!p.visible) { pen = false; continue; }
-            d += (pen ? "L" : "M") + p.x.toFixed(1) + " " + p.y.toFixed(1);
-            pen = true; head = p;
+            d += (pen ? "L" : "M") + p.x.toFixed(1) + " " + p.y.toFixed(1); pen = true; head = p;
           }
           arcPath.setAttribute("d", d); arcGlow.setAttribute("d", d);
           arcPath.setAttribute("opacity", arcA.toFixed(3)); arcGlow.setAttribute("opacity", arcA.toFixed(3));
-          const headA = arcA * (1 - sm((t - T_ARC1) / 0.4));
-          if (head && headA > 0.002) {
-            arcHead.setAttribute("cx", head.x.toFixed(1)); arcHead.setAttribute("cy", head.y.toFixed(1));
-            arcHead.setAttribute("opacity", headA.toFixed(3));
-          } else arcHead.setAttribute("opacity", 0);
-        } else {
-          arcPath.setAttribute("d", ""); arcGlow.setAttribute("d", ""); arcHead.setAttribute("opacity", 0);
+          const hA = arcA * (1 - sm((t - T_ARC1) / 0.4));
+          if (head && hA > 0.002) { arcHead.setAttribute("cx", head.x.toFixed(1)); arcHead.setAttribute("cy", head.y.toFixed(1)); arcHead.setAttribute("opacity", hA.toFixed(3)); }
+          else arcHead.setAttribute("opacity", 0);
+        } else { arcPath.setAttribute("d", ""); arcGlow.setAttribute("d", ""); arcHead.setAttribute("opacity", 0); }
+        // Dholera pin + label: on "Dholera", gone with the fab clip (the camera then pulls away east under the text)
+        const pd = earth.project(DHO[0], DHO[1], 0), dA = env(t, W_DHOLERA, V2[0] + 0.25, 0.35);
+        placePulse(pDho, pd, t, dA, 0.9);
+        placeLabel(labDho, lDho, pd, 120, -80, t, dA, W_DHOLERA);
+
+        // chip panel
+        const pa = env(t, PANEL_IN, PANEL_OUT, 0.4);
+        const lit = Math.round(LIT * out3((t - W_90) / 1.0));
+        const glitch = t >= W_JUNG && t < W_JUNG + 0.9;
+        for (let i = 0; i < 100; i++) {
+          let o = i < lit ? 0.92 : 0.16;
+          if (glitch && i < LIT && ((i * 37 + Math.floor(t * 14) * 11) % 7) < 3) o = 0.12;
+          if (t >= W_JUNG + 0.9 && i < LIT) o = 0.92 - 0.3 * sm((t - W_JUNG - 0.9) / 0.6);
+          cells[i].setAttribute("fill", i < lit ? "#ff6b6b" : "#94a3b8");
+          cells[i].setAttribute("opacity", (o * pa).toFixed(3));
         }
-        // Dholera pin + label
-        const pd = earth.project(DHO[0], DHO[1], 0);
-        placePulse(pDho, pd, t, win(t, T_ARC1 - 0.1, DUR - 0.9, 0.45), 0.9);
-        placeLabel(labDho, lDho, pd, 120, -80, t, T_ARC1 + 0.5, DUR - 0.9);
-        // >90% counter (pure function of t)
-        num.textContent = String(Math.round(90 * p2out((t - (CUES.c09 + 2.6)) / 1.6)));
+        panel.style.opacity = (pa * 0.95).toFixed(3);
+        pcap.style.opacity = pa.toFixed(3);
+        // "Taiwan mein banta hai": a leader from the grid to the Taiwan pin
+        const tk = out3((t - W_TW2) / 0.5) * pa;
+        if (tk > 0.002 && pt.visible) {
+          const sx = GX - 8, sy = GY + 178, ex = sx + (pt.x - sx) * tk, ey = sy + (pt.y - sy) * tk;
+          twLine.setAttribute("d", `M${sx},${sy} L${ex.toFixed(1)},${ey.toFixed(1)}`); twLine.setAttribute("opacity", tk.toFixed(3));
+        } else twLine.setAttribute("opacity", 0);
+        const dim = 1 - 0.6 * sm((t - W_RUK) / 0.4);
+        icons.forEach((g, i) => {
+          const a = prog(t, T_ICON[i], 0.4) * pa, s = 0.6 + 0.4 * backOut(prog(t, T_ICON[i], 0.4));
+          g.setAttribute("opacity", (a * dim).toFixed(3));
+          g.setAttribute("transform", `translate(${ICX[i]},${ICY + 30}) scale(${s.toFixed(3)})`);
+          ilabs[i].style.opacity = (a * dim).toFixed(3);
+        });
+        supply.forEach((p, i) => {
+          const br = t >= W_RUK + i * 0.12;
+          const dk = sm((t - (W_SAB + i * 0.15)) / 0.6);
+          p.setAttribute("stroke", br ? "#ff6b6b" : "#2dd4bf");
+          p.setAttribute("stroke-dasharray", br ? "0.06 0.04" : "1 1");
+          p.setAttribute("stroke-dashoffset", br ? "0" : (1 - dk).toFixed(4));
+          p.setAttribute("opacity", (dk > 0.001 ? pa : 0).toFixed(3));
+          breakX[i].setAttribute("opacity", (prog(t, W_RUK + i * 0.12, 0.25) * pa).toFixed(3));
+        });
+
+        // typed text + counter
+        for (const k in ty) ty[k].update(t);
+        cnt.update(t);
+        statDot.style.opacity = t < W_BANA ? "0" : (0.45 + 0.55 * (0.5 + 0.5 * Math.cos(((t - W_BANA) / 1.2) * Math.PI * 2))).toFixed(3);
       });
 
       // ---------- text (one timeline) ----------
       const E_IN = { duration: 0.6, ease: "power3.out" };
-      const lineIn = (sel, at) => tl.fromTo(sel, { yPercent: 100 }, { yPercent: 0, ...E_IN }, at);
-      const lineOut = (sel, at) => tl.fromTo(sel, { yPercent: 0 }, { yPercent: -100, duration: 0.4, ease: "power2.in", immediateRender: false }, at);
-      const kickIn = (id, at) => {
-        tl.fromTo(`#${id}-rule`, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, at);
-        tl.fromTo(`#${id}-kick`, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, at + 0.15);
-      };
-      const kickOut = (id, at) => {
-        tl.fromTo(`#${id}-kick`, { opacity: 1, y: 0 }, { opacity: 0, y: -8, duration: 0.3, ease: "power2.in", immediateRender: false }, at);
-        tl.fromTo(`#${id}-rule`, { scaleX: 1 }, { scaleX: 0, duration: 0.3, ease: "power2.in", immediateRender: false }, at + 0.05);
-      };
-      const fadeIn = (sel, at, dy = 14) => tl.fromTo(sel, { opacity: 0, y: dy }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, at);
-      const fadeOut = (sel, at) => tl.fromTo(sel, { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "power2.in", immediateRender: false }, at);
+      const rise = (sel, at) => tl.fromTo(sel, { yPercent: 105 }, { yPercent: 0, ...E_IN }, at);
+      const sink = (sel, at) => tl.fromTo(sel, { yPercent: 0 }, { yPercent: -105, duration: 0.4, ease: "power2.in", immediateRender: false }, at);
+      const fadeIn = (sel, at, d = 0.4) => tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: d, ease: "power2.out", immediateRender: false }, at);
+      const fadeOut = (sel, at, d = 0.35) => tl.fromTo(sel, { opacity: 1 }, { opacity: 0, duration: d, ease: "power2.in", immediateRender: false }, at);
+      const ruleIn = (id, at) => tl.fromTo(id, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, at);
+      const ruleOut = (id, at) => tl.fromTo(id, { scaleX: 1 }, { scaleX: 0, duration: 0.3, ease: "power2.in", immediateRender: false }, at);
 
       tl.fromTo("#s11-scrim", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.out" }, 0.4);
-      tl.fromTo("#s11-scrim", { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power1.in", immediateRender: false }, DUR - 1.5);
-      tl.fromTo("#s11-credit", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.5);
-      tl.fromTo("#s11-credit", { opacity: 1 }, { opacity: 0, duration: 0.5, immediateRender: false }, DUR - 1.4);
+      tl.fromTo("#s11-scrim", { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power1.in", immediateRender: false }, DUR - 1.4);
+      fadeIn("#s11-credit", 0.5, 0.5);
+      fadeOut("#s11-credit", V1[0], 0.3); fadeIn("#s11-credit", V1[0] + V1[1], 0.4);
+      fadeOut("#s11-credit", V2[0], 0.3); fadeIn("#s11-credit", V2[0] + V2[1], 0.4);
+      fadeOut("#s11-credit", DUR - 1.3, 0.4);
 
-      // c01 kicker, c02 TAIWAN
-      kickIn("s11-k1", CUES.c01 + 0.1);
-      lineIn("#s11-b1-h1", CUES.c02 - 0.05);
-      // c03 China's claim, c04 sanctions, c05 PLA in Russia's drill (one subtitle at a time)
-      fadeIn("#s11-sub1", CUES.c03 + 1.2);
-      fadeOut("#s11-sub1", CUES.c04 + 0.1);
-      fadeIn("#s11-sub2", CUES.c04 + 0.5);
-      fadeOut("#s11-sub2", CUES.c05 + 0.1);
-      fadeIn("#s11-sub3", CUES.c05 + 0.5);
-      fadeOut("#s11-sub3", CUES.c06 + 0.2);
-      // c06 kicker -> TAIWAN STRAIT; c08 CHIP.; c09 >90%
-      kickOut("s11-k1", CUES.c06 + 0.2);
-      kickIn("s11-k2", CUES.c06 + 0.6);
-      lineIn("#s11-b1-h2", CUES.c08 - 0.05);
-      fadeIn("#s11-count", CUES.c09 + 2.4, 30);
-      fadeIn("#s11-unit", CUES.c09 + 4.4);
-      // slow push on the number so the hold stays alive
-      tl.fromTo("#s11-count", { scale: 1 }, { scale: 1.04, duration: T_LEAVE + 2.2 - (CUES.c09 + 2.4), ease: "none", transformOrigin: "0% 100%" }, CUES.c09 + 2.4);
-      // block clears as the camera leaves Taiwan
-      const TX = T_LEAVE + 2.2;
-      kickOut("s11-k2", TX); lineOut("#s11-b1-h1", TX); lineOut("#s11-b1-h2", TX + 0.06);
-      fadeOut("#s11-count", TX); fadeOut("#s11-unit", TX);
-
-      // c12 India Semiconductor Mission; c13 Dholera: pehli badi chip fab, Tata Electronics + PSMC (being built)
-      kickIn("s11-k3", CUES.c12 + 0.4);
-      lineIn("#s11-b2-h1", CUES.c13 + 3.6);
-      lineIn("#s11-b2-h2", CUES.c13 + 3.72);
-      fadeIn("#s11-b2-tag", CUES.c13 + 6.4);
-      fadeIn("#s11-b2-note", CUES.c13 + 7.6);
-
-      const TE = DUR - 1.6;
-      kickOut("s11-k3", TE); lineOut("#s11-b2-h1", TE); lineOut("#s11-b2-h2", TE + 0.06);
-      fadeOut("#s11-b2-tag", TE); fadeOut("#s11-b2-note", TE);
+      // kicker 1 (rule draw + fade-up), TAIWAN rises on the word
+      tl.set(["#s11-k2r", "#s11-k3r"], { scaleX: 0 }, 0);
+      ruleIn("#s11-k1r", 0.45);
+      tl.fromTo("#s11-k1t", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 0.6);
+      rise("#s11-htw", W_TAIWAN - 0.05);
+      tl.fromTo("#s11-htw", { scale: 1 }, { scale: 1.03, duration: 21.0 - W_TAIWAN, ease: "none", transformOrigin: "0% 100%" }, W_TAIWAN + 0.6);
+      // Center-2026: flags pop on "China" and "Russia"
+      tl.fromTo("#s11-fcn", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, W_CHINA2);
+      tl.fromTo("#s11-fru", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, W_RUSSIA);
+      // the whole Taiwan block leaves together before "Bharat ke liye"
+      tl.fromTo("#s11-k1t", { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "power2.in", immediateRender: false }, 20.5);
+      ruleOut("#s11-k1r", 20.55);
+      sink("#s11-htw", 21.1);
+      fadeOut(["#s11-fcn", "#s11-fru"], 20.8);
+      // kicker 2 typed; CHIP. slams in on the word
+      ruleIn("#s11-k2r", W_BHARAT - 0.2);
+      rise("#s11-hchip", W_CHIP - 0.08);
+      tl.fromTo("#s11-hchip", { scale: 1 }, { scale: 1.035, duration: 40.0 - W_CHIP, ease: "none", transformOrigin: "0% 100%" }, W_CHIP + 0.6);
+      // >90% + unit (after the wafer clip)
+      tl.fromTo("#s11-count", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, W_90 - 0.1);
+      fadeIn("#s11-unit", W_90 + 1.1);
+      // the chip block clears before the flight to India
+      ruleOut("#s11-k2r", 40.3);
+      sink("#s11-hchip", 40.25);
+      fadeOut(["#s11-count", "#s11-unit"], 40.25);
+      // Dholera block
+      ruleIn("#s11-k3r", W_SEMI - 0.2);
+      tl.fromTo("#s11-tata", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, W_TATA);
+      fadeIn("#s11-stat", W_BANA, 0.2);
+      tl.fromTo("#s11-psmc", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, W_TWCO);
+      ruleOut("#s11-k3r", 52.3);
+      fadeOut(["#s11-tata", "#s11-psmc", "#s11-stat"], 52.3, 0.4);
 
       window.__timelines = window.__timelines || {};
       window.__timelines["main"] = tl;

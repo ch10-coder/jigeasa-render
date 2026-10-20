@@ -16,224 +16,257 @@
       html, body { width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
       #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #04070f; }
       #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-      #s12-fx { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+      .s12-full { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; pointer-events: none; }
+      #s12-scrim { background: linear-gradient(90deg, rgba(4,9,27,.80) 0%, rgba(4,9,27,.80) 22%, rgba(4,9,27,0) 50%); opacity: 0; }
       #s12-glow { position: absolute; left: 0; top: 0; width: 440px; height: 440px; margin: -220px 0 0 -220px; border-radius: 50%;
                   background: radial-gradient(closest-side, rgba(45,212,191,.42), rgba(45,212,191,.16) 45%, rgba(45,212,191,0) 100%);
                   mix-blend-mode: screen; opacity: 0; }
-      .s12-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,0) 55%); opacity: 0; }
-      .s12-block { position: absolute; left: 96px; top: 138px; width: 1000px; }
-      .s12-kicker { display: flex; align-items: center; gap: 16px; font: 700 28px Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase;
-                    text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .s12-kicker i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
-      .s12-mask { overflow: hidden; }
-      .s12-h { font: 400 150px/1.0 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
-               text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .s12-h.s12-k { color: #ff6b6b; }
-      .s12-h1wrap { margin-top: 10px; }
-      .s12-legend { position: absolute; left: 96px; top: 575px; }
-      .s12-row { display: flex; align-items: center; gap: 20px; height: 50px; font: 700 28px Inter; letter-spacing: 5px; text-transform: uppercase; white-space: nowrap;
-                 text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .s12-row i { display: block; width: 44px; height: 7px; border-radius: 4px; transform-origin: left center; }
-      .s12-row.s12-oil { color: #fbbf24; } .s12-row.s12-oil i { background: #fbbf24; }
-      .s12-row.s12-bor { color: #ff6b6b; } .s12-row.s12-bor i { background: #ff6b6b; }
-      .s12-row.s12-trd { color: #2dd4bf; } .s12-row.s12-trd i { background: #2dd4bf; }
-      .s12-lab { position: absolute; left: 0; top: 0; font: 700 26px Inter; letter-spacing: 5px; color: #f8fafc; white-space: nowrap; opacity: 0;
-                 text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
-      .s12-credit { position: absolute; left: 0; right: 0; bottom: 30px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px;
+      .s12-sh { text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      /* legend: fixed grid, swatch 36x6 + 18 px gap + text, rows 46 px apart; the swatch never leaves its own box */
+      .s12-lrow { position: absolute; left: 96px; height: 36px; overflow: hidden; }
+      .s12-lin { position: relative; height: 36px; }
+      .s12-lin i { position: absolute; left: 0; top: 15px; width: 36px; height: 6px; border-radius: 3px; transform-origin: left center; }
+      .s12-lin span { position: absolute; left: 54px; top: 0; line-height: 36px; font: 700 26px Inter; letter-spacing: 4px; text-transform: uppercase; white-space: nowrap; }
+      .s12-oil i { background: #fbbf24; } .s12-oil span { color: #fbbf24; }
+      .s12-bor i { background: #ff6b6b; } .s12-bor span { color: #ff6b6b; }
+      .s12-trd i { background: #2dd4bf; } .s12-trd span { color: #2dd4bf; }
+      .s12-krow { position: absolute; left: 96px; top: 640px; display: flex; align-items: center; gap: 16px; height: 36px; font: 700 28px Inter; letter-spacing: 5px;
+                  color: #fbbf24; text-transform: uppercase; white-space: nowrap; }
+      .s12-krow i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
+      .s12-mask { position: absolute; left: 96px; overflow: hidden; }
+      .s12-h { font: 400 144px/1.0 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap; padding-bottom: 2px; }
+      .s12-k { color: #ff6b6b; }
+      #s12-credit { position: absolute; left: 0; right: 0; top: 1028px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px; opacity: 0;
                     text-shadow: 0 2px 3px rgba(2,6,16,.8); }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="27.82" data-width="1920" data-height="1080">
       <canvas id="earth"></canvas>
+      <div class="s12-full" id="s12-scrim"></div>
       <div id="s12-glow"></div>
-      <svg id="s12-fx" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
-        <g id="s12-lines"></g>
-        <g id="s12-leaders"></g>
-        <g id="s12-pulses"></g>
+      <svg class="s12-full" id="s12-fx" width="1920" height="1080" viewBox="0 0 1920 1080">
+        <g id="s12-lines"></g><g id="s12-pulses"></g>
       </svg>
-      <div id="s12-labs"></div>
-      <div class="s12-scrim" id="s12-scrim"></div>
-      <div class="s12-block">
-        <div class="s12-kicker"><i id="s12-rule"></i><span id="s12-kick">Poori tasveer</span></div>
-        <div class="s12-mask s12-h1wrap"><div class="s12-h" id="s12-h1">6 Chunautiyan</div></div>
-        <div class="s12-mask"><div class="s12-h s12-k" id="s12-h2">Ek Bharat.</div></div>
-      </div>
-      <div class="s12-legend">
-        <div class="s12-mask"><div class="s12-row s12-oil" id="s12-r0"><i id="s12-sw0"></i><span>Tel ke raaste</span></div></div>
-        <div class="s12-mask"><div class="s12-row s12-bor" id="s12-r1"><i id="s12-sw1"></i><span>Seema ke raaste</span></div></div>
-        <div class="s12-mask"><div class="s12-row s12-trd" id="s12-r2"><i id="s12-sw2"></i><span>Vyapaar ke raaste</span></div></div>
-      </div>
-      <div class="s12-credit">NASA Blue Marble · Borders: DataMeet, Natural Earth (India view)</div>
+      <div class="s12-full" id="s12-cards"></div>
+      <svg class="s12-full" id="s12-cardsvg" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+
+      <!-- legend (mid-left, clear of Hormuz and the arcs) -->
+      <div class="s12-lrow" style="top:404px;width:460px"><div class="s12-lin s12-oil" id="s12-r0"><i id="s12-sw0"></i><span>Tel ke raaste</span></div></div>
+      <div class="s12-lrow" style="top:450px;width:460px"><div class="s12-lin s12-bor" id="s12-r1"><i id="s12-sw1"></i><span>Seema ke raaste</span></div></div>
+      <div class="s12-lrow" style="top:496px;width:460px"><div class="s12-lin s12-trd" id="s12-r2"><i id="s12-sw2"></i><span>Vyapaar ke raaste</span></div></div>
+      <!-- kicker + headline (bottom-left, over the Arabian Sea: India stays clear) -->
+      <div class="s12-krow s12-sh"><i id="s12-rule"></i><span id="s12-kick"></span></div>
+      <div class="s12-mask" style="top:686px"><div class="s12-h s12-sh" id="s12-h1">6 Chunautiyan</div></div>
+      <div class="s12-mask" style="top:830px"><div class="s12-h s12-k s12-sh" id="s12-h2">Ek Bharat.</div></div>
+      <div id="s12-credit">NASA Blue Marble &nbsp;·&nbsp; Borders: DataMeet, Natural Earth (India view)</div>
     </div>
     <script type="module">
       import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
+      import { typer, flagCards, env, sm, out3, inOut, backOut, prog } from "./assets/geo/fx.js";
       /*CUES*/ const CUES = {"c01": 0.35, "c02": 3.15, "c03": 6.84, "c04": 9.55, "c05": 14.03, "c06": 16.71, "c07": 19.27, "c08": 20.81, "c09": 23.72}; /*END CUES*/
       const DUR = /*DUR*/ 27.82 /*END DUR*/;
+      /*SFX*/ const SFX = [[0.9, 0, "type", 13], [1.95, 0, "pop"], [3.55, 0, "pop"], [4.12, 0, "draw"], [7.24, 0, "pop"], [8.23, 0, "draw"], [9.95, 0, "pop"], [10.52, 0, "draw"], [11.38, 0, "draw"], [14.43, 0, "pop"], [15.53, 0, "draw"], [17.31, 0, "pop"], [17.95, 0, "draw"], [19.32, 0, "impact"], [22.33, 0, "heartbeat"], [23.77, 0, "draw", null, -28], [25.04, 0, "draw", null, -28], [26.44, 0, "draw", null, -28]]; /*END SFX*/
+
+      // Word times (timing/s12_words.json)
+      const W_POORI = 0.9, W_EKSAATH = 1.9;               // "पूरी", "एक साथ"
+      const W_HORMUZ = 3.2, W_TEL = 4.12;                 // "Hormuz", "तेल"
+      const W_PAK = 6.89, W_SEEMA = 8.23;                 // "पाकिस्तान", "सीमा"
+      const W_CHINA = 9.6, W_LADAKH = 10.52, W_SHAKS = 11.38, W_DABAAV = 13.08; // "China", "लद्दाख", "शक्सगाम", "दबाव"
+      const W_RUSSIA = 14.08, W_TARIFF = 15.53;           // "Russia", "tariff"
+      const W_TAIWAN = 16.96, W_CHIP = 17.95;             // "Taiwan", "chip"
+      const W_CHHE = 19.32, W_LEKIN = 20.86, W_BHARAT = 22.33; // "छह", "लेकिन", "भारत"
+      const W_R_TEL = 23.77, W_R_SEEMA = 25.04, W_R_VYA = 26.44; // "तेल / सीमा / व्यापार के रास्ते"
+      const TP = 53.57; // s11 duration: pulse / glow phases continue across the join (s11 uses chapter t)
 
       window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
       window.__timelines = window.__timelines || {};
       let done;
       window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
 
-      // One continuous camera: START 24,95,9000 -> pull out west over India -> END 27,70,16000.
+      // One continuous camera: START 24,95,9000 -> "poori tasveer": pull out west over India -> slow drift out -> END 27,70,16000
       const CAM = [
-        { t: 0, lat: 24, lon: 95, alt: 9000, tilt: 0, heading: 0 },
-        { t: CUES.c02 + 2.6, lat: 27, lon: 75, alt: 13000, tilt: 0, heading: 0, ease: "inOut" },
-        { t: CUES.c07 + 0.6, lat: 28, lon: 65.5, alt: 14200, tilt: 0, heading: 0, ease: "inOut" },
-        { t: DUR, lat: 27, lon: 70, alt: 16000, tilt: 0, heading: 0, ease: "inOut" },
+        { t: 0, lat: 24, lon: 95, alt: 9000 },
+        { t: 5.6, lat: 26.6, lon: 72.5, alt: 14400, ease: "inOut" },
+        { t: DUR, lat: 27, lon: 70, alt: 16000, ease: "linear" },
       ];
-
       const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: [] });
 
-      // ---------- pure helpers (all motion below is a function of t: seek-safe) ----------
-      const clamp01 = (x) => Math.max(0, Math.min(1, x));
-      const ramp = (t, a, d) => clamp01((t - a) / d);
-      const eOut = (x) => 1 - Math.pow(1 - x, 3);
-      const eInOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
-      const bell = (t, a, d) => { const x = (t - a) / d; return x <= 0 || x >= 1 ? 0 : Math.sin(Math.PI * x); };
-      const NS = "http://www.w3.org/2000/svg";
+      const NS = "http://www.w3.org/2000/svg", D = Math.PI / 180;
       const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
-
+      const $ = (id) => document.getElementById(id);
+      const bell = (t, a, d) => { const x = (t - a) / d; return x <= 0 || x >= 1 ? 0 : Math.sin(Math.PI * x); };
       const AMBER = "#fbbf24", CORAL = "#ff6b6b", TEAL = "#2dd4bf";
-      const HUB = { lat: 22.6, lon: 79.4 }; // central India: every line lands here
+      const toV = (lat, lon) => [Math.cos(lat * D) * Math.cos(lon * D), Math.cos(lat * D) * Math.sin(lon * D), Math.sin(lat * D)];
+      function gcAng(a, b) { const A = toV(a[0], a[1]), B = toV(b[0], b[1]); return Math.acos(Math.max(-1, Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2]))); }
+      function gc(a, b, k, w) {
+        const A = toV(a[0], a[1]), B = toV(b[0], b[1]), s = Math.sin(w), f1 = Math.sin((1 - k) * w) / s, f2 = Math.sin(k * w) / s;
+        const v = [A[0] * f1 + B[0] * f2, A[1] * f1 + B[1] * f2, A[2] * f1 + B[2] * f2];
+        return [Math.asin(v[2]) / D, Math.atan2(v[1], v[0]) / D];
+      }
 
-      // six fires; grp 0 = oil (amber), 1 = border (coral), 2 = trade/chips (teal)
-      const FIRES = [
-        { id: "hormuz",    lat: 26.6,  lon: 56.3,  grp: 0, col: AMBER, draw: CUES.c02 + 0.5,  bow: 0.20, lab: "Hormuz",    off: [-56, -54], right: true },
-        { id: "ferozepur", lat: 30.92, lon: 74.61, grp: 1, col: CORAL, draw: CUES.c03 + 0.4,  bow: 0.14, lab: "Ferozepur", off: [-58, 34], right: true },
-        { id: "lac",       lat: 34.76, lon: 78.22, grp: 1, col: CORAL, draw: CUES.c04 + 0.9,  bow: 0.10, lab: "LAC",       off: [58, 12], right: false },
-        { id: "shaksgam",  lat: 36.12, lon: 76.55, grp: 1, col: CORAL, draw: CUES.c04 + 2.4,  bow: 0.12, lab: "Shaksgam",  off: [-58, -50], right: true },
-        { id: "ukraine",   lat: 49.0,  lon: 31.5,  grp: 0, col: AMBER, draw: CUES.c05 + 0.4,  bow: 0.16, lab: "Ukraine",   off: [58, 34], right: false },
-        { id: "taiwan",    lat: 23.7,  lon: 121.0, grp: 2, col: TEAL,  draw: CUES.c06 + 0.4,  bow: 0.20, lab: "Taiwan",    off: [-58, -56], right: true },
+      // ---------- six fires (pins) ----------
+      const PINS = [
+        { id: "hormuz", lat: 26.6, lon: 56.3 }, { id: "ferozepur", lat: 30.92, lon: 74.61 }, { id: "lac", lat: 34.76, lon: 78.22 },
+        { id: "shaksgam", lat: 36.12, lon: 76.55 }, { id: "ukraine", lat: 49.0, lon: 31.5 }, { id: "taiwan", lat: 23.7, lon: 121.0 },
       ];
-      // pulses pop on "poori tasveer" (Taiwan carries over from s11, already lit)
-      const POP = { taiwan: -1, hormuz: CUES.c01 + 0.25, ferozepur: CUES.c01 + 0.5, lac: CUES.c01 + 0.75, shaksgam: CUES.c01 + 0.95, ukraine: CUES.c01 + 1.2 };
-      // labels: in on the fire's cue, out before the headline (c07)
-      const LAB_IN = { hormuz: CUES.c02 + 0.2, ferozepur: CUES.c03 + 0.2, lac: CUES.c04 + 0.6, shaksgam: CUES.c04 + 2.1, ukraine: CUES.c05 + 0.2, taiwan: CUES.c06 + 0.2 };
-      const LAB_OUT = { hormuz: CUES.c03 - 0.2, ferozepur: CUES.c04 + 3.6, lac: CUES.c05 - 0.2, shaksgam: CUES.c05 - 0.2, ukraine: CUES.c06 - 0.1, taiwan: CUES.c07 - 0.5 };
-      const DRAW_D = 1.6;                          // line draw-on seconds
-      const FLOW = CUES.c08 + 0.2;                 // "lapatein" start travelling into India
-      const EMPH = [CUES.c09 + 0.1, CUES.c09 + 1.45, CUES.c09 + 2.8]; // tel / seema / vyapaar
-      const LINES_OUT = DUR - 1.7;                 // lines clear before the join; pulses stay for s13
+      const gPul = $("s12-pulses"), gLines = $("s12-lines");
+      PINS.forEach((p, i) => {
+        p.g = mk("g", { opacity: 0 }, gPul);
+        p.rings = [0, 1, 2].map(() => mk("circle", { r: 13, fill: "none", stroke: CORAL, "stroke-width": 3 }, p.g));
+        mk("circle", { r: 11, fill: CORAL }, p.g); mk("circle", { r: 4.5, fill: "#f8fafc" }, p.g);
+        p.pop = p.id === "taiwan" ? -1 : W_EKSAATH + i * 0.1; // Taiwan carries over lit from s11
+        p.ping = W_CHHE + i * 0.12;                            // "chhe": the six flash in turn
+      });
 
-      const gLines = document.getElementById("s12-lines"), gLead = document.getElementById("s12-leaders"), gPul = document.getElementById("s12-pulses");
-      const labLayer = document.getElementById("s12-labs");
-      for (const f of FIRES) {
-        f.under = mk("path", { fill: "none", stroke: f.col, "stroke-width": 11, "stroke-linecap": "round", "stroke-opacity": 0.18, pathLength: 1, "stroke-dasharray": "1 1" }, gLines);
-        f.path = mk("path", { fill: "none", stroke: f.col, "stroke-width": 4, "stroke-linecap": "round", pathLength: 1, "stroke-dasharray": "1 1" }, gLines);
-        f.sparks = [0, 1].map(() => {
-          const g = mk("g", {}, gLines);
-          mk("circle", { r: 7, fill: f.col, "fill-opacity": 0.35 }, g);
-          mk("circle", { r: 3.2, fill: "#f8fafc" }, g);
-          return g;
-        });
-        f.lead = mk("line", { stroke: "#ffffff", "stroke-opacity": 0.8, "stroke-width": 2 }, gLead);
-        f.leadDot = mk("circle", { r: 5, fill: "#f8fafc" }, gLead);
-        const pg = mk("g", {}, gPul);
-        f.pg = pg;
-        f.rings = [0, 1, 2].map(() => mk("circle", { r: 14, fill: "none", stroke: CORAL, "stroke-width": 3 }, pg));
-        mk("circle", { r: 11, fill: CORAL }, pg);
-        mk("circle", { r: 4.5, fill: "#f8fafc" }, pg);
-        const lab = document.createElement("div");
-        lab.className = "s12-lab"; lab.textContent = f.lab; labLayer.appendChild(lab); f.labEl = lab;
+      // ---------- arcs: each family lands on its own Indian point (no fan) ----------
+      // oil: Hormuz -> Jamnagar refinery coast; trade: Ukraine (tariff) -> Bhopal (heart of India), Taiwan (chips) -> Chennai (electronics hub).
+      // (Delhi would run straight over the Ferozepur pin, Dholera sits 37 px from Jamnagar at this zoom.)
+      const ARCS = [
+        { a: [26.6, 56.3], b: [22.3, 70.0], col: AMBER, fam: 0, draw: W_TEL, dur: 1.2 },
+        { a: [49.0, 31.5], b: [23.26, 77.41], col: TEAL, fam: 2, draw: W_TARIFF, dur: 1.2 },
+        { a: [23.7, 121.0], b: [13.08, 80.27], col: TEAL, fam: 2, draw: W_CHIP, dur: 1.3 },
+      ];
+      const N = 48;
+      for (const A of ARCS) {
+        A.w = gcAng(A.a, A.b); A.h = 0.1 * A.w * 6371000;
+        A.pts = Array.from({ length: N + 1 }, (_, i) => gc(A.a, A.b, i / N, A.w));
+        A.glow = mk("path", { d: "", fill: "none", stroke: A.col, "stroke-width": 9, "stroke-opacity": 0.16, "stroke-linecap": "round", "stroke-linejoin": "round" }, gLines);
+        A.path = mk("path", { d: "", fill: "none", stroke: A.col, "stroke-width": 2.75, "stroke-linecap": "round", "stroke-linejoin": "round" }, gLines);
+        A.ring = mk("circle", { r: 6, fill: "none", stroke: A.col, "stroke-width": 3, opacity: 0 }, gLines);
+        A.end = mk("circle", { r: 5, fill: A.col, stroke: "#f8fafc", "stroke-width": 1.5, opacity: 0 }, gLines);
+        A.spark = mk("circle", { r: 4.5, fill: "#f8fafc", opacity: 0 }, gLines);
+        A.sparkH = mk("circle", { r: 10, fill: A.col, "fill-opacity": 0.35, opacity: 0 }, gLines);
       }
-      const glow = document.getElementById("s12-glow");
+      // ---------- border family: India's own boundary near each hotspot glows coral (DataMeet ring, downsampled) ----------
+      const STRETCH = [
+        { c: 13, draw: W_SEEMA, dur: 0.9, pts: [[73.807,30.068],[73.931,30.32],[73.927,30.439],[73.964,30.485],[74.012,30.534],[74.057,30.519],[74.073,30.555],[74.118,30.608],[74.193,30.665],[74.261,30.775],[74.32,30.847],[74.366,30.893],[74.429,30.931],[74.546,30.992],[74.597,31.038],[74.689,31.128],[74.631,31.133],[74.571,31.081],[74.51,31.132],[74.533,31.249],[74.526,31.312],[74.584,31.379],[74.639,31.444],[74.637,31.485],[74.613,31.527],[74.535,31.678],[74.559,31.758],[74.607,31.89],[74.719,31.924],[74.755,31.956],[74.88,32.032],[74.934,32.066],[75.105,32.059],[75.198,32.083],[75.279,32.117],[75.316,32.208],[75.321,32.297]] },
+        { c: 5, draw: W_LADAKH, dur: 1.0, pts: [[77.209,35.71],[77.421,35.64],[77.509,35.58],[77.519,35.486],[77.688,35.453],[77.911,35.462],[78.04,35.587],[78.181,35.601],[78.244,35.725],[78.608,35.815],[79.011,35.931],[79.343,35.988],[79.489,35.849],[79.572,35.813],[79.679,35.7],[79.846,35.575],[79.965,35.575],[80.11,35.478],[80.264,35.568],[80.412,35.477],[80.266,35.296],[80.223,35.171],[80.186,34.947],[80.074,34.706],[79.802,34.589],[79.702,34.486],[79.538,34.479],[79.603,34.307],[79.43,34.061],[79.225,34.011],[78.995,34.037],[79.028,33.754],[79.004,33.607],[78.963,33.339],[79.107,33.2],[79.256,33.215],[79.399,33.14],[79.332,33.001],[79.391,32.917],[79.543,32.73],[79.413,32.52],[79.248,32.517],[79.126,32.422],[78.968,32.336]] },
+        { c: 19, draw: W_SHAKS, dur: 0.8, pts: [[74.735,37.038],[74.793,37.057],[74.843,37.024],[74.939,36.948],[74.937,36.992],[75.033,37.026],[75.146,37.034],[75.169,36.999],[75.282,36.983],[75.394,36.928],[75.426,36.784],[75.504,36.749],[75.54,36.78],[75.736,36.753],[75.941,36.606],[75.998,36.502],[76.149,36.425],[76.319,36.33],[76.429,36.239],[76.568,36.19],[76.719,36.16],[76.779,36.04],[76.839,35.859],[77.069,35.78],[77.209,35.71]] },
+      ];
+      for (const S of STRETCH) {
+        S.glow = mk("path", { d: "", fill: "none", stroke: CORAL, "stroke-width": 9, "stroke-opacity": 0.22, "stroke-linecap": "round", "stroke-linejoin": "round" }, gLines);
+        S.path = mk("path", { d: "", fill: "none", stroke: CORAL, "stroke-width": 3, "stroke-linecap": "round", "stroke-linejoin": "round" }, gLines);
+      }
+      const glow = $("s12-glow");
+      const wave = mk("circle", { r: 0, fill: "none", stroke: TEAL, "stroke-width": 3, opacity: 0 }, gLines);
+      const HUB = [22.6, 79.4];
 
-      // screen-space arc (quadratic bezier) from a fire into the hub, bowed upward
-      function arc(p0, p1, bow) {
-        const dx = p1.x - p0.x, dy = p1.y - p0.y, len = Math.hypot(dx, dy) || 1;
-        let nx = -dy / len, ny = dx / len;
-        if (ny > 0) { nx = -nx; ny = -ny; }
-        return { x0: p0.x, y0: p0.y, cx: (p0.x + p1.x) / 2 + nx * len * bow, cy: (p0.y + p1.y) / 2 + ny * len * bow, x1: p1.x, y1: p1.y };
-      }
-      const bez = (a, u) => ({ x: (1 - u) * (1 - u) * a.x0 + 2 * (1 - u) * u * a.cx + u * u * a.x1, y: (1 - u) * (1 - u) * a.y0 + 2 * (1 - u) * u * a.cy + u * u * a.y1 });
+      // ---------- flag cards on each country mention (all gone before the headline) ----------
+      const cards = flagCards({ html: $("s12-cards"), svg: $("s12-cardsvg"), items: [
+        { flags: ["ir"], title: "Hormuz", sub: "Tel · rupaya", lat: 26.6, lon: 56.3, x: 780, y: 700, t0: W_HORMUZ, t1: 6.7 },
+        { flags: ["pk"], title: "Pakistan", sub: "Seema", lat: 30.2, lon: 71.5, x: 560, y: 250, t0: W_PAK, t1: 9.5 },
+        { flags: ["cn"], title: "China", sub: "Ladakh · Shaksgam", lat: 35.5, lon: 86.0, x: 1300, y: 200, t0: W_CHINA, t1: 13.75 },
+        { flags: ["ru", "ua"], title: "Russia · Ukraine", sub: "Tariff", lat: 49.0, lon: 31.5, x: 760, y: 96, t0: W_RUSSIA, t1: 16.75 },
+        { flags: ["tw"], title: "Taiwan", sub: "Chip supply", lat: 23.7, lon: 121.0, x: 1300, y: 290, t0: W_TAIWAN, t1: 20.6 },
+      ] });
+      const kick = typer($("s12-kick"), "POORI TASVEER", W_POORI, { t1: 26.9 });
+      const FAM_FLARE = [W_R_TEL, W_R_SEEMA, W_R_VYA];
+      const FLOW0 = W_LEKIN, FLOW1 = 23.6; // sparks travel into India on "lekin sabka asar ... Bharat tak aata hai"
 
       const tl = gsap.timeline({ paused: true });
       driveWithTimeline(tl, DUR, (t) => {
         earth.render(camAt(CAM, t));
-        const hub = earth.project(HUB.lat, HUB.lon, 0);
-        const linesK = 1 - eInOut(ramp(t, LINES_OUT, 1.3));
-        for (const f of FIRES) {
-          const p = earth.project(f.lat, f.lon, 0);
-          // pulse: pop (back.out) then breathe, rings expand on a 1.6 s period
-          const pop = POP[f.id] < 0 ? 1 : backOut(ramp(t, POP[f.id], 0.55));
-          const ph = (t % 1.6) / 1.6;
-          const breathe = 1 + 0.06 * Math.sin(ph * Math.PI * 2);
-          f.pg.setAttribute("transform", `translate(${p.x.toFixed(2)},${p.y.toFixed(2)}) scale(${(pop * breathe).toFixed(4)})`);
-          f.pg.setAttribute("opacity", p.visible && pop > 0.001 ? clamp01(pop) : 0);
-          f.rings.forEach((c, k) => {
+        const tp = t + TP, ph = (tp % 1.6) / 1.6, breathe = 1 + 0.06 * Math.sin(ph * Math.PI * 2);
+        for (const p of PINS) {
+          const s = earth.project(p.lat, p.lon, 0);
+          const pop = p.pop < 0 ? 1 : backOut(prog(t, p.pop, 0.55));
+          const ping = 1 + 0.45 * bell(t, p.ping, 0.45);
+          p.g.setAttribute("transform", `translate(${s.x.toFixed(1)},${s.y.toFixed(1)}) scale(${(pop * breathe * ping).toFixed(4)})`);
+          p.g.setAttribute("opacity", s.visible && pop > 0.001 ? Math.min(1, pop).toFixed(3) : 0);
+          p.rings.forEach((c, k) => {
             const q = (ph + k / 3) % 1;
             c.setAttribute("r", (13 + q * 34).toFixed(2));
             c.setAttribute("stroke-opacity", ((1 - q) * [0.59, 0.35, 0.2][k] * 1.3).toFixed(3));
           });
-          // line draw-on + group emphasis on "tel / seema / vyapaar ke raaste"
-          const a = arc(p, hub, f.bow);
-          const d = `M${a.x0.toFixed(1)},${a.y0.toFixed(1)} Q${a.cx.toFixed(1)},${a.cy.toFixed(1)} ${a.x1.toFixed(1)},${a.y1.toFixed(1)}`;
-          const prog = eInOut(ramp(t, f.draw, DRAW_D));
-          const em = bell(t, EMPH[f.grp], 1.5);
-          const vis = p.visible ? linesK : 0;
-          const lvis = prog > 0.0005 ? vis : 0;
-          for (const el of [f.path, f.under]) { el.setAttribute("d", d); el.setAttribute("stroke-dashoffset", (1 - prog).toFixed(4)); el.setAttribute("opacity", lvis); }
-          f.path.setAttribute("stroke-width", (4 + 3.5 * em).toFixed(2));
-          f.under.setAttribute("stroke-width", (11 + 8 * em).toFixed(2));
-          f.under.setAttribute("stroke-opacity", (0.18 + 0.2 * em).toFixed(3));
-          // sparks travel each line into India from "lapatein" on
-          const fl = ramp(t, FLOW, 0.8) * vis;
-          f.sparks.forEach((s, k) => {
-            const u = (((t - FLOW) / 2.4 + k / 2) % 1 + 1) % 1;
-            const pt = bez(a, u);
-            s.setAttribute("transform", `translate(${pt.x.toFixed(1)},${pt.y.toFixed(1)})`);
-            s.setAttribute("opacity", (fl * Math.sin(Math.PI * u)).toFixed(3));
-          });
-          // label + leader line
-          const lo = eOut(ramp(t, LAB_IN[f.id], 0.45)) * (1 - ramp(t, LAB_OUT[f.id], 0.4));
-          const lv = p.visible ? lo : 0;
-          const ex = p.x + f.off[0], ey = p.y + f.off[1];
-          const lk = eOut(ramp(t, LAB_IN[f.id], 0.35));
-          f.lead.setAttribute("x1", p.x.toFixed(1)); f.lead.setAttribute("y1", p.y.toFixed(1));
-          f.lead.setAttribute("x2", (p.x + f.off[0] * lk).toFixed(1)); f.lead.setAttribute("y2", (p.y + f.off[1] * lk).toFixed(1));
-          f.lead.setAttribute("opacity", lv.toFixed(3));
-          f.leadDot.setAttribute("cx", ex.toFixed(1)); f.leadDot.setAttribute("cy", ey.toFixed(1));
-          f.leadDot.setAttribute("opacity", lv.toFixed(3));
-          f.labEl.style.transform = f.right
-            ? `translate(${(ex - 12).toFixed(1)}px, ${ey.toFixed(1)}px) translate(-100%, -50%)`
-            : `translate(${(ex + 12).toFixed(1)}px, ${ey.toFixed(1)}px) translate(0, -50%)`;
-          f.labEl.style.opacity = lv.toFixed(3);
         }
-        // India hub glow: lights when every fire's line reaches it, then breathes; stays into s13
-        const gk = 0.6 * eOut(ramp(t, CUES.c08 + 0.1, 1.6)) * (1 + 0.08 * Math.sin((t / 4) * Math.PI * 2));
+        // arcs (draw-on by building the path up to the progress point: the head stays exact as the globe moves)
+        for (const A of ARCS) {
+          const pr = inOut((t - A.draw) / A.dur);
+          const fl = bell(t, FAM_FLARE[A.fam], 1.2);
+          if (pr <= 0.001) { A.path.setAttribute("d", ""); A.glow.setAttribute("d", ""); A.end.setAttribute("opacity", 0); A.ring.setAttribute("opacity", 0); A.spark.setAttribute("opacity", 0); A.sparkH.setAttribute("opacity", 0); continue; }
+          const n = Math.max(1, Math.ceil(N * pr));
+          let d = "", pen = false;
+          const P = [];
+          for (let i = 0; i <= N; i++) {
+            const k = i / N, p = earth.project(A.pts[i][0], A.pts[i][1], Math.sin(Math.PI * k) * A.h);
+            P.push(p);
+            if (i > n) continue;
+            if (!p.visible) { pen = false; continue; }
+            let x = p.x, y = p.y;
+            if (i === n && k > pr) { const q = P[i - 1], f = (pr - (i - 1) / N) * N; x = q.x + (p.x - q.x) * f; y = q.y + (p.y - q.y) * f; }
+            d += (pen ? "L" : "M") + x.toFixed(1) + "," + y.toFixed(1); pen = true;
+          }
+          A.path.setAttribute("d", d); A.glow.setAttribute("d", d);
+          A.path.setAttribute("stroke-width", (2.75 + 1.6 * fl).toFixed(2));
+          A.glow.setAttribute("stroke-opacity", (0.16 + 0.2 * fl).toFixed(3));
+          const e = P[N], landed = prog(t, A.draw + A.dur, 0.9);
+          A.end.setAttribute("cx", e.x.toFixed(1)); A.end.setAttribute("cy", e.y.toFixed(1)); A.end.setAttribute("opacity", landed > 0 ? Math.min(1, landed * 4).toFixed(3) : 0);
+          A.ring.setAttribute("cx", e.x.toFixed(1)); A.ring.setAttribute("cy", e.y.toFixed(1));
+          A.ring.setAttribute("r", (6 + 24 * out3(landed)).toFixed(1)); A.ring.setAttribute("opacity", landed > 0 && landed < 1 ? (0.9 * (1 - landed)).toFixed(3) : 0);
+          // sparks: flow into India on "lekin ... Bharat tak", plus one comet per family flare
+          let u = -1, sa = 0;
+          if (t >= FLOW0 && t < FLOW1) { u = ((t - FLOW0) / 1.3) % 1; sa = Math.sin(Math.PI * u); }
+          const ft = (t - FAM_FLARE[A.fam]) / 0.9;
+          if (ft >= 0 && ft < 1) { u = inOut(ft); sa = Math.sin(Math.PI * ft); }
+          if (u >= 0) {
+            const i = Math.min(N - 1, Math.floor(u * N)), f = u * N - i, a = P[i], b = P[i + 1];
+            const x = a.x + (b.x - a.x) * f, y = a.y + (b.y - a.y) * f;
+            for (const s of [A.spark, A.sparkH]) { s.setAttribute("cx", x.toFixed(1)); s.setAttribute("cy", y.toFixed(1)); s.setAttribute("opacity", sa.toFixed(3)); }
+          } else { A.spark.setAttribute("opacity", 0); A.sparkH.setAttribute("opacity", 0); }
+        }
+        // coral boundary stretches: draw outward from the hotspot both ways; press on "dabaav", flare on "seema ke raaste"
+        const press = 0.5 * bell(t, W_DABAAV, 1.0) + bell(t, W_R_SEEMA, 1.2) + 0.6 * bell(t, FLOW0, 2.4);
+        for (const S of STRETCH) {
+          const pr = inOut((t - S.draw) / S.dur);
+          if (pr <= 0.001) { S.path.setAttribute("d", ""); S.glow.setAttribute("d", ""); continue; }
+          const L = S.pts.length, i0 = Math.round(S.c - S.c * pr), i1 = Math.round(S.c + (L - 1 - S.c) * pr);
+          let d = "", pen = false;
+          for (let i = i0; i <= i1; i++) {
+            const p = earth.project(S.pts[i][1], S.pts[i][0], 0);
+            if (!p.visible) { pen = false; continue; }
+            d += (pen ? "L" : "M") + p.x.toFixed(1) + "," + p.y.toFixed(1); pen = true;
+          }
+          S.path.setAttribute("d", d); S.glow.setAttribute("d", d);
+          S.path.setAttribute("stroke-width", (3 + 1.5 * press).toFixed(2));
+          S.glow.setAttribute("stroke-width", (9 + 6 * press).toFixed(2));
+        }
+        // India: one teal glow lights on "Bharat" (with one wave) and breathes; it carries into s13
+        const hub = earth.project(HUB[0], HUB[1], 0);
+        const gk = 0.6 * out3(prog(t, W_BHARAT - 0.2, 1.4)) * (1 + 0.08 * Math.sin((tp / 4) * Math.PI * 2));
         glow.style.transform = `translate(${hub.x.toFixed(1)}px, ${hub.y.toFixed(1)}px)`;
         glow.style.opacity = hub.visible ? gk.toFixed(3) : 0;
+        const wv = prog(t, W_BHARAT, 1.6);
+        if (wv > 0 && wv < 1) { wave.setAttribute("cx", hub.x.toFixed(1)); wave.setAttribute("cy", hub.y.toFixed(1)); wave.setAttribute("r", (30 + 330 * out3(wv)).toFixed(1)); wave.setAttribute("opacity", (0.8 * (1 - wv)).toFixed(3)); }
+        else wave.setAttribute("opacity", 0);
+        cards.update(t, earth);
+        kick.update(t);
+        // legend emphasis on "tel / seema / vyapaar ke raaste": active row full, others dim (colour only, nothing moves)
+        for (let i = 0; i < 3; i++) {
+          let a = 1;
+          if (t >= W_R_TEL - 0.1) { const act = t < W_R_SEEMA - 0.1 ? 0 : t < W_R_VYA - 0.1 ? 1 : 2; a = act === i ? 1 : 0.42; }
+          $("s12-r" + i).style.opacity = a.toFixed(2);
+        }
       });
 
-      // ---------- text (style A): kicker on c01, legend rows as each colour first appears, headline on c07 ----------
-      tl.fromTo("#s12-scrim", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, CUES.c01 - 0.2);
-      tl.fromTo("#s12-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, CUES.c01);
-      tl.fromTo("#s12-kick", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, CUES.c01 + 0.15);
-      const ROW_IN = [CUES.c02 + 0.3, CUES.c03 + 0.3, CUES.c06 + 0.3];
-      ROW_IN.forEach((at, i) => {
-        tl.fromTo(`#s12-r${i}`, { yPercent: 100 }, { yPercent: 0, duration: 0.55, ease: "power3.out" }, at);
-        tl.fromTo(`#s12-sw${i}`, { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.out" }, at + 0.1);
+      // ---------- text: kicker typed, legend rows rise as each family first appears, headline on "chhe" ----------
+      tl.fromTo("#s12-scrim", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, 0.4);
+      tl.fromTo("#s12-credit", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.6);
+      tl.fromTo("#s12-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, W_POORI - 0.3);
+      [W_TEL + 0.15, W_SEEMA + 0.15, W_TARIFF + 0.15].forEach((at, i) => {
+        tl.fromTo(`#s12-r${i}`, { yPercent: 105 }, { yPercent: 0, duration: 0.55, ease: "power3.out" }, at);
+        tl.fromTo(`#s12-sw${i}`, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, at + 0.1);
       });
-      // legend rows nudge right while their lines swell (tel / seema / vyapaar)
-      EMPH.forEach((at, i) => {
-        tl.fromTo(`#s12-sw${i}`, { scaleX: 1 }, { scaleX: 1.7, duration: 0.5, ease: "power2.out", immediateRender: false }, at);
-        tl.fromTo(`#s12-sw${i}`, { scaleX: 1.7 }, { scaleX: 1, duration: 0.7, ease: "power2.inOut", immediateRender: false }, at + 0.8);
-      });
-      tl.fromTo("#s12-h1", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, CUES.c07 - 0.1);
-      tl.fromTo("#s12-h2", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, CUES.c07 + 0.2);
-      // headline breathes very slightly during the hold (seek-safe single tween)
-      tl.fromTo(".s12-block", { scale: 1 }, { scale: 1.025, duration: DUR - 1.6 - CUES.c07, ease: "none", transformOrigin: "0% 50%" }, CUES.c07);
-
-      // ---------- clear text before the join (last 0.8 s empty) ----------
-      const OUT = DUR - 1.45;
-      tl.to(["#s12-h1", "#s12-h2"], { yPercent: -100, duration: 0.4, ease: "power2.in", stagger: 0.06 }, OUT);
-      tl.to(["#s12-r0", "#s12-r1", "#s12-r2"], { yPercent: -100, duration: 0.4, ease: "power2.in", stagger: 0.05 }, OUT + 0.05);
-      tl.to("#s12-kick", { opacity: 0, y: -10, duration: 0.3, ease: "power2.in" }, OUT);
-      tl.to("#s12-rule", { scaleX: 0, duration: 0.3, ease: "power2.in" }, OUT + 0.1);
-      tl.to("#s12-scrim", { opacity: 0, duration: 0.5, ease: "power1.in" }, OUT + 0.15);
+      // two-line headline rises as one unit
+      tl.fromTo("#s12-h1", { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, W_CHHE - 0.05);
+      tl.fromTo("#s12-h2", { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, W_CHHE + 0.05);
+      // clear all text before the join (last 0.8 s empty); arcs, pins and the glow stay for s13
+      const OUT = 26.5;
+      tl.to(["#s12-h1", "#s12-h2"], { yPercent: -105, duration: 0.4, ease: "power2.in" }, OUT);
+      tl.to(["#s12-r0", "#s12-r1", "#s12-r2"], { yPercent: -105, duration: 0.4, ease: "power2.in", stagger: 0.04 }, OUT + 0.02);
+      tl.to("#s12-rule", { scaleX: 0, duration: 0.3, ease: "power2.in" }, OUT + 0.05);
+      tl.to("#s12-scrim", { opacity: 0, duration: 0.5, ease: "power1.in" }, OUT);
+      tl.to("#s12-credit", { opacity: 0, duration: 0.4 }, OUT);
 
       window.__timelines["main"] = tl;
       done();

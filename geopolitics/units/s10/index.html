@@ -14,320 +14,556 @@
       @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
-      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #04070f; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
       #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-      .s10-full { position: absolute; inset: 0; pointer-events: none; }
-      #s10-dim { background: #04091b; opacity: 0; }
-      #s10-scrim { background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,0) 55%); opacity: 0; }
-      .s10-block { position: absolute; left: 96px; top: 140px; width: 1100px; }
-      .s10-kicker { display: flex; align-items: center; gap: 16px; height: 36px; font: 700 28px Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase; white-space: nowrap; }
+      .s10-full { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; overflow: visible; }
+      #s10-scrim { background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,.45) 42%, rgba(4,9,27,0) 55%); opacity: 0; }
+      /* AI bridge clip (symbolic, tagged) */
+      .veo { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      .veo video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.92) contrast(1.06) brightness(.94); }
+      .veo-tag { position: absolute; right: 40px; top: 34px; font: 600 18px Inter; letter-spacing: 3px; text-transform: uppercase; color: rgba(248,250,252,.78);
+                 text-shadow: 0 2px 3px rgba(2,6,16,.8); }
+      /* text blocks (style A) */
+      .s10-block { position: absolute; left: 96px; top: 140px; width: 1000px; }
+      .s10-kicker { display: flex; align-items: center; gap: 16px; height: 36px; font: 700 28px/1 Inter; letter-spacing: 5px; color: #fbbf24;
+                    text-transform: uppercase; white-space: nowrap; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
       .s10-kicker i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
-      .s10-kicker span { display: block; }
+      .s10-kw { position: relative; display: block; height: 30px; width: 900px; }
+      .s10-kt { position: absolute; left: 0; top: 0; white-space: nowrap; }
+      .s10-pair { margin-top: 22px; }
+      .s10-pairs { position: relative; margin-top: 22px; height: 328px; }
+      .s10-pairs .s10-pair { position: absolute; left: 0; top: 0; margin-top: 0; }
       .s10-mask { overflow: hidden; }
-      .s10-kicker + .s10-mask { margin-top: 22px; }
-      .s10-h { font: 400 156px/1.0 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap; padding-bottom: 4px;
+      .s10-h { font: 400 156px/1.0 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap; padding-bottom: 4px; letter-spacing: .02em;
                text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .s10-h.s10-coral { color: #ff6b6b; }
-      .s10-h.s10-amber { color: #fbbf24; }
-      .s10-sub { margin-top: 14px; font: 500 38px Inter; color: rgba(226,232,240,.94); white-space: nowrap;
+      .s10-coral { color: #ff6b6b; }
+      .s10-amber { color: #fbbf24; }
+      .s10-sub { margin-top: 16px; height: 50px; font: 500 38px/1.25 Inter; color: rgba(226,232,240,.96); white-space: nowrap;
                  text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .s10-lab { position: absolute; left: 0; top: 0; font: 700 26px Inter; letter-spacing: 5px; color: #f8fafc; white-space: nowrap; opacity: 0;
-                 text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
-      .s10-country { font: 600 28px Inter; letter-spacing: 9px; color: rgba(226,232,240,.9); }
-      /* tariff staircase */
-      #s10-chart { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
-      .s10-col { position: absolute; top: 0; width: 200px; height: 1000px; }
-      .s10-bar { position: absolute; left: 0; width: 200px; bottom: 100px; transform-origin: 50% 100%; border-radius: 4px; }
-      .s10-num { position: absolute; left: 0; width: 200px; text-align: center; font: 400 64px/1 Anton; color: #f8fafc; white-space: nowrap;
-                 text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .s10-date { position: absolute; left: 0; width: 200px; top: 914px; text-align: center; font: 600 26px Inter; letter-spacing: 3px; color: rgba(226,232,240,.94); white-space: nowrap;
-                  text-shadow: 0 3px 2.5px rgba(2,6,16,.75); }
-      .s10-seg { position: absolute; left: 0; width: 200px; display: flex; align-items: center; justify-content: center;
-                 font: 700 20px Inter; letter-spacing: 2px; color: #04091b; white-space: nowrap; }
-      .s10-tag { position: absolute; left: 0; width: 200px; text-align: center; font: 700 22px Inter; letter-spacing: 4px; color: #fbbf24; white-space: nowrap;
-                 text-shadow: 0 3px 2.5px rgba(2,6,16,.75); }
-      .s10-credit { position: absolute; left: 0; right: 0; top: 1028px; text-align: center; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px; opacity: 0;
+      .s10-stampw { position: relative; margin-top: 18px; height: 100px; }
+      .s10-stamp { font: 400 92px/1.0 Anton; color: #2dd4bf; white-space: nowrap; letter-spacing: .02em; text-transform: uppercase;
+                   text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      #s10-strike { position: absolute; left: -10px; top: 42px; width: 410px; height: 9px; border-radius: 4px; background: #ff6b6b;
+                    transform-origin: left center; box-shadow: 0 3px 8px rgba(2,6,16,.55); }
+      .s10-row { display: flex; align-items: center; gap: 22px; margin-top: 18px; }
+      .s10-big { font: 400 124px/1.0 Anton; color: #fbbf24; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); transform-origin: 50% 60%; }
+      .s10-rowt { font: 700 30px/1.15 Inter; letter-spacing: 4px; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
+                  text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .s10-rows { font: 500 28px/1.3 Inter; color: rgba(226,232,240,.92); white-space: nowrap; margin-top: 6px;
+                  text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      /* map labels */
+      .s10-lab { position: absolute; left: 0; top: 0; font: 700 26px/1 Inter; letter-spacing: 5px; color: #f8fafc; white-space: nowrap; opacity: 0;
+                 text-transform: uppercase; isolation: isolate; text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
+      .s10-lab::before { content: ""; position: absolute; inset: -12px -18px; background: rgba(4,9,27,.42); filter: blur(12px); border-radius: 22px; z-index: -1; }
+      .s10-lab.s10-amber { color: #fbbf24; }
+      .s10-lab.s10-teal { color: #2dd4bf; }
+      /* tariff chart panel (centre-right, 944 px = 49 % of the frame) */
+      #s10-panel { position: absolute; left: 880px; top: 150px; width: 944px; height: 800px; border-radius: 22px; opacity: 0;
+                   background: linear-gradient(180deg, rgba(4,9,27,.70), rgba(4,9,27,.62)); box-shadow: 0 24px 80px rgba(2,6,16,.55); }
+      #s10-chart { opacity: 0; }
+      #s10-ctitle { position: absolute; left: 920px; top: 182px; display: flex; align-items: center; gap: 12px; opacity: 0; transform-origin: 0 50%; }
+      #s10-ctitle img { display: block; width: 52px; height: 39px; border-radius: 4px; box-shadow: 0 0 0 1px rgba(248,250,252,.22); object-fit: cover; }
+      #s10-ctitle span { font: 700 26px/1 Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase; white-space: nowrap; margin-left: 10px; }
+      .s10-ax { position: absolute; left: 900px; width: 76px; text-align: right; font: 600 22px/1 Inter; color: rgba(226,232,240,.7); opacity: 0; }
+      .s10-val { position: absolute; left: 0; top: 0; width: 360px; margin-left: -180px; text-align: center; font: 400 70px/1 Anton; color: #f8fafc;
+                 white-space: nowrap; opacity: 0; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .s10-val.s10-coral { color: #ff6b6b; }
+      .s10-date { position: absolute; top: 888px; width: 260px; margin-left: -130px; text-align: center; font: 600 25px/1 Inter; letter-spacing: 3px;
+                  color: rgba(226,232,240,.96); white-space: nowrap; text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.75); }
+      .s10-seg { position: absolute; left: 0; top: 0; width: 180px; margin-left: -90px; text-align: center; font: 700 21px/1 Inter; letter-spacing: 2px;
+                 color: #04091b; white-space: nowrap; opacity: 0; }
+      .s10-tag { position: absolute; left: 0; top: 0; font: 700 22px/1 Inter; letter-spacing: 4px; color: #fbbf24; white-space: nowrap; opacity: 0;
+                 text-transform: uppercase; text-shadow: 0 3px 2.5px rgba(2,6,16,.75); }
+      #s10-why { display: flex; align-items: center; gap: 10px; color: #f8fafc; }
+      .s10-credit { position: absolute; left: 0; right: 0; top: 1030px; text-align: center; font: 600 20px/1 Inter; color: #cbd5e1; letter-spacing: 1px;
                     text-shadow: 0 2px 3px rgba(2,6,16,.8); }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="81.43" data-width="1920" data-height="1080">
       <canvas id="earth"></canvas>
-      <div class="s10-full" id="s10-dim"></div>
+
+      <!-- map overlay: pulse, energy-site icons, strike markers, label leaders -->
+      <svg class="s10-full" id="s10-map" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="s10-full" id="s10-labs">
+        <div class="s10-lab" id="s10-lab-ukr">Ukraine</div>
+        <div class="s10-lab s10-teal" id="s10-lab-bijli">Bijli ghar</div>
+        <div class="s10-lab s10-amber" id="s10-lab-tel">Tel</div>
+      </div>
+
+      <!-- AI bridge: power plant smoke on "kam se kam 6 energy thikaanon par hamle" (symbolic, tag always visible) -->
+      <div class="veo" id="s10-veo"><video id="s10-veov" src="assets/veo/v10_power_plant_smoke.mp4"
+           data-start="25.0" data-duration="3.6" data-media-start="1.0" muted playsinline></video>
+        <div class="veo-tag">Pratikaatmak drishya · AI</div></div>
+
       <div class="s10-full" id="s10-scrim"></div>
 
-      <!-- map overlay: leaders, pulses -->
-      <svg class="s10-full" id="s10-svg" width="1920" height="1080" viewBox="0 0 1920 1080" data-layout-allow-overflow></svg>
-      <div class="s10-lab" id="s10-lab-ukr">UKRAINE</div>
-      <div class="s10-lab s10-country" id="s10-lab-rus">RUSSIA</div>
+      <!-- tariff chart panel -->
+      <div id="s10-panel"></div>
+      <div class="s10-full" id="s10-chart">
+        <svg class="s10-full" id="s10-chsvg" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="s10-hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <rect width="6" height="16" fill="#ff6b6b" fill-opacity="0.42" />
+            </pattern>
+            <filter id="s10-bsh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#020610" flood-opacity="0.5" /></filter>
+          </defs>
+          <g id="s10-grid"></g>
+          <g filter="url(#s10-bsh)">
+            <rect id="s10-b1a" x="1032" y="870" width="180" height="0" rx="4" fill="#ff6b6b" />
+            <rect id="s10-b1b" x="1032" y="870" width="180" height="0" rx="4" fill="#ffa3a3" />
+            <rect id="s10-b2" x="1297" y="870" width="180" height="0" rx="4" fill="#2dd4bf" opacity="0" />
+          </g>
+          <line id="s10-was50" x1="1212" y1="620" x2="1477" y2="620" stroke="#f8fafc" stroke-opacity="0.55" stroke-width="2" stroke-dasharray="10 8" opacity="0" />
+          <g id="s10-ghost">
+            <rect id="s10-gfill" x="1562" y="870" width="180" height="0" rx="4" fill="url(#s10-hatch)" />
+            <rect id="s10-gout" x="1562" y="870" width="180" height="0" rx="4" fill="none" stroke="#ff6b6b" stroke-width="3.5" stroke-dasharray="14 10" opacity="0" />
+            <g id="s10-gflag" opacity="0">
+              <circle id="s10-gring" cx="1652" cy="806" r="44" fill="none" stroke="#ff6b6b" stroke-width="3" opacity="0" />
+              <image href="assets/flags/in.svg" x="1620" y="782" width="64" height="48" preserveAspectRatio="xMidYMid slice" />
+              <rect x="1620" y="782" width="64" height="48" rx="4" fill="none" stroke="rgba(248,250,252,.35)" stroke-width="1.5" />
+            </g>
+          </g>
+        </svg>
+        <div id="s10-ctitle">
+          <img id="s10-fus" src="assets/flags/us.svg" alt="" />
+          <svg width="34" height="20" viewBox="0 0 34 20"><path d="M2 10 H26 M19 3 L28 10 L19 17" fill="none" stroke="#fbbf24" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <img id="s10-fin" src="assets/flags/in.svg" alt="" />
+          <span>Tariff &nbsp;·&nbsp; Bharat par</span>
+        </div>
+        <div class="s10-ax" id="s10-ax25" style="top: 734px;">25%</div>
+        <div class="s10-ax" id="s10-ax50" style="top: 609px;">50%</div>
+        <div class="s10-ax" id="s10-ax100" style="top: 359px;">100%</div>
+        <div class="s10-seg" id="s10-seg1" style="left: 1122px;">25%</div>
+        <div class="s10-seg" id="s10-seg2" style="left: 1122px;">+25% PENALTY</div>
+        <div class="s10-val" id="s10-v1" style="left: 1122px;">0%</div>
+        <div class="s10-val" id="s10-v2" style="left: 1387px;">50%</div>
+        <div class="s10-val s10-coral" id="s10-v3" style="left: 1652px;">0%</div>
+        <div class="s10-tag" id="s10-kul">Kul tariff</div>
+        <div class="s10-tag" id="s10-why">
+          <svg width="22" height="28" viewBox="-11 -14 22 28"><path d="M0,-12 C5,-4 9,1 9,5 A9,9 0 0 1 -9,5 C-9,1 -5,-4 0,-12 Z" fill="#fbbf24" /></svg>
+          <span>Wajah: Russian tel</span>
+        </div>
+        <div class="s10-date" id="s10-d1" style="left: 1122px;"></div>
+        <div class="s10-date" id="s10-d2" style="left: 1387px;"></div>
+        <div class="s10-date" id="s10-d3" style="left: 1652px; opacity: 0;">Sep 2026</div>
+      </div>
 
-      <!-- Block 1: Russia / Ukraine -->
-      <div class="s10-block" id="s10-b1">
-        <div class="s10-kicker"><i id="s10-b1-rule"></i><span id="s10-b1-kick">Paanchvi chunauti · Europe</span></div>
-        <div class="s10-mask"><div class="s10-h" id="s10-b1-h1">Russia</div></div>
-        <div class="s10-mask"><div class="s10-h s10-coral" id="s10-b1-h2">Ukraine</div></div>
-      </div>
-      <!-- Block 2: energy ceasefire -->
-      <div class="s10-block" id="s10-b2">
-        <div class="s10-kicker"><i id="s10-b2-rule"></i><span id="s10-b2-kick">11 October · Trump ka elaan</span></div>
-        <div class="s10-mask"><div class="s10-h" id="s10-b2-h1">Energy</div></div>
-        <div class="s10-mask"><div class="s10-h s10-amber" id="s10-b2-h2">Ceasefire?</div></div>
-        <div class="s10-sub" id="s10-b2-sub">Russia ne confirm nahi kiya</div>
-      </div>
-      <!-- Block 3: at least 6 -->
-      <div class="s10-block" id="s10-b3">
-        <div class="s10-kicker"><i id="s10-b3-rule"></i><span id="s10-b3-kick">Zelensky ke mutabiq</span></div>
-        <div class="s10-mask"><div class="s10-h" id="s10-b3-h1">Kam se kam</div></div>
-        <div class="s10-mask"><div class="s10-h s10-coral" id="s10-b3-h2"><span id="s10-six">0</span> thikaane</div></div>
-        <div class="s10-sub" id="s10-b3-sub">energy thikaanon par hamle</div>
-      </div>
-      <!-- Block 4: tariff (kicker persists; headline swaps) -->
-      <div class="s10-block" id="s10-b4">
-        <div class="s10-kicker"><i id="s10-b4-rule"></i><span id="s10-b4-kick">America ka tariff &nbsp;·&nbsp; Bharat par</span></div>
-        <div style="position:relative; height: 0;">
-          <div style="position:absolute; left:0; top:22px;">
-            <div class="s10-mask"><div class="s10-h" id="s10-b4a-h1">Tel aur</div></div>
-            <div class="s10-mask"><div class="s10-h s10-amber" id="s10-b4a-h2">Vyapaar.</div></div>
+      <!-- A: Russia / Ukraine -> 11 October: Energy ceasefire? -> hamle band (struck) -->
+      <div class="s10-block" id="s10-a">
+        <div class="s10-kicker"><i id="s10-a-rule"></i><span class="s10-kw"><span class="s10-kt" id="s10-a-k1"></span><span class="s10-kt" id="s10-a-k2"></span></span></div>
+        <div class="s10-pairs">
+          <div class="s10-pair">
+            <div class="s10-mask"><div class="s10-h" id="s10-a1-h1">Russia</div></div>
+            <div class="s10-mask"><div class="s10-h s10-coral" id="s10-a1-h2">Ukraine</div></div>
           </div>
-          <div style="position:absolute; left:0; top:22px;">
-            <div class="s10-mask"><div class="s10-h" id="s10-b4b-h1">Talwaar</div></div>
-            <div class="s10-mask"><div class="s10-h s10-coral" id="s10-b4b-h2">Latki hai.</div></div>
-            <div class="s10-sub" id="s10-b4-sub" style="font-size:36px; margin-top:12px;">Sitharaman: &ldquo;plateau&rdquo;</div>
+          <div class="s10-pair">
+            <div class="s10-mask"><div class="s10-h" id="s10-a2-h1">Energy</div></div>
+            <div class="s10-mask"><div class="s10-h s10-amber" id="s10-a2-h2">Ceasefire?</div></div>
           </div>
         </div>
+        <div class="s10-stampw"><div class="s10-stamp" id="s10-stamp"></div><div id="s10-strike"></div></div>
       </div>
-
-      <!-- tariff staircase (baseline y = 900, 3 px per %) -->
-      <div id="s10-chart">
-        <div class="s10-col" style="left:96px;" id="s10-c1">
-          <div class="s10-bar" id="s10-aug1" style="height:75px; background:#ff6b6b;"><div class="s10-seg" style="top:0;height:75px;">25%</div></div>
-          <div class="s10-bar" id="s10-aug2" style="height:75px; bottom:175px; background:#ff8a8a; border-bottom:3px solid rgba(4,9,27,.55);"><div class="s10-seg" style="top:0;height:72px;">+25% PENALTY</div></div>
-          <div class="s10-num" id="s10-n1" style="top:674px;">0%</div>
-          <div class="s10-date" id="s10-d1">AUG 2025</div>
-        </div>
-        <div class="s10-col" style="left:386px;" id="s10-c2">
-          <div class="s10-bar" id="s10-feb" style="height:54px; background:#94a3b8;"></div>
-          <div class="s10-num" id="s10-n2" style="top:770px;">0%</div>
-          <div class="s10-date" id="s10-d2">FEB 2026</div>
-        </div>
-        <div class="s10-col" style="left:676px;" id="s10-c3">
-          <svg id="s10-sep" width="200" height="300" viewBox="0 0 200 300" style="position:absolute; left:0; top:600px; overflow:visible;">
-            <defs>
-              <pattern id="s10-hatch" width="200" height="22" patternUnits="userSpaceOnUse">
-                <line x1="0" y1="11" x2="200" y2="11" stroke="#ff6b6b" stroke-opacity="0.75" stroke-width="2" />
-              </pattern>
-            </defs>
-            <rect id="s10-sep-fill" x="2" y="2" width="196" height="296" rx="4" fill="url(#s10-hatch)" opacity="0" />
-            <rect id="s10-sep-out" x="2" y="2" width="196" height="296" rx="4" fill="none" stroke="#ff6b6b" stroke-width="4"
-                  stroke-dasharray="984" stroke-dashoffset="984" />
-          </svg>
-          <div class="s10-num" id="s10-n3" style="top:524px; width:auto; left:-8px; text-align:left;">100% TAK?</div>
-          <div class="s10-tag" id="s10-tag3" style="top:490px; width:auto; text-align:left;">GRAHAM ACT</div>
-          <div class="s10-date" id="s10-d3">SEP 2026</div>
+      <!-- B: at least 6 -->
+      <div class="s10-block" id="s10-b">
+        <div class="s10-kicker"><i id="s10-b-rule"></i><span id="s10-b-kick">Zelenskyy ke mutabiq</span></div>
+        <div class="s10-pair">
+          <div class="s10-mask"><div class="s10-h" id="s10-b-h1">Kam se kam</div></div>
+          <div class="s10-mask"><div class="s10-h s10-coral" id="s10-b-h2"><span id="s10-six">0</span> thikaane</div></div>
         </div>
       </div>
+      <!-- C: India's connection -->
+      <div class="s10-block" id="s10-c">
+        <div class="s10-kicker"><i id="s10-c-rule"></i><span id="s10-c-kick"></span></div>
+        <div class="s10-pair">
+          <div class="s10-mask"><div class="s10-h" id="s10-c-h1">Tel aur</div></div>
+          <div class="s10-mask"><div class="s10-h s10-amber" id="s10-c-h2">Vyapaar.</div></div>
+        </div>
+      </div>
+      <!-- D: trade deal -->
+      <div class="s10-block" id="s10-d">
+        <div class="s10-kicker"><i id="s10-d-rule"></i><span id="s10-d-kick">February 2026</span></div>
+        <div class="s10-pair">
+          <div class="s10-mask"><div class="s10-h" id="s10-d-h1">Trade</div></div>
+          <div class="s10-mask"><div class="s10-h s10-amber" id="s10-d-h2">Deal.</div></div>
+        </div>
+        <div class="s10-sub" id="s10-d-sub"></div>
+      </div>
+      <!-- E: Graham Act -->
+      <div class="s10-block" id="s10-e">
+        <div class="s10-kicker"><i id="s10-e-rule"></i><span id="s10-e-kick"></span></div>
+        <div class="s10-pair">
+          <div class="s10-mask"><div class="s10-h" id="s10-e-h1">Graham</div></div>
+          <div class="s10-mask"><div class="s10-h s10-coral" id="s10-e-h2">Act.</div></div>
+        </div>
+        <div class="s10-row">
+          <div class="s10-big" id="s10-five">5</div>
+          <div id="s10-five-t"><div class="s10-rowt">Sabse bade khareedaar</div><div class="s10-rows">Russian tel + gas</div></div>
+        </div>
+      </div>
+      <!-- F: the sword still hangs (approved still) -->
+      <div class="s10-block" id="s10-f">
+        <div class="s10-kicker"><i id="s10-f-rule"></i><span id="s10-f-kick">Abhi bhi</span></div>
+        <div class="s10-pair">
+          <div class="s10-mask"><div class="s10-h" id="s10-f-h1">Talwaar</div></div>
+          <div class="s10-mask"><div class="s10-h s10-coral" id="s10-f-h2">Latki hai.</div></div>
+        </div>
+        <div class="s10-sub" id="s10-f-sub"></div>
+      </div>
 
-      <div class="s10-credit" id="s10-credit">NASA Blue Marble &nbsp;·&nbsp; Borders: DataMeet, Natural Earth (India view)</div>
+      <!-- flag cards (leader lines + cards) -->
+      <svg class="s10-full" id="s10-csvg" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="s10-full" id="s10-cards"></div>
+
+      <div class="s10-credit">NASA Blue Marble &nbsp;·&nbsp; Borders: DataMeet, Natural Earth (India view) &nbsp;·&nbsp; Flags: flag-icons (MIT)</div>
     </div>
     <script type="module">
       import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
+      import { typer, counter, flagCards, env, sm, out3, backOut, prog } from "./assets/geo/fx.js";
       /*CUES*/ const CUES = {"c01": 0.35, "c02": 3.09, "c03": 5.93, "c04": 13.08, "c05": 17.08, "c06": 27.21, "c07": 28.93, "c08": 32.79, "c09": 41.5, "c10": 43.66, "c11": 53.99, "c12": 59.06, "c13": 67.39, "c14": 72.95, "c15": 75.58}; /*END CUES*/
       const DUR = /*DUR*/ 81.43 /*END DUR*/;
+      /*SFX*/ const SFX = [[0.7, 0, "type", 17], [5.98, 0, "type", 10], [6.4, 0, "pop"], [8.42, 0, "pop"], [11.0, 0, "impact"], [12.75, 0, "pop"], [13.8, 0, "pop"], [14.82, 0, "pop"], [15.92, 0, "type", 10], [17.45, 0, "pop"], [17.95, 0, "type", 22], [18.85, 0, "glitch"], [20.84, 0, "pop"], [24.2, 0, "count", 0.6], [25.0, 0, "zoom"], [27.26, 0, "type", 20], [28.15, 0, "whoosh", null, -27], [32.3, 0, "pop"], [32.84, 0, "type", 8], [33.5, 0, "count", 1.0], [35.4, 0, "pop"], [38.95, 0, "count", 1.0], [42.46, 0, "hit"], [43.71, 0, "type", 8], [47.0, 0, "count", 0.8], [50.61, 0, "type", 23], [54.3, 0, "type", 12], [57.85, 0, "impact"], [60.1, 0, "draw"], [62.95, 0, "hit"], [65.25, 0, "count", 0.7], [65.95, 0, "glitch"], [67.6, 0, "pop"], [73.3, 0, "impact"], [76.0, 0, "whoosh"], [77.2, 0, "type", 21]]; /*END SFX*/
 
-      // One continuous camera: START 31,70,6000 -> Ukraine -> pull back between Europe and India -> END 35,75,14000
-      const CAM = [
-        { t: 0, lat: 31, lon: 70, alt: 6000, tilt: 0, heading: 0 },
-        { t: CUES.c03 + 2.0, lat: 48.6, lon: 29.4, alt: 2600, tilt: 0, heading: 0, ease: "inOut" },
-        { t: CUES.c05, lat: 48.5, lon: 29.0, alt: 2250, tilt: 0, heading: 0, ease: "linear" },
-        { t: CUES.c06, lat: 48.3, lon: 30.2, alt: 2050, tilt: 0, heading: 0, ease: "linear" },
-        { t: CUES.c07 + 3.2, lat: 39.5, lon: 52.0, alt: 9300, tilt: 0, heading: 0, ease: "inOut" },
-        { t: CUES.c12, lat: 38.8, lon: 54.5, alt: 9900, tilt: 0, heading: 0, ease: "linear" },
-        { t: CUES.c15, lat: 38.0, lon: 58.0, alt: 10800, tilt: 0, heading: 0, ease: "linear" },
-        { t: DUR, lat: 35, lon: 75, alt: 14000, tilt: 0, heading: 0, ease: "inOut" },
-      ];
+      // ---------- word times (timing/s10_words.json; key beats sit on the spoken words, not the cues)
+      const T_PAANCHVI = 0.7;   // "पांचवीं"
+      const T_RUSSIA = 3.98;    // "Russia"
+      const T_OCT11 = 5.98;     // "11" (October)
+      const T_TRUMP = 8.42;     // "Trump"
+      const T_ENERGY = 11.03;   // "Energy" (Ceasefire)
+      const T_BIJLI = 13.8;     // "बिजलीघर"
+      const T_TEL = 14.82;      // "तेल"
+      const T_BAND = 15.92;     // "हमले" (band)
+      const T_RUSSIA2 = 17.45;  // "Russia" (ne confirm nahi kiya)
+      const T_NAHI = 18.85;     // "नहीं"
+      const T_ZEL = 20.84;      // "Zelensky"
+      const T_KAM = 24.07;      // "कम" (se kam)
+      const T_VEO = 25.0;       // just before "Energy" (25.13) "ठिकानों पर हमले": AI bridge in
+      const T_VEO_END = 28.6;   // clip end (data-start 25.0 + data-duration 3.6)
+      const T_CONN = 27.26;     // "अब" (Bharat ka connection)
+      const T_TEL2 = 30.34;     // "तेल" (aur vyapaar)
+      const T_VYAPAAR = 30.92;  // "व्यापार"
+      const T_AUG = 32.84;      // "August"
+      const T_RTEL = 35.4;      // "तेल" (Russia se tel)
+      const T_AMERICA = 36.99;  // "America"
+      const T_BHARAT2 = 37.67;  // "भारत" (ke saamaan)
+      const T_P25 = 38.95;      // "25%"
+      const T_KUL = 41.55;      // "कुल"
+      const T_P50 = 42.46;      // "50%."
+      const T_FEB = 43.71;      // "February"
+      const T_TRADE = 45.73;    // "trade" (deal)
+      const T_TARIFF = 46.88;   // "Tariff" (ghatkar)
+      const T_VAADA = 50.61;    // "भारत" (ne ... vaada kiya)
+      const T_SEP18 = 54.3;     // "18" (September)
+      const T_GRAHAM = 57.96;   // "Graham"
+      const T_PRES = 59.45;     // "President" (ko adhikaar)
+      const T_ADHIKAAR = 60.09; // "अधिकार"
+      const T_PAANCH = 62.95;   // "पांच"
+      const T_P100 = 65.25;     // "100%"
+      const T_TAK = 65.93;      // "तक"
+      const T_BHARAT3 = 67.6;   // "भारत" (pichhle kuch saalon)
+      const T_SABSE = 70.67;    // "सबसे" (bade khareedaaron)
+      const T_TALWAAR = 73.36;  // "तलवार"
+      const T_LATKI = 74.58;    // "लटकी"
 
       window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
       let done;
       window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
+      window.__timelines = window.__timelines || {};
+
+      // ---------- camera: START (31, 70, 6000) -> swing west onto Ukraine -> slow push through the ceasefire story (the AI clip
+      // cuts in on that push) -> pull back between Europe and India as the clip ends -> slow drift east under the chart -> END (35, 75, 14000)
+      const CAM = [
+        { t: 0, lat: 31, lon: 70, alt: 6000, tilt: 0, heading: 0 },
+        { t: 8.4, lat: 48.6, lon: 29.4, alt: 2600, tilt: 0, heading: 0, ease: "inOut" },
+        { t: 17.0, lat: 48.5, lon: 29.8, alt: 2300, tilt: 0, heading: 0, ease: "linear" },
+        { t: 28.2, lat: 48.4, lon: 30.3, alt: 2000, tilt: 0, heading: 0, ease: "linear" },
+        { t: 32.3, lat: 40.0, lon: 52.0, alt: 8600, tilt: 0, heading: 0, ease: "inOut" },
+        { t: 76.0, lat: 36.5, lon: 63.0, alt: 10500, tilt: 0, heading: 0, ease: "linear" },
+        { t: DUR, lat: 35, lon: 75, alt: 14000, tilt: 0, heading: 0, ease: "inOut" },
+      ];
+
       const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: [] });
+      await document.fonts.ready;
 
-      // ---------- pure helpers (functions of t only) ----------
-      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
-      const sm = (x) => { x = clamp(x); return x * x * (3 - 2 * x); };
-      const backOut = (x) => { x = clamp(x); const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
-      const p2out = (x) => { x = clamp(x); return 1 - (1 - x) * (1 - x); };
-      const win = (t, a, b, f = 0.4) => sm((t - a) / f) * (1 - sm((t - b) / f)); // on at a, off at b
-
+      const $ = (id) => document.getElementById(id);
       const NS = "http://www.w3.org/2000/svg";
-      const svg = document.getElementById("s10-svg");
-      const el = (tag, attrs, parent = svg) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+      const map = $("s10-map");
+      const mk = (tag, attrs, parent = map) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+      const bump = (t, t0, d = 0.35) => (t < t0 || t > t0 + d ? 0 : Math.sin(((t - t0) / d) * Math.PI));
+      const onScreen = (p) => p.visible && p.x > -60 && p.x < 1980 && p.y > -60 && p.y < 1140;
 
-      // pulse: coral dot r 11, white core, 3 rings, 1.6 s period
-      function mkPulse(scale = 1) {
-        const g = el("g", { opacity: 0 });
-        const rings = [0, 1, 2].map(() => el("circle", { r: 11, fill: "none", stroke: "#ff6b6b", "stroke-width": 3 }, g));
-        el("circle", { r: 11, fill: "#ff6b6b" }, g);
-        el("circle", { r: 4.5, fill: "#f8fafc" }, g);
-        return { g, rings, scale };
+      // ---------- map pieces (pure functions of t, positioned from earth.project each frame)
+      function mkPulse() {
+        const g = mk("g", { opacity: 0 });
+        const rings = [0, 1, 2].map(() => mk("circle", { r: 11, fill: "none", stroke: "#ff6b6b", "stroke-width": 3 }, g));
+        mk("circle", { r: 11, fill: "#ff6b6b" }, g); mk("circle", { r: 4.5, fill: "#f8fafc" }, g);
+        return { g, rings };
       }
       const RING_A = [150 / 255, 90 / 255, 50 / 255];
       function placePulse(P, p, t, a) {
-        if (!p.visible || a < 0.002) { P.g.setAttribute("opacity", 0); return; }
+        if (!onScreen(p) || a < 0.002) { P.g.setAttribute("opacity", 0); return; }
         P.g.setAttribute("opacity", a.toFixed(3));
-        P.g.setAttribute("transform", `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${(P.scale * (0.4 + 0.6 * backOut(a))).toFixed(3)})`);
+        P.g.setAttribute("transform", `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${(0.5 + 0.5 * backOut(Math.min(1, a * 1.4))).toFixed(3)})`);
         P.rings.forEach((r, i) => {
           const ph = (((t + i * 0.533) % 1.6) + 1.6) % 1.6 / 1.6;
           r.setAttribute("r", (11 + ph * 30).toFixed(2));
           r.setAttribute("stroke-opacity", ((1 - ph) * RING_A[i]).toFixed(3));
         });
       }
-      // label with leader: line from pin to a 5 px dot, text right of the dot
-      function mkLeader() {
-        return { line: el("line", { stroke: "#ffffff", "stroke-opacity": 0.8, "stroke-width": 2, opacity: 0 }),
-                 dot: el("circle", { r: 5, fill: "#f8fafc", opacity: 0 }) };
+      // map label with a leader: line draws, dot, text fades in (dx < 0 puts the text left of the line end)
+      function mkLabel(id, dx, dy) {
+        return { el: $(id), dx, dy, line: mk("line", { stroke: "#f8fafc", "stroke-opacity": 0.8, "stroke-width": 2, "stroke-linecap": "round", opacity: 0 }),
+                 dot: mk("circle", { r: 5, fill: "#f8fafc", opacity: 0 }) };
       }
-      function placeLabel(lab, L, p, dx, dy, t, t0, t1) {
-        const draw = p2out((t - t0) / 0.45);
-        const a = win(t, t0, t1, 0.4);
-        if (!p.visible || a < 0.002) { lab.style.opacity = 0; if (L) { L.line.setAttribute("opacity", 0); L.dot.setAttribute("opacity", 0); } return; }
-        if (L) {
-          const ex = p.x + dx * draw, ey = p.y + dy * draw;
-          L.line.setAttribute("x1", p.x.toFixed(1)); L.line.setAttribute("y1", p.y.toFixed(1));
-          L.line.setAttribute("x2", ex.toFixed(1)); L.line.setAttribute("y2", ey.toFixed(1));
-          L.line.setAttribute("opacity", a.toFixed(3));
-          L.dot.setAttribute("cx", ex.toFixed(1)); L.dot.setAttribute("cy", ey.toFixed(1));
-          L.dot.setAttribute("opacity", a.toFixed(3));
-          lab.style.transform = `translate(${(p.x + dx + 14).toFixed(1)}px, ${(p.y + dy - 16).toFixed(1)}px)`;
-          lab.style.opacity = (a * sm((t - t0 - 0.25) / 0.3)).toFixed(3);
-        } else {
-          lab.style.transform = `translate(${(p.x + dx).toFixed(1)}px, ${(p.y + dy).toFixed(1)}px)`;
-          lab.style.opacity = a.toFixed(3);
-        }
+      function placeLabel(L, p, t, t0, t1) {
+        const a = (onScreen(p) ? 1 : 0) * env(t, t0, t1, 0.35);
+        if (a < 0.002) { L.el.style.opacity = "0"; L.line.setAttribute("opacity", 0); L.dot.setAttribute("opacity", 0); return; }
+        const k = out3((t - t0 - 0.1) / 0.4), ex = p.x + L.dx * k, ey = p.y + L.dy * k;
+        L.line.setAttribute("x1", p.x.toFixed(1)); L.line.setAttribute("y1", p.y.toFixed(1));
+        L.line.setAttribute("x2", ex.toFixed(1)); L.line.setAttribute("y2", ey.toFixed(1));
+        L.line.setAttribute("opacity", (a * (k > 0.01 ? 1 : 0)).toFixed(3));
+        L.dot.setAttribute("cx", ex.toFixed(1)); L.dot.setAttribute("cy", ey.toFixed(1)); L.dot.setAttribute("opacity", (a * k).toFixed(3));
+        L.el.style.opacity = (a * sm((t - t0 - 0.4) / 0.3)).toFixed(3);
+        L.el.style.transform = L.dx >= 0 ? `translate(${(ex + 14).toFixed(1)}px, ${(ey - 14).toFixed(1)}px)`
+                                         : `translate(${(ex - 14).toFixed(1)}px, ${(ey - 14).toFixed(1)}px) translateX(-100%)`;
+      }
+      // energy-site icon: dark disc + bolt (power) or drop (oil)
+      function mkIcon(kind) {
+        const g = mk("g", { opacity: 0 });
+        mk("circle", { r: 15, fill: "rgba(4,9,27,.78)", stroke: kind === "bolt" ? "#2dd4bf" : "#fbbf24", "stroke-width": 2.5 }, g);
+        if (kind === "bolt") mk("path", { d: "M2,-10 L-6,1.5 L-0.5,1.5 L-2.5,10 L6,-1.5 L0.5,-1.5 Z", fill: "#2dd4bf" }, g);
+        else mk("path", { d: "M0,-10 C4,-3.5 7,0.5 7,3.8 A7,7 0 0 1 -7,3.8 C-7,0.5 -4,-3.5 0,-10 Z", fill: "#fbbf24" }, g);
+        return g;
+      }
+      // strike marker: coral 8-point burst + white core + one ring that expands once
+      function mkBurst() {
+        const g = mk("g", { opacity: 0 });
+        const ring = mk("circle", { r: 15, fill: "none", stroke: "#ff6b6b", "stroke-width": 3 }, g);
+        const pts = []; for (let i = 0; i < 16; i++) { const r = i % 2 ? 7 : 16, a = (i / 16) * Math.PI * 2 - Math.PI / 2; pts.push(`${(r * Math.cos(a)).toFixed(2)},${(r * Math.sin(a)).toFixed(2)}`); }
+        mk("polygon", { points: pts.join(" "), fill: "#ff6b6b", stroke: "rgba(4,9,27,.6)", "stroke-width": 1.5 }, g);
+        mk("circle", { r: 4, fill: "#f8fafc" }, g);
+        return { g, ring };
       }
 
-      // ---------- map elements ----------
       const UKR = [49.0, 31.5];
-      // representative energy-region pulses (Kyiv, Kharkiv, Dnipro, Odesa, Zaporizhzhia, Kremenchuk); unlabelled
-      const STRIKES = [[50.45, 30.52], [49.99, 36.23], [48.46, 35.04], [46.48, 30.73], [47.84, 35.14], [49.07, 33.42]];
-      const T_STRIKE0 = CUES.c05 + 7.6; // "kam se kam chhe" lands
-      const pUkr = mkPulse(1.0);
-      const pStrikes = STRIKES.map(() => mkPulse(0.72));
-      const lUkr = mkLeader();
-      const labUkr = document.getElementById("s10-lab-ukr");
-      const labRus = document.getElementById("s10-lab-rus");
-      const six = document.getElementById("s10-six");
-      const n1 = document.getElementById("s10-n1"), n2 = document.getElementById("s10-n2");
+      // illustrative energy sites inside Ukraine (never labelled one by one): Kyiv, Kremenchuk, Poltava, Dnipro, Kryvyi Rih, Odesa
+      const USITES = [[50.45, 30.52], [49.07, 33.42], [49.59, 34.55], [48.46, 35.04], [47.91, 33.39], [46.48, 30.73]];
+      // illustrative Russian oil sites (Novoshakhtinsk, Novorossiysk, Krasnodar)
+      const RSITES = [[47.75, 39.93], [44.7, 37.8], [45.04, 38.98]];
+      const pUkr = mkPulse();
+      const bolts = USITES.map(() => mkIcon("bolt"));
+      const drops = RSITES.map(() => mkIcon("drop"));
+      const bursts = USITES.map(() => mkBurst());
+      const lUkr = mkLabel("s10-lab-ukr", 70, -60);
+      const lBijli = mkLabel("s10-lab-bijli", -110, 100);
+      const lTel = mkLabel("s10-lab-tel", -40, -80);
+
+      // strike times: marker i lands when the "6" counter passes i (0 -> 6 over 0.6 s, out3)
+      const T_SIX = 24.2, D_SIX = 0.6; // lands on "छह" (24.81)
+      const strikeT = USITES.map((_, i) => T_SIX + D_SIX * (1 - Math.cbrt(1 - (i + 0.5) / 6)));
+      const T_MAP_OUT = T_VEO + 0.35; // map overlays leave with the cut into the clip
+
+      // ---------- flag cards (fx.js): Trump, diesel context (R2), Kremlin (typed quote), Zelenskyy; all gone before the clip
+      const cards = flagCards({ html: $("s10-cards"), svg: $("s10-csvg"), items: [
+        { flags: ["us"], title: "Trump", sub: "US President", lat: 38.9, lon: -77.0, x: 1440, y: 104, t0: T_TRUMP - 0.35, t1: 16.9 },
+        { flags: ["us", "ru"], title: "Diesel sanctions", sub: "~9 Oct · US ki asthaayi dheel", lat: 38.9, lon: -77.0, x: 1270, y: 232, t0: 12.4, t1: 16.9 },
+        { flags: ["ru"], title: "Kremlin", sub: "​", lat: 55.75, lon: 37.62, x: 1440, y: 104, t0: T_RUSSIA2 - 0.35, t1: T_VEO + 0.3 },
+        { flags: ["ua"], title: "Zelenskyy", sub: "Ukraine President", lat: 50.45, lon: 30.52, x: 1440, y: 232, t0: T_ZEL - 0.35, t1: T_VEO + 0.3 },
+      ] });
+      const kremSub = cards.cards[2].el.querySelector(".fx-s");
+
+      // ---------- typed text (24 cps; the SFX block clicks at the same rate)
+      const typers = [
+        typer($("s10-a-k1"), "Paanchvi chunauti", T_PAANCHVI, { t1: 5.9 }),
+        typer($("s10-a-k2"), "11 October", T_OCT11, { t1: 23.35 }),
+        typer($("s10-stamp"), "HAMLE BAND", T_BAND, { t1: 23.35 }),
+        typer(kremSub, "“contacts are ongoing”", 17.95, { t1: T_VEO + 0.3 }),
+        typer($("s10-c-kick"), "Bharat ka connection", T_CONN, { t1: 43.5 }),
+        typer($("s10-d1"), "AUG 2025", T_AUG),
+        typer($("s10-d2"), "FEB 2026", T_FEB),
+        typer($("s10-d-sub"), "Vaada: Russian tel band", T_VAADA, { t1: 53.9 }),
+        typer($("s10-e-kick"), "18 September", T_SEP18, { t1: 72.85 }),
+        typer($("s10-f-sub"), "Sitharaman: “plateau”", 77.2, { t1: 80.5 }),
+      ];
+      const six = counter($("s10-six"), { from: 0, to: 6, t0: T_SIX, dur: D_SIX });
+
+      // ---------- chart geometry: baseline y 870, 5 px per percent (100 % = 500 px), plot x 990..1784
+      const BASE = 870, PX = 5.0, C1 = 1122, C3 = 1652;
+      const grid = $("s10-grid");
+      const GRID = [0, 25, 50, 75, 100].map((v) => mk("line", { x1: 990, y1: BASE - v * PX, x2: 990, y2: BASE - v * PX,
+        stroke: "#f8fafc", "stroke-opacity": v === 0 ? 0.45 : 0.15, "stroke-width": v === 0 ? 2 : 1 }, grid));
+      const ax = [$("s10-ax25"), $("s10-ax50"), $("s10-ax100")];
+      const b1a = $("s10-b1a"), b1b = $("s10-b1b"), b2 = $("s10-b2"), was50 = $("s10-was50");
+      const gfill = $("s10-gfill"), gout = $("s10-gout"), gflag = $("s10-gflag"), gring = $("s10-gring"), ghost = $("s10-ghost"), hatch = $("s10-hatch");
+      const v1 = $("s10-v1"), v2 = $("s10-v2"), v3 = $("s10-v3"), seg1 = $("s10-seg1"), seg2 = $("s10-seg2");
+      const kul = $("s10-kul"), why = $("s10-why"), d3 = $("s10-d3"), ctitle = $("s10-ctitle"), fus = $("s10-fus"), fin = $("s10-fin");
+      const panel = $("s10-panel"), chart = $("s10-chart");
+      const veo = $("s10-veo"), stamp = $("s10-stamp");
+      const fmtV = (el, s) => { if (el.textContent !== s) el.textContent = s; };
+
+      function drawChart(t) {
+        const A = env(t, 31.9, 80.55, 0.5);
+        panel.style.opacity = (A * 0.98).toFixed(3); chart.style.opacity = A.toFixed(3);
+        if (A < 0.001) return;
+        // title row (flags us -> in) pops; the flags pulse on "America" / "Bharat" / "President"
+        const pt = prog(t, 32.3, 0.45);
+        ctitle.style.opacity = Math.min(1, pt * 1.6).toFixed(3);
+        ctitle.style.transform = `scale(${(0.86 + 0.14 * backOut(pt)).toFixed(3)})`;
+        fus.style.transform = `scale(${(1 + 0.22 * (bump(t, T_AMERICA) + bump(t, T_PRES))).toFixed(3)})`;
+        fin.style.transform = `scale(${(1 + 0.22 * bump(t, T_BHARAT2)).toFixed(3)})`;
+        // gridlines draw left -> right
+        GRID.forEach((g, i) => g.setAttribute("x2", (990 + 794 * out3(prog(t, 32.35 + i * 0.07, 0.6))).toFixed(1)));
+        ax.forEach((e, i) => { e.style.opacity = prog(t, 32.5 + i * 0.07, 0.4).toFixed(3); });
+
+        // bar 1, AUG 2025: 25 % then the +25 % penalty stacks on top (total 50 %)
+        const vA = 25 * out3(prog(t, 33.5, 1.0)), vB = 25 * out3(prog(t, T_P25, 1.0)), v1v = vA + vB;
+        b1a.setAttribute("y", (BASE - vA * PX).toFixed(1)); b1a.setAttribute("height", (vA * PX).toFixed(1));
+        b1b.setAttribute("y", (BASE - v1v * PX).toFixed(1)); b1b.setAttribute("height", (vB * PX).toFixed(1));
+        seg1.style.opacity = prog(t, 34.3, 0.3).toFixed(3); seg1.style.transform = `translateY(${(BASE - 12.5 * PX - 11).toFixed(1)}px)`;
+        seg2.style.opacity = prog(t, T_P25 + 0.75, 0.3).toFixed(3); seg2.style.transform = `translateY(${(BASE - 37.5 * PX - 11).toFixed(1)}px)`;
+        fmtV(v1, Math.round(v1v) + "%");
+        v1.style.opacity = prog(t, 33.45, 0.2).toFixed(3);
+        v1.style.transform = `translateY(${(BASE - v1v * PX - 82).toFixed(1)}px) scale(${(1 + 0.14 * bump(t, T_P50, 0.4)).toFixed(3)})`;
+        // "kul tariff" tag above the 50 % label, then the hit on "50%"
+        kul.style.opacity = env(t, T_KUL, 80.55, 0.3).toFixed(3);
+        kul.style.transform = `translate(${(C1 - 78).toFixed(1)}px, ${(BASE - 50 * PX - 122).toFixed(1)}px)`;
+        // reason chip between the first two slots (Russian oil); clears before the Feb 2026 bar
+        why.style.opacity = env(t, T_RTEL, 43.4, 0.3).toFixed(3);
+        why.style.transform = `translate(1236px, ${(668 - 10 * backOut(prog(t, T_RTEL, 0.4))).toFixed(1)}px)`;
+
+        // bar 2, FEB 2026: appears at the old 50 % and drops to 18 % ("ghat kar") while its label counts down
+        const v2v = t < 47.0 ? 50 : 50 - 32 * out3(prog(t, 47.0, 0.8));
+        const o2 = prog(t, T_TARIFF, 0.25);
+        b2.setAttribute("y", (BASE - v2v * PX).toFixed(1)); b2.setAttribute("height", (v2v * PX).toFixed(1));
+        b2.setAttribute("opacity", (o2 * (0.55 + 0.45 * prog(t, 47.0, 0.5))).toFixed(3));
+        was50.setAttribute("opacity", (0.9 * prog(t, 47.0, 0.4)).toFixed(3));
+        fmtV(v2, Math.round(v2v) + "%");
+        v2.style.opacity = o2.toFixed(3);
+        v2.style.transform = `translateY(${(BASE - v2v * PX - 82).toFixed(1)}px)`;
+
+        // bar 3, SEP 2026 (Graham Act): dashed outline rises on "adhikaar", hatch fills to 100 % on "100%", "TAK?" glitches in on "tak"
+        d3.style.opacity = prog(t, T_SEP18, 0.4).toFixed(3);
+        d3.style.transform = `translateY(${(12 * (1 - out3(prog(t, T_SEP18, 0.5)))).toFixed(1)}px)`;
+        const hO = 100 * PX * out3(prog(t, T_ADHIKAAR, 1.2)), hF = 100 * PX * out3(prog(t, T_P100, 0.7));
+        gout.setAttribute("y", (BASE - hO).toFixed(1)); gout.setAttribute("height", hO.toFixed(1));
+        gout.setAttribute("opacity", (hO > 0.5 ? 0.6 + 0.4 * prog(t, T_P100, 0.7) : 0).toFixed(3));
+        gfill.setAttribute("y", (BASE - hF).toFixed(1)); gfill.setAttribute("height", hF.toFixed(1));
+        hatch.setAttribute("patternTransform", `rotate(45) translate(${((t * 14) % 16).toFixed(2)} 0)`);
+        const v3v = Math.round(100 * out3(prog(t, T_P100, 0.7)));
+        fmtV(v3, v3v + "%" + (t >= T_TAK ? " TAK?" : ""));
+        const gl = t >= T_TAK && t < T_TAK + 0.4 ? 1 : 0;
+        v3.style.opacity = (prog(t, T_P100, 0.15) * (gl ? (Math.sin(t * 157) > -0.3 ? 1 : 0.35) : 1)).toFixed(3);
+        v3.style.transform = `translate(${(gl * 7 * Math.sin(t * 211)).toFixed(1)}px, ${(BASE - hF - 82).toFixed(1)}px)`;
+        // India's flag pops at the foot of the 100 % bar ("aur Bharat"), rings once on "sabse bade khareedaar"
+        const pf = prog(t, T_BHARAT3, 0.45);
+        gflag.setAttribute("opacity", Math.min(1, pf * 1.6).toFixed(3));
+        gflag.setAttribute("transform", `translate(${C3} 806) scale(${(t < T_BHARAT3 ? 0.001 : 0.7 + 0.3 * backOut(pf)).toFixed(3)}) translate(${-C3} -806)`);
+        const pr = prog(t, T_SABSE, 0.9);
+        gring.setAttribute("r", (34 + 40 * pr).toFixed(1)); gring.setAttribute("opacity", (t < T_SABSE ? 0 : 0.9 * (1 - pr)).toFixed(3));
+        // "latki": the 100 % bar sways once like a hanging blade (damped), pivot at its top
+        const s = t - T_LATKI, ang = s > 0 ? 1.8 * Math.sin(s * 4.5) * Math.exp(-s / 1.4) : 0;
+        ghost.setAttribute("transform", `rotate(${ang.toFixed(3)} ${C3} ${BASE - 100 * PX})`);
+      }
 
       const tl = gsap.timeline({ paused: true });
       driveWithTimeline(tl, DUR, (t) => {
-        const c = camAt(CAM, t);
-        earth.render(c);
-        const fk = sm((c.alt - 3000) / 3500); // 0 near Ukraine .. 1 at globe scale (continuous)
-        // Ukraine pulse + label (on from c02, stays through the tariff chart as in the approved still)
+        const cam = camAt(CAM, t);
+        // India's boundary flares as it comes into view ("vyapaar")
+        earth.setLineOpacity("india_glow", 1 + 2.4 * env(t, T_VYAPAAR - 0.2, 34.0, 0.5));
+        earth.render(cam);
+
         const pu = earth.project(UKR[0], UKR[1], 0);
-        placePulse(pUkr, pu, t, win(t, CUES.c02 + 0.3, DUR - 0.9, 0.5));
-        const ldx = 150 + (92 - 150) * fk, ldy = -70 + (62 + 70) * fk;
-        placeLabel(labUkr, lUkr, pu, ldx, ldy, t, CUES.c02 + 0.6, DUR - 0.9);
-        // Russia country label while the camera is over Ukraine
-        placeLabel(labRus, null, earth.project(51.5, 37.5, 0), -60, -14, t, CUES.c02 + 1.0, CUES.c06 + 0.4);
-        // six strike pulses, one after another
-        STRIKES.forEach((s, i) => {
-          const t0 = T_STRIKE0 + i * 0.32;
-          const a = win(t, t0, DUR - 0.9, 0.35) * (1 - 0.45 * fk);
-          placePulse(pStrikes[i], earth.project(s[0], s[1], 0), t + i * 0.27, a);
+        placePulse(pUkr, pu, t, env(t, 6.3, T_MAP_OUT, 0.35));
+        placeLabel(lUkr, pu, t, 6.4, 13.4);
+        // power sites (teal bolts) on "bijli ghar"; six flip to coral strike bursts as the counter runs
+        USITES.forEach((s, i) => {
+          const p = earth.project(s[0], s[1], 0), t0 = T_BIJLI + i * 0.06, ts = strikeT[i];
+          const aB = onScreen(p) ? env(t, t0, ts + 0.12, 0.25) : 0;
+          bolts[i].setAttribute("opacity", aB.toFixed(3));
+          if (aB > 0.001) bolts[i].setAttribute("transform", `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${(0.6 + 0.4 * backOut(prog(t, t0, 0.4))).toFixed(3)})`);
+          const B = bursts[i], aS = onScreen(p) ? env(t, ts, T_MAP_OUT, 0.12) : 0;
+          B.g.setAttribute("opacity", aS.toFixed(3));
+          if (aS > 0.001) {
+            B.g.setAttribute("transform", `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${(0.5 + 0.5 * backOut(prog(t, ts, 0.35))).toFixed(3)})`);
+            const k = prog(t, ts, 0.7);
+            B.ring.setAttribute("r", (15 + 32 * out3(k)).toFixed(1)); B.ring.setAttribute("opacity", (1 - k).toFixed(3));
+          }
         });
-        // counters (pure functions of t, snapped to integers)
-        six.textContent = String(Math.round(6 * p2out((t - (T_STRIKE0 - 0.2)) / 1.9)));
-        const v1 = 25 * p2out((t - (CUES.c08 + 8.0)) / 1.1) + 25 * p2out((t - (CUES.c09 + 0.5)) / 1.1);
-        n1.textContent = Math.round(v1) + "%";
-        n2.textContent = Math.round(18 * p2out((t - (CUES.c10 + 4.2)) / 1.0)) + "%";
+        RSITES.forEach((s, i) => {
+          const p = earth.project(s[0], s[1], 0), t0 = T_TEL + i * 0.06, a = onScreen(p) ? env(t, t0, 23.0, 0.3) : 0;
+          drops[i].setAttribute("opacity", a.toFixed(3));
+          if (a > 0.001) drops[i].setAttribute("transform", `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${(0.6 + 0.4 * backOut(prog(t, t0, 0.4))).toFixed(3)})`);
+        });
+        placeLabel(lBijli, earth.project(USITES[4][0], USITES[4][1], 0), t, T_BIJLI, 23.0);
+        placeLabel(lTel, earth.project(RSITES[0][0], RSITES[0][1], 0), t, T_TEL, 23.0);
+
+        // AI clip wrapper: fade + push in on the camera push, slow push 1.10 -> 1.16 (crops the watermark), fade out at its end
+        const va = env(t, T_VEO, T_VEO_END, 0.45);
+        veo.style.opacity = va.toFixed(3);
+        veo.style.transform = `scale(${(1.10 + 0.06 * prog(t, T_VEO, T_VEO_END - T_VEO)).toFixed(4)})`;
+
+        cards.update(t, earth);
+        for (const ty of typers) ty.update(t);
+        six.update(t);
+        // "confirm nahi": the typed promise glitches as it is struck through
+        const g = t >= T_NAHI && t < T_NAHI + 0.35 ? 1 : 0;
+        stamp.style.transform = `translateX(${(g * 6 * Math.sin(t * 233)).toFixed(1)}px)`;
+        stamp.style.color = t >= T_NAHI ? (g && Math.sin(t * 181) > 0 ? "#ff6b6b" : "rgba(45,212,191,.62)") : "#2dd4bf";
+        drawChart(t);
       });
 
-      // ---------- text + chart (one timeline) ----------
+      // ---------- text blocks: two-line headlines always enter and leave as one unit
       const E_IN = { duration: 0.6, ease: "power3.out" };
-      const lineIn = (sel, at) => tl.fromTo(sel, { yPercent: 100 }, { yPercent: 0, ...E_IN }, at);
-      const lineOut = (sel, at) => tl.fromTo(sel, { yPercent: 0 }, { yPercent: -100, duration: 0.4, ease: "power2.in", immediateRender: false }, at);
-      const kickIn = (id, at) => {
-        tl.fromTo(`#${id}-rule`, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, at);
-        tl.fromTo(`#${id}-kick`, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, at + 0.15);
+      const pairIn = (a, b, at) => { tl.fromTo(a, { yPercent: 105 }, { yPercent: 0, ...E_IN }, at); tl.fromTo(b, { yPercent: 105 }, { yPercent: 0, ...E_IN }, at + 0.1); };
+      const pairOut = (a, b, at) => {
+        tl.fromTo(a, { yPercent: 0 }, { yPercent: -105, duration: 0.4, ease: "power2.in", immediateRender: false }, at);
+        tl.fromTo(b, { yPercent: 0 }, { yPercent: -105, duration: 0.4, ease: "power2.in", immediateRender: false }, at + 0.04);
       };
-      const kickOut = (id, at) => {
-        tl.fromTo(`#${id}-kick`, { opacity: 1, y: 0 }, { opacity: 0, y: -8, duration: 0.3, ease: "power2.in", immediateRender: false }, at);
-        tl.fromTo(`#${id}-rule`, { scaleX: 1 }, { scaleX: 0, duration: 0.3, ease: "power2.in", immediateRender: false }, at + 0.05);
-      };
-      const subIn = (sel, at) => tl.fromTo(sel, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, at);
-      const subOut = (sel, at) => tl.fromTo(sel, { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "power2.in", immediateRender: false }, at);
+      const ruleIn = (sel, at) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, at);
+      const ruleOut = (sel, at) => tl.fromTo(sel, { scaleX: 1 }, { scaleX: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, at);
+      const fadeIn = (sel, at, y = 10) => tl.fromTo(sel, { opacity: 0, y }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, at);
+      const fadeOut = (sel, at) => tl.fromTo(sel, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, at);
 
-      // scrim + credit
       tl.fromTo("#s10-scrim", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.out" }, 0.4);
-      tl.fromTo("#s10-scrim", { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power1.in", immediateRender: false }, DUR - 1.5);
-      tl.fromTo("#s10-credit", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.5);
-      tl.fromTo("#s10-credit", { opacity: 1 }, { opacity: 0, duration: 0.5, immediateRender: false }, DUR - 1.4);
+      tl.fromTo("#s10-scrim", { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power1.in", immediateRender: false }, 80.1);
 
-      // B1  RUSSIA / UKRAINE  (c01 kicker, c02 headline)
-      kickIn("s10-b1", CUES.c01 + 0.1);
-      lineIn("#s10-b1-h1", CUES.c02 - 0.1);
-      lineIn("#s10-b1-h2", CUES.c02 + 0.4);
-      // B1 -> B2 swap at c03 (energy ceasefire, 11 October)
-      kickOut("s10-b1", CUES.c03 - 0.2); lineOut("#s10-b1-h1", CUES.c03 - 0.2); lineOut("#s10-b1-h2", CUES.c03 - 0.1);
-      kickIn("s10-b2", CUES.c03 + 0.3);
-      lineIn("#s10-b2-h1", CUES.c03 + 5.6);
-      lineIn("#s10-b2-h2", CUES.c03 + 5.72);
-      subIn("#s10-b2-sub", CUES.c05 + 1.6);
-      // B2 -> B3 swap (Zelensky: at least 6)
-      const T3 = CUES.c05 + 5.2;
-      kickOut("s10-b2", T3); lineOut("#s10-b2-h1", T3); lineOut("#s10-b2-h2", T3 + 0.08); subOut("#s10-b2-sub", T3);
-      kickIn("s10-b3", T3 + 0.45);
-      lineIn("#s10-b3-h1", T_STRIKE0 - 0.9);
-      lineIn("#s10-b3-h2", T_STRIKE0 - 0.4);
-      subIn("#s10-b3-sub", T_STRIKE0 + 1.2);
-      // B3 clears as the camera pulls back (c06)
-      kickOut("s10-b3", CUES.c06 - 0.1); lineOut("#s10-b3-h1", CUES.c06 - 0.1); lineOut("#s10-b3-h2", CUES.c06); subOut("#s10-b3-sub", CUES.c06 - 0.1);
-      // globe dims for the tariff chart
-      tl.fromTo("#s10-dim", { opacity: 0 }, { opacity: 0.3, duration: 2.2, ease: "power1.inOut" }, CUES.c06 + 0.3);
+      // A: kicker types "Paanchvi chunauti", then "11 October"; RUSSIA / UKRAINE -> ENERGY / CEASEFIRE?; "HAMLE BAND" typed, struck on "nahi"
+      ruleIn("#s10-a-rule", 0.5);
+      pairIn("#s10-a1-h1", "#s10-a1-h2", T_RUSSIA - 0.13);
+      pairOut("#s10-a1-h1", "#s10-a1-h2", 10.5);
+      pairIn("#s10-a2-h1", "#s10-a2-h2", T_ENERGY - 0.08);
+      tl.fromTo("#s10-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power3.out" }, T_NAHI);
+      fadeOut("#s10-strike", 23.0);
+      pairOut("#s10-a2-h1", "#s10-a2-h2", 23.0);
+      ruleOut("#s10-a-rule", 23.0);
 
-      // B4  tariff block
-      kickIn("s10-b4", CUES.c07 + 0.2);
-      lineIn("#s10-b4a-h1", CUES.c07 + 2.6);
-      lineIn("#s10-b4a-h2", CUES.c07 + 2.72);
+      // B: KAM SE KAM / 6 THIKAANE (counter lands on "chhe"); stays over the AI clip, leaves before the C kicker
+      ruleIn("#s10-b-rule", 23.5); fadeIn("#s10-b-kick", 23.6);
+      pairIn("#s10-b-h1", "#s10-b-h2", T_KAM - 0.1);
+      pairOut("#s10-b-h1", "#s10-b-h2", 26.7); fadeOut("#s10-b-kick", 26.7); ruleOut("#s10-b-rule", 26.7);
 
-      // AUG 2025: 25% then +25% penalty = 50%
-      tl.fromTo("#s10-d1", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, CUES.c08 + 0.4);
-      tl.fromTo("#s10-n1", { opacity: 0, y: 150 }, { opacity: 1, y: 75, duration: 0.5, ease: "power2.out" }, CUES.c08 + 7.6);
-      tl.fromTo("#s10-aug1", { scaleY: 0 }, { scaleY: 1, duration: 1.1, ease: "power3.out" }, CUES.c08 + 8.0);
-      tl.fromTo("#s10-aug2", { scaleY: 0 }, { scaleY: 1, duration: 1.1, ease: "power3.out" }, CUES.c09 + 0.5);
-      tl.fromTo("#s10-n1", { y: 75 }, { y: 0, duration: 1.1, ease: "power3.out", immediateRender: false }, CUES.c09 + 0.5);
-      // FEB 2026: 18%
-      tl.fromTo("#s10-d2", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, CUES.c10 + 0.4);
-      tl.fromTo("#s10-feb", { scaleY: 0 }, { scaleY: 1, duration: 1.0, ease: "power3.out" }, CUES.c10 + 4.2);
-      tl.fromTo("#s10-n2", { opacity: 0, y: 54 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, CUES.c10 + 4.2);
-      // SEP 2026: Graham Act, up to 100% (authority only, drawn outlined + hatched)
-      tl.fromTo("#s10-d3", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, CUES.c11 + 0.6);
-      tl.fromTo("#s10-tag3", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, CUES.c11 + 4.3);
-      tl.fromTo("#s10-sep-out", { attr: { "stroke-dashoffset": 984 } }, { attr: { "stroke-dashoffset": 0 }, duration: 1.8, ease: "power2.inOut" }, CUES.c12 + 4.4);
-      tl.fromTo("#s10-sep-fill", { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "power1.out" }, CUES.c12 + 5.4);
-      tl.fromTo("#s10-n3", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, CUES.c12 + 6.0);
-      // c13: Bharat among the biggest buyers -> the 100% outline breathes once (finite)
-      tl.fromTo("#s10-sep", { scale: 1 }, { scale: 1.035, duration: 0.6, ease: "sine.inOut", transformOrigin: "50% 100%" }, CUES.c13 + 1.0);
-      tl.fromTo("#s10-sep", { scale: 1.035 }, { scale: 1, duration: 0.8, ease: "sine.inOut", transformOrigin: "50% 100%", immediateRender: false }, CUES.c13 + 1.6);
+      // C: Bharat ka connection (typed) / TEL AUR VYAPAAR.
+      ruleIn("#s10-c-rule", 27.1);
+      pairIn("#s10-c-h1", "#s10-c-h2", T_TEL2 - 0.1);
+      pairOut("#s10-c-h1", "#s10-c-h2", 43.15); ruleOut("#s10-c-rule", 43.15);
 
-      // c14: headline swap -> TALWAAR / LATKI HAI. (approved still)
-      lineOut("#s10-b4a-h1", CUES.c14 - 0.15); lineOut("#s10-b4a-h2", CUES.c14 - 0.05);
-      lineIn("#s10-b4b-h1", CUES.c14 + 0.35);
-      lineIn("#s10-b4b-h2", CUES.c14 + 0.47);
-      // c15: Sitharaman "plateau"
-      subIn("#s10-b4-sub", CUES.c15 + 2.8);
+      // D: February 2026 / TRADE DEAL. / typed promise
+      ruleIn("#s10-d-rule", 43.6); fadeIn("#s10-d-kick", 43.75);
+      pairIn("#s10-d-h1", "#s10-d-h2", T_TRADE - 0.12);
+      pairOut("#s10-d-h1", "#s10-d-h2", 53.5); fadeOut("#s10-d-kick", 53.5); ruleOut("#s10-d-rule", 53.5);
 
-      // slow push on the chart so the hold never freezes
-      tl.fromTo("#s10-chart", { scale: 1 }, { scale: 1.025, duration: DUR - 1.6 - (CUES.c08), ease: "none", transformOrigin: "96px 900px" }, CUES.c08);
+      // E: 18 September (typed) / GRAHAM ACT. / 5 sabse bade khareedaar
+      ruleIn("#s10-e-rule", 54.15);
+      pairIn("#s10-e-h1", "#s10-e-h2", T_GRAHAM - 0.11);
+      tl.fromTo("#s10-five", { opacity: 0, scale: 0.55 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2.2)" }, T_PAANCH);
+      fadeIn("#s10-five-t", T_PAANCH + 0.12, 12);
+      pairOut("#s10-e-h1", "#s10-e-h2", 72.45); fadeOut("#s10-five", 72.45); fadeOut("#s10-five-t", 72.45); ruleOut("#s10-e-rule", 72.45);
 
-      // clean join: everything clears before the last ~0.8 s
-      const TE = DUR - 1.6;
-      kickOut("s10-b4", TE); lineOut("#s10-b4b-h1", TE); lineOut("#s10-b4b-h2", TE + 0.06); subOut("#s10-b4-sub", TE);
-      tl.fromTo("#s10-c1, #s10-c2, #s10-c3", { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power2.in", stagger: 0.05, immediateRender: false }, TE);
-      tl.fromTo("#s10-dim", { opacity: 0.3 }, { opacity: 0, duration: 0.7, ease: "power1.in", immediateRender: false }, TE);
+      // F: Abhi bhi / TALWAAR LATKI HAI. / typed Sitharaman quote; clears before the join
+      ruleIn("#s10-f-rule", 73.0); fadeIn("#s10-f-kick", 73.1);
+      pairIn("#s10-f-h1", "#s10-f-h2", T_TALWAAR - 0.11);
+      pairOut("#s10-f-h1", "#s10-f-h2", 80.1); fadeOut("#s10-f-kick", 80.1); ruleOut("#s10-f-rule", 80.1);
 
-      window.__timelines = window.__timelines || {};
       window.__timelines["main"] = tl;
       done();
     </script>

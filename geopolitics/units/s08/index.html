@@ -17,41 +17,53 @@
       #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
       #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
       .full { position: absolute; inset: 0; pointer-events: none; }
-      .scrim { position: absolute; inset: 0; opacity: 0;
+      #scrim { position: absolute; inset: 0; opacity: 0;
                background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,.45) 42%, rgba(4,9,27,0) 55%); }
-      .block { position: absolute; left: 96px; top: 98px; width: 1100px; }
+      .block { position: absolute; left: 96px; top: 98px; width: 1180px; }
       .kicker { display: flex; align-items: center; gap: 16px; font: 700 28px/1 Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase;
-                margin-bottom: 22px; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .kicker i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
+                margin-bottom: 22px; height: 28px; white-space: nowrap; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .kicker i { display: block; flex: none; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
       .mask { overflow: hidden; padding-bottom: 4px; }
       .h { font: 400 170px/1.0 Anton; color: #f8fafc; text-transform: uppercase; letter-spacing: 0.02em; white-space: nowrap;
            text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .h.md { font-size: 150px; }
       .h.k { color: #ff6b6b; }
       .h.t { color: #2dd4bf; }
-      .sub { font: 500 40px/1.25 Inter; color: rgba(226,232,240,.96); margin-top: 18px; white-space: nowrap;
-             text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .subs { position: relative; height: 70px; }
-      .subs .sub { position: absolute; left: 0; top: 0; }
-      .num { display: inline-block; min-width: 2.55em; font-variant-numeric: tabular-nums; }
       .legend { display: flex; align-items: center; gap: 18px; margin-top: 26px; font: 700 26px/1 Inter; letter-spacing: 5px; text-transform: uppercase;
                 text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 6px 14px rgba(2,6,16,.5); }
       .legend + .legend { margin-top: 18px; }
       .legend b { display: block; width: 48px; height: 8px; border-radius: 4px; transform-origin: left center; }
       .legend.teal { color: #2dd4bf; } .legend.teal b { background: #2dd4bf; }
       .legend.coral { color: #ff6b6b; } .legend.coral b { background: #ff6b6b; }
-      /* MEA quote: SVG quote marks + Inter text, no box */
-      .qwrap { position: relative; margin-top: 8px; padding-left: 0; }
-      .qmark { display: block; width: 92px; height: 74px; margin-bottom: 14px; transform-origin: left bottom; }
-      .quote { font: 600 60px/1.18 Inter; color: #f8fafc; width: 980px; letter-spacing: -0.5px;
+      /* stat lockup: counted number + stacked unit */
+      .stat { display: flex; align-items: center; margin-top: 18px; height: 112px; }
+      .stat .n { display: inline-block; width: 262px; font: 400 112px/1 Anton; color: #fbbf24; letter-spacing: 0.01em;
+                 text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .stat .u { display: flex; flex-direction: column; gap: 8px; font: 700 22px/1 Inter; letter-spacing: 4px; color: #cbd5e1; text-transform: uppercase;
+                 text-shadow: 0 3px 2.5px rgba(2,6,16,.7); }
+      .stat .u b { font: 700 36px/1 Inter; letter-spacing: 4px; color: #f8fafc; }
+      .tagrow { display: flex; align-items: center; gap: 14px; margin-top: 30px; height: 28px; }
+      .tagrow img { width: 36px; height: 27px; border-radius: 4px; box-shadow: 0 0 0 1px rgba(248,250,252,.22); object-fit: cover; }
+      .tagrow span { font: 700 28px/1 Inter; letter-spacing: 5px; color: #ff6b6b; text-transform: uppercase; white-space: nowrap;
+                     text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 6px 14px rgba(2,6,16,.5); }
+      /* MEA quote: SVG quote marks + typed Anton lines */
+      .qmark { display: block; width: 84px; height: 68px; margin: 4px 0 14px; transform-origin: left bottom; }
+      .qline { font: 400 110px/1.04 Anton; text-transform: uppercase; letter-spacing: 0.02em; white-space: nowrap; color: #f8fafc; height: 118px;
                text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .quote .w { display: inline-block; }
-      .attr { font: 500 30px/1.2 Inter; color: rgba(226,232,240,.9); margin-top: 26px; text-shadow: 0 3px 2.5px rgba(2,6,16,.7); }
-      .tag { font: 700 28px/1 Inter; letter-spacing: 5px; color: #ff6b6b; text-transform: uppercase; margin-top: 30px;
-             text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 6px 14px rgba(2,6,16,.5); }
+      .qline.k { color: #ff6b6b; }
+      .attr { display: flex; align-items: center; gap: 14px; margin-top: 22px; font: 500 30px/1.2 Inter; color: rgba(226,232,240,.92);
+              text-shadow: 0 3px 2.5px rgba(2,6,16,.7); }
+      .attr img { width: 40px; height: 30px; border-radius: 4px; box-shadow: 0 0 0 1px rgba(248,250,252,.22); object-fit: cover; }
+      /* stamp */
+      .stamp { display: inline-block; margin-top: 10px; padding: 18px 34px 14px; border: 6px solid #ff6b6b; border-radius: 10px; transform-origin: 30% 50%;
+               box-shadow: 0 10px 34px rgba(2,6,16,.45), inset 0 0 0 2px rgba(255,107,107,.25); background: rgba(4,9,27,.28); }
+      .stamp .h { font-size: 150px; line-height: 1.0; color: #ff6b6b; }
       #ov { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
       .lab { position: absolute; left: 0; top: 0; font: 700 26px/1 Inter; letter-spacing: 5px; color: #f8fafc; white-space: nowrap; opacity: 0;
              text-transform: uppercase; isolation: isolate; text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
       .lab::before { content: ""; position: absolute; inset: -12px -18px; background: rgba(4,9,27,.42); filter: blur(12px); border-radius: 22px; z-index: -1; }
+      .saunpa { position: absolute; left: 1522px; top: 386px; font: 700 24px/1 Inter; letter-spacing: 5px; color: #ff6b6b; opacity: 0;
+                text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
       .credit { position: absolute; left: 0; right: 0; bottom: 26px; text-align: center; font: 600 20px/1 Inter; color: #cbd5e1; letter-spacing: 1px;
                 text-shadow: 0 2px 4px rgba(2,6,16,.8); }
     </style>
@@ -63,77 +75,71 @@
         <defs><filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="7" /></filter></defs>
         <polygon id="tract" points="" fill="#ff6b6b" opacity="0" filter="url(#soft)" />
       </svg>
-      <div class="full" id="labs"></div>
+      <div class="full" id="labs"><div class="saunpa" id="saunpa">SAUNPA</div></div>
 
-      <!-- S0: intro over K2 -->
-      <div class="full" id="b0"><div class="scrim"></div>
+      <div id="scrim"></div>
+      <!-- B0: intro over K2 -->
+      <div class="full" id="b0">
         <div class="block">
-          <div class="kicker"><i></i><span>Chauthi chunauti · Karakoram</span></div>
+          <div class="kicker"><i></i><span class="ty"></span></div>
           <div class="mask"><div class="h l1">SHAKSGAM</div></div>
-          <div class="sub">K2 ke uttar mein</div>
         </div>
       </div>
-      <!-- S1: on India's map, part of J&K -->
-      <div class="full" id="b1"><div class="scrim"></div>
+      <!-- B1: on India's map, part of J&K -->
+      <div class="full" id="b1">
         <div class="block">
-          <div class="kicker"><i></i><span>Bharat ka naqsha</span></div>
-          <div class="mask"><div class="h l1">BHARAT KA</div></div>
+          <div class="kicker"><i></i><span class="st">Bharat ka naqsha</span></div>
+          <div class="mask"><div class="h l1">J&amp;K KA</div></div>
           <div class="mask"><div class="h t l2">HISSA</div></div>
           <div class="legend teal lg1"><b></b><span>Bharat ki seema</span></div>
         </div>
       </div>
-      <!-- S2: under Pakistan occupation (VO: since 1947; the year is not in the facts file, so not on screen) -->
-      <div class="full" id="b2"><div class="scrim"></div>
+      <!-- B2: under Pakistan occupation (VO says since 1947; the year is not in the facts file, so it stays off screen) -->
+      <div class="full" id="b2">
         <div class="block">
-          <div class="kicker"><i></i><span>Bharat ka ilaaka, lekin</span></div>
+          <div class="kicker"><i></i><span class="st">Bharat ka ilaaka, lekin</span></div>
           <div class="mask"><div class="h l1">PAK KA</div></div>
           <div class="mask"><div class="h k l2">KABZA</div></div>
         </div>
       </div>
-      <!-- S3: approved still (frame 7) -->
-      <div class="full" id="b3"><div class="scrim"></div>
+      <!-- B3: approved still (frame 7) -->
+      <div class="full" id="b3">
         <div class="block">
-          <div class="kicker"><i></i><span>1963 &nbsp;·&nbsp; Shaksgam valley</span></div>
+          <div class="kicker"><i></i><span class="ty"></span></div>
           <div class="mask"><div class="h l1">CHINA KO</div></div>
           <div class="mask"><div class="h k l2">DE DIYA.</div></div>
-          <div class="subs">
-            <div class="sub s1">Pakistan ne lagbhag <span class="num" id="cnt">0</span> varg km China ko saunpa</div>
-            <div class="sub s2">Bharat ne ye samjhauta kabhi nahi maana</div>
-          </div>
+          <div class="stat" id="stat"><span class="n" id="cnt">0</span><span class="u"><span>Lagbhag</span><b>SQ KM</b></span></div>
           <div class="legend teal lg1"><b></b><span>Bharat ki seema</span></div>
           <div class="legend coral lg2"><b></b><span>China ka kabza (1963)</span></div>
+          <div class="tagrow" id="tag3"><img src="assets/flags/in.svg" alt="" /><span id="tag3t"></span></div>
         </div>
       </div>
-      <!-- S4: Boundary Joint Commission, Islamabad -->
-      <div class="full" id="b4"><div class="scrim"></div>
+      <!-- B4: Boundary Joint Commission, Islamabad -->
+      <div class="full" id="b4">
         <div class="block">
-          <div class="kicker"><i></i><span>Sep 2026 · Islamabad</span></div>
-          <div class="mask"><div class="h l1">CHINA + PAK</div></div>
-          <div class="mask"><div class="h k l2">COMMISSION</div></div>
-          <div class="sub">Boundary Joint Commission</div>
+          <div class="kicker"><i></i><span class="ty"></span></div>
+          <div class="mask"><div class="h md l1">BOUNDARY JOINT</div></div>
+          <div class="mask"><div class="h md k l2">COMMISSION</div></div>
         </div>
       </div>
-      <!-- S5: MEA quote -->
-      <div class="full" id="b5"><div class="scrim"></div>
+      <!-- B5: MEA quote, typed in two short lines -->
+      <div class="full" id="b5">
         <div class="block">
-          <div class="kicker"><i></i><span>Videsh Mantralaya · Sep 2026</span></div>
-          <div class="qwrap">
-            <svg class="qmark" viewBox="0 0 92 74" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 70 V40 C4 18 14 6 34 2 L38 12 C27 16 22 24 22 34 H38 V70 Z" fill="#fbbf24" />
-              <path d="M52 70 V40 C52 18 62 6 82 2 L86 12 C75 16 70 24 70 34 H86 V70 Z" fill="#fbbf24" />
-            </svg>
-            <div class="quote"><span class="w">Pakistan aur China ke beech</span> <span class="w">koi seema hai hi nahi.</span></div>
-            <div class="attr">— Randhir Jaiswal, MEA prawakta</div>
-            <div class="tag">Commission: bina qaanooni aadhaar</div>
-          </div>
+          <div class="kicker"><i></i><span class="ty"></span></div>
+          <svg class="qmark" viewBox="0 0 92 74" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 70 V40 C4 18 14 6 34 2 L38 12 C27 16 22 24 22 34 H38 V70 Z" fill="#fbbf24" />
+            <path d="M52 70 V40 C52 18 62 6 82 2 L86 12 C75 16 70 24 70 34 H86 V70 Z" fill="#fbbf24" />
+          </svg>
+          <div class="qline" id="q1"></div>
+          <div class="qline k" id="q2"></div>
+          <div class="attr"><img src="assets/flags/in.svg" alt="" /><span>Randhir Jaiswal, MEA prawakta</span></div>
         </div>
       </div>
-      <!-- S6: 1963 agreement illegal and invalid -->
-      <div class="full" id="b6"><div class="scrim"></div>
+      <!-- B6: 1963 agreement illegal and invalid (stamp) -->
+      <div class="full" id="b6">
         <div class="block">
-          <div class="kicker"><i></i><span>1963 ka samjhauta</span></div>
-          <div class="mask"><div class="h l1">AVAIDH,</div></div>
-          <div class="mask"><div class="h k l2">AMAANYA.</div></div>
+          <div class="kicker"><i></i><span class="ty"></span></div>
+          <div class="stamp" id="stamp"><div class="h">AVAIDH,</div><div class="h">AMAANYA.</div></div>
         </div>
       </div>
 
@@ -143,8 +149,10 @@
 
     <script type="module">
       import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
+      import { typer, counter, flagCards, drawOn, env, sm, out3, backOut, clamp01 } from "./assets/geo/fx.js";
       /*CUES*/ const CUES = {"c01": 0.35, "c02": 3.96, "c03": 5.36, "c04": 10.34, "c05": 13.52, "c06": 18.16, "c07": 28.35, "c08": 30.92, "c09": 38.14, "c10": 41.11, "c11": 44.78, "c12": 50.71}; /*END CUES*/
       const DUR = /*DUR*/ 52.62 /*END DUR*/;
+      /*SFX*/ const SFX = [[0.75, 0, "type", 28], [1.3, 0, "zoom"], [3.95, 0.05, "impact"], [4.55, 0.05, "pop"], [7.3, 0, "draw"], [8.3, 0, "type", 12], [9.2, 0, "draw"], [10.39, 0.35, "pop"], [15.77, 0.35, "pop"], [18.5, 0, "type", 28], [20.5, 0, "draw"], [23.0, 0, "count", 1.5], [26.75, 0.35, "pop"], [27.45, 0, "draw"], [29.72, 0, "type", 16], [30.0, 0, "whoosh"], [31.75, 0, "type", 21], [32.9, 0.35, "pop"], [33.45, 0.35, "pop"], [34.45, 0.05, "pop"], [38.69, 0, "type", 17], [39.9, 0, "pop"], [43.08, 0, "type", 17], [46.4, 0, "type", 21], [48.72, 0, "type", 17], [50.62, 0.08, "impact"]]; /*END SFX*/
       const C = CUES;
 
       window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
@@ -152,29 +160,65 @@
       window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
       window.__timelines = window.__timelines || {};
 
-      // ---------- camera: START (35.2, 77.6, 600) -> dive onto K2 looking north at Shaksgam (3D) -> slow push north
-      //            -> pull up west to frame Islamabad + Shaksgam -> glide back over Shaksgam -> END (36.0, 76.6, 400)
+      // ---------- beat times. Word times are from timing/s08_words.json (chapter seconds); c12 sits on "अवैध", not on "1963".
+      const T = {
+        kick0: 0.75,     // "चौथी" 0.70
+        shaks: 3.95,     // "शक्सगाम" 4.01
+        spike: 7.3,      // "ऊंची" 7.31
+        k2: 8.3,         // "K2" 8.31
+        uttar: 9.2,      // "उत्तर" 9.25
+        bharat: 10.39,   // "भारत" 10.39
+        jk: 11.9,        // "जम्मू" 11.91
+        lekin: 13.57,    // "लेकिन" 13.57
+        kabza: 13.9,     // "1947" 13.93
+        pak: 15.77,      // "पाकिस्तान" 15.77
+        kick3: 18.5,     // "2" 18.57 / "March" 18.67
+        chinako: 19.1,   // "1963" 19.11
+        lg1: 20.5,       // "पाकिस्तान ने" 20.46
+        lg2: 21.6,       // "समझौते" 21.58
+        cnt: 23.0,       // "लगभग" 22.98, "5180" 23.76
+        china: 26.75,    // "China" 26.88
+        saunp: 27.45,    // "सौंप" 27.40
+        kabhi: 29.72,    // "कभी" 29.74
+        pull: 30.0,
+        kick4: 31.75,    // "September" 31.75
+        cnIsl: 32.9,     // "China" 32.76 (Islamabad on screen from ~32.9)
+        pkIsl: 33.45,    // "पाकिस्तान" 33.42
+        isl: 34.45,      // "Islamabad" 34.49
+        boundary: 35.9,  // "Boundary" 35.92
+        kick5: 38.69,    // "विदेश" 38.69
+        qmark: 39.9,     // "तुरंत" 39.87
+        pkGlow: 41.16, cnGlow: 42.08, // "पाकिस्तान" 41.16, "China" 42.08
+        q1: 43.08,       // "कोई" 43.10
+        q2: 46.4,        // "बिना" 46.41
+        kick6: 48.72,    // "1963" 48.77
+        stamp: 50.62,    // "अवैध" 50.76, "अमान्य" 51.68
+      };
+
+      // ---------- camera: START (35.2, 77.6, 600) -> dive onto K2 looking north at Shaksgam (3D) -> slow push -> rise, then pull west
+      //            to frame Islamabad + Shaksgam -> glide back east over Shaksgam -> END (36.0, 76.6, 400)
       const CAM = [
         { t: 0, lat: 35.2, lon: 77.6, alt: 600, tilt: 0, heading: 0 },
-        { t: C.c01 + 0.9, lat: 35.3, lon: 77.4, alt: 520, tilt: 5, heading: -2, ease: "linear" },
-        { t: C.c02 + 0.6, lat: 36.0, lon: 76.4, alt: 40, tilt: 60, heading: -8, ease: "inOut3" },
-        { t: C.c06 - 0.5, lat: 36.05, lon: 76.4, alt: 36, tilt: 62, heading: -10, ease: "linear" },
-        { t: C.c08 - 0.6, lat: 36.1, lon: 76.42, alt: 33, tilt: 63, heading: -12, ease: "linear" },
-        { t: C.c08 + 5.0, lat: 34.5, lon: 72.5, alt: 1000, tilt: 35, heading: 0 },
-        { t: C.c09 + 0.4, lat: 34.6, lon: 72.7, alt: 950, tilt: 33, heading: 0, ease: "linear" },
-        { t: C.c12 - 0.6, lat: 35.85, lon: 75.6, alt: 560, tilt: 8, heading: 0 },
+        { t: 1.3, lat: 35.3, lon: 77.35, alt: 520, tilt: 5, heading: -1, ease: "linear" },
+        { t: 4.7, lat: 36.075, lon: 76.475, alt: 50, tilt: 60, heading: -6, ease: "inOut3" },
+        { t: 17.5, lat: 36.09, lon: 76.46, alt: 46, tilt: 61, heading: -8, ease: "linear" },
+        { t: T.pull, lat: 36.11, lon: 76.45, alt: 42, tilt: 62, heading: -10, ease: "linear" },
+        { t: 31.8, lat: 35.95, lon: 75.9, alt: 420, tilt: 40, heading: -4, ease: "inOut" },
+        { t: 33.7, lat: 34.75, lon: 72.25, alt: 1500, tilt: 35, heading: 0, ease: "inOut" },
+        { t: 38.4, lat: 34.8, lon: 72.4, alt: 1420, tilt: 33, heading: 0, ease: "linear" },
+        { t: 48.3, lat: 35.3, lon: 73.6, alt: 1050, tilt: 24, heading: 0, ease: "linear" },
+        { t: 51.0, lat: 35.9, lon: 76.1, alt: 520, tilt: 6, heading: 0 },
         { t: DUR, lat: 36.0, lon: 76.6, alt: 400, tilt: 0, heading: 0 },
       ];
 
       // ---------- pure helpers (overlay motion is a function of t: seek-safe)
       const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
-      const sm = (x) => x * x * (3 - 2 * x);
-      const ramp = (t, t0, d) => sm(clamp((t - t0) / d));
-      const win = (t, a, b, fi = 0.4, fo = 0.5) => ramp(t, a, fi) * (1 - ramp(t, b, fo));
-      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+      const ramp = (t, t0, d) => sm((t - t0) / d);
+      const win = (t, a, b, fi = 0.35, fo = 0.45) => ramp(t, a, fi) * (1 - ramp(t, b - fo, fo));
       const SVGNS = "http://www.w3.org/2000/svg";
       const ov = document.getElementById("ov"), labs = document.getElementById("labs");
       const mk = (tag, attrs, parent = ov) => { const e = document.createElementNS(SVGNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+      const onScreen = (p) => p.visible && p.x > -80 && p.x < 2000 && p.y > -80 && p.y < 1160;
 
       function mkPulse() {
         const g = mk("g", { opacity: 0 });
@@ -194,10 +238,10 @@
           r.setAttribute("opacity", ((1 - ph) * A[k] * 1.6).toFixed(3));
         });
       }
-      function mkPin(color) {
+      function mkPin(color, core = "#04091b") {
         const g = mk("g", { opacity: 0 });
         mk("circle", { r: 9, fill: color, stroke: "rgba(4,9,27,.7)", "stroke-width": 2 }, g);
-        mk("circle", { r: 3.5, fill: "#04091b" }, g);
+        mk("circle", { r: 3.5, fill: core }, g);
         return { g };
       }
       function drawPin(P, x, y, vis, pop) {
@@ -210,31 +254,37 @@
         const el = document.createElement("div"); el.className = "lab"; el.textContent = text; labs.appendChild(el);
         return { line, end, el, dx, dy };
       }
-      // leader from the pin to the end dot; a right-hand label swings smoothly to the left side when the pin nears the right edge
-      function drawLabel(L, x, y, vis, t0, t) {
-        const k = sm(clamp((t - t0 - 0.15) / 0.4));
-        const flip = L.dx > 0 ? sm(clamp((x - 1480) / 200)) : 0;
-        const dx = L.dx * (1 - 2 * flip);
-        const ex = x + dx * k, ey = y + L.dy * k;
+      // leader from the pin to the end dot; text right of it (or left when dx < 0). tOp = false leaves el opacity to a typer.
+      function drawLabel(L, x, y, vis, t0, t, tOp = true) {
+        const k = sm((t - t0 - 0.15) / 0.4);
+        const ex = x + L.dx * k, ey = y + L.dy * k;
         L.line.setAttribute("x1", x.toFixed(1)); L.line.setAttribute("y1", y.toFixed(1));
         L.line.setAttribute("x2", ex.toFixed(1)); L.line.setAttribute("y2", ey.toFixed(1));
         L.line.setAttribute("opacity", (vis * (k > 0.01 ? 1 : 0)).toFixed(3));
         L.end.setAttribute("cx", ex.toFixed(1)); L.end.setAttribute("cy", ey.toFixed(1));
         L.end.setAttribute("opacity", (vis * k).toFixed(3));
-        L.el.style.opacity = (vis * ramp(t, t0 + 0.45, 0.35)).toFixed(3);
-        const side = L.dx > 0 ? flip : 1;
-        L.el.style.transform = `translate(${(ex + 14 * (1 - 2 * side)).toFixed(1)}px, ${(ey - 14).toFixed(1)}px) translateX(${(-100 * side).toFixed(2)}%)`;
+        if (tOp) L.el.style.opacity = (vis * ramp(t, t0 + 0.45, 0.35)).toFixed(3);
+        L.el.style.transform = L.dx >= 0 ? `translate(${(ex + 14).toFixed(1)}px, ${(ey - 14).toFixed(1)}px)`
+                                         : `translate(${(ex - 14).toFixed(1)}px, ${(ey - 14).toFixed(1)}px) translateX(-100%)`;
       }
-      const onScreen = (p) => p.visible && p.x > -80 && p.x < 2000 && p.y > -80 && p.y < 1160;
 
-      // ---------- earth (karakoram patch carries India's boundary in teal and the 1963 line in coral)
+      // ---------- earth (karakoram patch carries thin burned lines: India's boundary in teal, the 1963 line in coral)
       const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["north", "karakoram"], world: true, india: true });
       await document.fonts.ready;
+      const E = { project: (la, lo) => earth.project(la, lo) }; // flag-card leaders on the terrain (fx.js would project at h = 0)
 
-      const shaks = { lat: 36.12, lon: 76.55, P: mkPulse(), L: mkLabel("Shaksgam", 64, -58), wins: [[C.c02 + 0.3, DUR - 1.1]] };
-      const k2 = { lat: 35.881, lon: 76.513, h: 8611, P: mkPin("#f8fafc"), L: mkLabel("K2", 54, -46), wins: [[C.c03 + 0.9, C.c08 + 0.4]] };
-      const isl = { lat: 33.68, lon: 73.05, h: 0, P: mkPin("#fbbf24"), L: mkLabel("Islamabad", 58, -54), wins: [[C.c08 + 4.2, C.c09 + 1.2]] };
+      // Shaksgam: one pulse, its label left of it while the text column is clear, right of it at the end (the stamp sits left)
+      const shaks = { lat: 36.12, lon: 76.55, P: mkPulse(), pw: [[4.55, 51.9]],
+                      labels: [{ L: mkLabel("Shaksgam", -64, -58), w: [4.55, 48.4] }, { L: mkLabel("Shaksgam", 64, -58), w: [48.7, 51.7] }] };
+      // K2: summit pin, leader down-right, its label TYPED ("K2 · 8,611 M": coordinates table in _project.md)
+      const k2 = { lat: 35.881, lon: 76.513, h: 8611, P: mkPin("#f8fafc"), pw: [[T.spike, 13.4]], labels: [{ L: mkLabel("", 62, 56), w: [T.spike, 13.4], typed: true }] };
+      const isl = { lat: 33.68, lon: 73.05, h: 0, P: mkPin("#fbbf24"), pw: [[T.isl, 41.0]], labels: [{ L: mkLabel("Islamabad", -60, 50), w: [T.isl, 41.0] }] };
       const items = [shaks, k2, isl];
+      const k2typer = typer(k2.labels[0].L.el, "K2 · 8,611 M", T.k2, { t1: 13.4 });
+
+      // "uttar mein": arrow from K2 to Shaksgam (north), drawn on the word
+      const arrow = mk("line", { stroke: "#fbbf24", "stroke-width": 3.5, "stroke-linecap": "round", opacity: 0 });
+      const arrowHead = mk("path", { d: "M0,0 L-16,-9 L-16,9 Z", fill: "#fbbf24", opacity: 0 });
 
       // Shaksgam tract (approx.): north edge = India's boundary (DataMeet), south edge = the 1963 line along the Karakoram crest via K2
       const TRACT = [
@@ -242,87 +292,138 @@
         [77.47, 35.6], [77.1, 35.6], [76.8, 35.75], [76.513, 35.881], [76.3, 36.0], [76.05, 36.2], [75.75, 36.45], [75.5, 36.72],
       ];
       const tract = document.getElementById("tract");
-      const T_TINT = C.c06 + 9.5;
 
-      const cnt = document.getElementById("cnt");
-      const T_CNT = C.c06 + 6.6;
-      const fmt = (n) => { const s = String(n); return s.length > 3 ? s.slice(0, -3) + "," + s.slice(-3) : s; };
-      const cr1 = document.getElementById("cr1"), cr2 = document.getElementById("cr2");
+      // flag cards: in (J&K on India's map), pk (occupation), cn (ceded), then cn + pk again at Islamabad
+      const cards = flagCards({ html: labs, svg: ov, items: [
+        { flags: ["in"], title: "Bharat", sub: "Jammu Kashmir", lat: 36.12, lon: 76.55, x: 1430, y: 250, t0: T.bharat, t1: 13.4 },
+        { flags: ["pk"], title: "Pakistan", lat: 36.12, lon: 76.55, x: 1430, y: 250, t0: T.pak, t1: 30.4 },
+        { flags: ["cn"], title: "China", lat: 36.12, lon: 76.55, x: 1430, y: 470, t0: T.china, t1: 30.4 },
+        { flags: ["cn"], title: "China", lat: 33.68, lon: 73.05, x: 1300, y: 560, t0: T.cnIsl, t1: 48.3 },
+        { flags: ["pk"], title: "Pakistan", lat: 33.68, lon: 73.05, x: 1300, y: 700, t0: T.pkIsl, t1: 48.3 },
+      ] });
+      // "saunp diya": arrow from the Pakistan card down to the China card
+      const sArrow = mk("path", { d: "M1500,338 L1500,452", fill: "none", stroke: "#ff6b6b", "stroke-width": 3.5, "stroke-linecap": "round", opacity: 0 });
+      const sHead = mk("path", { d: "M1500,462 L1490,444 L1510,444 Z", fill: "#ff6b6b", opacity: 0 });
+      const sDraw = drawOn(sArrow, T.saunp, 0.45);
+      const saunpa = document.getElementById("saunpa");
+
+      // typed text + counter
+      const q = (s) => document.querySelector(s);
+      const typers = [
+        typer(q("#b0 .ty"), "CHAUTHI CHUNAUTI · KARAKORAM", T.kick0, { t1: 10.0 }),
+        typer(q("#b3 .ty"), "2 MAR 1963 · SHAKSGAM VALLEY", T.kick3, { t1: 31.5 }),
+        typer(q("#tag3t"), "KABHI NAHI MAANA", T.kabhi, { t1: 31.5 }),
+        typer(q("#b4 .ty"), "SEPT 2026 · ISLAMABAD", T.kick4, { t1: 38.45 }),
+        typer(q("#b5 .ty"), "VIDESH MANTRALAYA", T.kick5, { t1: 48.4 }),
+        typer(q("#q1"), "KOI SEEMA HI NAHI", T.q1, { t1: 48.4 }),
+        typer(q("#q2"), "BINA QAANOONI AADHAAR", T.q2, { t1: 48.4 }),
+        typer(q("#b6 .ty"), "1963 KA SAMJHAUTA", T.kick6, { t1: 51.8 }),
+      ];
+      const cnt = counter(q("#cnt"), { from: 0, to: 5180, t0: T.cnt, dur: 1.5 }); // S1: ~5,180 sq km
+      const tagFlag = q("#tag3 img");
+
+      // one shared left scrim, up while any text block is up: [tIn, tOut, fall]
+      const BLOCKS = [[0.6, 10.0, 0.55], [10.3, 13.35, 0.55], [13.55, 18.0, 0.55], [18.2, 31.5, 0.55], [31.65, 38.45, 0.55], [38.6, 48.4, 0.55], [48.6, 51.8, 0.32]];
+      const scrim = q("#scrim");
+      const cr1 = q("#cr1"), cr2 = q("#cr2");
 
       const tl = gsap.timeline({ paused: true });
       driveWithTimeline(tl, DUR, (t) => {
         const cam = camAt(CAM, t);
         earth.render(cam);
-        // tract tint (soft coral, breathing)
-        const tv = win(t, T_TINT, DUR - 1.2, 1.2, 0.8);
+        // tract tint (soft coral, breathing): while the area is counted and ceded, and again on "1963 ka samjhauta"
+        const tv = Math.max(win(t, T.cnt, T.pull + 0.4, 1.0, 0.6), win(t, T.kick6, 52.1, 0.9, 0.5));
         if (tv > 0.001) {
           let ok = true;
           const pts = TRACT.map(([lon, lat]) => { const p = earth.project(lat, lon); if (!p.visible) ok = false; return p.x.toFixed(1) + "," + p.y.toFixed(1); });
           tract.setAttribute("points", ok ? pts.join(" ") : "");
           tract.setAttribute("opacity", (ok ? tv * (0.26 + 0.06 * Math.sin(t * 2.4)) : 0).toFixed(3));
         } else tract.setAttribute("opacity", "0");
+        const P = {};
         for (const it of items) {
           let vis = 0, t0 = 0;
-          for (const [a, b] of it.wins) { const v = win(t, a, b, 0.35, 0.5); if (v > vis) { vis = v; t0 = a; } }
+          for (const [a, b] of it.pw) { const v = win(t, a, b); if (v > vis) { vis = v; t0 = a; } }
           const p = earth.project(it.lat, it.lon, it.h);
           if (!onScreen(p)) vis = 0;
-          const pop = Math.max(0.001, backOut(clamp((t - t0) / 0.45)));
+          P[it === shaks ? "s" : it === k2 ? "k" : "i"] = { p, vis };
+          const pop = Math.max(0.001, backOut(clamp01((t - t0) / 0.45)));
           if (it.P.rings) drawPulse(it.P, p.x, p.y, vis, pop, t); else drawPin(it.P, p.x, p.y, vis, pop);
-          drawLabel(it.L, p.x, p.y, vis, t0, t);
+          for (const lb of it.labels) {
+            const lv = Math.min(vis > 0 ? 1 : 0, win(t, lb.w[0], lb.w[1]));
+            drawLabel(lb.L, p.x, p.y, lv, lb.w[0], t, !lb.typed);
+          }
         }
-        // counter 0 -> 5,180 sq km (S1)
-        cnt.textContent = fmt(Math.round(5180 * (1 - Math.pow(1 - clamp((t - T_CNT) / 1.4), 3))));
+        k2typer.update(t);
+        if (!(P.k.vis > 0)) k2.labels[0].L.el.style.opacity = "0";
+        // north arrow K2 -> Shaksgam
+        const av = Math.min(P.k.vis, P.s.vis) * win(t, T.uttar, 13.4, 0.1, 0.4);
+        if (av > 0.001) {
+          const a = P.k.p, b = P.s.p, dx = b.x - a.x, dy = b.y - a.y, L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
+          const k = out3((t - T.uttar) / 0.55), sx = a.x + ux * 22, sy = a.y + uy * 22, ex = sx + (L - 52) * k * ux, ey = sy + (L - 52) * k * uy;
+          arrow.setAttribute("x1", sx.toFixed(1)); arrow.setAttribute("y1", sy.toFixed(1)); arrow.setAttribute("x2", ex.toFixed(1)); arrow.setAttribute("y2", ey.toFixed(1));
+          arrowHead.setAttribute("transform", `translate(${(ex + ux * 10).toFixed(1)},${(ey + uy * 10).toFixed(1)}) rotate(${(Math.atan2(dy, dx) * 180 / Math.PI).toFixed(1)})`);
+          arrow.setAttribute("opacity", (0.95 * av).toFixed(3)); arrowHead.setAttribute("opacity", (av * (k > 0.05 ? 1 : 0)).toFixed(3));
+        } else { arrow.setAttribute("opacity", "0"); arrowHead.setAttribute("opacity", "0"); }
+        cards.update(t, E);
+        // quote: the card of each country glows as it is named
+        const glow = (c, t0) => { const g = env(t, t0, 48.3, 0.25) * (0.55 + 0.45 * Math.exp(-Math.max(0, t - t0) * 1.6));
+          c.el.style.boxShadow = `0 10px 30px rgba(2,6,16,.45), 0 0 0 ${(3 * g).toFixed(2)}px rgba(251,191,36,${(0.9 * g).toFixed(3)})`; };
+        glow(cards.cards[4], T.pkGlow); glow(cards.cards[3], T.cnGlow);
+        // "saunpa" arrow between the Pakistan and China cards
+        sDraw.update(t);
+        const sa = env(t, T.saunp, 30.4, 0.15);
+        sArrow.setAttribute("opacity", sa.toFixed(3));
+        sHead.setAttribute("opacity", (sa * clamp01((t - T.saunp - 0.38) / 0.1)).toFixed(3));
+        saunpa.style.opacity = (sa * clamp01((t - T.saunp - 0.2) / 0.3)).toFixed(3);
+        for (const ty of typers) ty.update(t);
+        tagFlag.style.opacity = env(t, T.kabhi - 0.15, 31.5, 0.3).toFixed(3);
+        cnt.update(t);
+        let s = 0; for (const [a, b, f] of BLOCKS) s = Math.max(s, env(t, a - 0.15, b + f, Math.min(0.5, f)));
+        scrim.style.opacity = s.toFixed(3);
         const s2 = clamp((Math.log(700) - Math.log(cam.alt)) / (Math.log(700) - Math.log(300)));
         cr2.style.opacity = s2.toFixed(3); cr1.style.opacity = (1 - s2).toFixed(3);
       });
 
-      // ---------- text blocks (style A)
-      function block(id, tIn, tOut, parts) {
-        const root = document.getElementById(id);
-        const q = (s) => root.querySelector(s);
-        const scrim = q(".scrim"), rule = q(".kicker i"), kick = q(".kicker span");
-        tl.fromTo(scrim, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.out" }, tIn - 0.15);
+      // ---------- text blocks (style A): rule draws, kicker types (or fades), both headline lines rise together and leave together
+      function block(id, tIn, tOut, { lines = [], fades = [], legends = [] } = {}) {
+        const root = document.getElementById(id), qq = (s) => root.querySelector(s);
+        const rule = qq(".kicker i"), st = qq(".kicker .st");
         tl.fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, tIn);
-        tl.fromTo(kick, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, tIn + 0.15);
-        const lines = [];
-        for (const [sel, t, kind, out] of parts) {
-          const el = q(sel);
-          if (kind === "line") {
-            tl.fromTo(el, { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, t);
-            lines.push(el);
-          } else if (kind === "legend") {
-            tl.fromTo(el.querySelector("b"), { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.out" }, t);
-            tl.fromTo(el.querySelector("span"), { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, t + 0.15);
-            tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
-          } else {
-            tl.fromTo(el, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t);
-            if (out !== undefined) tl.fromTo(el, { opacity: 1, y: 0 }, { opacity: 0, y: -12, duration: 0.35, ease: "power2.in", immediateRender: false }, out);
-            else tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
-          }
-        }
-        lines.forEach((el, i) => tl.fromTo(el, { yPercent: 0 }, { yPercent: -105, duration: 0.4, ease: "power2.in", immediateRender: false }, tOut + i * 0.06));
-        tl.fromTo(kick, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
         tl.fromTo(rule, { scaleX: 1 }, { scaleX: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
-        tl.fromTo(scrim, { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power1.in", immediateRender: false }, tOut + 0.15);
-        return q;
+        if (st) {
+          tl.fromTo(st, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, tIn + 0.15);
+          tl.fromTo(st, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
+        }
+        if (lines.length) {
+          const [t0, ...sels] = lines; const els = sels.map(qq);
+          els.forEach((el, i) => tl.fromTo(el, { yPercent: 105 }, { yPercent: 0, duration: 0.62, ease: "power3.out" }, t0 + i * 0.07));
+          els.forEach((el, i) => tl.fromTo(el, { yPercent: 0 }, { yPercent: -105, duration: 0.4, ease: "power2.in", immediateRender: false }, tOut + i * 0.05));
+        }
+        for (const [sel, t0] of fades) {
+          const el = qq(sel);
+          tl.fromTo(el, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0);
+          tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
+        }
+        for (const [sel, t0] of legends) {
+          const el = qq(sel);
+          tl.fromTo(el.querySelector("b"), { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.out" }, t0);
+          tl.fromTo(el.querySelector("span"), { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, t0 + 0.15);
+          tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
+        }
       }
-
-      block("b0", C.c01 + 0.3, C.c04 - 0.45, [[".l1", C.c02 + 0.2, "line"], [".sub", C.c03 + 2.6, "sub"]]);
-      block("b1", C.c04 + 0.2, C.c05 - 0.45, [[".l1", C.c04 + 0.4, "line"], [".l2", C.c04 + 0.55, "line"], [".lg1", C.c04 + 1.6, "legend"]]);
-      block("b2", C.c05 + 0.2, C.c06 - 0.5, [[".l1", C.c05 + 0.4, "line"], [".l2", C.c05 + 2.4, "line"]]);
-      block("b3", C.c06 + 0.25, C.c08 - 0.5, [[".l1", C.c06 + 0.45, "line"], [".l2", C.c06 + 0.6, "line"],
-                                              [".lg1", C.c06 + 0.9, "legend"], [".lg2", C.c06 + 2.0, "legend"],
-                                              [".s1", C.c06 + 4.2, "sub", C.c07 + 0.1], [".s2", C.c07 + 0.5, "sub"]]);
-      block("b4", C.c08 + 0.3, C.c09 - 0.4, [[".l1", C.c08 + 0.5, "line"], [".l2", C.c08 + 0.65, "line"], [".sub", C.c08 + 3.0, "sub"]]);
-      const q5 = block("b5", C.c09 + 0.3, C.c12 - 0.4, [[".attr", C.c10 + 2.4, "sub"], [".tag", C.c11 + 0.4, "sub"]]);
-      // quote: marks pop, then the two phrases rise in on the spoken words
-      tl.fromTo(q5(".qmark"), { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)" }, C.c10 - 0.25);
-      tl.fromTo(q5(".qmark"), { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, C.c12 - 0.4);
-      const qw = Array.from(document.querySelectorAll("#b5 .quote .w"));
-      tl.fromTo(qw[0], { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, C.c10 + 0.05);
-      tl.fromTo(qw[1], { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, C.c10 + 1.5);
-      tl.fromTo(qw, { opacity: 1, y: 0 }, { opacity: 0, y: -16, duration: 0.4, ease: "power2.in", stagger: 0.06, immediateRender: false }, C.c12 - 0.4);
-      block("b6", C.c12 + 0.2, DUR - 1.6, [[".l1", C.c12 + 0.6, "line"], [".l2", C.c12 + 2.2, "line"]]);
+      block("b0", 0.6, 10.0, { lines: [T.shaks, ".l1"] });
+      block("b1", 10.3, 13.35, { lines: [T.bharat + 0.05, ".l1", ".l2"], legends: [[".lg1", T.jk]] });
+      block("b2", T.lekin, 18.0, { lines: [T.kabza, ".l1", ".l2"] });
+      block("b3", 18.2, 31.5, { lines: [T.chinako, ".l1", ".l2"], fades: [["#stat", T.cnt - 0.1]], legends: [[".lg1", T.lg1], [".lg2", T.lg2]] });
+      block("b4", 31.65, 38.45, { lines: [T.boundary, ".l1", ".l2"] });
+      block("b5", 38.6, 48.4, { fades: [[".attr", 40.4]] });
+      tl.fromTo("#b5 .qmark", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)" }, T.qmark);
+      tl.fromTo("#b5 .qmark", { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, 48.4);
+      block("b6", 48.6, 51.8);
+      // the stamp: both lines slam in together as one unit, settle, then clear before the join
+      tl.fromTo("#stamp", { opacity: 0, scale: 1.4, rotation: -7 }, { opacity: 1, scale: 1, rotation: -3, duration: 0.22, ease: "power4.out" }, T.stamp);
+      tl.fromTo("#stamp", { scale: 1 }, { scale: 1.03, duration: 1.0, ease: "none", immediateRender: false }, T.stamp + 0.22);
+      tl.fromTo("#stamp", { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "power2.in", immediateRender: false }, 51.8);
 
       window.__timelines["main"] = tl;
       done();

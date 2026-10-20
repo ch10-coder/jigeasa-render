@@ -16,136 +16,209 @@
       html, body { width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
       #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #04070f; }
       #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-      #s13-fx { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+      .s13-full { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; pointer-events: none; }
       #s13-glow { position: absolute; left: 0; top: 0; width: 440px; height: 440px; margin: -220px 0 0 -220px; border-radius: 50%;
                   background: radial-gradient(closest-side, rgba(45,212,191,.42), rgba(45,212,191,.16) 45%, rgba(45,212,191,0) 100%);
                   mix-blend-mode: screen; opacity: 0; }
-      .s13-card { position: absolute; inset: 0; }
-      .s13-dim { position: absolute; inset: 0; background: rgba(4,7,15,.34); }
-      .s13-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,0) 55%); }
-      .s13-block { position: absolute; left: 96px; top: 308px; width: 1200px; }
-      .s13-mask { overflow: hidden; }
-      .s13-h { font: 400 110px/1.09 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap;
-               text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .s13-h.s13-k { color: #fbbf24; }
-      .s13-sub { position: absolute; left: 96px; top: 594px; font: 500 36px Inter; color: rgba(226,232,240,.94); white-space: nowrap;
-                 text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .s13-wm { position: absolute; left: 96px; top: 744px; }
-      .s13-wm div { font: 400 86px/1.0 Anton; letter-spacing: 4px; color: #f8fafc; text-transform: uppercase;
-                    text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .s13-credit { position: absolute; bottom: 30px; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px; white-space: nowrap;
+      .veo { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      .veo video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.92) contrast(1.06) brightness(.94); }
+      .veo-tag { position: absolute; right: 40px; top: 34px; font: 600 18px Inter; letter-spacing: 3px; text-transform: uppercase; color: rgba(248,250,252,.78); text-shadow: 0 2px 3px rgba(2,6,16,.8); }
+      #s13-tscrim { background: linear-gradient(180deg, rgba(4,9,27,.78) 0%, rgba(4,9,27,.78) 18%, rgba(4,9,27,0) 40%); opacity: 0; }
+      #s13-lscrim { background: linear-gradient(90deg, rgba(4,9,27,.78) 0%, rgba(4,9,27,.78) 20%, rgba(4,9,27,0) 45%); opacity: 0; }
+      .s13-sh { text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .s13-mask { position: absolute; left: 96px; overflow: hidden; }
+      .s13-h { font: 400 104px/1.0 Anton; color: #f8fafc; text-transform: uppercase; white-space: nowrap; padding-bottom: 4px; }
+      .s13-k { color: #fbbf24; }
+      #s13-rule { position: absolute; left: 96px; top: 372px; width: 56px; height: 6px; background: #fbbf24; transform-origin: left center; }
+      #s13-wm { font: 400 168px/1.0 Anton; letter-spacing: 6px; color: #f8fafc; text-transform: uppercase; white-space: nowrap; }
+      #s13-line { position: absolute; left: 96px; top: 600px; font: 500 36px/1.3 Inter; color: rgba(226,232,240,.95); white-space: nowrap; opacity: 0; }
+      .s13-credit { position: absolute; top: 1028px; font: 600 20px Inter; color: #cbd5e1; letter-spacing: 1px; white-space: nowrap; opacity: 0;
                     text-shadow: 0 2px 3px rgba(2,6,16,.8); }
       #s13-credc { left: 0; right: 0; text-align: center; }
-      #s13-credl { left: 96px; opacity: 0; }
+      #s13-credl { left: 96px; }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="31.27" data-width="1920" data-height="1080">
       <canvas id="earth"></canvas>
+      <div class="s13-full" id="s13-tscrim"></div>
+      <div class="s13-full" id="s13-lscrim"></div>
       <div id="s13-glow"></div>
-      <svg id="s13-fx" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"><g id="s13-pulses"></g></svg>
-      <div class="s13-dim" id="s13-dim"></div>
-      <div class="s13-scrim" id="s13-scrim"></div>
-      <div class="s13-card" id="s13-card">
-        <div class="s13-block" id="s13-head">
-          <div class="s13-mask"><div class="s13-h" id="s13-h1">Duniya ka naqsha</div></div>
-          <div class="s13-mask"><div class="s13-h s13-k" id="s13-h2">Har din badal raha hai.</div></div>
-        </div>
-        <div class="s13-sub" id="s13-sub">Ye thi aaj ki duniya, Bharat ki nazar se.</div>
-        <div class="s13-wm s13-mask"><div id="s13-wmt">JIGEASA</div></div>
-      </div>
-      <div class="s13-credit" id="s13-credc">NASA Blue Marble · Borders: DataMeet, Natural Earth (India view)</div>
-      <div class="s13-credit" id="s13-credl">NASA Blue Marble · Borders: DataMeet, Natural Earth (India view)</div>
+      <svg class="s13-full" id="s13-fx" width="1920" height="1080" viewBox="0 0 1920 1080"><g id="s13-lines"></g><g id="s13-pulses"></g></svg>
+
+      <!-- AI bridge: night city, camera rises to the edge of space; we cut back to the globe pulling out -->
+      <div class="veo" id="s13-veo"><video id="s13-veov" src="assets/veo/v13_india_city_night.mp4"
+           data-start="8.9" data-duration="4.1" data-media-start="3.9" muted playsinline></video>
+        <div class="veo-tag">Pratikaatmak drishya · AI</div></div>
+      <div class="s13-full" id="s13-vscrim" style="background: linear-gradient(90deg, rgba(4,9,27,.6) 0%, rgba(4,9,27,.35) 30%, rgba(4,9,27,0) 50%); opacity: 0"></div>
+
+      <!-- closing line (top-left, above India) -->
+      <div class="s13-mask" style="top:112px"><div class="s13-h s13-sh" id="s13-h1">Duniya ka naqsha</div></div>
+      <div class="s13-mask" style="top:220px"><div class="s13-h s13-k s13-sh" id="s13-h2">Har din badal raha hai.</div></div>
+      <!-- end card (left half; right half and lower middle stay free for the YouTube end screen) -->
+      <div id="s13-rule"></div>
+      <div class="s13-mask" style="top:396px"><div id="s13-wm" class="s13-sh">Jigeasa</div></div>
+      <div id="s13-line" class="s13-sh">Ye thi aaj ki duniya,<br />Bharat ki nazar se.</div>
+      <div class="s13-credit" id="s13-credc">NASA Blue Marble &nbsp;·&nbsp; Borders: DataMeet, Natural Earth (India view)</div>
+      <div class="s13-credit" id="s13-credl">NASA Blue Marble &nbsp;·&nbsp; Borders: DataMeet, Natural Earth (India view)</div>
     </div>
     <script type="module">
       import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
+      import { env, sm, out3, inOut, prog } from "./assets/geo/fx.js";
       /*CUES*/ const CUES = {"c01": 0.35, "c02": 3.18, "c03": 9.0, "c04": 12.09}; /*END CUES*/
       const DUR = /*DUR*/ 31.27 /*END DUR*/;
+      /*SFX*/ const SFX = [[0.4, 0, "impact"], [7.1, 0, "draw"], [8.9, 0, "zoom"], [12.6, 0, "whoosh", null, -28], [14.0, 0, "ding"]]; /*END SFX*/
+
+      // Word times (timing/s13_words.json)
+      const W_DUNIYA = 0.4;   // "दुनिया का नक्शा"
+      const W_RAASTE = 7.1;   // "अपने रास्ते"
+      const W_YETHI = 9.05;   // "यह थी आज की दुनिया"
+      const W_JIGEASA = 14.0; // "जिज्ञासा"
+      const V = [8.9, 4.1];   // clip window (= the <video> data-start / data-duration)
+      const TP = 27.82 + 53.57; // s12 + s11 durations: pulse / glow phases continue across the joins
 
       window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
       window.__timelines = window.__timelines || {};
       let done;
       window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
 
-      // One slow drift from the s12 hand-off to the end-card globe; it settles on the last frame.
+      // START 27,70,16000 -> slow push during the closing line -> dive (hidden under the city clip) ->
+      // pull out to space as the clip's rise ends -> slow turn to END 20,85,18000 (settles on the last frame)
       const CAM = [
-        { t: 0, lat: 27, lon: 70, alt: 16000, tilt: 0, heading: 0 },
-        { t: DUR, lat: 20, lon: 85, alt: 18000, tilt: 0, heading: 0, ease: "inOut" },
+        { t: 0, lat: 27, lon: 70, alt: 16000 },
+        { t: 8.6, lat: 25, lon: 74, alt: 14800, ease: "inOut" },
+        { t: 12.4, lat: 21.8, lon: 79.5, alt: 6500, ease: "inOut" },
+        { t: 18.5, lat: 20.6, lon: 80.5, alt: 16500, ease: "out" },
+        { t: DUR, lat: 20, lon: 85, alt: 18000, ease: "inOut" },
       ];
-
       const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: [] });
 
-      const clamp01 = (x) => Math.max(0, Math.min(1, x));
-      const ramp = (t, a, d) => clamp01((t - a) / d);
-      const eOut = (x) => 1 - Math.pow(1 - x, 3);
-      const eInOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-      const NS = "http://www.w3.org/2000/svg";
+      const NS = "http://www.w3.org/2000/svg", D = Math.PI / 180;
       const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
-      const CORAL = "#ff6b6b";
-      const HUB = { lat: 22.6, lon: 79.4 }; // same India point the s12 lines landed on
-
-      // the six fires carry over lit from s12, then go out one by one; India's teal glow stays
-      const FADE0 = CUES.c01 + 1.0, FADE_STEP = (CUES.c02 + 4.0 - FADE0) / 5;
-      const FIRES = [
-        { id: "ukraine",   lat: 49.0,  lon: 31.5 },
-        { id: "taiwan",    lat: 23.7,  lon: 121.0 },
-        { id: "hormuz",    lat: 26.6,  lon: 56.3 },
-        { id: "ferozepur", lat: 30.92, lon: 74.61 },
-        { id: "shaksgam",  lat: 36.12, lon: 76.55 },
-        { id: "lac",       lat: 34.76, lon: 78.22 },
-      ].map((f, i) => ({ ...f, out: FADE0 + i * FADE_STEP }));
-      const gPul = document.getElementById("s13-pulses");
-      for (const f of FIRES) {
-        const pg = mk("g", {}, gPul);
-        f.pg = pg;
-        f.rings = [0, 1, 2].map(() => mk("circle", { r: 14, fill: "none", stroke: CORAL, "stroke-width": 3 }, pg));
-        mk("circle", { r: 11, fill: CORAL }, pg);
-        mk("circle", { r: 4.5, fill: "#f8fafc" }, pg);
+      const $ = (id) => document.getElementById(id);
+      const CORAL = "#ff6b6b", TEAL = "#2dd4bf", AMBER = "#fbbf24";
+      const toV = (lat, lon) => [Math.cos(lat * D) * Math.cos(lon * D), Math.cos(lat * D) * Math.sin(lon * D), Math.sin(lat * D)];
+      function gcAng(a, b) { const A = toV(a[0], a[1]), B = toV(b[0], b[1]); return Math.acos(Math.max(-1, Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2]))); }
+      function gc(a, b, k, w) {
+        const A = toV(a[0], a[1]), B = toV(b[0], b[1]), s = Math.sin(w), f1 = Math.sin((1 - k) * w) / s, f2 = Math.sin(k * w) / s;
+        const v = [A[0] * f1 + B[0] * f2, A[1] * f1 + B[1] * f2, A[2] * f1 + B[2] * f2];
+        return [Math.asin(v[2]) / D, Math.atan2(v[1], v[0]) / D];
       }
-      const glow = document.getElementById("s13-glow");
-      const GLOW_UP0 = FADE0, GLOW_UP = CUES.c02 + 5.2 - FADE0;
+      const gLines = $("s13-lines"), gPul = $("s13-pulses");
+      const N = 48;
+      function mkArc(a, b, col, hk = 0.1) {
+        const A = { a, b, col, w: gcAng(a, b) }; A.h = hk * A.w * 6371000;
+        A.pts = Array.from({ length: N + 1 }, (_, i) => gc(a, b, i / N, A.w));
+        A.glow = mk("path", { d: "", fill: "none", stroke: col, "stroke-width": 9, "stroke-opacity": 0.16, "stroke-linecap": "round", "stroke-linejoin": "round" }, gLines);
+        A.path = mk("path", { d: "", fill: "none", stroke: col, "stroke-width": 2.75, "stroke-linecap": "round", "stroke-linejoin": "round" }, gLines);
+        A.end = mk("circle", { r: 5, fill: col, stroke: "#f8fafc", "stroke-width": 1.5, opacity: 0 }, gLines);
+        return A;
+      }
+      function drawArc(A, pr, a) {
+        if (pr <= 0.001 || a <= 0.002) { A.path.setAttribute("d", ""); A.glow.setAttribute("d", ""); A.end.setAttribute("opacity", 0); return; }
+        const n = Math.max(1, Math.ceil(N * pr));
+        let d = "", pen = false, prev = null, e = null;
+        for (let i = 0; i <= n; i++) {
+          const k = i / N, p = earth.project(A.pts[i][0], A.pts[i][1], Math.sin(Math.PI * k) * A.h);
+          let x = p.x, y = p.y;
+          if (i === n && k > pr && prev) { const f = (pr - (i - 1) / N) * N; x = prev.x + (p.x - prev.x) * f; y = prev.y + (p.y - prev.y) * f; }
+          prev = p;
+          if (!p.visible) { pen = false; continue; }
+          d += (pen ? "L" : "M") + x.toFixed(1) + "," + y.toFixed(1); pen = true; e = { x, y };
+        }
+        A.path.setAttribute("d", d); A.glow.setAttribute("d", d);
+        A.path.setAttribute("opacity", a.toFixed(3)); A.glow.setAttribute("opacity", a.toFixed(3));
+        if (pr >= 1 && e) { A.end.setAttribute("cx", e.x.toFixed(1)); A.end.setAttribute("cy", e.y.toFixed(1)); A.end.setAttribute("opacity", a.toFixed(3)); }
+        else A.end.setAttribute("opacity", 0);
+      }
+
+      // ---------- carried over from s12 (same geometry), they go out first ----------
+      const IN_ARCS = [mkArc([26.6, 56.3], [22.3, 70.0], AMBER), mkArc([49.0, 31.5], [23.26, 77.41], TEAL), mkArc([23.7, 121.0], [13.08, 80.27], TEAL)];
+      const STRETCH = [
+        [[73.807,30.068],[73.931,30.32],[73.927,30.439],[73.964,30.485],[74.012,30.534],[74.057,30.519],[74.073,30.555],[74.118,30.608],[74.193,30.665],[74.261,30.775],[74.32,30.847],[74.366,30.893],[74.429,30.931],[74.546,30.992],[74.597,31.038],[74.689,31.128],[74.631,31.133],[74.571,31.081],[74.51,31.132],[74.533,31.249],[74.526,31.312],[74.584,31.379],[74.639,31.444],[74.637,31.485],[74.613,31.527],[74.535,31.678],[74.559,31.758],[74.607,31.89],[74.719,31.924],[74.755,31.956],[74.88,32.032],[74.934,32.066],[75.105,32.059],[75.198,32.083],[75.279,32.117],[75.316,32.208],[75.321,32.297]],
+        [[77.209,35.71],[77.421,35.64],[77.509,35.58],[77.519,35.486],[77.688,35.453],[77.911,35.462],[78.04,35.587],[78.181,35.601],[78.244,35.725],[78.608,35.815],[79.011,35.931],[79.343,35.988],[79.489,35.849],[79.572,35.813],[79.679,35.7],[79.846,35.575],[79.965,35.575],[80.11,35.478],[80.264,35.568],[80.412,35.477],[80.266,35.296],[80.223,35.171],[80.186,34.947],[80.074,34.706],[79.802,34.589],[79.702,34.486],[79.538,34.479],[79.603,34.307],[79.43,34.061],[79.225,34.011],[78.995,34.037],[79.028,33.754],[79.004,33.607],[78.963,33.339],[79.107,33.2],[79.256,33.215],[79.399,33.14],[79.332,33.001],[79.391,32.917],[79.543,32.73],[79.413,32.52],[79.248,32.517],[79.126,32.422],[78.968,32.336]],
+        [[74.735,37.038],[74.793,37.057],[74.843,37.024],[74.939,36.948],[74.937,36.992],[75.033,37.026],[75.146,37.034],[75.169,36.999],[75.282,36.983],[75.394,36.928],[75.426,36.784],[75.504,36.749],[75.54,36.78],[75.736,36.753],[75.941,36.606],[75.998,36.502],[76.149,36.425],[76.319,36.33],[76.429,36.239],[76.568,36.19],[76.719,36.16],[76.779,36.04],[76.839,35.859],[77.069,35.78],[77.209,35.71]],
+      ].map((pts) => ({ pts,
+        glow: mk("path", { d: "", fill: "none", stroke: CORAL, "stroke-width": 9, "stroke-opacity": 0.22, "stroke-linecap": "round", "stroke-linejoin": "round" }, gLines),
+        path: mk("path", { d: "", fill: "none", stroke: CORAL, "stroke-width": 3, "stroke-linecap": "round", "stroke-linejoin": "round" }, gLines) }));
+      const CARRY_OUT = 0.25; // carried lines fade over 0.25 .. 1.45 s
+
+      // the six fires go out one by one (far ones first, the northern pins before they drift under the line)
+      const PINS = [
+        { lat: 49.0, lon: 31.5, out: 0.1 }, { lat: 36.12, lon: 76.55, out: 1.3 }, { lat: 34.76, lon: 78.22, out: 2.5 },
+        { lat: 30.92, lon: 74.61, out: 3.7 }, { lat: 26.6, lon: 56.3, out: 4.9 }, { lat: 23.7, lon: 121.0, out: 6.1 },
+      ];
+      for (const f of PINS) {
+        f.g = mk("g", {}, gPul);
+        f.rings = [0, 1, 2].map(() => mk("circle", { r: 13, fill: "none", stroke: CORAL, "stroke-width": 3 }, f.g));
+        mk("circle", { r: 11, fill: CORAL }, f.g); mk("circle", { r: 4.5, fill: "#f8fafc" }, f.g);
+        f.flash = mk("circle", { r: 11, fill: "none", stroke: "#f8fafc", "stroke-width": 2, opacity: 0 }, gPul);
+      }
+      // "apne raaste khud chunta hai": India's own routes draw outward (the reverse of s12's incoming lines)
+      const HUB = [22.6, 79.4];
+      const OUT_ARCS = [[25.2, 55.3], [-4.05, 39.67], [1.35, 103.82], [35.68, 139.69]].map((b) => mkArc(HUB, b, TEAL, 0.12));
+      const glow = $("s13-glow"), veo = $("s13-veo"), vscrim = $("s13-vscrim");
 
       const tl = gsap.timeline({ paused: true });
       driveWithTimeline(tl, DUR, (t) => {
         earth.render(camAt(CAM, t));
-        const ph = (t % 1.6) / 1.6;
-        const breathe = 1 + 0.06 * Math.sin(ph * Math.PI * 2);
-        for (const f of FIRES) {
+        const v = env(t, V[0], V[0] + V[1], 0.45);
+        veo.style.opacity = v.toFixed(3); vscrim.style.opacity = v.toFixed(3);
+        veo.style.transform = `scale(${(1.10 + 0.06 * prog(t, V[0], V[1])).toFixed(4)})`;
+        const mapK = 1 - v;
+        const tp = t + TP, ph = (tp % 1.6) / 1.6, breathe = 1 + 0.06 * Math.sin(ph * Math.PI * 2);
+
+        const ca = 1 - inOut((t - CARRY_OUT) / 1.2);
+        IN_ARCS.forEach((A) => drawArc(A, 1, ca));
+        for (const S of STRETCH) {
+          if (ca <= 0.002) { S.path.setAttribute("d", ""); S.glow.setAttribute("d", ""); continue; }
+          let d = "", pen = false;
+          for (const q of S.pts) { const p = earth.project(q[1], q[0], 0); if (!p.visible) { pen = false; continue; } d += (pen ? "L" : "M") + p.x.toFixed(1) + "," + p.y.toFixed(1); pen = true; }
+          S.path.setAttribute("d", d); S.glow.setAttribute("d", d);
+          S.path.setAttribute("opacity", ca.toFixed(3)); S.glow.setAttribute("opacity", ca.toFixed(3));
+        }
+        for (const f of PINS) {
           const p = earth.project(f.lat, f.lon, 0);
-          const k = 1 - eInOut(ramp(t, f.out, 1.2));            // fade + shrink out
-          const s = (0.55 + 0.45 * k) * breathe;
-          f.pg.setAttribute("transform", `translate(${p.x.toFixed(2)},${p.y.toFixed(2)}) scale(${s.toFixed(4)})`);
-          f.pg.setAttribute("opacity", p.visible ? k.toFixed(3) : 0);
+          const k = 1 - inOut((t - f.out) / 1.0);
+          f.g.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) scale(${((0.5 + 0.5 * k) * breathe).toFixed(4)})`);
+          f.g.setAttribute("opacity", p.visible && k > 0.002 ? k.toFixed(3) : 0);
           f.rings.forEach((c, j) => {
             const q = (ph + j / 3) % 1;
             c.setAttribute("r", (13 + q * 34).toFixed(2));
             c.setAttribute("stroke-opacity", ((1 - q) * [0.59, 0.35, 0.2][j] * 1.3).toFixed(3));
           });
+          const fl = prog(t, f.out + 0.15, 0.7); // one last white ring as each fire goes out
+          if (fl > 0 && fl < 1 && p.visible) { f.flash.setAttribute("cx", p.x.toFixed(1)); f.flash.setAttribute("cy", p.y.toFixed(1)); f.flash.setAttribute("r", (11 + 30 * out3(fl)).toFixed(1)); f.flash.setAttribute("opacity", (0.7 * (1 - fl)).toFixed(3)); }
+          else f.flash.setAttribute("opacity", 0);
         }
-        // one steady teal glow over India: grows as the fires go out, then a slow 4 s breath
-        const hub = earth.project(HUB.lat, HUB.lon, 0);
-        const up = eInOut(ramp(t, GLOW_UP0, GLOW_UP));
-        const g = (0.6 + 0.4 * up) * (1 + 0.08 * Math.sin((t / 4) * Math.PI * 2));
+        OUT_ARCS.forEach((A, i) => drawArc(A, inOut((t - (W_RAASTE + i * 0.15)) / 1.1), env(t, W_RAASTE, V[0] + 0.1, 0.35)));
+
+        // one steady teal glow over India: grows as the fires go out, then only a slow, small breath
+        const hub = earth.project(HUB[0], HUB[1], 0);
+        const up = inOut((t - 0.5) / 7.0);
+        const g = (0.6 + 0.4 * up) * (1 + (0.08 - 0.05 * up) * Math.sin((tp / 4) * Math.PI * 2)) * mapK;
         glow.style.transform = `translate(${hub.x.toFixed(1)}px, ${hub.y.toFixed(1)}px) scale(${(1 + 0.22 * up).toFixed(4)})`;
         glow.style.opacity = hub.visible ? g.toFixed(3) : 0;
       });
 
-      // ---------- closing line (style A, amber keyword) ----------
-      tl.fromTo("#s13-scrim", { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power1.out" }, CUES.c01 - 0.2);
-      tl.fromTo("#s13-h1", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, CUES.c01);
-      tl.fromTo("#s13-h2", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, CUES.c01 + 1.3);
-      tl.fromTo("#s13-sub", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, CUES.c03 + 0.1);
-      tl.fromTo("#s13-wmt", { yPercent: 100 }, { yPercent: 0, duration: 0.7, ease: "power3.out" }, CUES.c04 + 0.4);
+      // ---------- closing line: both lines rise as one unit with one impact, hold, then leave together ----------
+      tl.fromTo("#s13-tscrim", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, 0.2);
+      tl.fromTo("#s13-credc", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.5);
+      tl.fromTo("#s13-h1", { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, W_DUNIYA - 0.05);
+      tl.fromTo("#s13-h2", { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, W_DUNIYA + 0.05);
+      tl.fromTo(["#s13-h1", "#s13-h2"], { scale: 1 }, { scale: 1.025, duration: 7.6, ease: "none", transformOrigin: "0% 100%" }, 1.0);
+      tl.to(["#s13-h1", "#s13-h2"], { yPercent: -105, duration: 0.4, ease: "power2.in" }, 8.6);
+      tl.to("#s13-tscrim", { opacity: 0, duration: 0.6, ease: "power1.in" }, 8.7);
+      tl.to("#s13-credc", { opacity: 0, duration: 0.3 }, V[0]);
 
-      // ---------- end screen: last 15 s keep the right ~60 % clear ----------
-      // the headline compacts into the left 40 %, the globe softens behind, the credit moves left
-      const END_AT = DUR - 15.6;
-      tl.fromTo("#s13-head", { scale: 1, y: 0 }, { scale: 0.65, y: 80, duration: 1.1, ease: "power3.inOut", transformOrigin: "0% 0%", immediateRender: false }, END_AT);
-      tl.fromTo("#s13-dim", { opacity: 0 }, { opacity: 1, duration: 1.4, ease: "power1.inOut" }, END_AT - 0.2);
-      tl.fromTo("#s13-credc", { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power1.in", immediateRender: false }, END_AT);
-      tl.fromTo("#s13-credl", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.out" }, END_AT + 0.5);
-      // the held card: one barely-perceptible push across the hold, then it settles
-      tl.fromTo("#s13-card", { scale: 1 }, { scale: 1.012, duration: DUR - END_AT - 1.1, ease: "sine.out", transformOrigin: "96px 540px" }, END_AT + 1.1);
+      // ---------- end card: the line over the city clip, then the wordmark; holds over the clean 15 s window ----------
+      tl.fromTo("#s13-lscrim", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, V[0] + 0.1);
+      tl.fromTo("#s13-line", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, W_YETHI + 0.05);
+      tl.fromTo("#s13-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.out" }, W_JIGEASA - 0.35);
+      tl.fromTo("#s13-wm", { yPercent: 105 }, { yPercent: 0, duration: 0.7, ease: "power3.out" }, W_JIGEASA);
+      tl.fromTo("#s13-credl", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.out" }, V[0] + V[1] + 0.2);
+      // the held card: one barely-perceptible settle on the wordmark (the globe keeps turning behind)
+      tl.fromTo("#s13-wm", { scale: 1 }, { scale: 1.015, duration: DUR - W_JIGEASA - 0.7, ease: "sine.out", transformOrigin: "0% 50%" }, W_JIGEASA + 0.7);
 
       window.__timelines["main"] = tl;
       done();

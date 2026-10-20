@@ -17,27 +17,37 @@
       #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #04070f; }
       #earth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
       .full { position: absolute; inset: 0; pointer-events: none; }
-      .scrim { position: absolute; inset: 0; opacity: 0;
+      #scrim { position: absolute; inset: 0; opacity: 0;
                background: linear-gradient(90deg, rgba(4,9,27,.82) 0%, rgba(4,9,27,.82) 26%, rgba(4,9,27,.45) 42%, rgba(4,9,27,0) 55%); }
       .bscrim { position: absolute; left: 0; right: 0; bottom: 0; height: 300px; opacity: 0;
                 background: linear-gradient(0deg, rgba(4,9,27,.72) 0%, rgba(4,9,27,.5) 45%, rgba(4,9,27,0) 100%); }
-      .block { position: absolute; left: 96px; top: 98px; width: 1100px; }
+      .veo { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      .veo video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.92) contrast(1.06) brightness(.94); }
+      .veo-tag { position: absolute; right: 40px; top: 34px; font: 600 18px Inter; letter-spacing: 3px; text-transform: uppercase; color: rgba(248,250,252,.78);
+                 text-shadow: 0 2px 3px rgba(2,6,16,.8); }
+      .block { position: absolute; left: 96px; top: 98px; width: 1180px; }
       .kicker { display: flex; align-items: center; gap: 16px; font: 700 28px/1 Inter; letter-spacing: 5px; color: #fbbf24; text-transform: uppercase;
-                margin-bottom: 22px; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .kicker i { display: block; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
+                margin-bottom: 22px; height: 28px; white-space: nowrap; text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .kicker i { display: block; flex: none; width: 44px; height: 6px; background: #fbbf24; transform-origin: left center; }
       .mask { overflow: hidden; padding-bottom: 4px; }
       .h { font: 400 170px/1.0 Anton; color: #f8fafc; text-transform: uppercase; letter-spacing: 0.02em; white-space: nowrap;
            text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
       .h.md { font-size: 160px; }
       .h.k { color: #ff6b6b; }
       .h.a { color: #fbbf24; }
-      .num { display: inline-block; min-width: 0.86em; }
-      .sub { font: 500 40px/1.25 Inter; color: rgba(226,232,240,.96); margin-top: 18px; white-space: nowrap;
+      .num { display: inline-block; min-width: 0.9em; }
+      .sub { font: 500 40px/1.25 Inter; color: rgba(226,232,240,.96); margin-top: 18px; white-space: nowrap; height: 50px;
              text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
-      .subs { position: relative; height: 70px; }
-      .subs .sub { position: absolute; left: 0; top: 0; }
-      .tag { font: 700 28px/1 Inter; letter-spacing: 5px; color: #ff6b6b; text-transform: uppercase; margin-top: 28px;
-             text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 6px 14px rgba(2,6,16,.5); }
+      .sub.typed { font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: #ff6b6b; }
+      .tagrow { display: flex; gap: 14px; margin-top: 26px; font: 700 28px/1 Inter; letter-spacing: 5px; text-transform: uppercase; white-space: nowrap;
+                text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 6px 14px rgba(2,6,16,.5); }
+      .tagrow .pre { color: #cbd5e1; }
+      .tagrow .typ { color: #ff6b6b; }
+      /* quote (Modi-Xi readout) */
+      .qmark { display: block; width: 84px; height: 68px; margin: 4px 0 14px; transform-origin: left bottom; }
+      .qline { font: 400 124px/1.02 Anton; text-transform: uppercase; letter-spacing: 0.02em; white-space: nowrap; color: #f8fafc; height: 132px;
+               text-shadow: 0 3px 2.5px rgba(2,6,16,.7), 0 8px 26px rgba(2,6,16,.4); }
+      .qline.a { color: #fbbf24; }
       #ov { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
       .lab { position: absolute; left: 0; top: 0; font: 700 26px/1 Inter; letter-spacing: 5px; color: #f8fafc; white-space: nowrap; opacity: 0;
              text-transform: uppercase; isolation: isolate; text-shadow: 0 3px 2.5px rgba(2,6,16,.75), 0 6px 12px rgba(2,6,16,.5); }
@@ -61,6 +71,12 @@
       <canvas id="earth"></canvas>
       <svg id="ov" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
       <div class="full" id="labs"></div>
+
+      <!-- AI bridge: Himalayan army convoy on "dono taraf hazaaron sainik aamne saamne rahe" (above the map, below strip/text) -->
+      <div class="veo" id="veo1"><video id="veo1v" src="assets/veo/v09_himalaya_convoy.mp4"
+           data-start="15.85" data-duration="3.9" data-media-start="1.0" muted playsinline></video>
+        <div class="veo-tag">Pratikaatmak drishya · AI</div></div>
+
       <div class="bscrim" id="bscrim"></div>
 
       <!-- timeline strip: 2020 -> 2024 -> 2026 -> 12 Sep 2026 -->
@@ -74,69 +90,76 @@
         <div class="tli" id="ti4" style="left:1697px"><div class="d">12 Sep 2026</div><div class="dot"></div><div class="c">Modi–Xi, New Delhi</div></div>
       </div>
 
+      <div id="scrim"></div>
       <!-- B1: LAC intro -->
-      <div class="full" id="b1"><div class="scrim"></div>
+      <div class="full" id="b1">
         <div class="block">
-          <div class="kicker"><i></i><span>Teesri chunauti · Ladakh</span></div>
+          <div class="kicker"><i></i><span class="ty">Teesri chunauti · Ladakh</span></div>
           <div class="mask"><div class="h l1">LAC</div></div>
           <div class="sub">Line of Actual Control</div>
         </div>
       </div>
       <!-- B2: Galwan -->
-      <div class="full" id="b2"><div class="scrim"></div>
+      <div class="full" id="b2">
         <div class="block">
-          <div class="kicker"><i></i><span>15 Jun 2020 · Galwan</span></div>
+          <div class="kicker"><i></i><span class="ty">15 Jun 2020 · Galwan</span></div>
           <div class="mask"><div class="h l1"><span class="num" id="cnt">0</span> JAWAAN</div></div>
           <div class="mask"><div class="h k l2">SHAHEED</div></div>
-          <div class="sub">Dono taraf sena aamne-saamne</div>
+          <div class="sub typed" id="aamne"></div>
         </div>
       </div>
       <!-- B3: 2024 patrolling agreement -->
-      <div class="full" id="b3"><div class="scrim"></div>
+      <div class="full" id="b3">
         <div class="block">
-          <div class="kicker"><i></i><span>21 Oct 2024</span></div>
+          <div class="kicker"><i></i><span class="ty">21 Oct 2024</span></div>
           <div class="mask"><div class="h l1">PATROLLING</div></div>
           <div class="mask"><div class="h a l2">SAMJHAUTA</div></div>
-          <div class="sub">Depsang aur Demchok</div>
         </div>
       </div>
-      <!-- B4a: 2026 thaw, flights -->
-      <div class="full" id="b4"><div class="scrim"></div>
+      <!-- B4: 2026 thaw, flights -->
+      <div class="full" id="b4">
         <div class="block">
-          <div class="kicker"><i></i><span>2026 · Rishton mein garmaahat</span></div>
+          <div class="kicker"><i></i><span class="ty">Rishton mein garmaahat</span></div>
           <div class="mask"><div class="h l1">DIRECT</div></div>
           <div class="mask"><div class="h a l2">FLIGHTS</div></div>
         </div>
       </div>
-      <!-- B4b: border trade -->
-      <div class="full" id="b5"><div class="scrim"></div>
+      <!-- B5: border trade -->
+      <div class="full" id="b5">
         <div class="block">
-          <div class="kicker"><i></i><span>2026 · Lagbhag 6 saal baad</span></div>
+          <div class="kicker"><i></i><span class="ty">Lagbhag 6 saal baad</span></div>
           <div class="mask"><div class="h md l1">BORDER TRADE</div></div>
           <div class="mask"><div class="h md a l2">PHIR KHULA</div></div>
-          <div class="sub">Nathu La · Shipki La · Lipulekh</div>
         </div>
       </div>
-      <!-- B5: Modi-Xi -->
-      <div class="full" id="b6"><div class="scrim"></div>
+      <!-- B6: Modi-Xi -->
+      <div class="full" id="b6">
         <div class="block">
-          <div class="kicker"><i></i><span>12 Sep 2026 · New Delhi</span></div>
+          <div class="kicker"><i></i><span class="ty">BRICS Summit · New Delhi</span></div>
           <div class="mask"><div class="h l1">MODI–XI</div></div>
           <div class="mask"><div class="h a l2">MULAQAAT</div></div>
-          <div class="subs">
-            <div class="sub s1">Xi 2019 ke baad pehli baar Bharat mein</div>
-            <div class="sub s2">Seema vivaad: “nyaayasangat, sweekaarya” hal</div>
-          </div>
         </div>
       </div>
-      <!-- B6: final, approved still -->
-      <div class="full" id="b7"><div class="scrim"></div>
+      <!-- B7: boundary readout, typed in two short lines -->
+      <div class="full" id="b7">
         <div class="block">
-          <div class="kicker"><i></i><span>Ladakh &nbsp;·&nbsp; Line of Actual Control</span></div>
+          <div class="kicker"><i></i><span class="st">Seema vivaad ka hal</span></div>
+          <svg class="qmark" viewBox="0 0 92 74" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 70 V40 C4 18 14 6 34 2 L38 12 C27 16 22 24 22 34 H38 V70 Z" fill="#fbbf24" />
+            <path d="M52 70 V40 C52 18 62 6 82 2 L86 12 C75 16 70 24 70 34 H86 V70 Z" fill="#fbbf24" />
+          </svg>
+          <div class="qline" id="q1"></div>
+          <div class="qline a" id="q2"></div>
+        </div>
+      </div>
+      <!-- B8: final, approved still -->
+      <div class="full" id="b8">
+        <div class="block">
+          <div class="kicker"><i></i><span class="st">Ladakh &nbsp;·&nbsp; Line of Actual Control</span></div>
           <div class="mask"><div class="h l1">LAC</div></div>
           <div class="mask"><div class="h k l2">SHANTI?</div></div>
-          <div class="sub">Upar se shaanti, zameen par sena tainaat</div>
-          <div class="tag">Sena ghataane par koi samjhauta nahi</div>
+          <div class="sub fin">Upar se shaanti, zameen par sena tainaat</div>
+          <div class="tagrow"><span class="pre" id="tpre">Sena kam karne par ·</span><span class="typ" id="ttyp"></span></div>
         </div>
       </div>
 
@@ -146,8 +169,10 @@
 
     <script type="module">
       import { createEarth, camAt, driveWithTimeline } from "./assets/geo/engine.js";
+      import { typer, counter, flagCards, env, sm, out3, backOut, clamp01 } from "./assets/geo/fx.js";
       /*CUES*/ const CUES = {"c01": 0.35, "c02": 1.75, "c03": 5.37, "c04": 7.15, "c05": 13.98, "c06": 19.1, "c07": 25.06, "c08": 28.59, "c09": 30.67, "c10": 37.18, "c11": 46.66, "c12": 52.54, "c13": 54.74, "c14": 56.56, "c15": 63.0}; /*END CUES*/
       const DUR = /*DUR*/ 66.58 /*END DUR*/;
+      /*SFX*/ const SFX = [[0.75, 0, "type", 24], [1.8, 0.35, "pop"], [2.62, 0.35, "pop"], [3.72, 0.08, "impact"], [4.5, 0, "zoom"], [7.22, 0, "type", 20], [9.42, 0.05, "pop"], [10.48, 0, "clash"], [12.0, 0, "count", 0.9], [14.0, 0, "hit"], [14.7, 0, "draw"], [15.85, 0, "zoom"], [17.6, 0, "type", 12], [19.15, 0, "hit"], [19.3, 0, "whoosh", null, -27], [19.6, 0, "type", 11], [21.65, 0.05, "pop"], [22.5, 0.05, "pop"], [25.35, 0, "hit"], [25.65, 0, "whoosh"], [26.7, 0, "type", 22], [28.65, 0, "draw"], [31.8, 0, "type", 19], [32.35, 0.05, "pop"], [33.25, 0.05, "pop"], [34.25, 0.05, "pop"], [35.35, 0.1, "ding"], [36.75, 0, "pan"], [37.23, 0, "hit"], [38.67, 0, "type", 24], [39.97, 0.35, "pop"], [43.9, 0.05, "pop"], [45.5, 0.35, "pop"], [48.5, 0, "type", 12], [50.2, 0, "type", 14], [51.85, 0, "zoom"], [52.65, 0.05, "impact"], [55.0, 0.05, "pop"], [56.6, 0.05, "pop"], [59.25, 0, "type", 18], [63.45, 0, "whoosh"], [64.3, 0, "heartbeat"]]; /*END SFX*/
       const C = CUES;
 
       window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
@@ -155,32 +180,75 @@
       window.__hf.buildReady["earth"] = new Promise((r) => (done = r));
       window.__timelines = window.__timelines || {};
 
-      // ---------- camera: START (34.3, 76.5, 1500) -> Galwan 3D -> Depsang lift -> passes (2,800 km) -> New Delhi -> Galwan -> END (35.2, 77.6, 600)
+      // ---------- beat times. Word times are from timing/s07_words.json (chapter seconds); several cues run ahead of the voice.
+      const T = {
+        kick1: 0.75,     // "तीसरी" 0.70
+        inCard: 1.8,     // "लद्दाख" 1.80
+        cnCard: 2.62,    // "China" 2.66
+        lac: 3.72,       // "LAC" 3.80
+        sub1: 5.3,       // "Line" 5.42
+        kick2: 7.22,     // "15" 7.20
+        galwan: 9.42,    // "गलवान" 9.46
+        clash: 10.48,    // "झड़प" 10.48
+        jawaan: 11.9, cnt: 12.0, // "20" 12.21, "शहीद" 12.99
+        strip1: 14.0,    // "उसके" 14.03
+        veoIn: 15.85, veoOut: 19.75, // "दोनों तरफ हजारों सैनिक आमने सामने रहे" 15.99-18.47
+        aamne: 17.6,     // "आमने" 17.81
+        lift: 18.3,
+        d2024: 19.15,    // "21" 19.15
+        kick3: 19.6,
+        depsang: 21.65,  // "डेपसांग" 21.69
+        demchok: 22.5,   // "देमचोक" 22.55
+        patrol: 23.25,   // "patrolling" 23.29
+        d2026: 25.35,    // "2026" 25.35
+        kick4: 26.7,     // "रिश्तों" 26.71
+        direct: 28.6, plane: 28.65, // "Direct" 28.64
+        kick5: 31.8,     // "बाद" 31.74
+        nathu: 32.35, shipki: 33.25, lipu: 34.25, // 32.39, 33.27, 34.29
+        border: 35.35,   // "border" 35.41
+        d12: 37.23,      // "12" 37.23
+        kick6: 38.67,    // "BRICS" 38.67
+        xi: 39.97,       // "Xi" 39.99
+        delhi: 43.9,     // "New" 43.94
+        modi: 45.5,      // "Modi" 45.50
+        dono: 46.75,     // "दोनों" 46.71
+        q1: 48.5,        // "न्यायसंगत" 48.53
+        q2: 50.2,        // "स्वीकार्य" 50.21
+        lekin: 52.6,     // "लेकिन" 52.59
+        troops2: 55.0,   // "सीमा" 54.79 (camera lands 55.0)
+        troops3: 56.6,   // "सैनिकों" 56.61
+        kam: 57.65,      // "कम" 57.67
+        koi: 59.25,      // "कोई" 59.27
+        yaani: 61.3,     // "यानी" 61.24
+        bandook: 64.3,   // "बंदूकें" 64.30
+      };
+
+      // ---------- camera: START (34.3, 76.5, 1500) -> Ladakh drift -> Galwan 3D -> lift for Depsang/Demchok -> climb to the Himalayan passes
+      //            (3,500 km) -> New Delhi -> dive back to Galwan -> crane up to END (35.2, 77.6, 600)
       const CAM = [
         { t: 0, lat: 34.3, lon: 76.5, alt: 1500, tilt: 0, heading: 0 },
-        { t: C.c02 + 0.3, lat: 34.42, lon: 76.95, alt: 1250, tilt: 4, heading: 0, ease: "linear" },
-        { t: C.c03 - 0.85, lat: 34.76, lon: 78.15, alt: 40, tilt: 58, heading: -4, ease: "inOut3" },
-        { t: C.c06 - 1.2, lat: 34.72, lon: 78.10, alt: 33, tilt: 61, heading: -12, ease: "linear" },
-        { t: C.c06 + 4.3, lat: 35.05, lon: 77.85, alt: 200, tilt: 35, heading: 0 },
-        { t: C.c07 + 0.2, lat: 35.0, lon: 77.8, alt: 230, tilt: 33, heading: 4, ease: "linear" },
-        { t: C.c09 - 0.3, lat: 31.3, lon: 77.0, alt: 2800, tilt: 30, heading: 45 },
-        { t: C.c10 - 0.3, lat: 31.2, lon: 77.05, alt: 2700, tilt: 29.5, heading: 43, ease: "linear" },
-        { t: C.c10 + 4.7, lat: 29.4, lon: 75.6, alt: 1500, tilt: 25, heading: 20 },
-        { t: C.c12 - 0.3, lat: 29.2, lon: 75.7, alt: 1300, tilt: 27, heading: 14, ease: "linear" },
-        { t: C.c13 + 2.6, lat: 34.76, lon: 78.15, alt: 42, tilt: 57, heading: -2, ease: "inOut3" },
-        { t: DUR - 4.6, lat: 34.72, lon: 78.10, alt: 34, tilt: 61, heading: -11, ease: "linear" },
-        { t: DUR, lat: 35.2, lon: 77.6, alt: 600, tilt: 0, heading: 0 },
+        { t: 4.5, lat: 34.45, lon: 77.75, alt: 1150, tilt: 8, heading: 0, ease: "linear" },
+        { t: 7.9, lat: 34.78, lon: 78.14, alt: 44, tilt: 58, heading: -4, ease: "inOut3" },
+        { t: T.lift, lat: 34.79, lon: 78.12, alt: 38, tilt: 61, heading: -10, ease: "linear" },
+        { t: 21.4, lat: 34.0, lon: 76.75, alt: 1500, tilt: 10, heading: 0, ease: "inOut3" },
+        { t: 25.6, lat: 34.05, lon: 76.92, alt: 1410, tilt: 12, heading: 2, ease: "linear" },
+        { t: 28.6, lat: 32.3, lon: 79.2, alt: 3500, tilt: 22, heading: 20 },
+        { t: 36.7, lat: 32.15, lon: 79.45, alt: 3380, tilt: 23, heading: 21, ease: "linear" },
+        { t: 40.3, lat: 29.0, lon: 76.0, alt: 1400, tilt: 20, heading: 5 },
+        { t: 51.8, lat: 29.1, lon: 75.85, alt: 1260, tilt: 23, heading: 3, ease: "linear" },
+        { t: 55.0, lat: 34.78, lon: 78.14, alt: 44, tilt: 58, heading: -4, ease: "inOut3" },
+        { t: 63.4, lat: 34.79, lon: 78.12, alt: 37, tilt: 61.5, heading: -11, ease: "linear" },
+        { t: DUR, lat: 35.2, lon: 77.6, alt: 600, tilt: 0, heading: 0, ease: "inOut3" },
       ];
 
       // ---------- pure helpers (all overlay motion is a function of t: seek-safe)
       const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
-      const sm = (x) => x * x * (3 - 2 * x);
-      const ramp = (t, t0, d) => sm(clamp((t - t0) / d));
-      const win = (t, a, b, fi = 0.4, fo = 0.5) => ramp(t, a, fi) * (1 - ramp(t, b, fo));
-      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+      const ramp = (t, t0, d) => sm((t - t0) / d);
+      const win = (t, a, b, fi = 0.35, fo = 0.45) => ramp(t, a, fi) * (1 - ramp(t, b - fo, fo));
       const SVGNS = "http://www.w3.org/2000/svg";
       const ov = document.getElementById("ov"), labs = document.getElementById("labs");
       const mk = (tag, attrs, parent = ov) => { const e = document.createElementNS(SVGNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+      const onScreen = (p) => p.visible && p.x > -80 && p.x < 2000 && p.y > -80 && p.y < 1160;
 
       function mkPulse() {
         const g = mk("g", { opacity: 0 });
@@ -189,15 +257,15 @@
         mk("circle", { r: 4.5, fill: "#f8fafc" }, g);
         return { g, rings };
       }
-      function drawPulse(P, x, y, vis, pop, t) {
+      function drawPulse(P, x, y, vis, pop, t, boost = 0) {
         P.g.setAttribute("opacity", vis.toFixed(3));
         if (vis <= 0.001) return;
         P.g.setAttribute("transform", `translate(${x.toFixed(1)},${y.toFixed(1)}) scale(${pop.toFixed(3)})`);
         const A = [0.59, 0.35, 0.2];
         P.rings.forEach((r, k) => {
           const ph = ((t + k * 0.5333) % 1.6) / 1.6;
-          r.setAttribute("r", (11 + ph * 40).toFixed(2));
-          r.setAttribute("opacity", ((1 - ph) * A[k] * 1.6).toFixed(3));
+          r.setAttribute("r", (11 + ph * (40 + 30 * boost)).toFixed(2));
+          r.setAttribute("opacity", Math.min(1, (1 - ph) * A[k] * (1.6 + boost)).toFixed(3));
         });
       }
       function mkPin(color) {
@@ -216,115 +284,259 @@
         const el = document.createElement("div"); el.className = "lab"; el.textContent = text; labs.appendChild(el);
         return { line, end, el, dx, dy };
       }
-      // leader from the pin (x, y) to (x+dx, y+dy); text beside the end dot
+      // leader from the pin (x, y) to (x+dx, y+dy); text beside the end dot (right of it, or left when dx < 0)
       function drawLabel(L, x, y, vis, t0, t) {
-        const k = sm(clamp((t - t0 - 0.15) / 0.4));
+        const k = sm((t - t0 - 0.15) / 0.4);
         const ex = x + L.dx * k, ey = y + L.dy * k;
         L.line.setAttribute("x1", x.toFixed(1)); L.line.setAttribute("y1", y.toFixed(1));
         L.line.setAttribute("x2", ex.toFixed(1)); L.line.setAttribute("y2", ey.toFixed(1));
         L.line.setAttribute("opacity", (vis * (k > 0.01 ? 1 : 0)).toFixed(3));
         L.end.setAttribute("cx", ex.toFixed(1)); L.end.setAttribute("cy", ey.toFixed(1));
         L.end.setAttribute("opacity", (vis * k).toFixed(3));
-        const ta = vis * ramp(t, t0 + 0.45, 0.35);
-        L.el.style.opacity = ta.toFixed(3);
-        const tx = L.dx >= 0 ? `translate(${(ex + 14).toFixed(1)}px, ${(ey - 14).toFixed(1)}px)` : `translate(${(ex - 14).toFixed(1)}px, ${(ey - 14).toFixed(1)}px) translateX(-100%)`;
-        L.el.style.transform = tx;
+        L.el.style.opacity = (vis * ramp(t, t0 + 0.45, 0.35)).toFixed(3);
+        L.el.style.transform = L.dx >= 0 ? `translate(${(ex + 14).toFixed(1)}px, ${(ey - 14).toFixed(1)}px)`
+                                         : `translate(${(ex - 14).toFixed(1)}px, ${(ey - 14).toFixed(1)}px) translateX(-100%)`;
       }
-      const onScreen = (p) => p.visible && p.x > -80 && p.x < 2000 && p.y > -80 && p.y < 1160;
 
       // ---------- earth
       const earth = await createEarth({ canvas: document.getElementById("earth"), assetBase: "./assets/geo/", regions: ["north", "ladakh"], world: true, india: true });
       await document.fonts.ready;
+      // flag-card leaders sit on the terrain (fx.js projects at h = 0; this wrapper uses the terrain height instead)
+      const E = { project: (la, lo) => earth.project(la, lo) };
 
-      // overlay items: [lat, lon, h (m, undefined = terrain), tIn, tOut]
+      // ---------- map items: pulse/pin + label, each with visibility windows [tIn, tOut] (hidden while the AI clip is up)
       const galwan = { lat: 34.76, lon: 78.22, P: mkPulse(), L: mkLabel("Galwan", 70, -62),
-                       wins: [[C.c03 - 0.6, C.c07 + 0.6], [C.c13 + 1.6, DUR - 1.4]] };
-      const depsang = { lat: 35.33, lon: 78.08, P: mkPin("#2dd4bf"), L: mkLabel("Depsang", 60, -50), wins: [[C.c06 + 2.6, C.c07 + 0.5]] };
+                       pw: [[T.galwan, T.veoIn + 0.45], [T.veoOut - 0.3, 25.6], [54.7, 65.0]], lw: [[T.galwan, T.veoIn + 0.4], [54.9, 64.8]] };
+      const depsang = { lat: 35.33, lon: 78.08, P: mkPin("#2dd4bf"), L: mkLabel("Depsang", 60, -50), pw: [[T.depsang, 25.6]] };
+      const demchok = { lat: 32.70, lon: 79.45, P: mkPin("#2dd4bf"), L: mkLabel("Demchok", 64, -30), pw: [[T.demchok, 25.6]] };
       const passes = [
-        { lat: 27.39, lon: 88.83, P: mkPin("#2dd4bf"), L: mkLabel("Nathu La", -56, -52), wins: [[C.c09 + 1.9, C.c10 + 0.4]] },
-        { lat: 31.82, lon: 78.75, P: mkPin("#2dd4bf"), L: mkLabel("Shipki La", 46, -62), wins: [[C.c09 + 2.8, C.c10 + 0.4]] },
-        { lat: 30.23, lon: 80.95, P: mkPin("#2dd4bf"), L: mkLabel("Lipulekh", 52, 56), wins: [[C.c09 + 3.6, C.c10 + 0.4]] },
+        { lat: 27.39, lon: 88.83, h: 0, P: mkPin("#2dd4bf"), L: mkLabel("Nathu La", -60, -50), pw: [[T.nathu, 36.9]] },
+        { lat: 31.82, lon: 78.75, h: 0, P: mkPin("#2dd4bf"), L: mkLabel("Shipki La", 70, -22), pw: [[T.shipki, 36.9]] },
+        { lat: 30.23, lon: 80.95, h: 0, P: mkPin("#2dd4bf"), L: mkLabel("Lipulekh", 60, 50), pw: [[T.lipu, 36.9]] },
       ];
-      const delhi = { lat: 28.61, lon: 77.21, h: 0, P: mkPin("#fbbf24"), L: mkLabel("New Delhi", 62, -56), wins: [[C.c10 + 2.2, C.c12 + 0.2]] };
-      const items = [galwan, depsang, ...passes, delhi];
+      const delhi = { lat: 28.61, lon: 77.21, h: 0, P: mkPin("#fbbf24"), L: mkLabel("New Delhi", 60, 52), pw: [[T.delhi, 52.0]] };
+      const items = [galwan, depsang, demchok, ...passes, delhi];
+      for (const it of items) if (!it.lw) it.lw = it.pw;
 
-      const cnt = document.getElementById("cnt");
-      const cr1 = document.getElementById("cr1"), cr2 = document.getElementById("cr2");
-      const T_CNT = C.c04 + 2.5;
+      // trade flows at the passes: two short dashed lanes crossing the border, dashes running both ways
+      const flows = passes.map(() => {
+        const g = mk("g", { opacity: 0 });
+        const a = mk("line", { stroke: "#fbbf24", "stroke-width": 3, "stroke-linecap": "round", "stroke-dasharray": "7 8" }, g);
+        const b = mk("line", { stroke: "#fbbf24", "stroke-width": 3, "stroke-linecap": "round", "stroke-dasharray": "7 8" }, g);
+        return { g, a, b };
+      });
+      function drawFlow(F, it, p, vis, t) {
+        F.g.setAttribute("opacity", (vis * 0.9).toFixed(3));
+        if (vis <= 0.001) return;
+        const q = earth.project(it.lat + 0.6, it.lon, 0);
+        let nx = q.x - p.x, ny = q.y - p.y; const L = Math.hypot(nx, ny) || 1; nx /= L; ny /= L;
+        const k = out3((t - it.pw[0][0] - 0.3) / 0.5), r = 44 * k, px = -ny * 6, py = nx * 6;
+        const set = (ln, s, off) => {
+          ln.setAttribute("x1", (p.x - nx * r + px * s).toFixed(1)); ln.setAttribute("y1", (p.y - ny * r + py * s).toFixed(1));
+          ln.setAttribute("x2", (p.x + nx * r + px * s).toFixed(1)); ln.setAttribute("y2", (p.y + ny * r + py * s).toFixed(1));
+          ln.setAttribute("stroke-dashoffset", off.toFixed(1));
+        };
+        set(F.a, 1, -((t * 34) % 15)); set(F.b, -1, (t * 34) % 15);
+      }
+
+      // flight path: New Delhi -> towards Beijing (exits the frame top-right), dashed trail + plane at its head
+      const trail = mk("path", { fill: "none", stroke: "#fbbf24", "stroke-width": 3, "stroke-dasharray": "10 9", "stroke-linecap": "round", opacity: 0 });
+      const plane = mk("path", { d: "M18,0 L6,-3 L-2,-14 L-6,-14 L-1,-3 L-10,-2 L-14,-7 L-17,-7 L-14,0 L-17,7 L-14,7 L-10,2 L-1,3 L-6,14 L-2,14 L6,3 Z",
+                                 fill: "#fbbf24", stroke: "rgba(4,9,27,.75)", "stroke-width": 1.5, opacity: 0 });
+      function drawFlight(t) {
+        const a = env(t, T.plane - 0.05, 32.0, 0.3);
+        trail.setAttribute("opacity", (a * 0.95).toFixed(3));
+        if (a <= 0.001) { plane.setAttribute("opacity", "0"); return; }
+        const p0 = earth.project(28.61, 77.21, 0), p2 = earth.project(39.9, 116.4, 0);
+        const mx = (p0.x + p2.x) / 2, my = (p0.y + p2.y) / 2, dx = p2.x - p0.x, dy = p2.y - p0.y;
+        const cx = mx - dy * 0.22, cy = my + dx * 0.22; // bulge to the lower right, away from the text column
+        const B = (u) => [(1 - u) * (1 - u) * p0.x + 2 * u * (1 - u) * cx + u * u * p2.x, (1 - u) * (1 - u) * p0.y + 2 * u * (1 - u) * cy + u * u * p2.y];
+        const k = sm((t - T.plane) / 1.7);
+        let d = "";
+        for (let i = 0; i <= 48; i++) { const [x, y] = B(k * i / 48); d += (i ? " L" : "M") + x.toFixed(1) + "," + y.toFixed(1); }
+        trail.setAttribute("d", d);
+        const [hx, hy] = B(k), [bx, by] = B(Math.max(0, k - 0.01));
+        const ang = Math.atan2(hy - by, hx - bx) * 180 / Math.PI;
+        plane.setAttribute("transform", `translate(${hx.toFixed(1)},${hy.toFixed(1)}) rotate(${ang.toFixed(1)}) scale(1.25)`);
+        plane.setAttribute("opacity", (a * (k > 0.001 && k < 0.999 ? 1 : 0)).toFixed(3));
+      }
+
+      // stand-off at Galwan: LAC tick between India (teal, west) and China (coral, east) troop markers, in screen space around the pin
+      const so = { g: mk("g", { opacity: 0 }) };
+      so.lac = mk("line", { stroke: "rgba(248,250,252,.85)", "stroke-width": 2.5, "stroke-dasharray": "8 7", "stroke-linecap": "round" }, so.g);
+      so.lacT = mk("text", { "font-family": "Inter", "font-weight": 700, "font-size": 20, "letter-spacing": 4, fill: "#f8fafc", "text-anchor": "middle",
+                             stroke: "rgba(4,9,27,.6)", "stroke-width": 3, "paint-order": "stroke" }, so.g);
+      so.lacT.textContent = "LAC";
+      so.chev = [];
+      for (const side of [-1, 1]) for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) {
+        const e = mk("path", { d: side < 0 ? "M-7,-10 L5,0 L-7,10" : "M7,-10 L-5,0 L7,10", fill: "none", stroke: side < 0 ? "#2dd4bf" : "#ff6b6b",
+                               "stroke-width": 4.5, "stroke-linecap": "round", "stroke-linejoin": "round" }, so.g);
+        so.chev.push({ e, side, r, c });
+      }
+      so.fIn = mk("image", { href: "assets/flags/in.svg", width: 36, height: 27, preserveAspectRatio: "xMidYMid slice", opacity: 0 }, so.g);
+      so.fCn = mk("image", { href: "assets/flags/cn.svg", width: 36, height: 27, preserveAspectRatio: "xMidYMid slice", opacity: 0 }, so.g);
+      // the clash ("jhadap"): one big marker per side slams into the LAC, a ring bursts
+      const cl = { g: mk("g", { opacity: 0 }) };
+      cl.a = mk("path", { d: "M-7,-10 L5,0 L-7,10", fill: "none", stroke: "#2dd4bf", "stroke-width": 4.5, "stroke-linecap": "round", "stroke-linejoin": "round" }, cl.g);
+      cl.b = mk("path", { d: "M7,-10 L-5,0 L7,10", fill: "none", stroke: "#ff6b6b", "stroke-width": 4.5, "stroke-linecap": "round", "stroke-linejoin": "round" }, cl.g);
+      cl.ring = mk("circle", { r: 12, fill: "none", stroke: "#f8fafc", "stroke-width": 3 }, cl.g);
+      function drawStandoff(t, gx, gy, vis) {
+        const a = win(t, T.troops2, 65.0, 0.3, 0.5) * vis;
+        so.g.setAttribute("opacity", a.toFixed(3));
+        if (a > 0.001) {
+          const k = out3((t - T.troops2) / 0.5);
+          so.lac.setAttribute("x1", gx.toFixed(1)); so.lac.setAttribute("x2", gx.toFixed(1));
+          so.lac.setAttribute("y1", (gy - 78 * k).toFixed(1)); so.lac.setAttribute("y2", (gy + 78 * k).toFixed(1));
+          so.lacT.setAttribute("x", gx.toFixed(1)); so.lacT.setAttribute("y", (gy - 92).toFixed(1));
+          so.lacT.setAttribute("opacity", ramp(t, T.troops2 + 0.25, 0.3).toFixed(3));
+          const hb = Math.sin(Math.PI * clamp01((t - T.bandook) / 0.55)); // heavy pulse on "bandookein"
+          for (const m of so.chev) {
+            // row A on "seema par tainaat sena", row B on "sainikon ki sankhya"
+            const t0 = (m.r === 0 ? T.troops2 : T.troops3) + m.c * 0.07 + (m.side > 0 ? 0.12 : 0);
+            const s = backOut(clamp01((t - t0) / 0.35)) * (1 + 0.3 * hb);
+            const x = gx + m.side * (58 + m.c * 38), y = gy - 18 + m.r * 36;
+            m.e.setAttribute("transform", `translate(${x.toFixed(1)},${y.toFixed(1)}) scale(${Math.max(0.001, s).toFixed(3)})`);
+            m.e.setAttribute("opacity", t >= t0 ? "1" : "0");
+          }
+          const fa = ramp(t, T.troops2 + 0.3, 0.35);
+          so.fIn.setAttribute("x", (gx - 114).toFixed(1)); so.fIn.setAttribute("y", (gy + 42).toFixed(1)); so.fIn.setAttribute("opacity", fa.toFixed(3));
+          so.fCn.setAttribute("x", (gx + 78).toFixed(1)); so.fCn.setAttribute("y", (gy + 42).toFixed(1)); so.fCn.setAttribute("opacity", fa.toFixed(3));
+        }
+        const ca = win(t, T.clash - 0.3, T.clash + 0.95, 0.12, 0.35) * vis;
+        cl.g.setAttribute("opacity", ca.toFixed(3));
+        if (ca > 0.001) {
+          const kin = clamp01((t - (T.clash - 0.3)) / 0.3), kb = clamp01((t - T.clash) / 0.5);
+          const off = t < T.clash ? 170 - 154 * kin * kin : 16 + 18 * out3(kb);
+          cl.a.setAttribute("transform", `translate(${(gx - off).toFixed(1)},${gy.toFixed(1)}) scale(1.7)`);
+          cl.b.setAttribute("transform", `translate(${(gx + off).toFixed(1)},${gy.toFixed(1)}) scale(1.7)`);
+          cl.ring.setAttribute("cx", gx.toFixed(1)); cl.ring.setAttribute("cy", gy.toFixed(1));
+          cl.ring.setAttribute("r", (12 + 80 * out3(kb)).toFixed(1));
+          cl.ring.setAttribute("opacity", (t < T.clash ? 0 : 0.95 * (1 - kb)).toFixed(3));
+        }
+      }
+
+      // flag cards (country mentions): leader line from the place, card at the side
+      const cards = flagCards({ html: labs, svg: ov, items: [
+        { flags: ["in"], title: "Bharat", sub: "Ladakh", lat: 34.16, lon: 77.58, x: 1180, y: 700, t0: T.inCard, t1: 4.9 },
+        { flags: ["cn"], title: "China", lat: 33.5, lon: 81.5, x: 1400, y: 290, t0: T.cnCard, t1: 4.9 },
+        { flags: ["cn"], title: "Xi Jinping", sub: "2019 ke baad pehli baar", lat: 28.61, lon: 77.21, x: 1420, y: 300, t0: T.xi, t1: 52.0 },
+        { flags: ["in"], title: "Modi", sub: "Prime Minister", lat: 28.61, lon: 77.21, x: 1420, y: 470, t0: T.modi, t1: 52.0 },
+      ] });
+      // "dono ne": a short link between the two leaders' cards
+      const link = mk("line", { x1: 1452, y1: 382, x2: 1452, y2: 382, stroke: "#fbbf24", "stroke-width": 3, "stroke-linecap": "round", opacity: 0 });
+      const linkDot = mk("circle", { cx: 1452, cy: 424, r: 6, fill: "#fbbf24", opacity: 0 });
+
+      // typed text
+      const q = (s) => document.querySelector(s);
+      const typers = [
+        typer(q("#b1 .ty"), "TEESRI CHUNAUTI · LADAKH", T.kick1, { t1: 6.75 }),
+        typer(q("#b2 .ty"), "15 JUN 2020 · GALWAN", T.kick2, { t1: 19.3 }),
+        typer(q("#aamne"), "AAMNE-SAAMNE", T.aamne, { t1: 19.3 }),
+        typer(q("#b3 .ty"), "21 OCT 2024", T.kick3, { t1: 26.35 }),
+        typer(q("#b4 .ty"), "RISHTON MEIN GARMAAHAT", T.kick4, { t1: 31.4 }),
+        typer(q("#b5 .ty"), "LAGBHAG 6 SAAL BAAD", T.kick5, { t1: 38.4 }),
+        typer(q("#b6 .ty"), "BRICS SUMMIT · NEW DELHI", T.kick6, { t1: 46.45 }),
+        typer(q("#q1"), "NYAAYASANGAT", T.q1, { t1: 52.0 }),
+        typer(q("#q2"), "SWEEKAARYA HAL", T.q2, { t1: 52.0 }),
+        typer(q("#ttyp"), "KOI SAMJHAUTA NAHI", T.koi, { t1: 65.05 }),
+      ];
+      const cnt = counter(q("#cnt"), { from: 0, to: 20, t0: T.cnt, dur: 0.9 }); // C1: 20 Indian soldiers killed
+
+      // one shared left scrim, up while any text block is up
+      const BLOCKS = [[0.6, 6.75], [7.1, 19.3], [19.5, 26.35], [26.6, 31.4], [31.65, 38.4], [38.55, 46.45], [46.75, 52.0], [52.55, 65.05]];
+      const scrim = q("#scrim");
+      const cr1 = q("#cr1"), cr2 = q("#cr2");
 
       const tl = gsap.timeline({ paused: true });
       driveWithTimeline(tl, DUR, (t) => {
         const cam = camAt(CAM, t);
         earth.render(cam);
+        let gxy = [0, 0, 0];
         for (const it of items) {
-          let vis = 0, t0 = 0;
-          for (const [a, b] of it.wins) { const v = win(t, a, b, 0.35, 0.5); if (v > vis) { vis = v; t0 = a; } }
+          let vis = 0, t0 = 0, lv = 0, lt0 = 0;
+          for (const [a, b] of it.pw) { const v = win(t, a, b); if (v > vis) { vis = v; t0 = a; } }
+          for (const [a, b] of it.lw) { const v = win(t, a, b); if (v > lv) { lv = v; lt0 = a; } }
           const p = earth.project(it.lat, it.lon, it.h);
-          if (!onScreen(p)) vis = 0;
-          const pop = backOut(clamp((t - t0) / 0.45));
-          if (it.P.rings) drawPulse(it.P, p.x, p.y, vis, Math.max(0.001, pop), t); else drawPin(it.P, p.x, p.y, vis, Math.max(0.001, pop));
-          drawLabel(it.L, p.x, p.y, vis, t0, t);
+          if (!onScreen(p)) { vis = 0; lv = 0; }
+          const pop = Math.max(0.001, backOut(clamp01((t - t0) / 0.45)));
+          if (it.P.rings) drawPulse(it.P, p.x, p.y, vis, pop, t, Math.sin(Math.PI * clamp01((t - T.bandook) / 0.55)));
+          else drawPin(it.P, p.x, p.y, vis, pop);
+          drawLabel(it.L, p.x, p.y, Math.min(vis, lv), lt0, t);
+          if (it === galwan) gxy = [p.x, p.y, onScreen(p) ? 1 : 0];
+          const fi = passes.indexOf(it);
+          if (fi >= 0) drawFlow(flows[fi], it, p, vis * ramp(t, t0 + 0.3, 0.3), t);
         }
-        // counter 0 -> 20 (C1: 20 Indian soldiers killed)
-        cnt.textContent = String(Math.round(20 * (1 - Math.pow(1 - clamp((t - T_CNT) / 1.1), 3))));
+        drawStandoff(t, gxy[0], gxy[1], gxy[2]);
+        drawFlight(t);
+        cards.update(t, E);
+        const lk = env(t, T.dono, 52.0, 0.35), lkk = out3((t - T.dono) / 0.45);
+        link.setAttribute("y2", (382 + 84 * lkk).toFixed(1)); link.setAttribute("opacity", (0.9 * lk).toFixed(3));
+        linkDot.setAttribute("opacity", (lk * ramp(t, T.dono + 0.3, 0.25)).toFixed(3));
+        for (const ty of typers) ty.update(t);
+        cnt.update(t);
+        let sa = 0; for (const [a, b] of BLOCKS) sa = Math.max(sa, env(t, a - 0.15, b + 0.55, 0.5));
+        scrim.style.opacity = sa.toFixed(3);
         // credit follows the imagery: Sentinel-2 terrain below ~400 km, Blue Marble above
         const s2 = clamp((Math.log(700) - Math.log(cam.alt)) / (Math.log(700) - Math.log(300)));
         cr2.style.opacity = s2.toFixed(3); cr1.style.opacity = (1 - s2).toFixed(3);
       });
 
-      // ---------- text blocks (style A): rule draws, kicker fades up, lines rise from masks, subtitle fades up; exit = lines slide up into the mask
-      function block(id, tIn, tOut, parts) {
-        const root = document.getElementById(id);
-        const q = (s) => root.querySelector(s);
-        const scrim = q(".scrim"), rule = q(".kicker i"), kick = q(".kicker span");
-        tl.fromTo(scrim, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.out" }, tIn - 0.15);
+      // ---------- AI bridge clip: fade/zoom in on the wrapper only (never the timed video), slow push 1.10 -> 1.16 (also crops the watermark)
+      tl.fromTo("#veo1", { scale: 1.10 }, { scale: 1.16, duration: T.veoOut - T.veoIn, ease: "none" }, T.veoIn);
+      tl.fromTo("#veo1", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "power1.out" }, T.veoIn);
+      tl.fromTo("#veo1", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "power1.in", immediateRender: false }, T.veoOut - 0.45);
+
+      // ---------- text blocks (style A): rule draws, kicker types (or fades up), both headline lines rise together from their masks
+      // and leave together; subtitles fade. Typed elements are driven by typer() above, never tweened here.
+      function block(id, tIn, tOut, { lines = [], fades = [] } = {}) {
+        const root = document.getElementById(id), qq = (s) => root.querySelector(s);
+        const rule = qq(".kicker i"), st = qq(".kicker .st");
         tl.fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, tIn);
-        tl.fromTo(kick, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, tIn + 0.15);
-        const lines = [];
-        for (const [sel, t, kind, out] of parts) {
-          const el = q(sel);
-          if (kind === "line") {
-            tl.fromTo(el, { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, t);
-            lines.push(el);
-          } else {
-            tl.fromTo(el, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t);
-            if (out !== undefined) tl.fromTo(el, { opacity: 1, y: 0 }, { opacity: 0, y: -12, duration: 0.35, ease: "power2.in", immediateRender: false }, out);
-            else tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
-          }
-        }
-        lines.forEach((el, i) => tl.fromTo(el, { yPercent: 0 }, { yPercent: -105, duration: 0.4, ease: "power2.in", immediateRender: false }, tOut + i * 0.06));
-        tl.fromTo(kick, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
         tl.fromTo(rule, { scaleX: 1 }, { scaleX: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
-        tl.fromTo(scrim, { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power1.in", immediateRender: false }, tOut + 0.15);
+        if (st) {
+          tl.fromTo(st, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, tIn + 0.15);
+          tl.fromTo(st, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
+        }
+        if (lines.length) {
+          const [tl0, ...sels] = lines; const els = sels.map(qq);
+          els.forEach((el, i) => tl.fromTo(el, { yPercent: 105 }, { yPercent: 0, duration: 0.62, ease: "power3.out" }, tl0 + i * 0.07));
+          els.forEach((el, i) => tl.fromTo(el, { yPercent: 0 }, { yPercent: -105, duration: 0.4, ease: "power2.in", immediateRender: false }, tOut + i * 0.05));
+        }
+        for (const [sel, t0] of fades) {
+          const el = qq(sel);
+          tl.fromTo(el, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0);
+          tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, tOut);
+        }
       }
+      block("b1", 0.6, 6.75, { lines: [T.lac, ".l1"], fades: [[".sub", T.sub1]] });
+      block("b2", 7.1, 19.3, { lines: [T.jawaan, ".l1", ".l2"] });
+      block("b3", 19.5, 26.35, { lines: [T.patrol, ".l1", ".l2"] });
+      block("b4", 26.6, 31.4, { lines: [T.direct, ".l1", ".l2"] });
+      block("b5", 31.65, 38.4, { lines: [T.border, ".l1", ".l2"] });
+      block("b6", 38.55, 46.45, { lines: [T.xi - 0.02, ".l1", ".l2"] });
+      block("b7", 46.75, 52.0);
+      tl.fromTo("#b7 .qmark", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)" }, 46.95);
+      tl.fromTo("#b7 .qmark", { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false }, 52.0);
+      block("b8", 52.55, 65.05, { lines: [T.lekin + 0.05, ".l1", ".l2"], fades: [["#tpre", T.kam], [".fin", T.yaani]] });
 
-      block("b1", C.c01 + 0.3, C.c03 - 0.65, [[".l1", C.c02 + 0.3, "line"], [".sub", C.c02 + 2.7, "sub"]]);
-      block("b2", C.c03 + 0.2, C.c06 - 0.6, [[".l1", C.c04 + 2.3, "line"], [".l2", C.c04 + 3.5, "line"], [".sub", C.c05 + 0.5, "sub"]]);
-      block("b3", C.c06 + 0.3, C.c07 - 0.5, [[".l1", C.c06 + 0.5, "line"], [".sub", C.c06 + 2.7, "sub"], [".l2", C.c06 + 4.2, "line"]]);
-      block("b4", C.c07 + 0.3, C.c09 - 0.45, [[".l1", C.c08 + 0.1, "line"], [".l2", C.c08 + 0.25, "line"]]);
-      block("b5", C.c09 + 0.2, C.c10 - 0.45, [[".l1", C.c09 + 0.4, "line"], [".l2", C.c09 + 0.55, "line"], [".sub", C.c09 + 4.4, "sub"]]);
-      block("b6", C.c10 + 0.3, C.c12 - 0.45, [[".l1", C.c10 + 0.5, "line"], [".l2", C.c10 + 0.65, "line"],
-                                              [".s1", C.c10 + 4.8, "sub", C.c11 + 0.1], [".s2", C.c11 + 0.5, "sub"]]);
-      block("b7", C.c12 + 0.2, DUR - 1.7, [[".l1", C.c12 + 0.4, "line"], [".l2", C.c13 + 0.3, "line"], [".tag", C.c14 + 0.6, "sub"], [".sub", C.c15 + 0.3, "sub"]]);
-
-      // ---------- timeline strip: items arrive on their dates, the connector draws, earlier items dim
-      const TB_OUT = DUR - 1.9;
-      tl.fromTo("#bscrim", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, C.c03 - 0.2);
-      tl.fromTo("#bscrim", { opacity: 1 }, { opacity: 0, duration: 0.8, ease: "power1.in", immediateRender: false }, TB_OUT + 0.2);
+      // ---------- timeline strip: items arrive on their dates, the connector draws (4 years pass on "chaar saal tak"), earlier items dim
+      const TB_OUT = 63.6;
+      tl.fromTo("#bscrim", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, T.strip1 - 0.3);
+      tl.fromTo("#bscrim", { opacity: 1 }, { opacity: 0, duration: 0.7, ease: "power1.in", immediateRender: false }, TB_OUT);
       const item = (n, tD, tC) => {
         const r = document.getElementById("ti" + n);
         tl.fromTo(r.querySelector(".d"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, tD);
-        tl.fromTo(r.querySelector(".dot"), { scale: 0 }, { scale: 1, duration: 0.45, ease: "back.out(2.2)" }, tD + 0.1);
+        tl.fromTo(r.querySelector(".dot"), { scale: 0 }, { scale: 1, duration: 0.45, ease: "back.out(2.2)" }, tD + 0.05);
         tl.fromTo(r.querySelector(".c"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, tC);
       };
       const dim = (n, t) => tl.fromTo("#ti" + n, { opacity: 1 }, { opacity: 0.55, duration: 0.5, ease: "power1.inOut", immediateRender: false }, t);
-      const seg = (n, t) => tl.fromTo("#seg" + n, { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power2.inOut" }, t);
-      item(1, C.c03 + 0.1, C.c04 + 3.8);
-      seg(1, C.c06 - 0.3); item(2, C.c06 + 0.3, C.c06 + 2.9); dim(1, C.c06 + 0.3);
-      seg(2, C.c07 - 0.3); item(3, C.c07 + 0.3, C.c09 + 0.6); dim(2, C.c07 + 0.3);
-      seg(3, C.c10 - 0.3); item(4, C.c10 + 0.3, C.c10 + 1.1); dim(3, C.c10 + 0.3);
+      const seg = (n, t, d) => tl.fromTo("#seg" + n, { scaleX: 0 }, { scaleX: 1, duration: d, ease: d > 1 ? "none" : "power2.inOut" }, t);
+      item(1, T.strip1, T.strip1 + 0.3);
+      seg(1, 14.7, T.d2024 - 14.7); item(2, T.d2024, T.depsang + 0.4); dim(1, T.d2024);
+      seg(2, 24.6, 0.75); item(3, T.d2026, 36.5); dim(2, T.d2026);
+      seg(3, 36.5, 0.73); item(4, T.d12, T.modi + 0.4); dim(3, T.d12);
       // the full timeline reads again for the closing question
-      tl.fromTo(["#ti1", "#ti2", "#ti3"], { opacity: 0.55 }, { opacity: 1, duration: 0.6, ease: "power1.inOut", immediateRender: false }, C.c12 + 0.2);
+      tl.fromTo(["#ti1", "#ti2", "#ti3"], { opacity: 0.55 }, { opacity: 1, duration: 0.6, ease: "power1.inOut", immediateRender: false }, T.lekin + 0.2);
       tl.fromTo("#tlbar", { opacity: 1, y: 0 }, { opacity: 0, y: 24, duration: 0.6, ease: "power2.in", immediateRender: false }, TB_OUT);
 
       window.__timelines["main"] = tl;
