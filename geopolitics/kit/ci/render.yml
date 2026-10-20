@@ -25,8 +25,9 @@ concurrency:   # a new push cancels the run it replaces (saves Actions minutes)
 env:
   P: __PROJECT__
   HF: hyperframes@0.8.146
-  RENDER_FLAGS: "--video-bitrate 40M"   # 4K (user 2026-10-17: Shorts and long videos in 4K)
-  MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (contains(github.event.head_commit.message, '[render]') && 'render' || (contains(github.event.head_commit.message, '[preview]') && 'preview' || (contains(github.event.head_commit.message, '[review]') && 'review' || (contains(github.event.head_commit.message, '[audio]') && 'audio' || 'none')))) }}
+  DRAFT: ${{ contains(github.event.head_commit.message, '[draft]') }}   # [draft] = fast 1080p review render with audio
+  RENDER_FLAGS: ${{ contains(github.event.head_commit.message, '[draft]') && '--quality draft --fps 24 --video-bitrate 6M' || '--video-bitrate 40M' }}   # 4K (user 2026-10-17: Shorts and long videos in 4K)
+  MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || ((contains(github.event.head_commit.message, '[render]') || contains(github.event.head_commit.message, '[draft]')) && 'render' || (contains(github.event.head_commit.message, '[preview]') && 'preview' || (contains(github.event.head_commit.message, '[review]') && 'review' || (contains(github.event.head_commit.message, '[audio]') && 'audio' || 'none')))) }}
 
 jobs:
   plan:
@@ -132,6 +133,7 @@ jobs:
         with: { path: ~/.npm, key: "npm-${{ env.HF }}" }
       - run: npm i -g $HF --prefer-offline --no-audit --no-fund >/dev/null
       - run: for i in 1 2 3; do timeout 60 google-chrome --version && break; sleep 5; done
+      - run: command -v ffmpeg >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)   # video clips need it for snapshots
       - name: Snapshot
         env: { HYPERFRAMES_BROWSER_PATH: /usr/bin/google-chrome }
         run: |
@@ -202,7 +204,7 @@ jobs:
           if [ "${{ matrix.u.kind }}" = "still" ]; then
             hyperframes snapshot --at "${{ matrix.u.at }}" --no-end --describe false --timeout 90000 && cp snapshots/frame-00-*.png "$O/${{ matrix.u.id }}.png"
           else
-            RES=$(python3 -c "import re;h=open('index.html').read();w=int(re.search(r'data-width=\"(\d+)',h).group(1));t=int(re.search(r'data-height=\"(\d+)',h).group(1));print('portrait-4k' if t>w else 'landscape-4k')")
+            RES=$(python3 -c "import re;h=open('index.html').read();w=int(re.search(r'data-width=\"(\d+)',h).group(1));t=int(re.search(r'data-height=\"(\d+)',h).group(1));print(('portrait' if t>w else 'landscape') + ('' if '${{ env.DRAFT }}' == 'true' else '-4k'))")
             hyperframes render $RENDER_FLAGS --resolution $RES -o "$O/${{ matrix.u.id }}.mp4" || { sleep 10; hyperframes render $RENDER_FLAGS --resolution $RES -o "$O/${{ matrix.u.id }}.mp4"; }
             ffprobe -v error -show_entries format=duration,bit_rate -of compact "$O/${{ matrix.u.id }}.mp4"
           fi
