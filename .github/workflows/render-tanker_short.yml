@@ -1,0 +1,265 @@
+name: "JIGEASA tanker_short (kit v3)"
+# Generic render pipeline for one project folder of ch10-coder/Video. kit/sync_repo.sh fills in the project + branch and
+# copies this file to .github/workflows/render-tanker_short.yml. The commit message picks the mode:
+#   [preview] lint + glyph audit + audio mix + snapshot contact sheets      [render] ... + render + join + mux + review
+#   [review]  review again the final of run id in tanker_short/review_run.txt      [audio] mix only (private repo)
+# Two repos (2026-10-17): the private ch10-coder/Video mixes audio (raw Mixkit SFX may not be re-shared); the public
+# ch10-coder/jigeasa-render gets the mixed audio/master.m4a and does lint/preview/4K render/review on free minutes.
+# Project layout (paths relative to tanker_short/):
+#   units.json    [{id, dir, dur, pre, kind?, at?, xfade?}]  kind "still" = PNG snapshot at `at` (thumbnail), not joined
+#   preview.json  {unit_id: [local times]} (a plain list = the first unit)
+#   sfx_cues.json [[t, kind, ref, dB]]  or short.json {dur, sfx}
+#   audio/voice_paced.(wav|flac), or tools/prep_audio.py that writes audio/voice_paced.wav in CI
+#   kit/          copy of the skill kit (jg.py, audio_mix.py, concat.py, review.py, glyph_audit.py, storyboard_sheet.py)
+on:
+  push:
+    branches: ["render/tanker_short"]
+  workflow_dispatch:
+    inputs:
+      mode: { description: "preview | render | review", default: "preview" }
+
+concurrency:   # a new push cancels the run it replaces (saves Actions minutes)
+  group: jig-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  P: tanker_short
+  HF: hyperframes@0.8.146
+  DRAFT: ${{ contains(github.event.head_commit.message, '[draft]') }}   # [draft] = fast 1080p review render with audio
+  RENDER_FLAGS: ${{ contains(github.event.head_commit.message, '[draft]') && '--quality draft --fps 24 --video-bitrate 6M' || '--video-bitrate 40M' }}   # 4K (user 2026-10-17: Shorts and long videos in 4K)
+  MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || ((contains(github.event.head_commit.message, '[render]') || contains(github.event.head_commit.message, '[draft]')) && 'render' || (contains(github.event.head_commit.message, '[preview]') && 'preview' || (contains(github.event.head_commit.message, '[review]') && 'review' || (contains(github.event.head_commit.message, '[audio]') && 'audio' || 'none')))) }}
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      mode: ${{ env.MODE }}
+      units: ${{ steps.u.outputs.units }}
+      shots: ${{ steps.u.outputs.shots }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: u
+        name: Units + preview chunks
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          P = os.environ["P"]; U = json.load(open(f"{P}/units.json"))
+          pv = json.load(open(f"{P}/preview.json")) if os.path.exists(f"{P}/preview.json") else {}
+          if isinstance(pv, list): pv = {U[0]["id"]: pv}
+          shots = []
+          for u in U:
+              ts = pv.get(u["id"], [round(u["dur"] / 2, 2)])
+              for k in range(0, len(ts), 12): shots.append({"id": u["id"], "dir": u["dir"], "at": ",".join(map(str, ts[k:k + 12]))})
+          print("units=" + json.dumps(U)); print("shots=" + json.dumps(shots[:40]))
+          PY
+      - if: env.MODE == 'preview' || env.MODE == 'render'
+        uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - if: env.MODE == 'preview' || env.MODE == 'render'
+        uses: actions/cache@v4
+        with: { path: ~/.npm, key: "npm-${{ env.HF }}" }
+      - if: env.MODE == 'preview' || env.MODE == 'render'
+        name: Lint every unit (fails on errors) + glyph audit (fails on font fallback)
+        run: |
+          npm i -g $HF --prefer-offline --no-audit --no-fund >/dev/null
+          pip install -q brotli
+          echo "### Lint + glyph audit" >> $GITHUB_STEP_SUMMARY
+          fail=0
+          for d in $(python3 -c "import json;print(' '.join(u['dir'] for u in json.load(open('$P/units.json'))))"); do
+            out=$(cd "$P/$d" && hyperframes lint 2>&1 || true)   # warnings are listed, only errors fail
+            echo "- \`$d\`: $(echo "$out" | grep -E 'error\(s\)' | tail -1)" >> $GITHUB_STEP_SUMMARY
+            if echo "$out" | grep -qE '(^|[^0-9])[1-9][0-9]* error\(s\)'; then echo "$out"; fail=1; fi
+          done
+          python3 $P/kit/glyph_audit.py $P | tee -a $GITHUB_STEP_SUMMARY || fail=1
+          exit $fail
+
+  audio:
+    needs: plan
+    if: needs.plan.outputs.mode == 'preview' || needs.plan.outputs.mode == 'render' || needs.plan.outputs.mode == 'audio'
+    runs-on: ubuntu-24.04
+    permissions: { contents: write, actions: read }
+    defaults: { run: { working-directory: "tanker_short" } }
+    steps:
+      - uses: actions/checkout@v4
+      - run: command -v ffmpeg >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg); pip install -q numpy
+      - name: Prepare voice (project hook) if no paced voice is committed
+        run: |
+          if [ -f audio/master.m4a ] && [ ! -d sfx ]; then exit 0; fi   # public repo: mixed in the private repo
+          if [ ! -d sfx ] && [ ! -f audio/master.m4a ]; then echo 'no audio inputs (sketch run)'; exit 0; fi
+          if [ -f audio/voice_paced.flac ] && [ ! -f audio/voice_paced.wav ]; then ffmpeg -v error -i audio/voice_paced.flac audio/voice_paced.wav; fi
+          if [ ! -f audio/voice_paced.wav ] && [ -f tools/prep_audio.py ]; then python3 tools/prep_audio.py; fi
+          test -f audio/voice_paced.wav
+      - name: Mix (stereo SFX, sidechain duck, -14 LUFS)
+        env: { JIG_SFX: "${{ github.workspace }}/tanker_short/sfx" }
+        run: |
+          if [ ! -d sfx ] && [ ! -f audio/master.m4a ]; then echo "### Audio: none (sketch run)" >> $GITHUB_STEP_SUMMARY; exit 0; fi
+          if [ -f audio/master.m4a ] && [ ! -d sfx ]; then echo "### Audio: committed master.m4a (mixed in the private repo)" >> $GITHUB_STEP_SUMMARY; cat audio/audio_report.json 2>/dev/null >> $GITHUB_STEP_SUMMARY || true; exit 0; fi
+          C=sfx_cues.json; [ -f $C ] || C=short.json
+          DUR=$(python3 -c "import json;u=[x for x in json.load(open('units.json')) if x.get('kind')!='still'];print(round(sum(x['dur']-x.get('pre',0) for x in u),4))")
+          python3 kit/audio_mix.py --voice audio/voice_paced.wav --cues $C --dur $DUR --out audio/master.m4a --stems audio/stems $(cat audio_mix.args 2>/dev/null)
+          python3 -c "import json;r=json.load(open('audio/stems/audio_report.json'));print('### Audio\n'+'\n'.join(f'- {k}: {v}' for k,v in r.items() if k!='sfx_within_6db_of_vo'))" >> $GITHUB_STEP_SUMMARY
+      - uses: actions/upload-artifact@v4
+        id: up
+        continue-on-error: true
+        with:
+          name: audio
+          retention-days: 7
+          path: |
+            tanker_short/audio/master.m4a
+            tanker_short/audio/stems/audio_report.json
+      - name: Fallback when the artifact quota is full - master audio as a release asset
+        if: steps.up.outcome == 'failure' && hashFiles('tanker_short/audio/master.m4a') != ''
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          T="audio-${GITHUB_REF_NAME//\//-}"
+          gh release delete "$T" -y --cleanup-tag -R "$GITHUB_REPOSITORY" 2>/dev/null || true
+          gh release create "$T" audio/master.m4a audio/stems/audio_report.json --prerelease --target "$GITHUB_SHA" -t "$T" -n "mixed audio for $GITHUB_REF_NAME" -R "$GITHUB_REPOSITORY"
+          echo "### Audio delivered as release $T (artifact quota full)" >> $GITHUB_STEP_SUMMARY
+      - uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with: { name: stems, path: "tanker_short/audio/stems/", retention-days: 3 }
+
+  preview:
+    needs: plan
+    if: needs.plan.outputs.mode == 'preview'
+    runs-on: ubuntu-24.04
+    strategy: { fail-fast: false, matrix: { s: "${{ fromJSON(needs.plan.outputs.shots) }}" } }
+    defaults: { run: { working-directory: "tanker_short/${{ matrix.s.dir }}" } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: actions/cache@v4
+        with: { path: ~/.npm, key: "npm-${{ env.HF }}" }
+      - run: npm i -g $HF --prefer-offline --no-audit --no-fund >/dev/null
+      - run: for i in 1 2 3; do timeout 60 google-chrome --version && break; sleep 5; done
+      - run: command -v ffmpeg >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)   # video clips need it for snapshots
+      - name: Snapshot
+        env: { HYPERFRAMES_BROWSER_PATH: /usr/bin/google-chrome }
+        run: |
+          hyperframes snapshot --at "${{ matrix.s.at }}" --no-end --describe false --timeout 90000
+          mkdir -p "${{ github.workspace }}/shots"
+          python3 -c "import glob,shutil;t='${{ matrix.s.at }}'.split(',');f=sorted(glob.glob('snapshots/frame-*.png'));[shutil.copy(a,'${{ github.workspace }}/shots/${{ matrix.s.id }}_t%07.2f.png'%float(b)) for a,b in zip(f,t)]"
+      - uses: actions/upload-artifact@v4
+        with: { name: "shot-${{ strategy.job-index }}", path: shots/, retention-days: 3 }
+
+  sheet:
+    needs: preview
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { pattern: "shot-*", path: shots, merge-multiple: true }
+      - run: pip install -q pillow
+      - name: Contact sheets (9:16 with safe zones, 16:9 grid)
+        run: |
+          python3 - <<'PY'
+          import glob, re, subprocess
+          from PIL import Image, ImageDraw
+          fs = sorted(glob.glob("shots/*.png"))
+          if not fs: raise SystemExit("no snapshots")
+          if Image.open(fs[0]).height > Image.open(fs[0]).width:
+              subprocess.run(["python3", "tanker_short/kit/storyboard_sheet.py", "shots", "storyboard_contact_sheet.jpg"], check=True)
+          else:
+              W, H = 640, 360
+              for p in range(0, len(fs), 12):
+                  sub = fs[p:p + 12]; rows = (len(sub) + 2) // 3
+                  sh = Image.new("RGB", (3 * W, rows * (H + 24)), (20, 20, 20)); d = ImageDraw.Draw(sh)
+                  for k, fn in enumerate(sub):
+                      x = (k % 3) * W; y = (k // 3) * (H + 24)
+                      sh.paste(Image.open(fn).convert("RGB").resize((W, H)), (x, y + 24)); d.text((x + 6, y + 5), fn.split("/")[-1], fill=(251, 191, 36))
+                  sh.save(f"sheet_{p // 12:02d}.jpg", quality=84)
+          PY
+      - uses: actions/upload-artifact@v4
+        with: { name: preview, path: "*.jpg", retention-days: 7 }
+
+  render:
+    needs: plan
+    if: needs.plan.outputs.mode == 'render'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy: { fail-fast: false, matrix: { u: "${{ fromJSON(needs.plan.outputs.units) }}" } }
+    defaults: { run: { working-directory: "tanker_short/${{ matrix.u.dir }}" } }
+    steps:
+      - uses: actions/checkout@v4
+      - id: c   # unchanged unit (same files, same HyperFrames, same flags) -> reuse the last render
+        uses: actions/cache/restore@v4
+        with:
+          path: "${{ github.workspace }}/out/${{ matrix.u.id }}.*"
+          key: "u-${{ matrix.u.id }}-${{ hashFiles(format('{0}/{1}/**', env.P, matrix.u.dir)) }}-${{ env.HF }}-${{ env.RENDER_FLAGS }}"
+      - if: steps.c.outputs.cache-hit != 'true'
+        uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - if: steps.c.outputs.cache-hit != 'true'
+        uses: actions/cache@v4
+        with: { path: ~/.npm, key: "npm-${{ env.HF }}" }
+      - if: steps.c.outputs.cache-hit != 'true'
+        name: Render (retry once on a browser start failure)
+        env: { HYPERFRAMES_BROWSER_PATH: /usr/bin/google-chrome }
+        run: |
+          command -v ffmpeg >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
+          npm i -g $HF --prefer-offline --no-audit --no-fund >/dev/null
+          for i in 1 2 3; do timeout 60 google-chrome --version && break; sleep 5; done
+          O="${{ github.workspace }}/out"; mkdir -p "$O"
+          if [ "${{ matrix.u.kind }}" = "still" ]; then
+            hyperframes snapshot --at "${{ matrix.u.at }}" --no-end --describe false --timeout 90000 && cp snapshots/frame-00-*.png "$O/${{ matrix.u.id }}.png"
+          else
+            RES=$(python3 -c "import re;h=open('index.html').read();w=int(re.search(r'data-width=\"(\d+)',h).group(1));t=int(re.search(r'data-height=\"(\d+)',h).group(1));print(('portrait' if t>w else 'landscape') + ('' if '${{ env.DRAFT }}' == 'true' else '-4k'))")
+            hyperframes render $RENDER_FLAGS --resolution $RES -o "$O/${{ matrix.u.id }}.mp4" || { sleep 10; hyperframes render $RENDER_FLAGS --resolution $RES -o "$O/${{ matrix.u.id }}.mp4"; }
+            ffprobe -v error -show_entries format=duration,bit_rate -of compact "$O/${{ matrix.u.id }}.mp4"
+          fi
+      - if: steps.c.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: "${{ github.workspace }}/out/${{ matrix.u.id }}.*"
+          key: "u-${{ matrix.u.id }}-${{ hashFiles(format('{0}/{1}/**', env.P, matrix.u.dir)) }}-${{ env.HF }}-${{ env.RENDER_FLAGS }}"
+      - name: Summary line
+        run: |
+          echo "- ${{ matrix.u.id }}: ${{ steps.c.outputs.cache-hit == 'true' && 'reused (unchanged)' || 'rendered' }}" >> $GITHUB_STEP_SUMMARY
+      - uses: actions/upload-artifact@v4
+        with: { name: "u-${{ matrix.u.id }}", path: "out/${{ matrix.u.id }}.*", retention-days: 3 }
+
+  final:
+    needs: [render, audio]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: command -v ffmpeg >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
+      - uses: actions/download-artifact@v4
+        with: { pattern: "u-*", path: parts, merge-multiple: true }
+      - uses: actions/download-artifact@v4
+        with: { name: audio, path: aud }
+      - name: Join units (stream copy, or xfade when units have pre-roll) + mux the master audio
+        run: |
+          mkdir -p out
+          python3 -c "import json;json.dump([u for u in json.load(open('$P/units.json')) if u.get('kind')!='still'],open('vunits.json','w'))"
+          JIG_ALIGN=1 python3 $P/kit/concat.py vunits.json parts video.mp4
+          python3 $P/kit/fit_audio.py vunits.json parts aud/master.m4a aud/fitted.m4a
+          ffmpeg -y -v error -i video.mp4 -i aud/fitted.m4a -map 0:v -map 1:a -c copy -shortest -movflags +faststart "out/${P}.mp4"
+          cp parts/*.png out/ 2>/dev/null || true
+          ffprobe -v error -show_entries format=duration,bit_rate:stream=codec_name,width,height -of compact "out/${P}.mp4" | tee -a $GITHUB_STEP_SUMMARY
+      - uses: actions/upload-artifact@v4
+        with: { name: final, path: out/, retention-days: 7 }
+
+  review:
+    needs: [plan, final]
+    if: always() && (needs.final.result == 'success' || needs.plan.outputs.mode == 'review')
+    runs-on: ubuntu-24.04
+    permissions: { actions: read, contents: read }
+    steps:
+      - uses: actions/checkout@v4
+      - run: command -v ffmpeg >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg); pip install -q numpy pillow
+      - id: r
+        run: echo "id=$([ '${{ needs.plan.outputs.mode }}' = review ] && cat $P/review_run.txt || echo ${{ github.run_id }})" >> $GITHUB_OUTPUT
+      - uses: actions/download-artifact@v4
+        with: { name: final, path: v, run-id: "${{ steps.r.outputs.id }}", github-token: "${{ secrets.GITHUB_TOKEN }}" }
+      - uses: actions/download-artifact@v4
+        with: { name: stems, path: stems, run-id: "${{ steps.r.outputs.id }}", github-token: "${{ secrets.GITHUB_TOKEN }}" }
+        continue-on-error: true
+      - name: Frame sheets, black/freeze, loudness, VO vs SFX
+        run: |
+          C=$P/sfx_cues.json; [ -f $C ] || C=$P/short.json
+          python3 $P/kit/review.py "v/${P}.mp4" review --stems stems --cues $C
+          python3 -c "import json;r=json.load(open('review/review.json'));print('### Review\n- flags: '+(', '.join(r['flags']) or 'none')+'\n'+'\n'.join(f'- {k}: {r.get(k)}' for k in ('video_s','audio_s','lufs','true_peak_dbfs','vo_sfx_gap_db','black','freeze')))" >> $GITHUB_STEP_SUMMARY
+      - uses: actions/upload-artifact@v4
+        with: { name: review, path: review/, retention-days: 7 }

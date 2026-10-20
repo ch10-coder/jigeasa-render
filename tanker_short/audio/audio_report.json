@@ -1,0 +1,14 @@
+{
+ "out": "audio/master.m4a",
+ "dur": 69.9,
+ "cues": 42,
+ "cues_used": 42,
+ "lufs": -14.2,
+ "true_peak_dbfs": -1.6,
+ "vo_median_db": -21.6,
+ "sfx_median_db": -49.4,
+ "sfx_within_6db_of_vo": [
+  5.0,
+  11.75
+ ]
+}
