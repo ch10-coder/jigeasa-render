@@ -1,0 +1,28 @@
+name: upscale-test
+on:
+  push:
+    branches: [tools/upscale-test]
+  workflow_dispatch:
+jobs:
+  upscale:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: |
+          pip install --quiet torch --index-url https://download.pytorch.org/whl/cpu
+          pip install --quiet spandrel pillow numpy
+          curl -sSL -o RealESRGAN_x4plus.pth https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth
+          curl -sSL -o RealESRGAN_x2plus.pth https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.1/RealESRGAN_x2plus.pth
+          ls -la *.pth
+      - name: Upscale
+        run: python upscale.py in out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: upscale-compare
+          path: out/
+          retention-days: 7
