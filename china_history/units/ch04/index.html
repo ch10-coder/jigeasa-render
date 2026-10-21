@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}</style>
+</head>
+<body>
+<style>
+    #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+    .kb-shot { position: absolute; inset: 0; overflow: hidden; }
+    .kb-fade { position: absolute; inset: 0; }
+    .kb-cam { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+    .kb-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  </style>
+  <div id="root" data-composition-id="ch04" data-start="0" data-duration="62.826" data-width="1920" data-height="1080">
+    <div id="ch04-s1" class="clip kb-shot" data-start="0" data-duration="9.77" data-track-index="0"
+         data-from="0.45,0.60,1.08" data-to="0.62,0.45,1.30" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/P14.jpg" alt="" /></div></div>
+    </div>
+    <div id="ch04-s2" class="clip kb-shot" data-start="8.97" data-duration="12.22" data-track-index="1"
+         data-from="0.64,0.42,1.38" data-to="0.40,0.50,1.08" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/P14.jpg" alt="" /></div></div>
+    </div>
+    <div id="ch04-s3" class="clip kb-shot" data-start="20.39" data-duration="8.26" data-track-index="0"
+         data-from="0.35,0.42,1.22" data-to="0.55,0.50,1.12" data-ease="power1.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/P15.jpg" alt="" /></div></div>
+    </div>
+    <div id="ch04-s4" class="clip kb-shot" data-start="27.85" data-duration="6.6" data-track-index="1"
+         data-from="0.40,0.35,1.10" data-to="0.30,0.42,1.30" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/P16.jpg" alt="" /></div></div>
+    </div>
+    <div id="ch04-s5" class="clip kb-shot" data-start="33.65" data-duration="6.7" data-track-index="0"
+         data-from="0.50,0.50,1.06" data-to="0.56,0.55,1.22" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/P16.jpg" alt="" /></div></div>
+    </div>
+    <div id="ch04-s6" class="clip kb-shot" data-start="39.55" data-duration="6.8" data-track-index="1"
+         data-from="0.57,0.48,1.40" data-to="0.40,0.55,1.32" data-ease="power1.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/P16.jpg" alt="" /></div></div>
+    </div>
+    <div id="ch04-s7" class="clip kb-shot" data-start="45.55" data-duration="10.46" data-track-index="0"
+         data-from="0.68,0.38,1.28" data-to="0.55,0.45,1.06" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/P17.jpg" alt="" /></div></div>
+    </div>
+    <div id="ch04-s8" class="clip kb-shot" data-start="55.21" data-duration="7.616" data-track-index="1"
+         data-from="0.55,0.48,1.08" data-to="0.72,0.50,1.25" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/P17.jpg" alt="" /></div></div>
+    </div>
+  </div>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/kb.js"></script>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    HFKB.build(tl, document.querySelector('[data-composition-id="ch04"]'), { fadeIn: 0.6, fadeOut: 0.6, xf: 0.8 });
+    window.__timelines["ch04"] = tl;
+  </script>
+</body>
+</html>
