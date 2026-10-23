@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}</style>
+</head>
+<body>
+<style>
+    #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+    .kb-shot { position: absolute; inset: 0; overflow: hidden; }
+    .kb-fade { position: absolute; inset: 0; }
+    .kb-cam { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+    .kb-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  </style>
+  <div id="root" data-composition-id="ch15" data-start="0" data-duration="31.16" data-width="1920" data-height="1080">
+    <!-- B157 (6.2 s): सुल्तानों का आखिरी वंश था चक। राजा यूसुफ शाह चक की रानी थी हब्बा खातून। -->
+    <div id="ch15-s1" class="clip kb-shot" data-start="0.0" data-duration="6.98" data-track-index="0"
+         data-from="0.50,0.50,1.04" data-to="0.54,0.42,1.25" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B157.jpg" alt="" /></div></div>
+    </div>
+    <!-- B158 (4.6 s): कहते हैं उनका असली नाम था ज़ून यानी चांद। -->
+    <div id="ch15-s2" class="clip kb-shot" data-start="6.18" data-duration="5.36" data-track-index="1"
+         data-from="0.55,0.38,1.18" data-to="0.38,0.32,1.30" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B158.jpg" alt="" /></div></div>
+    </div>
+    <!-- B159 (6.6 s): वो केसर के खेतों में गीत लिखती थीं। फिर एक दिन यूसुफ शाह को कश्मीर से दूर भेज दिया गया। -->
+    <div id="ch15-s3" class="clip kb-shot" data-start="10.74" data-duration="7.44" data-track-index="0"
+         data-from="0.60,0.42,1.22" data-to="0.42,0.40,1.14" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B159.jpg" alt="" /></div></div>
+    </div>
+    <!-- B160 (8.5 s): वो कभी लौटकर नहीं आए और हब्बा खातून के विरह के वो गीत आज तक कश्मीर की शादियों और खेतों में गाए जाते हैं। -->
+    <div id="ch15-s4" class="clip kb-shot" data-start="17.38" data-duration="9.28" data-track-index="1"
+         data-from="0.40,0.36,1.32" data-to="0.62,0.58,1.22" data-ease="power1.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B160.jpg" alt="" /></div></div>
+    </div>
+    <!-- B161 (5.3 s): उन्हें दूर भेजने वाला था हिंदुस्तान का सबसे ताकतवर बादशाह। -->
+    <div id="ch15-s5" class="clip kb-shot" data-start="25.86" data-duration="5.3" data-track-index="0"
+         data-from="0.50,0.50,1.04" data-to="0.68,0.42,1.20" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B161.jpg" alt="" /></div></div>
+    </div>
+  </div>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/kb.js"></script>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    HFKB.build(tl, document.querySelector('[data-composition-id="ch15"]'), { fadeIn: 0.6, fadeOut: 0.6, xf: 0.8 });
+    window.__timelines["ch15"] = tl;
+  </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}</style>
+</head>
+<body>
+<style>
+    #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+    .kb-shot { position: absolute; inset: 0; overflow: hidden; }
+    .kb-fade { position: absolute; inset: 0; }
+    .kb-cam { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+    .kb-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  </style>
+  <div id="root" data-composition-id="ch05" data-start="0" data-duration="45.55" data-width="1920" data-height="1080">
+    <!-- B063 (7.4 s): लेकिन हर मेहमान धर्म लेकर नहीं आया। छठी सदी में मध्य एशिया से आए हूण और उनका राजा मिहिरकुल। -->
+    <div id="ch05-s1" class="clip kb-shot" data-start="0.0" data-duration="8.2" data-track-index="0"
+         data-from="0.62,0.48,1.08" data-to="0.53,0.36,1.24" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B063.jpg" alt="" /></div></div>
+    </div>
+    <!-- B064 (5.4 s): कल्हण लिखते हैं कि लोग उसकी सेना के आने का पता आसमान देखकर लगा लेते थे। -->
+    <div id="ch05-s2" class="clip kb-shot" data-start="7.4" data-duration="6.15" data-track-index="1"
+         data-from="0.60,0.60,1.06" data-to="0.58,0.40,1.20" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B064.jpg" alt="" /></div></div>
+    </div>
+    <!-- B065 (4.9 s): उसकी फौज के आगे-आगे गिद्ध और कौवे उड़ते थे, लाशों की उम्मीद में। -->
+    <div id="ch05-s3" class="clip kb-shot" data-start="12.75" data-duration="5.74" data-track-index="0"
+         data-from="0.30,0.55,1.18" data-to="0.68,0.30,1.10" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B065.jpg" alt="" /></div></div>
+    </div>
+    <!-- B066 (3.3 s): एक बार मिहिरकुल कश्मीर के दरवाजे पर पहुंचा। -->
+    <div id="ch05-s4" class="clip kb-shot" data-start="17.69" data-duration="4.1" data-track-index="1"
+         data-from="0.45,0.45,1.06" data-to="0.40,0.35,1.16" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B066.jpg" alt="" /></div></div>
+    </div>
+    <!-- B067 (8.5 s): कलहण इस जगह को यही नाम देते हैं, "कश्मीर का दरवाजा।" वहाँ एक तंग रास्ते पर एक हाथी फिसल कर खाई में गिरा। -->
+    <div id="ch05-s5" class="clip kb-shot" data-start="20.99" data-duration="9.34" data-track-index="0"
+         data-from="0.32,0.50,1.12" data-to="0.40,0.38,1.26" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B067.jpg" alt="" /></div></div>
+    </div>
+    <!-- B068 (8.0 s): उसकी दर्द भरी चीख सुनकर राजा को इतना मज़ा आया कि उसने 100 और हाथियों को ज़बरदस्ती खाई में ढकेलवा दिया। -->
+    <div id="ch05-s6" class="clip kb-shot" data-start="29.53" data-duration="8.84" data-track-index="1"
+         data-from="0.55,0.50,1.04" data-to="0.68,0.36,1.24" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B068.jpg" alt="" /></div></div>
+    </div>
+    <!-- B069 (8.0 s): तो किला मजबूत था, लेकिन अजेय नहीं। किला तब तक ही किला है जब तक दरवाजे पर सही पहरा हो। -->
+    <div id="ch05-s7" class="clip kb-shot" data-start="37.57" data-duration="7.98" data-track-index="0"
+         data-from="0.38,0.38,1.26" data-to="0.55,0.48,1.06" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B069.jpg" alt="" /></div></div>
+    </div>
+  </div>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/kb.js"></script>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    HFKB.build(tl, document.querySelector('[data-composition-id="ch05"]'), { fadeIn: 0.6, fadeOut: 0.6, xf: 0.8 });
+    window.__timelines["ch05"] = tl;
+  </script>
+</body>
+</html>

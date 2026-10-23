@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}</style>
+</head>
+<body>
+<style>
+    #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+    .kb-shot { position: absolute; inset: 0; overflow: hidden; }
+    .kb-fade { position: absolute; inset: 0; }
+    .kb-cam { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+    .kb-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  </style>
+  <div id="root" data-composition-id="ch20" data-start="0" data-duration="44.52" data-width="1920" data-height="1080">
+    <!-- B194 (6.6 s): और फिर आया 1846। अंग्रेजों और सिखों की पहली लड़ाई में सिख हारे -->
+    <div id="ch20-s1" class="clip kb-shot" data-start="0.0" data-duration="7.42" data-track-index="0"
+         data-from="0.45,0.45,1.04" data-to="0.55,0.60,1.20" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B194.jpg" alt="" /></div></div>
+    </div>
+    <!-- B195 (7.4 s): और 16 March को अमृतसर की संधि में अंग्रेजों ने कश्मीर की पूरी वादी गुलाब सिंह को सौंप दी। -->
+    <div id="ch20-s2" class="clip kb-shot" data-start="6.62" data-duration="8.16" data-track-index="1"
+         data-from="0.42,0.60,1.26" data-to="0.70,0.42,1.18" data-ease="power1.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B195.jpg" alt="" /></div></div>
+    </div>
+    <!-- B196 (7.4 s): कीमत 75 लाख नानकशाही रुपए। एक पूरी वादी, उसके पहाड़, नदियां, -->
+    <div id="ch20-s3" class="clip kb-shot" data-start="13.98" data-duration="8.2" data-track-index="0"
+         data-from="0.40,0.75,1.30" data-to="0.50,0.55,1.06" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B196.jpg" alt="" /></div></div>
+    </div>
+    <!-- B197 (4.0 s): गांव और लोग एक संधि में सौंप दिए गए -->
+    <div id="ch20-s4" class="clip kb-shot" data-start="21.38" data-duration="4.8" data-track-index="1"
+         data-from="0.45,0.55,1.04" data-to="0.30,0.65,1.16" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B197.jpg" alt="" /></div></div>
+    </div>
+    <!-- B198 (6.8 s): और इस रियासत की सीमा भी नदियों से तय हुई। सिंधु के पूरब में और रावी के पश्चिम में। -->
+    <div id="ch20-s5" class="clip kb-shot" data-start="25.38" data-duration="7.62" data-track-index="0"
+         data-from="0.32,0.62,1.25" data-to="0.60,0.55,1.25" data-ease="power1.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B198.jpg" alt="" /></div></div>
+    </div>
+    <!-- B199 (6.7 s): जम्मू, लद्दाख और अब कश्मीर। यहीं से बनी जम्मू और कश्मीर रियासत। -->
+    <div id="ch20-s6" class="clip kb-shot" data-start="32.2" data-duration="7.52" data-track-index="1"
+         data-from="0.70,0.38,1.28" data-to="0.52,0.50,1.04" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B199.jpg" alt="" /></div></div>
+    </div>
+    <!-- B200 (5.6 s): वो रियासत जिसके आखिरी राजा को हमने उस अंधेरी रात में देखा था। -->
+    <div id="ch20-s7" class="clip kb-shot" data-start="38.92" data-duration="5.6" data-track-index="0"
+         data-from="0.50,0.55,1.04" data-to="0.40,0.52,1.20" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B200.jpg" alt="" /></div></div>
+    </div>
+  </div>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/kb.js"></script>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    HFKB.build(tl, document.querySelector('[data-composition-id="ch20"]'), { fadeIn: 0.6, fadeOut: 0.6, xf: 0.8 });
+    window.__timelines["ch20"] = tl;
+  </script>
+</body>
+</html>

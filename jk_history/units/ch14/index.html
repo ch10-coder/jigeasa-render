@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}</style>
+</head>
+<body>
+<style>
+    #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+    .kb-shot { position: absolute; inset: 0; overflow: hidden; }
+    .kb-fade { position: absolute; inset: 0; }
+    .kb-cam { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+    .kb-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  </style>
+  <div id="root" data-composition-id="ch14" data-start="0" data-duration="44.24" data-width="1920" data-height="1080">
+    <!-- B149 (4.4 s): और अब वो सुल्तान जिसे कश्मीर आज भी प्यार से याद करता है। -->
+    <div id="ch14-s1" class="clip kb-shot" data-start="0.0" data-duration="5.24" data-track-index="0"
+         data-from="0.55,0.55,1.04" data-to="0.72,0.40,1.18" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B149.jpg" alt="" /></div></div>
+    </div>
+    <!-- B150 (5.4 s): सिकंदर का ही बेटा लेकिन रास्ता बिल्कुल उल्टा। ज़ैनुल आबिदीन। -->
+    <div id="ch14-s2" class="clip kb-shot" data-start="4.44" data-duration="6.24" data-track-index="1"
+         data-from="0.32,0.50,1.12" data-to="0.50,0.42,1.22" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B150.jpg" alt="" /></div></div>
+    </div>
+    <!-- B151 (4.2 s): लोग उन्हें कहते थे बड़शाह यानी बड़ा राजा। -->
+    <div id="ch14-s3" class="clip kb-shot" data-start="9.88" data-duration="5.02" data-track-index="0"
+         data-from="0.55,0.45,1.06" data-to="0.58,0.43,1.16" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B151.jpg" alt="" /></div></div>
+    </div>
+    <!-- B152 (6.2 s): जो लोग वादी छोड़कर चले गए थे, उन्हें वापस बुलाया गया। सभी धर्मों को साथ रखा गया। -->
+    <div id="ch14-s4" class="clip kb-shot" data-start="14.1" data-duration="6.98" data-track-index="1"
+         data-from="0.38,0.55,1.18" data-to="0.62,0.50,1.18" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B152.jpg" alt="" /></div></div>
+    </div>
+    <!-- B153 (6.8 s): संस्कृत ग्रंथों का फारसी में अनुवाद करवाया गया और ईरान और मध्य एशिया से कारीगर बुलाए गए। -->
+    <div id="ch14-s5" class="clip kb-shot" data-start="20.28" data-duration="7.64" data-track-index="0"
+         data-from="0.62,0.50,1.22" data-to="0.38,0.42,1.12" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B153.jpg" alt="" /></div></div>
+    </div>
+    <!-- B154 (3.6 s): कश्मीरी शॉल, पेपरमाशे, कालीन। -->
+    <div id="ch14-s6" class="clip kb-shot" data-start="27.12" data-duration="4.38" data-track-index="1"
+         data-from="0.35,0.58,1.12" data-to="0.55,0.55,1.06" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B154.jpg" alt="" /></div></div>
+    </div>
+    <!-- B155 (5.9 s): जिस हुनर के लिए कश्मीर आज दुनिया में जाना जाता है, उसकी जड़ें इसी दौर में जमीं। -->
+    <div id="ch14-s7" class="clip kb-shot" data-start="30.7" data-duration="6.68" data-track-index="0"
+         data-from="0.70,0.62,1.28" data-to="0.52,0.52,1.06" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B155.jpg" alt="" /></div></div>
+    </div>
+    <!-- B156 (7.7 s): सोचो बाप को इतिहास बुधशिकन के नाम से याद करता है और बेटे को बड़शाह। -->
+    <div id="ch14-s8" class="clip kb-shot" data-start="36.58" data-duration="7.66" data-track-index="1"
+         data-from="0.37,0.42,1.35" data-to="0.61,0.42,1.28" data-ease="power1.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B156.jpg" alt="" /></div></div>
+    </div>
+  </div>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/kb.js"></script>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    HFKB.build(tl, document.querySelector('[data-composition-id="ch14"]'), { fadeIn: 0.6, fadeOut: 0.6, xf: 0.8 });
+    window.__timelines["ch14"] = tl;
+  </script>
+</body>
+</html>

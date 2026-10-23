@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}</style>
+</head>
+<body>
+<style>
+    #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+    .kb-shot { position: absolute; inset: 0; overflow: hidden; }
+    .kb-fade { position: absolute; inset: 0; }
+    .kb-cam { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+    .kb-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  </style>
+  <div id="root" data-composition-id="ch04" data-start="0" data-duration="39.76" data-width="1920" data-height="1080">
+    <!-- B056 (5.6 s): और इस किले में बाहर से जो पहली बड़ी चीज आई वो तलवार नहीं थी, धर्म था। -->
+    <div id="ch04-s1" class="clip kb-shot" data-start="0.0" data-duration="6.36" data-track-index="0"
+         data-from="0.50,0.50,1.04" data-to="0.42,0.45,1.20" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B056.jpg" alt="" /></div></div>
+    </div>
+    <!-- B057 (6.3 s): कश्मीर के इतिहासकार कल्हण लिखते हैं कि सम्राट अशोका ने यहां श्रीनगरी नाम का नगर बसाया -->
+    <div id="ch04-s2" class="clip kb-shot" data-start="5.56" data-duration="7.1" data-track-index="1"
+         data-from="0.40,0.50,1.08" data-to="0.62,0.42,1.22" data-ease="power1.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B057.jpg" alt="" /></div></div>
+    </div>
+    <!-- B058 (3.1 s): और उनके साथ वादी में बुद्ध धर्म फैला। -->
+    <div id="ch04-s3" class="clip kb-shot" data-start="11.86" data-duration="3.88" data-track-index="0"
+         data-from="0.60,0.38,1.18" data-to="0.55,0.48,1.06" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B058.jpg" alt="" /></div></div>
+    </div>
+    <!-- B059 (7.9 s): कुछ सदियों बाद कुषाण सम्राट कनिष्क के दौर में कश्मीर में एक ऐसी सभा हुई जिसकी गूंज दूर-दूर तक गई। -->
+    <div id="ch04-s4" class="clip kb-shot" data-start="14.94" data-duration="8.72" data-track-index="1"
+         data-from="0.50,0.50,1.04" data-to="0.47,0.40,1.24" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B059.jpg" alt="" /></div></div>
+    </div>
+    <!-- B060 (7.0 s): चौथी बुद्ध महासभा। सैकड़ों भिक्षु यहां जमा हुए और बुद्ध ग्रंथों पर विशाल टिप्पणियां लिखी गई। -->
+    <div id="ch04-s5" class="clip kb-shot" data-start="22.86" data-duration="7.78" data-track-index="0"
+         data-from="0.36,0.60,1.15" data-to="0.60,0.55,1.22" data-ease="power1.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B060.jpg" alt="" /></div></div>
+    </div>
+    <!-- B061 (4.2 s): चाइना की कहानी में हमने देखा था कि भारत वहां धर्म लेकर गया। -->
+    <div id="ch04-s6" class="clip kb-shot" data-start="29.84" data-duration="4.96" data-track-index="1"
+         data-from="0.55,0.45,1.04" data-to="0.38,0.52,1.18" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B061.jpg" alt="" /></div></div>
+    </div>
+    <!-- B062 (5.8 s): उस रास्ते के कई मुसाफिर इसी वादी से होकर गुजरे थे और कई यहीं के थे। -->
+    <div id="ch04-s7" class="clip kb-shot" data-start="34.0" data-duration="5.76" data-track-index="0"
+         data-from="0.50,0.50,1.04" data-to="0.62,0.42,1.22" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B062.jpg" alt="" /></div></div>
+    </div>
+  </div>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/kb.js"></script>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    HFKB.build(tl, document.querySelector('[data-composition-id="ch04"]'), { fadeIn: 0.6, fadeOut: 0.6, xf: 0.8 });
+    window.__timelines["ch04"] = tl;
+  </script>
+</body>
+</html>

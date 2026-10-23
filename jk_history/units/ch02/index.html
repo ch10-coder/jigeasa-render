@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}</style>
+</head>
+<body>
+<style>
+    #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+    .kb-shot { position: absolute; inset: 0; overflow: hidden; }
+    .kb-fade { position: absolute; inset: 0; }
+    .kb-cam { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+    .kb-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  </style>
+  <div id="root" data-composition-id="ch02" data-start="0" data-duration="40.06" data-width="1920" data-height="1080">
+    <!-- B038 (2.9 s): और जब पानी उतरा तो इंसान आया। -->
+    <div id="ch02-s1" class="clip kb-shot" data-start="0.0" data-duration="3.68" data-track-index="0"
+         data-from="0.50,0.50,1.04" data-to="0.42,0.52,1.12" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B038.jpg" alt="" /></div></div>
+    </div>
+    <!-- B039 (7.2 s): श्रीनगर के पास बुर्जहोम में पुरातत्व विभाग को एक बस्ती मिली है, लगभग पाँच हज़ार साल पुरानी। -->
+    <div id="ch02-s2" class="clip kb-shot" data-start="2.88" data-duration="8.02" data-track-index="1"
+         data-from="0.34,0.50,1.14" data-to="0.58,0.46,1.06" data-ease="power1.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B039.jpg" alt="" /></div></div>
+    </div>
+    <!-- B040 (8.9 s): यहां लोग जमीन में गोल गड्ढे खोदकर रहते थे क्योंकि कश्मीर की सर्दी जान ले लेती थी और जमीन के अंदर गर्मी बची रहती थी। -->
+    <div id="ch02-s3" class="clip kb-shot" data-start="10.1" data-duration="9.74" data-track-index="0"
+         data-from="0.46,0.32,1.26" data-to="0.55,0.55,1.08" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B040.jpg" alt="" /></div></div>
+    </div>
+    <!-- B041 (6.3 s): पत्थर की चमकती कुल्हाड़ियाँ, हड्डी की सुइयाँ जिनसे वो खाल और ऊन सिलते थे। -->
+    <div id="ch02-s4" class="clip kb-shot" data-start="19.04" data-duration="7.08" data-track-index="1"
+         data-from="0.35,0.55,1.20" data-to="0.72,0.38,1.30" data-ease="power1.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B041.jpg" alt="" /></div></div>
+    </div>
+    <!-- B042 (3.4 s): और एक ऐसी चीज भी मिली जो दिल छू जाती है। -->
+    <div id="ch02-s5" class="clip kb-shot" data-start="25.32" data-duration="4.2" data-track-index="0"
+         data-from="0.55,0.50,1.04" data-to="0.60,0.48,1.12" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B042.jpg" alt="" /></div></div>
+    </div>
+    <!-- B043 (4.8 s): कुछ कब्रों में इंसान के साथ उसके कुत्ते को भी दफनाया गया था। -->
+    <div id="ch02-s6" class="clip kb-shot" data-start="28.72" data-duration="5.6" data-track-index="1"
+         data-from="0.50,0.50,1.04" data-to="0.52,0.58,1.16" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B043.jpg" alt="" /></div></div>
+    </div>
+    <!-- B044 (6.5 s): पाँच हज़ार साल पहले भी कोई अपने वफादार साथी को अकेला नहीं छोड़ना चाहता था। -->
+    <div id="ch02-s7" class="clip kb-shot" data-start="33.52" data-duration="6.54" data-track-index="0"
+         data-from="0.62,0.38,1.26" data-to="0.52,0.48,1.06" data-ease="sine.inOut">
+      <div class="kb-fade"><div class="kb-cam"><img class="kb-img" src="assets/paint/B044.jpg" alt="" /></div></div>
+    </div>
+  </div>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/kb.js"></script>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    HFKB.build(tl, document.querySelector('[data-composition-id="ch02"]'), { fadeIn: 0.6, fadeOut: 0.6, xf: 0.8 });
+    window.__timelines["ch02"] = tl;
+  </script>
+</body>
+</html>
